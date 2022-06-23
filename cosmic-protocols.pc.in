@@ -1,0 +1,7 @@
+prefix=@prefix@
+datarootdir=@datarootdir@
+pkgdatadir=${pc_sysrootdir}@datadir@/cosmic-protocols
+
+Name: COSMIC Wayland protocols
+Description: Wayland protocol files
+Version: 1.0

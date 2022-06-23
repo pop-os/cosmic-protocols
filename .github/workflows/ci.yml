@@ -1,0 +1,81 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+      - name: Editorconfig
+        uses: editorconfig-checker/action-editorconfig-checker@main
+      - name: Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          profile: minimal
+          components: rustfmt
+          default: true
+      - name: Format
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check
+
+  c-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+      - name: System dependencies
+        run: sudo apt-get update; sudo apt-get install -y wayland-protocols libwayland-dev
+      - name: Make check
+        run: make check
+
+  rust-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+      - name: Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          profile: minimal
+          default: true
+      - name: Cargo check
+        uses: actions-rs/cargo@v1
+        with:
+          command: check
+
+  doc:
+    runs-on: ubuntu-latest
+    needs:
+      - rust-check
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+      - name: Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - name: Build Documentation
+        uses: actions-rs/cargo@v1
+        with:
+          command: doc
+      - name: Setup index
+        run: cp ./doc_index.html ./target/doc/index.html
+      - name: Deploy
+        if: ${{ github.event_name == 'push' }}
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./target/doc

@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["shell","XDG Shell protocol"]]});

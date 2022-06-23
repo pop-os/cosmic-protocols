@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["ext","Miscellaneous protocols"],["wp","Generic wayland protocols"],["xdg","Protocols related to window management"]]});

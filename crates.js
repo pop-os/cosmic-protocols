@@ -1,0 +1,1 @@
+window.ALL_CRATES = ["bitflags","cfg_if","cosmic_protocols","dlib","downcast_rs","futures_channel","futures_core","libc","libloading","log","memoffset","nix","proc_macro2","quote","scoped_tls","smallvec","syn","thiserror","thiserror_impl","unicode_ident","wayland_backend","wayland_client","wayland_protocols","wayland_scanner","wayland_server","wayland_sys","xml"];

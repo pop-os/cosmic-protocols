@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["EVT_RELEASE_SINCE","The minimal object version supporting this event"],["REQ_DESTROY_SINCE","The minimal object version supporting this request"]],"enum":[["Event",""],["Request",""]],"struct":[["WlBuffer","content for a wl_surface"]]});

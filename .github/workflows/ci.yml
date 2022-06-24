@@ -12,8 +12,10 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
-      - name: Editorconfig
+      - name: Setup Editorconfig
         uses: editorconfig-checker/action-editorconfig-checker@main
+      - name: Editorconfig
+        run: editorconfig-checker
       - name: Rust toolchain
         uses: actions-rs/toolchain@v1
         with:

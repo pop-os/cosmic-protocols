@@ -125,7 +125,7 @@
       outputs.
     </description>
 
-    <enum name="zcosmic_workspace_group_capabilities_v1" bitfield="true">
+    <enum name="zcosmic_workspace_group_capabilities_v1">
       <entry name="create_workspace" value="1" summary="create_workspace request is available"/>
     </enum>
 
@@ -287,7 +287,7 @@
       </entry>
     </enum>
 
-    <enum name="zcosmic_workspace_capabilities_v1" bitfield="true">
+    <enum name="zcosmic_workspace_capabilities_v1">
       <entry name="activate" value="1" summary="activate request is available"/>
       <entry name="deactivate" value="2" summary="deactivate request is available"/>
       <entry name="remove" value="3" summary="remove request is available"/>

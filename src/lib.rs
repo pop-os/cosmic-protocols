@@ -28,6 +28,18 @@ pub mod toplevel_info {
     }
 }
 
+pub mod toplevel_management {
+    //! Receive information about toplevel surfaces.
+
+    #[allow(missing_docs)]
+    pub mod v1 {
+        wayland_protocol!(
+            "./unstable/cosmic-toplevel-management-unstable-v1.xml",
+            [crate::toplevel_info::v1]
+        );
+    }
+}
+
 pub mod workspace {
     //! Receive information about and control workspaces.
 

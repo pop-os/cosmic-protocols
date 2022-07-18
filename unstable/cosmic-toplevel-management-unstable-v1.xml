@@ -158,6 +158,11 @@
         The dimensions are given in surface-local coordinates.
 
         Setting width=height=0 removes the current rectangle if one was set.
+
+        If the wl_surface does not referr to a valid object of this client an
+        invalid_surface error is raised.
+        If the rectangle contains negative coordinates or is out-of-bounds of its
+        parent surface, a invalid_rectangle error is raised.
       </description>
       <arg name="toplevel" type="object" interface="zcosmic_toplevel_handle_v1"/>
       <arg name="surface" type="object" interface="wl_surface"/>
@@ -170,6 +175,8 @@
     <enum name="error">
       <entry name="invalid_rectangle" value="0"
         summary="the provided rectangle is invalid"/>
+      <entry name="invalid_surface" value="1"
+        summary="the provided surface is invalid"/>
     </enum>
   </interface>
 </protocol>

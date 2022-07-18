@@ -33,7 +33,7 @@ Note that this feature requires Rust 1.49.</p>
 list of sizes.</p>
 <h4 id="const_new"><a href="#const_new"><code>const_new</code></a></h4>
 <p><strong>This feature requires Rust 1.51.</strong></p>
-<p>This feature exposes the functions [<code>SmallVec::new_const</code>], [<code>SmallVec::from_const</code>], and [<code>smallvec_inline</code>] which enables the <code>SmallVec</code> to be initialized from a const context.
+<p>This feature exposes the functions <a href="struct.SmallVec.html#method.new_const" title="SmallVec::new_const"><code>SmallVec::new_const</code></a>, <a href="struct.SmallVec.html#method.from_const" title="SmallVec::from_const"><code>SmallVec::from_const</code></a>, and <a href="macro.smallvec_inline.html" title="smallvec_inline"><code>smallvec_inline</code></a> which enables the <code>SmallVec</code> to be initialized from a const context.
 For details, see the
 <a href="https://doc.rust-lang.org/reference/const_eval.html#const-functions">Rust Reference</a>.</p>
 <h4 id="specialization"><a href="#specialization"><code>specialization</code></a></h4>
@@ -50,6 +50,7 @@ references. For details, see the
 <p>Tracking issue: <a href="https://github.com/rust-lang/rust/issues/34761">rust-lang/rust#34761</a></p>
 </div></details><h2 id="macros" class="small-section-header"><a href="#macros">Macros</a></h2>
 <div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.smallvec.html" title="smallvec::smallvec macro">smallvec</a></div><div class="item-right docblock-short"><p>Creates a <a href="struct.SmallVec.html" title="SmallVec"><code>SmallVec</code></a> containing the arguments.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="macro" href="macro.smallvec_inline.html" title="smallvec::smallvec_inline macro">smallvec_inline</a></div><div class="item-right docblock-short"><p>Creates an inline <a href="struct.SmallVec.html" title="SmallVec"><code>SmallVec</code></a> containing the arguments. This macro is enabled by the feature <code>const_new</code>.</p>
 </div></div></div><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2>
 <div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Drain.html" title="smallvec::Drain struct">Drain</a></div><div class="item-right docblock-short"><p>An iterator that removes the items from a <code>SmallVec</code> and yields them by value.</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.IntoIter.html" title="smallvec::IntoIter struct">IntoIter</a></div><div class="item-right docblock-short"><p>An iterator that consumes a <code>SmallVec</code> and yields its items by value.</p>

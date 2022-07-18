@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-client-0.30.0-beta.7/src/conn.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>conn.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-client-0.30.0-beta.8/src/conn.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>conn.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
     <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_client/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"></h2>
     </nav>
@@ -268,6 +268,21 @@
 <span id="263">263</span>
 <span id="264">264</span>
 <span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
+<span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">env</span>,
     <span class="ident">io::ErrorKind</span>,
@@ -287,14 +302,28 @@
 
 <span class="kw">use</span> <span class="ident">nix</span>::{<span class="ident">fcntl</span>, <span class="ident">Error</span>};
 
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">EventQueue</span>, <span class="ident">Proxy</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">protocol::wl_display::WlDisplay</span>, <span class="ident">EventQueue</span>, <span class="ident">Proxy</span>};
 
 <span class="doccomment">/// The Wayland connection</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// This is the main type representing your connection to the Wayland server.</span>
+<span class="doccomment">/// This is the main type representing your connection to the Wayland server, though most of the interaction</span>
+<span class="doccomment">/// with the protocol are actually done using other types. The two main an simple app as for the</span>
+<span class="doccomment">/// [`Connection`] are:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - Obtaining the initial [`WlDisplay`] through the [`display()`](Connection::display) method.</span>
+<span class="doccomment">/// - Creating new [`EventQueue`]s with the [`new_event_queue()`](Connection::new_event_queue) method.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// It can be created through the [`connect_to_env()`](Connection::connect_to_env) method to follow the</span>
+<span class="doccomment">/// configuration from the environment (which is what you&#39;ll do most of the time), or using the</span>
+<span class="doccomment">/// [`from_socket()`](Connection::from_socket) method if you retrieved your connected Wayland socket through</span>
+<span class="doccomment">/// other means.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// In case you need to plug yourself into an external Wayland connection that you don&#39;t control, you&#39;ll</span>
+<span class="doccomment">/// likely get access to it as a [`Backend`], in which case you can create a [`Connection`] from it using</span>
+<span class="doccomment">/// the [`from_backend`](Connection::from_backend) method.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Connection</span> {
-    <span class="ident">backend</span>: <span class="ident">Backend</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">backend</span>: <span class="ident">Backend</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Connection</span> {
@@ -342,32 +371,44 @@
         <span class="prelude-val">Ok</span>(<span class="self">Self</span> { <span class="ident">backend</span> })
     }
 
-    <span class="doccomment">/// Wrap an existing [`Backend`] into a Connection</span>
+    <span class="doccomment">/// Get the `WlDisplay` associated with this connection</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">display</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">WlDisplay</span> {
+        <span class="kw">let</span> <span class="ident">display_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">display_id</span>();
+        <span class="ident">Proxy::from_id</span>(<span class="self">self</span>, <span class="ident">display_id</span>).<span class="ident">unwrap</span>()
+    }
+
+    <span class="doccomment">/// Create a new event queue</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_event_queue</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">EventQueue</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
+        <span class="ident">EventQueue::new</span>(<span class="self">self</span>.<span class="ident">clone</span>())
+    }
+
+    <span class="doccomment">/// Wrap an existing [`Backend`] into a [`Connection`]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_backend</span>(<span class="ident">backend</span>: <span class="ident">Backend</span>) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">backend</span> }
     }
 
-    <span class="doccomment">/// Get the [`Backend`] underlying this Connection</span>
+    <span class="doccomment">/// Get the [`Backend`] underlying this [`Connection`]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">backend</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Backend</span> {
         <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">clone</span>()
     }
 
     <span class="doccomment">/// Flush pending outgoing events to the server</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// This needs to be done regularly to ensure the server receives all your requests.</span>
+    <span class="doccomment">/// This needs to be done regularly to ensure the server receives all your requests, though several</span>
+    <span class="doccomment">/// dispatching methods do it implicitly (this is stated in their documentation when they do).</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">WaylandError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">flush</span>()
     }
 
     <span class="doccomment">/// Start a synchronized read from the socket</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// This is needed if you plan to wait on readiness of the Wayland socket using an event</span>
-    <span class="doccomment">/// loop. See [`ReadEventsGuard`] for details. Once the events are received, you&#39;ll then</span>
-    <span class="doccomment">/// need to dispatch them from the event queue using</span>
-    <span class="doccomment">/// [`EventQueue::dispatch_pending()`](EventQueue::dispatch_pending).</span>
+    <span class="doccomment">/// This is needed if you plan to wait on readiness of the Wayland socket using an event loop. See</span>
+    <span class="doccomment">/// [`ReadEventsGuard`] for details. Once the events are received, you&#39;ll then need to dispatch them from</span>
+    <span class="doccomment">/// their event queues using [`EventQueue::dispatch_pending()`](EventQueue::dispatch_pending).</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// If you don&#39;t need to manage multiple event sources, see</span>
-    <span class="doccomment">/// [`blocking_dispatch()`](Connection::blocking_dispatch) for a simpler mechanism.</span>
+    <span class="doccomment">/// [`blocking_dispatch()`](Connection::blocking_read) for a simpler mechanism. [`EventQueue`] has an</span>
+    <span class="doccomment">/// identical method for convenience.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">prepare_read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ReadEventsGuard</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">prepare_read</span>()
     }
@@ -378,8 +419,12 @@
     <span class="doccomment">/// server and read them. You&#39;ll then need to invoke</span>
     <span class="doccomment">/// [`EventQueue::dispatch_pending()`](EventQueue::dispatch_pending) to dispatch them on</span>
     <span class="doccomment">/// their respective event queues. Alternatively,</span>
-    <span class="doccomment">/// [`EventQueue::blocking_dispatch()`](EventQueue::blocking_dispatch) does both.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">blocking_dispatch</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// [`EventQueue::blocking_dispatch()`](EventQueue::blocking_dispatch) does the same thing as this</span>
+    <span class="doccomment">/// method but also dispatches the pending messages on the queue it was invoked.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If you created objects bypassing the event queues with direct [`ObjectData`] callbacks, those</span>
+    <span class="doccomment">/// callbacks will be invoked (if those objects received any events) before this method returns.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">blocking_read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
         <span class="ident">blocking_dispatch_impl</span>(<span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">clone</span>())
     }
 
@@ -388,6 +433,8 @@
     <span class="doccomment">/// This method will block until the Wayland server has processed and answered all your</span>
     <span class="doccomment">/// preceding requests. This is notably useful during the initial setup of an app, to wait for</span>
     <span class="doccomment">/// the initial state from the server.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See [`EventQueue::roundtrip()`] for a version that includes the dispatching of the event queue.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">roundtrip</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">done</span> <span class="op">=</span> <span class="ident">Arc::new</span>(<span class="ident">AtomicBool::new</span>(<span class="bool-val">false</span>));
         {
@@ -411,17 +458,43 @@
         <span class="prelude-val">Ok</span>(<span class="ident">dispatched</span>)
     }
 
-    <span class="doccomment">/// Create a new event queue</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_event_queue</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">EventQueue</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
-        <span class="ident">EventQueue::new</span>(<span class="self">self</span>.<span class="ident">clone</span>())
-    }
-
-    <span class="doccomment">/// Retrive the protocol error that occured on the socket (if any)</span>
+    <span class="doccomment">/// Retrieve the protocol error that occured on the connection if any</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If this method returns `Some`, it means your Wayland connection is already dead.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">protocol_error</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ProtocolError</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="macro">dbg!</span>(<span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">last_error</span>())<span class="question-mark">?</span> {
             <span class="ident">WaylandError::Protocol</span>(<span class="ident">err</span>) =&gt; <span class="prelude-val">Some</span>(<span class="ident">err</span>),
             <span class="ident">WaylandError::Io</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
         }
+    }
+
+    <span class="doccomment">/// Send a request associated with the provided object</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is a low-level interface used by the code generated by `wayland-scanner`, you will likely</span>
+    <span class="doccomment">/// instead use the methods of the types representing each interface, or the [`Proxy::send_request`] and</span>
+    <span class="doccomment">/// [`Proxy::send_constructor`]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_request</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Proxy</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">proxy</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
+        <span class="ident">request</span>: <span class="ident">I::Request</span>,
+        <span class="ident">data</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> (<span class="ident">msg</span>, <span class="ident">child_spec</span>) <span class="op">=</span> <span class="ident">proxy</span>.<span class="ident">write_request</span>(<span class="self">self</span>, <span class="ident">request</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">send_request</span>(<span class="ident">msg</span>, <span class="ident">data</span>, <span class="ident">child_spec</span>)
+    }
+
+    <span class="doccomment">/// Get the protocol information related to given object ID</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">object_info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">ObjectId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ObjectInfo</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">info</span>(<span class="ident">id</span>)
+    }
+
+    <span class="doccomment">/// Get the object data for a given object ID</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This is a low-level interface used by the code generated by `wayland-scanner`, a higher-level</span>
+    <span class="doccomment">/// interface for manipulating the user-data assocated to [`Dispatch`](crate::Dispatch) implementations</span>
+    <span class="doccomment">/// is given as [`Proxy::data()`]. Also see [`Proxy::object_data()`].</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_object_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">ObjectId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">get_data</span>(<span class="ident">id</span>)
     }
 }
 
@@ -451,49 +524,6 @@
         <span class="comment">// thread with the C-based backend, spuriously return 0.</span>
         <span class="prelude-val">Err</span>(<span class="ident">WaylandError::Io</span>(<span class="ident">e</span>)) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">ErrorKind::WouldBlock</span> =&gt; <span class="prelude-val">Ok</span>(<span class="number">0</span>),
         <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">e</span>),
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">Connection</span> {
-    <span class="doccomment">/// Get the `WlDisplay` associated with this connection</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">display</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident"><span class="kw">crate</span>::protocol::wl_display::WlDisplay</span> {
-        <span class="kw">let</span> <span class="ident">display_id</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">display_id</span>();
-        <span class="ident">Proxy::from_id</span>(<span class="self">self</span>, <span class="ident">display_id</span>).<span class="ident">unwrap</span>()
-    }
-
-    <span class="doccomment">/// Send a request associated with the provided object</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This is a low-level interface for sending requests, you will likely instead use</span>
-    <span class="doccomment">/// the methods of the types representing each interface.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_request</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Proxy</span><span class="op">&gt;</span>(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">proxy</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
-        <span class="ident">request</span>: <span class="ident">I::Request</span>,
-        <span class="ident">data</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> (<span class="ident">msg</span>, <span class="ident">child_spec</span>) <span class="op">=</span> <span class="ident">proxy</span>.<span class="ident">write_request</span>(<span class="self">self</span>, <span class="ident">request</span>)<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">send_request</span>(<span class="ident">msg</span>, <span class="ident">data</span>, <span class="ident">child_spec</span>)
-    }
-
-    <span class="doccomment">/// Create a null id for request serialization</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This is a low-level interface for sending requests, you don&#39;t need to use it if you</span>
-    <span class="doccomment">/// are using the methods of the types representing each interface.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">null_id</span>() -&gt; <span class="ident">ObjectId</span> {
-        <span class="ident">Backend::null_id</span>()
-    }
-
-    <span class="doccomment">/// Get the object data for a given object ID</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This is a low-level interface, a higher-level interface for manipulating object data</span>
-    <span class="doccomment">/// is given as [`Proxy::data()`](crate::Proxy::data).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_object_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">ObjectId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">get_data</span>(<span class="ident">id</span>)
-    }
-
-    <span class="doccomment">/// Get the protocol information related to given object ID</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">object_info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">ObjectId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ObjectInfo</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">info</span>(<span class="ident">id</span>)
     }
 }
 

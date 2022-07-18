@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-server-0.30.0-beta.7/src/dispatch.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>dispatch.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-server-0.30.0-beta.8/src/dispatch.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>dispatch.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
     <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_server/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"></h2>
     </nav>
@@ -273,6 +273,57 @@
 <span id="268">268</span>
 <span id="269">269</span>
 <span id="270">270</span>
+<span id="271">271</span>
+<span id="272">272</span>
+<span id="273">273</span>
+<span id="274">274</span>
+<span id="275">275</span>
+<span id="276">276</span>
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
+<span id="298">298</span>
+<span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::sync::Arc</span>;
 
 <span class="kw">use</span> <span class="ident">wayland_backend::server</span>::{<span class="ident">ClientId</span>, <span class="ident">ObjectData</span>, <span class="ident">ObjectId</span>};
@@ -281,20 +332,94 @@
 
 <span class="doccomment">/// A trait which provides an implementation for handling a client&#39;s requests from a resource with some type</span>
 <span class="doccomment">/// of associated user data.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Resource</span>, <span class="ident">U</span><span class="op">&gt;</span>: <span class="ident">Sized</span> {
+<span class="doccomment">///</span>
+<span class="doccomment">///  ## General usage</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// You need to implement this trait on your `State` for every type of Wayland object that will be processed</span>
+<span class="doccomment">/// by the [`Display`](crate::Display) working with your `State`.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// You can have different implementations of the trait for the same interface but different `UserData` type,</span>
+<span class="doccomment">/// this way the events for a given object will be processed by the adequate implementation depending on</span>
+<span class="doccomment">/// which `UserData` was assigned to it at creation.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The way this trait works is that the [`Dispatch::request()`] method will be invoked by the</span>
+<span class="doccomment">/// [`Display`](crate::Display) for every request received by an object. Your implementation can then match</span>
+<span class="doccomment">/// on the associated [`Resource::Request`] enum and do any processing needed with that event.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// If the request being processed created a new object, you&#39;ll receive it as a [`New&lt;I&gt;`]. When that is the</span>
+<span class="doccomment">/// case, you *must* initialize it using the [`DataInit`] argument. **Failing to do so will cause a **panic**.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ## Modularity</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// To provide generic handlers for downstream usage, it is possible to make an implementation of the trait</span>
+<span class="doccomment">/// that is generic over the last type argument, as illustrated below. Users will then be able to</span>
+<span class="doccomment">/// automatically delegate their implementation to yours using the [`delegate_dispatch!`] macro.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// As a result, when your implementation is instanciated, the last type parameter `State` will be the state</span>
+<span class="doccomment">/// struct of the app using your generic implementation. You can put additional trait constraints on it to</span>
+<span class="doccomment">/// specify an interface between your module and downstream code, as illustrated in this example:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// # // Maintainers: If this example changes, please make sure you also carry those changes over to the</span>
+<span class="doccomment">/// # // delegate_dispatch macro.</span>
+<span class="doccomment">/// use wayland_server::{protocol::wl_output, Dispatch};</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// /// The type we want to delegate to</span>
+<span class="doccomment">/// struct DelegateToMe;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// /// The user data relevant for your implementation.</span>
+<span class="doccomment">/// /// When providing delegate implementation, it is recommended to use your own type here, even if it is</span>
+<span class="doccomment">/// /// just a unit struct: using () would cause a risk of clashing with an other such implementation.</span>
+<span class="doccomment">/// struct MyUserData;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// // Now a generic implementation of Dispatch, we are generic over the last type argument instead of using</span>
+<span class="doccomment">/// // the default State=Self.</span>
+<span class="doccomment">/// impl&lt;State&gt; Dispatch&lt;wl_output::WlOutput, MyUserData, State&gt; for DelegateToMe</span>
+<span class="doccomment">/// where</span>
+<span class="doccomment">///     // State is the type which has delegated to this type, so it needs to have an impl of Dispatch itself</span>
+<span class="doccomment">///     State: Dispatch&lt;wl_output::WlOutput, MyUserData&gt;,</span>
+<span class="doccomment">///     // If your delegate type has some internal state, it&#39;ll need to access it, and you can</span>
+<span class="doccomment">///     // require it by adding custom trait bounds.</span>
+<span class="doccomment">///     // In this example, we just require an AsMut implementation</span>
+<span class="doccomment">///     State: AsMut&lt;DelegateToMe&gt;,</span>
+<span class="doccomment">/// {</span>
+<span class="doccomment">///     fn request(</span>
+<span class="doccomment">///         state: &amp;mut State,</span>
+<span class="doccomment">///         _client: &amp;wayland_server::Client,</span>
+<span class="doccomment">///         _resource: &amp;wl_output::WlOutput,</span>
+<span class="doccomment">///         _request: wl_output::Request,</span>
+<span class="doccomment">///         _udata: &amp;MyUserData,</span>
+<span class="doccomment">///         _dhandle: &amp;wayland_server::DisplayHandle,</span>
+<span class="doccomment">///         _data_init: &amp;mut wayland_server::DataInit&lt;&#39;_, State&gt;,</span>
+<span class="doccomment">///     ) {</span>
+<span class="doccomment">///         // Here the delegate may handle incoming requests as it pleases.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///         // For example, it retrives its state and does some processing with it</span>
+<span class="doccomment">///         let me: &amp;mut DelegateToMe = state.as_mut();</span>
+<span class="doccomment">///         // do something with `me` ...</span>
+<span class="doccomment">/// #       std::mem::drop(me) // use `me` to avoid a warning</span>
+<span class="doccomment">///     }</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// **Note:** Due to limitations in Rust&#39;s trait resolution algorithm, a type providing a generic</span>
+<span class="doccomment">/// implementation of [`Dispatch`] cannot be used directly as the dispatching state, as rustc</span>
+<span class="doccomment">/// currently fails to understand that it also provides `Dispatch&lt;I, U, Self&gt;` (assuming all other</span>
+<span class="doccomment">/// trait bounds are respected as well).</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Resource</span>, <span class="ident">UserData</span>, <span class="ident">State</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span>: <span class="ident">Sized</span> {
     <span class="doccomment">/// Called when a request from a client is processed.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The implementation of this function will vary depending on what protocol is being implemented. Typically</span>
     <span class="doccomment">/// the server may respond to clients by sending events to the resource, or some other resource stored in</span>
     <span class="doccomment">/// the user data.</span>
     <span class="kw">fn</span> <span class="ident">request</span>(
-        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">state</span>: <span class="kw-2">&amp;mut</span> <span class="ident">State</span>,
         <span class="ident">client</span>: <span class="kw-2">&amp;</span><span class="ident">Client</span>,
         <span class="ident">resource</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
         <span class="ident">request</span>: <span class="ident">I::Request</span>,
-        <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">U</span>,
+        <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">UserData</span>,
         <span class="ident">dhandle</span>: <span class="kw-2">&amp;</span><span class="ident">DisplayHandle</span>,
-        <span class="ident">data_init</span>: <span class="kw-2">&amp;mut</span> <span class="ident">DataInit</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="self">Self</span><span class="op">&gt;</span>,
+        <span class="ident">data_init</span>: <span class="kw-2">&amp;mut</span> <span class="ident">DataInit</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">State</span><span class="op">&gt;</span>,
     );
 
     <span class="doccomment">/// Called when the object this user data is associated with has been destroyed.</span>
@@ -308,15 +433,18 @@
     <span class="doccomment">/// convenience.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// By default this method does nothing.</span>
-    <span class="kw">fn</span> <span class="ident">destroyed</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">_client</span>: <span class="ident">ClientId</span>, <span class="ident">_resource</span>: <span class="ident">ObjectId</span>, <span class="ident">_data</span>: <span class="kw-2">&amp;</span><span class="ident">U</span>) {}
+    <span class="kw">fn</span> <span class="ident">destroyed</span>(<span class="ident">_state</span>: <span class="kw-2">&amp;mut</span> <span class="ident">State</span>, <span class="ident">_client</span>: <span class="ident">ClientId</span>, <span class="ident">_resource</span>: <span class="ident">ObjectId</span>, <span class="ident">_data</span>: <span class="kw-2">&amp;</span><span class="ident">UserData</span>) {}
 }
 
+<span class="doccomment">/// The [`ObjectData`] implementation that is internally used by this crate</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ResourceData</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span> {
     <span class="ident">marker</span>: <span class="ident">std::marker::PhantomData</span><span class="op">&lt;</span><span class="kw">fn</span>(<span class="ident">I</span>)<span class="op">&gt;</span>,
+    <span class="doccomment">/// The user-data associated with this object</span>
     <span class="kw">pub</span> <span class="ident">udata</span>: <span class="ident">U</span>,
 }
 
+<span class="doccomment">/// A newly created object that needs to be initialized. See [`DataInit`].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">New</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
     <span class="ident">id</span>: <span class="ident">I</span>,
@@ -330,12 +458,20 @@
     }
 }
 
+<span class="doccomment">/// Helper to initialize client-created objects</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This helper is provided to you in your [`Dispatch`] and [`GlobalDispatch`](super::GlobalDispatch) to</span>
+<span class="doccomment">/// initialize objects created by the client, by assigning them their user-data (or [`ObjectData`] if you</span>
+<span class="doccomment">/// need to go this lower-level route).</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This step is mandatory, and **failing to initialize a newly created object will cause a panic**.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">DataInit</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">store</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">D</span><span class="op">&gt;</span> <span class="ident">DataInit</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">D</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Initialize an object by assigning it its user-data</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">init</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Resource</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>, <span class="ident">U</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
         <span class="ident">resource</span>: <span class="ident">New</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>,
@@ -355,8 +491,8 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// This object data is not managed by `wayland-server`, as a result you will not</span>
     <span class="doccomment">/// be able to retreive it through [`Resource::data()`](Resource::data).</span>
-    <span class="doccomment">/// Instead, you&#39;ll need to directly retrieve it using</span>
-    <span class="doccomment">/// [`DisplayHandle::get_object_data()`](DisplayHandle::get_object_data).</span>
+    <span class="doccomment">/// Instead, you&#39;ll need to retrieve it using [`Resource::object_data()`](Resource::object_data) and</span>
+    <span class="doccomment">/// handle the downcasting yourself.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">custom_init</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Resource</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
         <span class="ident">resource</span>: <span class="ident">New</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>,
@@ -372,39 +508,6 @@
 <span class="comment">/*
  * Dispatch delegation helpers.
  */</span>
-
-<span class="doccomment">/// A trait which defines a delegate to handle some type of resource.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This trait is useful for building modular handlers of resources.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">DelegateDispatch</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Resource</span>, <span class="ident">U</span>, <span class="ident">D</span>: <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span>: <span class="ident">Sized</span> {
-    <span class="doccomment">/// Called when a request from a client is processed.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The implementation of this function will vary depending on what protocol is being implemented. Typically</span>
-    <span class="doccomment">/// the server may respond to clients by sending events to the resource, or some other resource stored in</span>
-    <span class="doccomment">/// the user data.</span>
-    <span class="kw">fn</span> <span class="ident">request</span>(
-        <span class="ident">state</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>,
-        <span class="ident">client</span>: <span class="kw-2">&amp;</span><span class="ident">Client</span>,
-        <span class="ident">resource</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
-        <span class="ident">request</span>: <span class="ident">I::Request</span>,
-        <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">U</span>,
-        <span class="ident">dhandle</span>: <span class="kw-2">&amp;</span><span class="ident">DisplayHandle</span>,
-        <span class="ident">data_init</span>: <span class="kw-2">&amp;mut</span> <span class="ident">DataInit</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">D</span><span class="op">&gt;</span>,
-    );
-
-    <span class="doccomment">/// Called when the object this user data is associated with has been destroyed.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Note this type only provides an immutable reference to the user data, you will need to use</span>
-    <span class="doccomment">/// interior mutability to change it.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Typically a [`Mutex`](std::sync::Mutex) would be used to have interior mutability.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// You are given the [`ObjectId`] and [`ClientId`] associated with the destroyed object for cleanup</span>
-    <span class="doccomment">/// convenience.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By default this method does nothing.</span>
-    <span class="kw">fn</span> <span class="ident">destroyed</span>(<span class="ident">_state</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>, <span class="ident">_client</span>: <span class="ident">ClientId</span>, <span class="ident">_resource</span>: <span class="ident">ObjectId</span>, <span class="ident">_data</span>: <span class="kw-2">&amp;</span><span class="ident">U</span>) {}
-}
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span> <span class="ident">ResourceData</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">udata</span>: <span class="ident">U</span>) -&gt; <span class="self">Self</span> {
@@ -426,7 +529,7 @@
         <span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">Client::from_id</span>(<span class="kw-2">&amp;</span><span class="ident">dhandle</span>, <span class="ident">client_id</span>) {
             <span class="prelude-val">Ok</span>(<span class="ident">v</span>) =&gt; <span class="ident">v</span>,
             <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; {
-                <span class="macro">log::error!</span>(<span class="string">&quot;Receiving a request from a dead client ?!&quot;</span>);
+                <span class="macro">crate::log_error!</span>(<span class="string">&quot;Receiving a request from a dead client ?!&quot;</span>);
                 <span class="kw">return</span> <span class="prelude-val">None</span>;
             }
         };
@@ -434,7 +537,7 @@
         <span class="kw">let</span> (<span class="ident">resource</span>, <span class="ident">request</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">I::parse_request</span>(<span class="kw-2">&amp;</span><span class="ident">dhandle</span>, <span class="ident">msg</span>) {
             <span class="prelude-val">Ok</span>(<span class="ident">v</span>) =&gt; <span class="ident">v</span>,
             <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; {
-                <span class="macro">log::warn!</span>(<span class="string">&quot;Dispatching error encountered: {:?}, killing client.&quot;</span>, <span class="ident">e</span>);
+                <span class="macro">crate::log_warn!</span>(<span class="string">&quot;Dispatching error encountered: {:?}, killing client.&quot;</span>, <span class="ident">e</span>);
                 <span class="comment">// TODO: Kill client</span>
                 <span class="kw">return</span> <span class="prelude-val">None</span>;
             }
@@ -443,7 +546,8 @@
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_data</span> <span class="op">=</span> <span class="prelude-val">None</span>;
 
-        <span class="ident">data</span>.<span class="ident">request</span>(
+        <span class="op">&lt;</span><span class="ident">D</span> <span class="kw">as</span> <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::request</span>(
+            <span class="ident">data</span>,
             <span class="kw-2">&amp;</span><span class="ident">client</span>,
             <span class="kw-2">&amp;</span><span class="ident">resource</span>,
             <span class="ident">request</span>,
@@ -461,12 +565,12 @@
         <span class="ident">client_id</span>: <span class="ident">wayland_backend::server::ClientId</span>,
         <span class="ident">object_id</span>: <span class="ident">wayland_backend::server::ObjectId</span>,
     ) {
-        <span class="ident">data</span>.<span class="ident">destroyed</span>(<span class="ident">client_id</span>, <span class="ident">object_id</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">udata</span>)
+        <span class="op">&lt;</span><span class="ident">D</span> <span class="kw">as</span> <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::destroyed</span>(<span class="ident">data</span>, <span class="ident">client_id</span>, <span class="ident">object_id</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">udata</span>)
     }
 }
 
 <span class="doccomment">/// A helper macro which delegates a set of [`Dispatch`] implementations for a resource to some other type which</span>
-<span class="doccomment">/// implements [`DelegateDispatch`] for each resource.</span>
+<span class="doccomment">/// provides a generic [`Dispatch`] implementation.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This macro allows more easily delegating smaller parts of the protocol a compositor may wish to handle</span>
 <span class="doccomment">/// in a modular fashion.</span>
@@ -474,18 +578,16 @@
 <span class="doccomment">/// # Usage</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// For example, say you want to delegate events for [`WlOutput`](crate::protocol::wl_output::WlOutput)</span>
-<span class="doccomment">/// to some other type.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// For brevity, we will use the example in the documentation for [`DelegateDispatch`], `DelegateToMe`.</span>
+<span class="doccomment">/// to the `DelegateToMe` type from the [`Dispatch`] documentation.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// use wayland_server::{delegate_dispatch, protocol::wl_output};</span>
 <span class="doccomment">/// #</span>
-<span class="doccomment">/// # use wayland_server::{DelegateDispatch, Dispatch};</span>
+<span class="doccomment">/// # use wayland_server::Dispatch;</span>
 <span class="doccomment">/// #</span>
 <span class="doccomment">/// # struct DelegateToMe;</span>
 <span class="doccomment">/// #</span>
-<span class="doccomment">/// # impl&lt;D&gt; DelegateDispatch&lt;wl_output::WlOutput, (), D&gt; for DelegateToMe</span>
+<span class="doccomment">/// # impl&lt;D&gt; Dispatch&lt;wl_output::WlOutput, (), D&gt; for DelegateToMe</span>
 <span class="doccomment">/// # where</span>
 <span class="doccomment">/// #     D: Dispatch&lt;wl_output::WlOutput, ()&gt; + AsMut&lt;DelegateToMe&gt;,</span>
 <span class="doccomment">/// # {</span>
@@ -501,7 +603,7 @@
 <span class="doccomment">/// #     }</span>
 <span class="doccomment">/// # }</span>
 <span class="doccomment">/// #</span>
-<span class="doccomment">/// # type UserData = ();</span>
+<span class="doccomment">/// # type MyUserData = ();</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// // ExampleApp is the type events will be dispatched to.</span>
 <span class="doccomment">///</span>
@@ -511,8 +613,8 @@
 <span class="doccomment">///     delegate: DelegateToMe,</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// // Use delegate_dispatch to implement Dispatch&lt;wl_output::WlOutput&gt; for ExampleApp.</span>
-<span class="doccomment">/// delegate_dispatch!(ExampleApp: [wl_output::WlOutput: UserData] =&gt; DelegateToMe);</span>
+<span class="doccomment">/// // Use delegate_dispatch to implement Dispatch&lt;wl_output::WlOutput, MyUserData&gt; for ExampleApp.</span>
+<span class="doccomment">/// delegate_dispatch!(ExampleApp: [wl_output::WlOutput: MyUserData] =&gt; DelegateToMe);</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// // DelegateToMe requires that ExampleApp implements AsMut&lt;DelegateToMe&gt;, so we provide the trait implementation.</span>
 <span class="doccomment">/// impl AsMut&lt;DelegateToMe&gt; for ExampleApp {</span>
@@ -526,7 +628,7 @@
     ($(@<span class="op">&lt;</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">lt</span>:<span class="ident">tt</span> $( : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">clt</span>:<span class="ident">tt</span> $(<span class="op">+</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dlt</span>:<span class="ident">tt</span> )<span class="op">*</span> )<span class="question-mark">?</span> ),<span class="op">+</span> <span class="op">&gt;</span>)<span class="question-mark">?</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_from</span>:<span class="ident">ty</span> : [<span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>: <span class="ident">ty</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span>: <span class="ident">ty</span>] =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_to</span>: <span class="ident">ty</span>) =&gt; {
         <span class="kw">impl</span>$(<span class="op">&lt;</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">lt</span> $( : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">clt</span> $(<span class="op">+</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dlt</span> )<span class="op">*</span> )<span class="question-mark">?</span> ),<span class="op">+</span> <span class="op">&gt;</span>)<span class="question-mark">?</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Dispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_from</span> {
             <span class="kw">fn</span> <span class="ident">request</span>(
-                <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+                <span class="ident">state</span>: <span class="kw-2">&amp;mut</span> <span class="self">Self</span>,
                 <span class="ident">client</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Client</span>,
                 <span class="ident">resource</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>,
                 <span class="ident">request</span>: <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Resource</span><span class="op">&gt;</span><span class="ident">::Request</span>,
@@ -534,11 +636,11 @@
                 <span class="ident">dhandle</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::DisplayHandle</span>,
                 <span class="ident">data_init</span>: <span class="kw-2">&amp;mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::DataInit</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="self">Self</span><span class="op">&gt;</span>,
             ) {
-                <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_to</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::DelegateDispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span>, <span class="self">Self</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::request</span>(<span class="self">self</span>, <span class="ident">client</span>, <span class="ident">resource</span>, <span class="ident">request</span>, <span class="ident">data</span>, <span class="ident">dhandle</span>, <span class="ident">data_init</span>)
+                <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_to</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Dispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span>, <span class="self">Self</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::request</span>(<span class="ident">state</span>, <span class="ident">client</span>, <span class="ident">resource</span>, <span class="ident">request</span>, <span class="ident">data</span>, <span class="ident">dhandle</span>, <span class="ident">data_init</span>)
             }
 
-            <span class="kw">fn</span> <span class="ident">destroyed</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">client</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::backend::ClientId</span>, <span class="ident">resource</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::backend::ObjectId</span>, <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span>) {
-                <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_to</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::DelegateDispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span>, <span class="self">Self</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::destroyed</span>(<span class="self">self</span>, <span class="ident">client</span>, <span class="ident">resource</span>, <span class="ident">data</span>)
+            <span class="kw">fn</span> <span class="ident">destroyed</span>(<span class="ident">state</span>: <span class="kw-2">&amp;mut</span> <span class="self">Self</span>, <span class="ident">client</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::backend::ClientId</span>, <span class="ident">resource</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::backend::ObjectId</span>, <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span>) {
+                <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_to</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Dispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span>, <span class="self">Self</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::destroyed</span>(<span class="ident">state</span>, <span class="ident">client</span>, <span class="ident">resource</span>, <span class="ident">data</span>)
             }
         }
     };

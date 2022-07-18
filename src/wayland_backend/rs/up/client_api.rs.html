@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.7/src/rs/../client_api.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>client_api.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script src="../../../../crates.js"></script><script defer src="../../../../main.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.8/src/rs/../client_api.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>client_api.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script src="../../../../crates.js"></script><script defer src="../../../../main.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script>
     <noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"></h2>
     </nav>
@@ -302,6 +302,58 @@
 <span id="297">297</span>
 <span id="298">298</span>
 <span id="299">299</span>
+<span id="300">300</span>
+<span id="301">301</span>
+<span id="302">302</span>
+<span id="303">303</span>
+<span id="304">304</span>
+<span id="305">305</span>
+<span id="306">306</span>
+<span id="307">307</span>
+<span id="308">308</span>
+<span id="309">309</span>
+<span id="310">310</span>
+<span id="311">311</span>
+<span id="312">312</span>
+<span id="313">313</span>
+<span id="314">314</span>
+<span id="315">315</span>
+<span id="316">316</span>
+<span id="317">317</span>
+<span id="318">318</span>
+<span id="319">319</span>
+<span id="320">320</span>
+<span id="321">321</span>
+<span id="322">322</span>
+<span id="323">323</span>
+<span id="324">324</span>
+<span id="325">325</span>
+<span id="326">326</span>
+<span id="327">327</span>
+<span id="328">328</span>
+<span id="329">329</span>
+<span id="330">330</span>
+<span id="331">331</span>
+<span id="332">332</span>
+<span id="333">333</span>
+<span id="334">334</span>
+<span id="335">335</span>
+<span id="336">336</span>
+<span id="337">337</span>
+<span id="338">338</span>
+<span id="339">339</span>
+<span id="340">340</span>
+<span id="341">341</span>
+<span id="342">342</span>
+<span id="343">343</span>
+<span id="344">344</span>
+<span id="345">345</span>
+<span id="346">346</span>
+<span id="347">347</span>
+<span id="348">348</span>
+<span id="349">349</span>
+<span id="350">350</span>
+<span id="351">351</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">fmt</span>,
     <span class="ident">os::unix</span>::{<span class="ident">io::RawFd</span>, <span class="ident">net::UnixStream</span>},
@@ -324,15 +376,17 @@
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ObjectData</span>: <span class="ident">downcast_rs::DowncastSync</span> {
     <span class="doccomment">/// Dispatch an event for the associated object</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// If the event has a NewId argument, the callback must return the object data</span>
+    <span class="doccomment">/// If the event has a `NewId` argument, the callback must return the object data</span>
     <span class="doccomment">/// for the newly created object</span>
     <span class="kw">fn</span> <span class="ident">event</span>(
         <span class="self">self</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
         <span class="ident">backend</span>: <span class="kw-2">&amp;</span><span class="ident">Backend</span>,
         <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>,
     ) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+
     <span class="doccomment">/// Notification that the object has been destroyed and is no longer active</span>
     <span class="kw">fn</span> <span class="ident">destroyed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">object_id</span>: <span class="ident">ObjectId</span>);
+
     <span class="doccomment">/// Helper for forwarding a Debug implementation of your `ObjectData` type</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// By default will just print `ObjectData { ... }`</span>
@@ -352,6 +406,11 @@
 <span class="macro">downcast_rs::impl_downcast!</span>(<span class="ident">sync</span> <span class="ident">ObjectData</span>);
 
 <span class="doccomment">/// An ID representing a Wayland object</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The backend internally tracks which IDs are still valid, invalidates them when the protocol object they</span>
+<span class="doccomment">/// represent is destroyed. As such even though the Wayland protocol reuses IDs, you can confidently compare</span>
+<span class="doccomment">/// two `ObjectId` for equality, they will only compare as equal if they both represent the same protocol</span>
+<span class="doccomment">/// object.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ObjectId</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">id</span>: <span class="ident">client_impl::InnerObjectId</span>,
@@ -374,10 +433,25 @@
 }
 
 <span class="kw">impl</span> <span class="ident">ObjectId</span> {
-    <span class="doccomment">/// Check if this is the null ID</span>
+    <span class="doccomment">/// Check if this is a null ID</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// **Note:** This is not the same as checking if the ID is still valid, which cannot be done without the</span>
+    <span class="doccomment">/// [`Backend`]. A null ID is the ID equivalent of a null pointer: it never has been valid and never will</span>
+    <span class="doccomment">/// be.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_null</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">is_null</span>()
+    }
+
+    <span class="doccomment">/// Create a null object ID</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This object ID is always invalid, and should be used as placeholder in requests that create objects,</span>
+    <span class="doccomment">/// or for request with an optional `Object` argument.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// See [`Backend::send_request`](Backend::send_request) for details.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">null</span>() -&gt; <span class="ident">ObjectId</span> {
+        <span class="ident">client_impl::InnerBackend::null_id</span>()
     }
 
     <span class="doccomment">/// Interface of the represented object</span>
@@ -388,8 +462,8 @@
 
     <span class="doccomment">/// Return the protocol-level numerical ID of this object</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Protocol IDs are reused after object destruction, so this should not be used as a</span>
-    <span class="doccomment">/// unique identifier,</span>
+    <span class="doccomment">/// Protocol IDs are reused after object destruction, so this should not be used as a unique identifier,</span>
+    <span class="doccomment">/// instead use the `ObjectId` directly, it implements `Clone`, `PartialEq`, `Eq` and `Hash`.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">protocol_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> {
         <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">protocol_id</span>()
@@ -427,7 +501,10 @@
     <span class="doccomment">/// Try to initialize a Wayland backend on the provided unix stream</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The provided stream should correspond to an already established unix connection with</span>
-    <span class="doccomment">/// the Wayland server. On this rust backend, this method never fails.</span>
+    <span class="doccomment">/// the Wayland server.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This method can only fail on the `sys` backend if the `dlopen` cargo feature was enabled</span>
+    <span class="doccomment">/// and the system wayland library could not be found.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">connect</span>(<span class="ident">stream</span>: <span class="ident">UnixStream</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">NoWaylandLib</span><span class="op">&gt;</span> {
         <span class="ident">client_impl::InnerBackend::connect</span>(<span class="ident">stream</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">backend</span><span class="op">|</span> <span class="self">Self</span> { <span class="ident">backend</span> })
     }
@@ -438,6 +515,13 @@
     }
 
     <span class="doccomment">/// Flush all pending outgoing requests to the server</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Most errors on this method mean that the Wayland connection is no longer valid, the only</span>
+    <span class="doccomment">/// exception being an IO `WouldBlock` error. In that case it means that you should try flushing again</span>
+    <span class="doccomment">/// later.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// You can however expect this method returning `WouldBlock` to be very rare: it can only occur if</span>
+    <span class="doccomment">/// either your client sent a lot of big messages at once, or the server is very laggy.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">WaylandError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">flush</span>()
     }
@@ -450,26 +534,18 @@
 
     <span class="doccomment">/// Get the last error that occurred on this backend</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// If this returns an error, your Wayland connection is already dead.</span>
+    <span class="doccomment">/// If this returns [`Some`], your Wayland connection is already dead.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">last_error</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">WaylandError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">last_error</span>()
     }
 
-    <span class="doccomment">/// Get the detailed information about a wayland object</span>
+    <span class="doccomment">/// Get the detailed protocol information about a wayland object</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns an error if the provided object ID is no longer valid.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">ObjectId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ObjectInfo</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">info</span>(<span class="ident">id</span>)
-    }
-
-    <span class="doccomment">/// Create a null object ID</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This object ID is always invalid, and can be used as placeholder.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">null_id</span>() -&gt; <span class="ident">ObjectId</span> {
-        <span class="ident">client_impl::InnerBackend::null_id</span>()
     }
 
     <span class="doccomment">/// Sends a request to the server</span>
@@ -483,9 +559,11 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// - the message opcode must be valid for the sender interface</span>
     <span class="doccomment">/// - the argument list must match the prototype for the message associated with this opcode</span>
-    <span class="doccomment">/// - if the method creates a new object, a [`null_id()`](Backend::null_id) must be given</span>
+    <span class="doccomment">/// - if the method creates a new object, a [`ObjectId::null()`](ObjectId::null) must be given</span>
     <span class="doccomment">///   in the argument list at the appropriate place, and a `child_spec` (interface and version)</span>
-    <span class="doccomment">///   can be provided. If one is provided, it&#39;ll be checked agains the protocol spec.</span>
+    <span class="doccomment">///   can be provided. If one is provided, it&#39;ll be checked against the protocol spec. If the</span>
+    <span class="doccomment">///   protocol specification does not define the interface of the created object (notable example</span>
+    <span class="doccomment">///   is `wl_registry.bind`), the `child_spec` must be provided.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_request</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>,
@@ -515,12 +593,35 @@
 
     <span class="doccomment">/// Create a new reading guard</span>
     <span class="doccomment">///</span>
+    <span class="doccomment">/// This is the first step for actually reading events from the Wayland socket. See</span>
+    <span class="doccomment">/// [`ReadEventsGuard`] for how to use it.</span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// This call will not block, but event callbacks may be invoked in the process</span>
     <span class="doccomment">/// of preparing the guard.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If it returns an error, you Wayland connection is already dead.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">prepare_read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ReadEventsGuard</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
         <span class="ident">client_impl::InnerReadEventsGuard::try_new</span>(<span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">clone</span>())
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">guard</span><span class="op">|</span> <span class="ident">ReadEventsGuard</span> { <span class="ident">guard</span> })
+    }
+
+    <span class="doccomment">/// Dispatches the inner queue of this backend if necessary</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This function is only relevant when using the system backend that was created from an external</span>
+    <span class="doccomment">/// display. In this case, it is possible that some other part of the program already takes care</span>
+    <span class="doccomment">/// of reading the wayland socket and you should not touch it, and thus you cannot use</span>
+    <span class="doccomment">/// [`prepare_read()`](Backend::prepare_read). In this situation, this method will ensure that this</span>
+    <span class="doccomment">/// [`Backend`] still correctly processes its messages.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// When using the rust backend, or when using the system backend where you own the connection, this</span>
+    <span class="doccomment">/// function will do nothing. It is thus safe to unconditionnaly invoke it at some point in your library</span>
+    <span class="doccomment">/// code to ensure you support all use cases, for example.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns the number of messages that were dispatched to their `ObjectData` callbacks.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch_inner_queue</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">dispatch_inner_queue</span>()
     }
 }
 
@@ -530,13 +631,16 @@
 <span class="doccomment">/// it is necessary to synchronize their access. Failing to do so may cause some of the</span>
 <span class="doccomment">/// threads to not be notified of new events, and sleep much longer than appropriate.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// To correctly synchronize access, this type should be used. The guard is created using</span>
+<span class="doccomment">/// This guard is provided to ensure the proper synchronization is done. The guard is created using</span>
 <span class="doccomment">/// the [`Backend::prepare_read()`](Backend::prepare_read) method. And the event reading is</span>
-<span class="doccomment">/// triggered by consuming the guard using the [`read()`](ReadEventsGuard::read) method.</span>
+<span class="doccomment">/// triggered by consuming the guard using the [`read()`](ReadEventsGuard::read) method, synchronizing</span>
+<span class="doccomment">/// with other threads as necessary so that only one of the threads will actually perform the socket read.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// If you plan to poll the Wayland socket for readiness, the file descriptor can be retrieved via</span>
 <span class="doccomment">/// the [`connection_fd`](ReadEventsGuard::connection_fd) method. Note that for the synchronization to</span>
 <span class="doccomment">/// correctly occur, you must *always* create the `ReadEventsGuard` *before* polling the socket.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Dropping the guard is valid and will cancel the prepared read.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReadEventsGuard</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">guard</span>: <span class="ident">client_impl::InnerReadEventsGuard</span>,
@@ -552,7 +656,7 @@
     <span class="doccomment">/// Attempt to read events from the Wayland socket</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// If multiple threads have a live reading guard, this method will block until all of them</span>
-    <span class="doccomment">/// are either dropped or have their `read()` method invoked, at which point on of the threads</span>
+    <span class="doccomment">/// are either dropped or have their `read()` method invoked, at which point one of the threads</span>
     <span class="doccomment">/// will read events from the socket and invoke the callbacks for the received events. All</span>
     <span class="doccomment">/// threads will then resume their execution.</span>
     <span class="doccomment">///</span>

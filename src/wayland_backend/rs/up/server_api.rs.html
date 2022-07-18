@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.7/src/rs/../server_api.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>server_api.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script src="../../../../crates.js"></script><script defer src="../../../../main.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.8/src/rs/../server_api.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>server_api.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script src="../../../../crates.js"></script><script defer src="../../../../main.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script>
     <noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"></h2>
     </nav>
@@ -533,6 +533,55 @@
 <span id="528">528</span>
 <span id="529">529</span>
 <span id="530">530</span>
+<span id="531">531</span>
+<span id="532">532</span>
+<span id="533">533</span>
+<span id="534">534</span>
+<span id="535">535</span>
+<span id="536">536</span>
+<span id="537">537</span>
+<span id="538">538</span>
+<span id="539">539</span>
+<span id="540">540</span>
+<span id="541">541</span>
+<span id="542">542</span>
+<span id="543">543</span>
+<span id="544">544</span>
+<span id="545">545</span>
+<span id="546">546</span>
+<span id="547">547</span>
+<span id="548">548</span>
+<span id="549">549</span>
+<span id="550">550</span>
+<span id="551">551</span>
+<span id="552">552</span>
+<span id="553">553</span>
+<span id="554">554</span>
+<span id="555">555</span>
+<span id="556">556</span>
+<span id="557">557</span>
+<span id="558">558</span>
+<span id="559">559</span>
+<span id="560">560</span>
+<span id="561">561</span>
+<span id="562">562</span>
+<span id="563">563</span>
+<span id="564">564</span>
+<span id="565">565</span>
+<span id="566">566</span>
+<span id="567">567</span>
+<span id="568">568</span>
+<span id="569">569</span>
+<span id="570">570</span>
+<span id="571">571</span>
+<span id="572">572</span>
+<span id="573">573</span>
+<span id="574">574</span>
+<span id="575">575</span>
+<span id="576">576</span>
+<span id="577">577</span>
+<span id="578">578</span>
+<span id="579">579</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">ffi::CString</span>,
     <span class="ident">fmt</span>,
@@ -555,7 +604,7 @@
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ObjectData</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>: <span class="ident">downcast_rs::DowncastSync</span> {
     <span class="doccomment">/// Dispatch a request for the associated object</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// If the request has a NewId argument, the callback must return the object data</span>
+    <span class="doccomment">/// If the request has a `NewId` argument, the callback must return the object data</span>
     <span class="doccomment">/// for the newly created object</span>
     <span class="kw">fn</span> <span class="ident">request</span>(
         <span class="self">self</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
@@ -632,7 +681,7 @@
 
 <span class="macro">downcast_rs::impl_downcast!</span>(<span class="ident">sync</span> <span class="ident">GlobalHandler</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>);
 
-<span class="doccomment">/// A trait representing your data associated to a clientObjectData</span>
+<span class="doccomment">/// A trait representing your data associated to a client</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ClientData</span>: <span class="ident">downcast_rs::DowncastSync</span> {
     <span class="doccomment">/// Notification that the client was initialized</span>
     <span class="kw">fn</span> <span class="ident">initialized</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">client_id</span>: <span class="ident">ClientId</span>);
@@ -656,7 +705,12 @@
 
 <span class="macro">downcast_rs::impl_downcast!</span>(<span class="ident">sync</span> <span class="ident">ClientData</span>);
 
-<span class="doccomment">/// An id of an object on a wayland server.</span>
+<span class="doccomment">/// An ID representing a Wayland object</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The backend internally tracks which IDs are still valid, invalidates them when the protocol object they</span>
+<span class="doccomment">/// represent is destroyed. As such even though the Wayland protocol reuses IDs, you still confidently compare</span>
+<span class="doccomment">/// two `ObjectId` for equality, they will only compare as equal if they both represent the same protocol</span>
+<span class="doccomment">/// object from the same client.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ObjectId</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">id</span>: <span class="ident">server_impl::InnerObjectId</span>,
@@ -664,8 +718,20 @@
 
 <span class="kw">impl</span> <span class="ident">ObjectId</span> {
     <span class="doccomment">/// Returns whether this object is a null object.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// **Note:** This is not the same as checking if the ID is still valid, which cannot be done without the</span>
+    <span class="doccomment">/// [`Backend`]. A null ID is the ID equivalent of a null pointer: it never has been valid and never will</span>
+    <span class="doccomment">/// be.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_null</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
         <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">is_null</span>()
+    }
+
+    <span class="doccomment">/// Returns an object id that represents a null object.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This object ID is always invalid, and should be used for events with an optional `Object` argument.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">null</span>() -&gt; <span class="ident">ObjectId</span> {
+        <span class="ident">server_impl::InnerHandle::null_id</span>()
     }
 
     <span class="doccomment">/// Returns the interface of this object.</span>
@@ -683,8 +749,9 @@
 
     <span class="doccomment">/// Return the protocol-level numerical ID of this object</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Protocol IDs are reused after object destruction, so this should not be used as a</span>
-    <span class="doccomment">/// unique identifier,</span>
+    <span class="doccomment">/// Protocol IDs are reused after object destruction and each client has its own ID space, so this should</span>
+    <span class="doccomment">/// not be used as a unique identifier, instead use the `ObjectId` directly, it implements `Clone`,</span>
+    <span class="doccomment">/// `PartialEq`, `Eq` and `Hash`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">protocol_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> {
         <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">protocol_id</span>()
     }
@@ -704,7 +771,11 @@
     }
 }
 
-<span class="doccomment">/// An id of a client connected to the server.</span>
+<span class="doccomment">/// An ID representing a Wayland client</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The backend internally tracks which IDs are still valid, invalidates them when the client they represent</span>
+<span class="doccomment">/// is disconnected. As such you can confidently compare two `ClientId` for equality, they will only compare</span>
+<span class="doccomment">/// as equal if they both represent the same client.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ClientId</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">id</span>: <span class="ident">server_impl::InnerClientId</span>,
@@ -717,7 +788,7 @@
     }
 }
 
-<span class="doccomment">/// The ID of a global</span>
+<span class="doccomment">/// An Id representing a global</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GlobalId</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">id</span>: <span class="ident">server_impl::InnerGlobalId</span>,
@@ -733,9 +804,8 @@
 <span class="doccomment">/// Main handle of a backend to the Wayland protocol</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This type hosts most of the protocol-related functionality of the backend, and is the</span>
-<span class="doccomment">/// main entry point for manipulating Wayland objects. It can be retrieved both from</span>
-<span class="doccomment">/// the backend via [`Backend::handle()`](Backend::handle), cloned, and is given to you as</span>
-<span class="doccomment">/// argument in most event callbacks.</span>
+<span class="doccomment">/// main entry point for manipulating Wayland objects. It can be retrieved from the backend via</span>
+<span class="doccomment">/// [`Backend::handle()`](Backend::handle) and cloned, and is given to you as argument in many callbacks.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Handle</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">handle</span>: <span class="ident">server_impl::InnerHandle</span>,
@@ -765,13 +835,15 @@
         <span class="ident">WeakHandle</span> { <span class="ident">handle</span>: <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">downgrade</span>() }
     }
 
-    <span class="doccomment">/// Returns information about some object.</span>
+    <span class="doccomment">/// Get the detailed protocol information about a wayland object</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns an error if the provided object ID is no longer valid.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">object_info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">ObjectId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ObjectInfo</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">object_info</span>(<span class="ident">id</span>.<span class="ident">id</span>)
     }
 
-    <span class="doccomment">/// Initializes a connection to a client.</span>
+    <span class="doccomment">/// Initializes a connection with a client.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The `data` parameter contains data that will be associated with the client.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -842,6 +914,11 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// To ensure state coherence of the protocol, the created object should be immediately</span>
     <span class="doccomment">/// sent as a &quot;New ID&quot; argument in an event to the client.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Panics</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This method will panic if the type parameter `D` is not same to the same type as the</span>
+    <span class="doccomment">/// one the backend was initialized with.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_object</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
@@ -853,17 +930,11 @@
         <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">create_object</span>(<span class="ident">client_id</span>.<span class="ident">id</span>, <span class="ident">interface</span>, <span class="ident">version</span>, <span class="ident">data</span>)
     }
 
-    <span class="doccomment">/// Returns an object id that represents a null object.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">null_id</span>() -&gt; <span class="ident">ObjectId</span> {
-        <span class="ident">server_impl::InnerHandle::null_id</span>()
-    }
-
     <span class="doccomment">/// Send an event to the client</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Returns an error if the sender ID of the provided message is no longer valid.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// **Panic:**</span>
+    <span class="doccomment">/// # Panics</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Checks against the protocol specification are done, and this method will panic if they do</span>
     <span class="doccomment">/// not pass:</span>
@@ -876,6 +947,9 @@
     }
 
     <span class="doccomment">/// Returns the data associated with an object.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// **Panic:** This method will panic if the type parameter `D` is not same to the same type as the</span>
+    <span class="doccomment">/// one the backend was initialized with.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_object_data</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
@@ -884,7 +958,7 @@
         <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">get_object_data</span>(<span class="ident">id</span>.<span class="ident">id</span>)
     }
 
-    <span class="doccomment">/// Returns the data associated with an object as `dyn Any`</span>
+    <span class="doccomment">/// Returns the data associated with an object as a `dyn Any`</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_object_data_any</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
@@ -894,6 +968,9 @@
     }
 
     <span class="doccomment">/// Sets the data associated with some object.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// **Panic:** This method will panic if the type parameter `D` is not same to the same type as the</span>
+    <span class="doccomment">/// one the backend was initialized with.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_object_data</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
@@ -903,7 +980,7 @@
         <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">set_object_data</span>(<span class="ident">id</span>.<span class="ident">id</span>, <span class="ident">data</span>)
     }
 
-    <span class="doccomment">/// Posts an error on an object. This will also disconnect the client which created the object.</span>
+    <span class="doccomment">/// Posts a protocol error on an object. This will also disconnect the client which created the object.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">post_error</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">object_id</span>: <span class="ident">ObjectId</span>, <span class="ident">error_code</span>: <span class="ident">u32</span>, <span class="ident">message</span>: <span class="ident">CString</span>) {
         <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">post_error</span>(<span class="ident">object_id</span>.<span class="ident">id</span>, <span class="ident">error_code</span>, <span class="ident">message</span>)
@@ -920,6 +997,9 @@
     <span class="doccomment">/// Creates a global of the specified interface and version and then advertises it to clients.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The clients which the global is advertised to is determined by the implementation of the [`GlobalHandler`].</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// **Panic:** This method will panic if the type parameter `D` is not same to the same type as the</span>
+    <span class="doccomment">/// one the backend was initialized with.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_global</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
@@ -932,25 +1012,38 @@
 
     <span class="doccomment">/// Disables a global object that is currently active.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// The global removal will be signaled to all currently connected clients. New clients will not know of the global,</span>
-    <span class="doccomment">/// but the associated state and callbacks will not be freed. As such, clients that still try to bind the global</span>
-    <span class="doccomment">/// afterwards (because they have not yet realized it was removed) will succeed.</span>
+    <span class="doccomment">/// The global removal will be signaled to all currently connected clients. New clients will not know of</span>
+    <span class="doccomment">/// the global, but the associated state and callbacks will not be freed. As such, clients that still try</span>
+    <span class="doccomment">/// to bind the global afterwards (because they have not yet realized it was removed) will succeed.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Invoking this method on an already disabled or removed global does nothing. It is not possible to</span>
+    <span class="doccomment">/// re-enable a disabled global, this method is meant to be invoked some time before actually removing</span>
+    <span class="doccomment">/// the global, to avoid killing clients because of a race.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// **Panic:** This method will panic if the type parameter `D` is not same to the same type as the</span>
+    <span class="doccomment">/// one the backend was initialized with.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">disable_global</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">GlobalId</span>) {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">disable_global</span>(<span class="ident">id</span>.<span class="ident">id</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">disable_global</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">GlobalId</span>) {
+        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">disable_global</span>::<span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">id</span>.<span class="ident">id</span>)
     }
 
     <span class="doccomment">/// Removes a global object and free its ressources.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// The global object will no longer be considered valid by the server, clients trying to bind it will be killed,</span>
-    <span class="doccomment">/// and the global ID is freed for re-use.</span>
+    <span class="doccomment">/// The global object will no longer be considered valid by the server, clients trying to bind it will be</span>
+    <span class="doccomment">/// killed, and the global ID is freed for re-use.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// It is advised to first disable a global and wait some amount of time before removing it, to ensure all clients</span>
-    <span class="doccomment">/// are correctly aware of its removal. Note that clients will generally not expect globals that represent a capability</span>
-    <span class="doccomment">/// of the server to be removed, as opposed to globals representing peripherals (like `wl_output` or `wl_seat`).</span>
+    <span class="doccomment">/// It is advised to first disable a global and wait some amount of time before removing it, to ensure all</span>
+    <span class="doccomment">/// clients are correctly aware of its removal. Note that clients will generally not expect globals that</span>
+    <span class="doccomment">/// represent a capability of the server to be removed, as opposed to globals representing peripherals</span>
+    <span class="doccomment">/// (like `wl_output` or `wl_seat`).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This methods does nothing if the provided `GlobalId` corresponds to an already removed global.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// **Panic:** This method will panic if the type parameter `D` is not same to the same type as the</span>
+    <span class="doccomment">/// one the backend was initialized with.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_global</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">GlobalId</span>) {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">remove_global</span>(<span class="ident">id</span>.<span class="ident">id</span>)
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_global</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">GlobalId</span>) {
+        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">remove_global</span>::<span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">id</span>.<span class="ident">id</span>)
     }
 
     <span class="doccomment">/// Returns information about a global.</span>
@@ -1020,8 +1113,13 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// The provided `data` will be provided to the handler of messages received from the client.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// For performance reasons, use of this function should be integrated with an event loop, monitoring the</span>
-    <span class="doccomment">/// file descriptor associated with the client and only calling this method when messages are available.</span>
+    <span class="doccomment">/// For performance reasons, use of this function should be integrated with an event loop, monitoring</span>
+    <span class="doccomment">/// the file descriptor associated with the client and only calling this method when messages are</span>
+    <span class="doccomment">/// available.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// **Note:** This functionality is currently only available on the rust backend, invoking this method on</span>
+    <span class="doccomment">/// the system backend will do the same as invoking</span>
+    <span class="doccomment">/// [`Backend::dispatch_all_clients()`](Backend::dispatch_all_clients).</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch_single_client</span>(
         <span class="kw-2">&amp;mut</span> <span class="self">self</span>,

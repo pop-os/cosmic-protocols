@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-client-0.30.0-beta.7/src/event_queue.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>event_queue.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-client-0.30.0-beta.8/src/event_queue.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>event_queue.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><script defer src="../../main.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script>
     <noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_client/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
         </a><h2 class="location"></h2>
     </nav>
@@ -626,6 +626,147 @@
 <span id="621">621</span>
 <span id="622">622</span>
 <span id="623">623</span>
+<span id="624">624</span>
+<span id="625">625</span>
+<span id="626">626</span>
+<span id="627">627</span>
+<span id="628">628</span>
+<span id="629">629</span>
+<span id="630">630</span>
+<span id="631">631</span>
+<span id="632">632</span>
+<span id="633">633</span>
+<span id="634">634</span>
+<span id="635">635</span>
+<span id="636">636</span>
+<span id="637">637</span>
+<span id="638">638</span>
+<span id="639">639</span>
+<span id="640">640</span>
+<span id="641">641</span>
+<span id="642">642</span>
+<span id="643">643</span>
+<span id="644">644</span>
+<span id="645">645</span>
+<span id="646">646</span>
+<span id="647">647</span>
+<span id="648">648</span>
+<span id="649">649</span>
+<span id="650">650</span>
+<span id="651">651</span>
+<span id="652">652</span>
+<span id="653">653</span>
+<span id="654">654</span>
+<span id="655">655</span>
+<span id="656">656</span>
+<span id="657">657</span>
+<span id="658">658</span>
+<span id="659">659</span>
+<span id="660">660</span>
+<span id="661">661</span>
+<span id="662">662</span>
+<span id="663">663</span>
+<span id="664">664</span>
+<span id="665">665</span>
+<span id="666">666</span>
+<span id="667">667</span>
+<span id="668">668</span>
+<span id="669">669</span>
+<span id="670">670</span>
+<span id="671">671</span>
+<span id="672">672</span>
+<span id="673">673</span>
+<span id="674">674</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+<span id="681">681</span>
+<span id="682">682</span>
+<span id="683">683</span>
+<span id="684">684</span>
+<span id="685">685</span>
+<span id="686">686</span>
+<span id="687">687</span>
+<span id="688">688</span>
+<span id="689">689</span>
+<span id="690">690</span>
+<span id="691">691</span>
+<span id="692">692</span>
+<span id="693">693</span>
+<span id="694">694</span>
+<span id="695">695</span>
+<span id="696">696</span>
+<span id="697">697</span>
+<span id="698">698</span>
+<span id="699">699</span>
+<span id="700">700</span>
+<span id="701">701</span>
+<span id="702">702</span>
+<span id="703">703</span>
+<span id="704">704</span>
+<span id="705">705</span>
+<span id="706">706</span>
+<span id="707">707</span>
+<span id="708">708</span>
+<span id="709">709</span>
+<span id="710">710</span>
+<span id="711">711</span>
+<span id="712">712</span>
+<span id="713">713</span>
+<span id="714">714</span>
+<span id="715">715</span>
+<span id="716">716</span>
+<span id="717">717</span>
+<span id="718">718</span>
+<span id="719">719</span>
+<span id="720">720</span>
+<span id="721">721</span>
+<span id="722">722</span>
+<span id="723">723</span>
+<span id="724">724</span>
+<span id="725">725</span>
+<span id="726">726</span>
+<span id="727">727</span>
+<span id="728">728</span>
+<span id="729">729</span>
+<span id="730">730</span>
+<span id="731">731</span>
+<span id="732">732</span>
+<span id="733">733</span>
+<span id="734">734</span>
+<span id="735">735</span>
+<span id="736">736</span>
+<span id="737">737</span>
+<span id="738">738</span>
+<span id="739">739</span>
+<span id="740">740</span>
+<span id="741">741</span>
+<span id="742">742</span>
+<span id="743">743</span>
+<span id="744">744</span>
+<span id="745">745</span>
+<span id="746">746</span>
+<span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
+<span id="754">754</span>
+<span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
+<span id="764">764</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::convert::Infallible</span>;
 <span class="kw">use</span> <span class="ident">std::pin::Pin</span>;
 <span class="kw">use</span> <span class="ident">std::sync</span>::{
@@ -644,20 +785,105 @@
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">conn::SyncData</span>, <span class="ident">Connection</span>, <span class="ident">DispatchError</span>, <span class="ident">Proxy</span>};
 
-<span class="doccomment">/// A trait which provides an implementation for handling events from the server on a proxy with some type of</span>
-<span class="doccomment">/// associated user data.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Proxy</span>, <span class="ident">UserData</span><span class="op">&gt;</span>: <span class="ident">Sized</span> {
-    <span class="doccomment">/// Called when an event from the server is processed.</span>
+<span class="doccomment">/// A trait providing an implementation for handling events a proxy through an [`EventQueue`].</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ## General usage</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// You need to implement this trait on your `State` for every type of Wayland object that will be processed</span>
+<span class="doccomment">/// by the [`EventQueue`] working with your `State`.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// You can have different implementations of the trait for the same interface but different `UserData` type,</span>
+<span class="doccomment">/// this way the events for a given object will be processed by the adequate implementation depending on</span>
+<span class="doccomment">/// which `UserData` was assigned to it at creation.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The way this trait works is that the [`Dispatch::event()`] method will be invoked by the event queue for</span>
+<span class="doccomment">/// every event received by an object associated to this event queue. Your implementation can then match on</span>
+<span class="doccomment">/// the associated [`Proxy::Event`] enum and do any processing needed with that event.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// In the rare case of an interface with *events* creating new objects (in the core protocol, the only</span>
+<span class="doccomment">/// instance of this is the `wl_data_device.data_offer` event), you&#39;ll need to implement the</span>
+<span class="doccomment">/// [`Dispatch::event_created_child()`] method. See the [`event_created_child!`](event_created_child!) macro</span>
+<span class="doccomment">/// for a simple way to do this.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ## Modularity</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// To provide generic handlers for downstream usage, it is possible to make an implementation of the trait</span>
+<span class="doccomment">/// that is generic over the last type argument, as illustrated below. Users will then be able to</span>
+<span class="doccomment">/// automatically delegate their implementation to yours using the [`delegate_dispatch!`] macro.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// As a result, when your implementation is instanciated, the last type parameter `State` will be the state</span>
+<span class="doccomment">/// struct of the app using your generic implementation. You can put additional trait constraints on it to</span>
+<span class="doccomment">/// specify an interface between your module and downstream code, as illustrated in this example:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// # // Maintainers: If this example changes, please make sure you also carry those changes over to the delegate_dispatch macro.</span>
+<span class="doccomment">/// use wayland_client::{protocol::wl_registry, Dispatch};</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// /// The type we want to delegate to</span>
+<span class="doccomment">/// struct DelegateToMe;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// /// The user data relevant for your implementation.</span>
+<span class="doccomment">/// /// When providing delegate implementation, it is recommended to use your own type here, even if it is</span>
+<span class="doccomment">/// /// just a unit struct: using () would cause a risk of clashing with an other such implementation.</span>
+<span class="doccomment">/// struct MyUserData;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// // Now a generic implementation of Dispatch, we are generic over the last type argument instead of using</span>
+<span class="doccomment">/// // the default State=Self.</span>
+<span class="doccomment">/// impl&lt;State&gt; Dispatch&lt;wl_registry::WlRegistry, MyUserData, State&gt; for DelegateToMe</span>
+<span class="doccomment">/// where</span>
+<span class="doccomment">///     // State is the type which has delegated to this type, so it needs to have an impl of Dispatch itself</span>
+<span class="doccomment">///     State: Dispatch&lt;wl_registry::WlRegistry, MyUserData&gt;,</span>
+<span class="doccomment">///     // If your delegate type has some internal state, it&#39;ll need to access it, and you can</span>
+<span class="doccomment">///     // require it by adding custom trait bounds.</span>
+<span class="doccomment">///     // In this example, we just require an AsMut implementation</span>
+<span class="doccomment">///     State: AsMut&lt;DelegateToMe&gt;,</span>
+<span class="doccomment">/// {</span>
+<span class="doccomment">///     fn event(</span>
+<span class="doccomment">///         state: &amp;mut State,</span>
+<span class="doccomment">///         _proxy: &amp;wl_registry::WlRegistry,</span>
+<span class="doccomment">///         _event: wl_registry::Event,</span>
+<span class="doccomment">///         _udata: &amp;MyUserData,</span>
+<span class="doccomment">///         _conn: &amp;wayland_client::Connection,</span>
+<span class="doccomment">///         _qhandle: &amp;wayland_client::QueueHandle&lt;State&gt;,</span>
+<span class="doccomment">///     ) {</span>
+<span class="doccomment">///         // Here the delegate may handle incoming events as it pleases.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///         // For example, it retrives its state and does some processing with it</span>
+<span class="doccomment">///         let me: &amp;mut DelegateToMe = state.as_mut();</span>
+<span class="doccomment">///         // do something with `me` ...</span>
+<span class="doccomment">/// #       std::mem::drop(me) // use `me` to avoid a warning</span>
+<span class="doccomment">///     }</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// **Note:** Due to limitations in Rust&#39;s trait resolution algorithm, a type providing a generic</span>
+<span class="doccomment">/// implementation of [`Dispatch`] cannot be used directly as the dispatching state, as rustc</span>
+<span class="doccomment">/// currently fails to understand that it also provides `Dispatch&lt;I, U, Self&gt;` (assuming all other</span>
+<span class="doccomment">/// trait bounds are respected as well).</span>
+<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">UserData</span>, <span class="ident">State</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="self">Self</span>: <span class="ident">Sized</span>,
+    <span class="ident">I</span>: <span class="ident">Proxy</span>,
+    <span class="ident">State</span>: <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">UserData</span>, <span class="ident">State</span><span class="op">&gt;</span>,
+{
+    <span class="doccomment">/// Called when an event from the server is processed</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// The implementation of this function may vary depending on protocol requirements. Typically the client</span>
-    <span class="doccomment">/// will respond to the server by sending requests to the proxy.</span>
+    <span class="doccomment">/// This method contains your logic for processing events, which can vary wildly from an object to the</span>
+    <span class="doccomment">/// other. You are given as argument:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// - a proxy representing the object that received this event</span>
+    <span class="doccomment">/// - the event itself as the [`Proxy::Event`] enum (which you&#39;ll need to match against)</span>
+    <span class="doccomment">/// - a reference to the `UserData` that was associated with that object on creation</span>
+    <span class="doccomment">/// - a reference to the [`Connection`] in case you need to access it</span>
+    <span class="doccomment">/// - a reference to a [`QueueHandle`] associated with the [`EventQueue`] currently processing events, in</span>
+    <span class="doccomment">///   case you need to create new objects that you want associated to the same [`EventQueue`].</span>
     <span class="kw">fn</span> <span class="ident">event</span>(
-        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">state</span>: <span class="kw-2">&amp;mut</span> <span class="ident">State</span>,
         <span class="ident">proxy</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
         <span class="ident">event</span>: <span class="ident">I::Event</span>,
         <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">UserData</span>,
         <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="ident">Connection</span>,
-        <span class="ident">qhandle</span>: <span class="kw-2">&amp;</span><span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
+        <span class="ident">qhandle</span>: <span class="kw-2">&amp;</span><span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>,
     );
 
     <span class="doccomment">/// Method used to initialize the user-data of objects created by events</span>
@@ -665,7 +891,7 @@
     <span class="doccomment">/// If the interface does not have any such event, you can ignore it. If not, the</span>
     <span class="doccomment">/// [`event_created_child!`](event_created_child!) macro is provided for overriding it.</span>
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">event_created_child</span>(<span class="ident">opcode</span>: <span class="ident">u16</span>, <span class="ident">_qhandle</span>: <span class="kw-2">&amp;</span><span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) -&gt; <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">event_created_child</span>(<span class="ident">opcode</span>: <span class="ident">u16</span>, <span class="ident">_qhandle</span>: <span class="kw-2">&amp;</span><span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>) -&gt; <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span> {
         <span class="macro">panic!</span>(
             <span class="string">&quot;Missing event_created_child specialization for event opcode {} of {}&quot;</span>,
             <span class="ident">opcode</span>,
@@ -674,15 +900,13 @@
     }
 }
 
-<span class="doccomment">/// Macro used to override [`Dispatch::event_created_child()`](Dispatch::event_created_child)</span>
+<span class="doccomment">/// Macro used to override [`Dispatch::event_created_child()`]</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Use this macro inside the [`Dispatch`] implementation to override this method, to implement the</span>
 <span class="doccomment">/// initialization of the user data for event-created objects. The usage syntax is as follow:</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```ignore</span>
-<span class="doccomment">/// impl Dispatch&lt;WlFoo&gt; for MyState {</span>
-<span class="doccomment">///     type UserData = FooUserData;</span>
-<span class="doccomment">///</span>
+<span class="doccomment">/// impl Dispatch&lt;WlFoo, FooUserData&gt; for MyState {</span>
 <span class="doccomment">///     fn event(</span>
 <span class="doccomment">///         &amp;mut self,</span>
 <span class="doccomment">///         proxy: &amp;WlFoo,</span>
@@ -696,12 +920,14 @@
 <span class="doccomment">///</span>
 <span class="doccomment">///     event_created_child!(MyState, WlFoo, [</span>
 <span class="doccomment">///     // there can be multiple lines if this interface has multiple object-creating event</span>
-<span class="doccomment">///         2 =&gt; (WlBar, BarUserData::new()),</span>
-<span class="doccomment">///     //  ~     ~~~~~  ~~~~~~~~~~~~~~~~~~</span>
-<span class="doccomment">///     //  |       |       |</span>
-<span class="doccomment">///     //  |       |       +-- an expression whose evaluation produces the user data value</span>
-<span class="doccomment">///     //  |       +-- the type of the newly created objecy</span>
-<span class="doccomment">///     //  +-- the opcode of the event that creates a new object</span>
+<span class="doccomment">///         EVT_CREATE_BAR =&gt; (WlBar, BarUserData::new()),</span>
+<span class="doccomment">///     //  ~~~~~~~~~~~~~~     ~~~~~  ~~~~~~~~~~~~~~~~~~</span>
+<span class="doccomment">///     //    |                  |      |</span>
+<span class="doccomment">///     //    |                  |      +-- an expression whose evaluation produces the</span>
+<span class="doccomment">///     //    |                  |          user data value</span>
+<span class="doccomment">///     //    |                  +-- the type of the newly created object</span>
+<span class="doccomment">///     //    +-- the opcode of the event that creates a new object, constants for those are</span>
+<span class="doccomment">///     //        generated alongside the `WlFoo` type in the `wl_foo` module</span>
 <span class="doccomment">///     ]);</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// ```</span>
@@ -726,17 +952,17 @@
     }
 }
 
-<span class="kw">type</span> <span class="ident">QueueCallback</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> <span class="op">=</span> <span class="kw">fn</span>(
+<span class="kw">type</span> <span class="ident">QueueCallback</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> <span class="op">=</span> <span class="kw">fn</span>(
     <span class="kw-2">&amp;</span><span class="ident">Connection</span>,
     <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>,
-    <span class="kw-2">&amp;mut</span> <span class="ident">D</span>,
+    <span class="kw-2">&amp;mut</span> <span class="ident">State</span>,
     <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>,
-    <span class="kw-2">&amp;</span><span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>,
+    <span class="kw-2">&amp;</span><span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>,
 ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DispatchError</span><span class="op">&gt;</span>;
 
-<span class="kw">struct</span> <span class="ident">QueueEvent</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">QueueCallback</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>, <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>, <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>);
+<span class="kw">struct</span> <span class="ident">QueueEvent</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>(<span class="ident">QueueCallback</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>, <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>, <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>);
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> <span class="ident">std::fmt::Debug</span> <span class="kw">for</span> <span class="ident">QueueEvent</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> <span class="ident">std::fmt::Debug</span> <span class="kw">for</span> <span class="ident">QueueEvent</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;QueueEvent&quot;</span>).<span class="ident">field</span>(<span class="string">&quot;msg&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">1</span>).<span class="ident">finish_non_exhaustive</span>()
@@ -746,20 +972,121 @@
 <span class="doccomment">/// An event queue</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This is an abstraction for handling event dispatching, that allows you to ensure</span>
-<span class="doccomment">/// access to some common state `&amp;mut D` to your event handlers.</span>
+<span class="doccomment">/// access to some common state `&amp;mut State` to your event handlers.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Event queues are created through [`Connection::new_event_queue()`](crate::Connection::new_event_queue).</span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// Upon creation, a wayland object is assigned to an event queue by passing the associated [`QueueHandle`]</span>
-<span class="doccomment">/// as argument to the method creating it. All event received by that object will be processed by that event</span>
+<span class="doccomment">/// as argument to the method creating it. All events received by that object will be processed by that event</span>
 <span class="doccomment">/// queue, when [`dispatch_pending()`](EventQueue::dispatch_pending) or</span>
 <span class="doccomment">/// [`blocking_dispatch()`](EventQueue::blocking_dispatch) is invoked.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EventQueue</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
-    <span class="ident">rx</span>: <span class="ident">UnboundedReceiver</span><span class="op">&lt;</span><span class="ident">QueueEvent</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    <span class="ident">handle</span>: <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>,
+<span class="doccomment">///</span>
+<span class="doccomment">/// ## Usage</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ### Single queue app</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// If your app is simple enough that the only source of event to process is the Wayland socket and you only</span>
+<span class="doccomment">/// need a single event queue, your main loop can be as simple as this:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```rust,no_run</span>
+<span class="doccomment">/// use wayland_client::Connection;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// let connection = Connection::connect_to_env().unwrap();</span>
+<span class="doccomment">/// let mut event_queue = connection.new_event_queue();</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// /*</span>
+<span class="doccomment">///  * Here your initial setup</span>
+<span class="doccomment">///  */</span>
+<span class="doccomment">/// # struct State {</span>
+<span class="doccomment">/// #     exit: bool</span>
+<span class="doccomment">/// # }</span>
+<span class="doccomment">/// # let mut state = State { exit: false };</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// // And the main loop:</span>
+<span class="doccomment">/// while !state.exit {</span>
+<span class="doccomment">///     event_queue.blocking_dispatch(&amp;mut state).unwrap();</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// The [`blocking_dispatch()`](EventQueue::blocking_dispatch) will wait (by putting the thread to sleep)</span>
+<span class="doccomment">/// until there are some events from the server that can be processed, and all your actual app logic can be</span>
+<span class="doccomment">/// done in the callbacks of the [`Dispatch`] implementations, and in the main `loop` after the</span>
+<span class="doccomment">/// `blocking_dispatch()` call.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ### Multi-thread multi-queue app</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// In a case where you app is multithreaded and you want to process events in multiple thread, a simple</span>
+<span class="doccomment">/// pattern is to have one [`EventQueue`] per thread processing Wayland events.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// With this pattern, each thread can use [`EventQueue::blocking_dispatch()`](EventQueue::blocking_dispatch</span>
+<span class="doccomment">/// on its own event loop, and everything will &quot;Just Work&quot;.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ### Single-queue guest library</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// If your code is some library code that will act on a Wayland connection shared by the main program, it is</span>
+<span class="doccomment">/// likely you should not trigger socket reads yourself and instead let the main app take care of it. In this</span>
+<span class="doccomment">/// case, to ensure your [`EventQueue`] still makes progress, you should regularly invoke</span>
+<span class="doccomment">/// [`EventQueue::dispatch_pending()`](EventQueue::dispatch_pending) which will process the events that were</span>
+<span class="doccomment">/// enqueued in the inner buffer of your [`EventQueue`] by the main app reading the socket.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ### Integrating the event queue with other sources of events</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// If your program needs to monitor other sources of events alongside the Wayland socket using a monitoring</span>
+<span class="doccomment">/// system like `epoll`, you can integrate the Wayland socket into this system. This is done with the help</span>
+<span class="doccomment">/// of the [`EventQueue::prepare_read()`](EventQueue::prepare_read) method. You event loop will be a bit more</span>
+<span class="doccomment">/// explicit:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```rust,no_run</span>
+<span class="doccomment">/// # use wayland_client::Connection;</span>
+<span class="doccomment">/// # let connection = Connection::connect_to_env().unwrap();</span>
+<span class="doccomment">/// # let mut event_queue = connection.new_event_queue();</span>
+<span class="doccomment">/// # let mut state = ();</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// loop {</span>
+<span class="doccomment">///     // flush the outgoing buffers to ensure that the server does receive the messages</span>
+<span class="doccomment">///     // you&#39;ve sent</span>
+<span class="doccomment">///     event_queue.flush().unwrap();</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     // (this step is only relevant if other threads might be reading the socket as well)</span>
+<span class="doccomment">///     // make sure you don&#39;t have any pending events if the event queue that might have been</span>
+<span class="doccomment">///     // enqueued by other threads reading the socket</span>
+<span class="doccomment">///     event_queue.dispatch_pending(&amp;mut state).unwrap();</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     // This puts in place some internal synchronization to prepare for the fact that</span>
+<span class="doccomment">///     // you&#39;re going to wait for events on the socket and read them, in case other threads</span>
+<span class="doccomment">///     // are doing the same thing</span>
+<span class="doccomment">///     let read_guard = event_queue.prepare_read().unwrap();</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     /*</span>
+<span class="doccomment">///      * At this point you can invoke epoll(..) to wait for readiness on the multiple FD you</span>
+<span class="doccomment">///      * are working with, and read_guard.connection_fd() will give you the FD to wait on for</span>
+<span class="doccomment">///      * the Wayland connection</span>
+<span class="doccomment">///      */</span>
+<span class="doccomment">/// # let wayland_socket_ready = true;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     if wayland_socket_ready {</span>
+<span class="doccomment">///         // If epoll notified readiness of the Wayland socket, you can now proceed to the read</span>
+<span class="doccomment">///         read_guard.read().unwrap();</span>
+<span class="doccomment">///         // And now, you must invoke dispatch_pending() to actually process the events</span>
+<span class="doccomment">///         event_queue.dispatch_pending(&amp;mut state).unwrap();</span>
+<span class="doccomment">///     } else {</span>
+<span class="doccomment">///         // otherwise, some of your other FD are ready, but you didn&#39;t receive Wayland events,</span>
+<span class="doccomment">///         // you can drop the guard to cancel the read preparation</span>
+<span class="doccomment">///         std::mem::drop(read_guard);</span>
+<span class="doccomment">///     }</span>
+<span class="doccomment">///</span>
+<span class="doccomment">///     /*</span>
+<span class="doccomment">///      * There you process all relevant events from your other event sources</span>
+<span class="doccomment">///      */</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">/// ```</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EventQueue</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
+    <span class="ident">rx</span>: <span class="ident">UnboundedReceiver</span><span class="op">&lt;</span><span class="ident">QueueEvent</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">handle</span>: <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>,
     <span class="ident">conn</span>: <span class="ident">Connection</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> <span class="ident">std::fmt::Debug</span> <span class="kw">for</span> <span class="ident">EventQueue</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> <span class="ident">std::fmt::Debug</span> <span class="kw">for</span> <span class="ident">EventQueue</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;EventQueue&quot;</span>)
@@ -769,14 +1096,14 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> <span class="ident">EventQueue</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> <span class="ident">EventQueue</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">conn</span>: <span class="ident">Connection</span>) -&gt; <span class="self">Self</span> {
         <span class="kw">let</span> (<span class="ident">tx</span>, <span class="ident">rx</span>) <span class="op">=</span> <span class="ident">unbounded</span>();
         <span class="self">Self</span> { <span class="ident">rx</span>, <span class="ident">handle</span>: <span class="ident">QueueHandle</span> { <span class="ident">tx</span> }, <span class="ident">conn</span> }
     }
 
     <span class="doccomment">/// Get a [`QueueHandle`] for this event queue</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">handle</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">handle</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">clone</span>()
     }
 
@@ -786,17 +1113,18 @@
     <span class="doccomment">/// the read APIs on [`Connection`](crate::Connection), or when reading is done from an other thread.</span>
     <span class="doccomment">/// This method will dispatch all such pending events by sequentially invoking their associated handlers:</span>
     <span class="doccomment">/// the [`Dispatch`](crate::Dispatch) implementations on the provided `&amp;mut D`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch_pending</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">DispatchError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch_pending</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">State</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">DispatchError</span><span class="op">&gt;</span> {
         <span class="ident"><span class="self">Self</span>::dispatching_impl</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">conn</span>, <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">rx</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">handle</span>, <span class="ident">data</span>)
     }
 
     <span class="doccomment">/// Block waiting for events and dispatch them</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This method is similar to [`dispatch_pending`](EventQueue::dispatch_pending), but if there are no</span>
-    <span class="doccomment">/// pending events it will also block waiting for the Wayland server to send an event.</span>
+    <span class="doccomment">/// pending events it will also flush the connection and block waiting for the Wayland server to send an</span>
+    <span class="doccomment">/// event.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// A simple app event loop can consist of invoking this method in a loop.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">blocking_dispatch</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">DispatchError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">blocking_dispatch</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">State</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">DispatchError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">dispatched</span> <span class="op">=</span> <span class="ident"><span class="self">Self</span>::dispatching_impl</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">conn</span>, <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">rx</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">handle</span>, <span class="ident">data</span>)<span class="question-mark">?</span>;
         <span class="kw">if</span> <span class="ident">dispatched</span> <span class="op">&gt;</span> <span class="number">0</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">dispatched</span>)
@@ -811,9 +1139,9 @@
     <span class="doccomment">/// This function will cause a synchronous round trip with the wayland server. This function will block</span>
     <span class="doccomment">/// until all requests in the queue are sent and processed by the server.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// This function may be useful during initial setup with the compositor. This function may also be useful</span>
+    <span class="doccomment">/// This function may be useful during initial setup of your app. This function may also be useful</span>
     <span class="doccomment">/// where you need to guarantee all requests prior to calling this function are completed.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">sync_roundtrip</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">DispatchError</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">roundtrip</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">State</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">DispatchError</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">done</span> <span class="op">=</span> <span class="ident">Arc::new</span>(<span class="ident">AtomicBool::new</span>(<span class="bool-val">false</span>));
 
         {
@@ -841,12 +1169,14 @@
     <span class="doccomment">/// Start a synchronized read from the socket</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is needed if you plan to wait on readiness of the Wayland socket using an event</span>
-    <span class="doccomment">/// loop. See [`ReadEventsGuard`] for details. Once the events are received, you&#39;ll then</span>
-    <span class="doccomment">/// need to dispatch them from the event queue using</span>
+    <span class="doccomment">/// loop. See the [`EventQueue`] and [`ReadEventsGuard`] docs for details. Once the events are received,</span>
+    <span class="doccomment">/// you&#39;ll then need to dispatch them from the event queue using</span>
     <span class="doccomment">/// [`EventQueue::dispatch_pending()`](EventQueue::dispatch_pending).</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// If you don&#39;t need to manage multiple event sources, see</span>
     <span class="doccomment">/// [`blocking_dispatch()`](EventQueue::blocking_dispatch) for a simpler mechanism.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This method is identical to [`Connection::prepare_read()`].</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">prepare_read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ReadEventsGuard</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">conn</span>.<span class="ident">prepare_read</span>()
     }
@@ -854,18 +1184,26 @@
     <span class="doccomment">/// Flush pending outgoing events to the server</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This needs to be done regularly to ensure the server receives all your requests.</span>
+    <span class="doccomment">/// /// This method is identical to [`Connection::flush()`].</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">WaylandError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">conn</span>.<span class="ident">flush</span>()
     }
 
     <span class="kw">fn</span> <span class="ident">dispatching_impl</span>(
         <span class="ident">backend</span>: <span class="kw-2">&amp;</span><span class="ident">Connection</span>,
-        <span class="ident">rx</span>: <span class="kw-2">&amp;mut</span> <span class="ident">UnboundedReceiver</span><span class="op">&lt;</span><span class="ident">QueueEvent</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-        <span class="ident">qhandle</span>: <span class="kw-2">&amp;</span><span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>,
-        <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>,
+        <span class="ident">rx</span>: <span class="kw-2">&amp;mut</span> <span class="ident">UnboundedReceiver</span><span class="op">&lt;</span><span class="ident">QueueEvent</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="ident">qhandle</span>: <span class="kw-2">&amp;</span><span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>,
+        <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">State</span>,
     ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">DispatchError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dispatched</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="comment">// This call will most of the time do nothing, but ensure that if the Connection is in guest mode</span>
+        <span class="comment">// from some external connection, only invoking `EventQueue::dispatch_pending()` will be enough to</span>
+        <span class="comment">// process the events assuming the host program already takes care of reading the socket.</span>
+        <span class="comment">//</span>
+        <span class="comment">// We purposefully ignore the possible error, as that would make us early return in a way that might</span>
+        <span class="comment">// lose events, and the potential socket error will be caught in other places anyway.</span>
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">backend</span>.<span class="ident">backend</span>.<span class="ident">dispatch_inner_queue</span>();
 
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dispatched</span> <span class="op">=</span> <span class="number">0</span>;
         <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">QueueEvent</span>(<span class="ident">cb</span>, <span class="ident">msg</span>, <span class="ident">odata</span>))) <span class="op">=</span> <span class="ident">rx</span>.<span class="ident">try_next</span>() {
             <span class="ident">cb</span>(<span class="ident">backend</span>, <span class="ident">msg</span>, <span class="ident">data</span>, <span class="ident">odata</span>, <span class="ident">qhandle</span>)<span class="question-mark">?</span>;
             <span class="ident">dispatched</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
@@ -921,9 +1259,12 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">poll_dispatch_pending</span>(
         <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
         <span class="ident">cx</span>: <span class="kw-2">&amp;mut</span> <span class="ident">task::Context</span>,
-        <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>,
+        <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">State</span>,
     ) -&gt; <span class="ident">task::Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Infallible</span>, <span class="ident">DispatchError</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">loop</span> {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">conn</span>.<span class="ident">backend</span>.<span class="ident">dispatch_inner_queue</span>() {
+                <span class="kw">return</span> <span class="ident">task::Poll::Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>()));
+            }
             <span class="kw">match</span> <span class="ident">Pin::new</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">rx</span>).<span class="ident">poll_next</span>(<span class="ident">cx</span>) {
                 <span class="ident">task::Poll::Pending</span> =&gt; <span class="kw">return</span> <span class="ident">task::Poll::Pending</span>,
                 <span class="ident">task::Poll::Ready</span>(<span class="prelude-val">None</span>) =&gt; {
@@ -940,41 +1281,41 @@
 }
 
 <span class="doccomment">/// A handle representing an [`EventQueue`], used to assign objects upon creation.</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
-    <span class="ident">tx</span>: <span class="ident">UnboundedSender</span><span class="op">&lt;</span><span class="ident">QueueEvent</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
+    <span class="ident">tx</span>: <span class="ident">UnboundedSender</span><span class="op">&lt;</span><span class="ident">QueueEvent</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Data</span><span class="op">&gt;</span> <span class="ident">std::fmt::Debug</span> <span class="kw">for</span> <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">Data</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> <span class="ident">std::fmt::Debug</span> <span class="kw">for</span> <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;QueueHandle&quot;</span>).<span class="ident">field</span>(<span class="string">&quot;tx&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">tx</span>).<span class="ident">finish</span>()
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Data</span><span class="op">&gt;</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">Data</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">tx</span>: <span class="self">self</span>.<span class="ident">tx</span>.<span class="ident">clone</span>() }
     }
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">QueueSender</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
-    <span class="ident">func</span>: <span class="ident">QueueCallback</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">handle</span>: <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>,
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">QueueSender</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
+    <span class="ident">func</span>: <span class="ident">QueueCallback</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">handle</span>: <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait</span> <span class="ident">ErasedQueueSender</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">send</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>, <span class="ident">odata</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>);
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Proxy</span>, <span class="ident">D</span><span class="op">&gt;</span> <span class="ident">ErasedQueueSender</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">QueueSender</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Proxy</span>, <span class="ident">State</span><span class="op">&gt;</span> <span class="ident">ErasedQueueSender</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">QueueSender</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">send</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>, <span class="ident">odata</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>) {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">tx</span>.<span class="ident">unbounded_send</span>(<span class="ident">QueueEvent</span>(<span class="self">self</span>.<span class="ident">func</span>, <span class="ident">msg</span>, <span class="ident">odata</span>)).<span class="ident">is_err</span>() {
-            <span class="macro">log::error!</span>(<span class="string">&quot;Event received for EventQueue after it was dropped.&quot;</span>);
+            <span class="macro">crate::log_error!</span>(<span class="string">&quot;Event received for EventQueue after it was dropped.&quot;</span>);
         }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span> <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">State</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span> <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Create an object data associated with this event queue</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This creates an implementation of [`ObjectData`] fitting for direct use with `wayland-backend` APIs</span>
@@ -985,10 +1326,10 @@
         <span class="ident">user_data</span>: <span class="ident">U</span>,
     ) -&gt; <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>
     <span class="kw">where</span>
-        <span class="ident">D</span>: <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span>,
+        <span class="ident">State</span>: <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">State</span><span class="op">&gt;</span>,
     {
         <span class="kw">let</span> <span class="ident">sender</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ErasedQueueSender</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span> <span class="op">=</span>
-            <span class="ident">Box::new</span>(<span class="ident">QueueSender</span> { <span class="ident">func</span>: <span class="ident">queue_callback</span>::<span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">D</span><span class="op">&gt;</span>, <span class="ident">handle</span>: <span class="self">self</span>.<span class="ident">clone</span>() });
+            <span class="ident">Box::new</span>(<span class="ident">QueueSender</span> { <span class="ident">func</span>: <span class="ident">queue_callback</span>::<span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">State</span><span class="op">&gt;</span>, <span class="ident">handle</span>: <span class="self">self</span>.<span class="ident">clone</span>() });
 
         <span class="kw">let</span> <span class="ident">has_creating_event</span> <span class="op">=</span>
             <span class="ident">I::interface</span>().<span class="ident">events</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="ident">desc</span><span class="op">|</span> <span class="ident">desc</span>.<span class="ident">child_interface</span>.<span class="ident">is_some</span>());
@@ -1002,7 +1343,7 @@
                             <span class="kw">return</span> <span class="prelude-val">None</span>;
                         }
                         <span class="ident">Argument::NewId</span>(<span class="kw">_</span>) =&gt; {
-                            <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="op">&lt;</span><span class="ident">D</span> <span class="kw">as</span> <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::event_created_child</span>(
+                            <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="op">&lt;</span><span class="ident">State</span> <span class="kw">as</span> <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">State</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::event_created_child</span>(
                                 <span class="ident">msg</span>.<span class="ident">opcode</span>, <span class="kw-2">&amp;</span><span class="ident">qhandle</span>,
                             ));
                         }
@@ -1018,17 +1359,28 @@
     }
 }
 
-<span class="kw">fn</span> <span class="ident">queue_callback</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Proxy</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>, <span class="ident">U</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>, <span class="ident">D</span>: <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
+<span class="kw">fn</span> <span class="ident">queue_callback</span><span class="op">&lt;</span>
+    <span class="ident">I</span>: <span class="ident">Proxy</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="ident">U</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    <span class="ident">State</span>: <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">State</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+<span class="op">&gt;</span>(
     <span class="ident">handle</span>: <span class="kw-2">&amp;</span><span class="ident">Connection</span>,
     <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>,
-    <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>,
+    <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">State</span>,
     <span class="ident">odata</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>,
-    <span class="ident">qhandle</span>: <span class="kw-2">&amp;</span><span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>,
+    <span class="ident">qhandle</span>: <span class="kw-2">&amp;</span><span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>,
 ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DispatchError</span><span class="op">&gt;</span> {
     <span class="kw">let</span> (<span class="ident">proxy</span>, <span class="ident">event</span>) <span class="op">=</span> <span class="ident">I::parse_event</span>(<span class="ident">handle</span>, <span class="ident">msg</span>)<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">proxy_data</span> <span class="op">=</span>
         (<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">odata</span>).<span class="ident">downcast_ref</span>::<span class="op">&lt;</span><span class="ident">QueueProxyData</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;Wrong user_data value for object&quot;</span>);
-    <span class="ident">data</span>.<span class="ident">event</span>(<span class="kw-2">&amp;</span><span class="ident">proxy</span>, <span class="ident">event</span>, <span class="kw-2">&amp;</span><span class="ident">proxy_data</span>.<span class="ident">udata</span>, <span class="ident">handle</span>, <span class="ident">qhandle</span>);
+    <span class="op">&lt;</span><span class="ident">State</span> <span class="kw">as</span> <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">State</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::event</span>(
+        <span class="ident">data</span>,
+        <span class="kw-2">&amp;</span><span class="ident">proxy</span>,
+        <span class="ident">event</span>,
+        <span class="kw-2">&amp;</span><span class="ident">proxy_data</span>.<span class="ident">udata</span>,
+        <span class="ident">handle</span>,
+        <span class="ident">qhandle</span>,
+    );
     <span class="prelude-val">Ok</span>(())
 }
 
@@ -1073,78 +1425,8 @@
  * Dispatch delegation helpers
  */</span>
 
-<span class="doccomment">/// A trait which defines a delegate type to handle some type of proxy.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This trait is useful for building modular handlers of proxies.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ## Usage</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// To explain the trait, let&#39;s implement a delegate for handling the events from [`WlRegistry`](crate::protocol::wl_registry::WlRegistry).</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">/// # // Maintainers: If this example changes, please make sure you also carry those changes over to the delegate_dispatch macro.</span>
-<span class="doccomment">/// use wayland_client::{protocol::wl_registry, DelegateDispatch, Dispatch};</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// /// The type we want to delegate to</span>
-<span class="doccomment">/// struct DelegateToMe;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// // Now implement DelegateDispatch.</span>
-<span class="doccomment">/// // The second parameter specifies which type of user data is associated with the registry.</span>
-<span class="doccomment">/// impl&lt;D&gt; DelegateDispatch&lt;wl_registry::WlRegistry, (), D&gt; for DelegateToMe</span>
-<span class="doccomment">/// where</span>
-<span class="doccomment">///     // `D` is the type which has delegated to this type.</span>
-<span class="doccomment">///     D: Dispatch&lt;wl_registry::WlRegistry, ()&gt;,</span>
-<span class="doccomment">///     // If your delegate type has some internal state, it&#39;ll need to access it, and you can</span>
-<span class="doccomment">///     // require it via an AsMut&lt;_&gt; implementation for example</span>
-<span class="doccomment">///     D: AsMut&lt;DelegateToMe&gt;,</span>
-<span class="doccomment">/// {</span>
-<span class="doccomment">///     fn event(</span>
-<span class="doccomment">///         data: &amp;mut D,</span>
-<span class="doccomment">///         _proxy: &amp;wl_registry::WlRegistry,</span>
-<span class="doccomment">///         _event: wl_registry::Event,</span>
-<span class="doccomment">///         _udata: &amp;(),</span>
-<span class="doccomment">///         _conn: &amp;wayland_client::Connection,</span>
-<span class="doccomment">///         _qhandle: &amp;wayland_client::QueueHandle&lt;D&gt;,</span>
-<span class="doccomment">///     ) {</span>
-<span class="doccomment">///         // Here the delegate may handle incoming events as it pleases.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///         // For example, it retrives its state and does some processing with it</span>
-<span class="doccomment">///         let me: &amp;mut DelegateToMe = data.as_mut();</span>
-<span class="doccomment">///         // do something with `me` ...</span>
-<span class="doccomment">/// #       std::mem::drop(me) // use `me` to avoid a warning</span>
-<span class="doccomment">///     }</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">/// ```</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">DelegateDispatch</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Proxy</span>, <span class="ident">U</span>, <span class="ident">D</span>: <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Called when an event from the server is processed.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The implementation of this function may vary depending on protocol requirements. Typically the client</span>
-    <span class="doccomment">/// will respond to the server by sending requests to the proxy.</span>
-    <span class="kw">fn</span> <span class="ident">event</span>(
-        <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>,
-        <span class="ident">proxy</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>,
-        <span class="ident">event</span>: <span class="ident">I::Event</span>,
-        <span class="ident">udata</span>: <span class="kw-2">&amp;</span><span class="ident">U</span>,
-        <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="ident">Connection</span>,
-        <span class="ident">qhandle</span>: <span class="kw-2">&amp;</span><span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>,
-    );
-
-    <span class="doccomment">/// Method used to initialize the user-data of objects created by events</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the interface does not have any such event, you can ignore it. If not, the</span>
-    <span class="doccomment">/// [`event_created_child!`](event_created_child!) macro is provided for overriding it.</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">event_created_child</span>(<span class="ident">opcode</span>: <span class="ident">u16</span>, <span class="ident">_qhandle</span>: <span class="kw-2">&amp;</span><span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>) -&gt; <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span> {
-        <span class="macro">panic!</span>(
-            <span class="string">&quot;Missing event_created_child specialization for event opcode {} of {}&quot;</span>,
-            <span class="ident">opcode</span>,
-            <span class="ident">I::interface</span>().<span class="ident">name</span>
-        );
-    }
-}
-
-<span class="doccomment">/// A helper macro which delegates a set of [`Dispatch`] implementations for a proxy to some other type which</span>
-<span class="doccomment">/// implements [`DelegateDispatch`] for each proxy.</span>
+<span class="doccomment">/// A helper macro which delegates a set of [`Dispatch`] implementations for proxies to some other type which</span>
+<span class="doccomment">/// provides a generic [`Dispatch`] implementation.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This macro allows more easily delegating smaller parts of the protocol an application may wish to handle</span>
 <span class="doccomment">/// in a modular fashion.</span>
@@ -1152,28 +1434,27 @@
 <span class="doccomment">/// # Usage</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// For example, say you want to delegate events for [`WlRegistry`](crate::protocol::wl_registry::WlRegistry)</span>
-<span class="doccomment">/// to some other type.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// For brevity, we will use the example in the documentation for [`DelegateDispatch`], `DelegateToMe`.</span>
+<span class="doccomment">/// to the struct `DelegateToMe` for the [`Dispatch`] documentatione example.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// use wayland_client::{delegate_dispatch, protocol::wl_registry};</span>
 <span class="doccomment">/// #</span>
-<span class="doccomment">/// # use wayland_client::{DelegateDispatch, Dispatch};</span>
+<span class="doccomment">/// # use wayland_client::Dispatch;</span>
 <span class="doccomment">/// #</span>
 <span class="doccomment">/// # struct DelegateToMe;</span>
+<span class="doccomment">/// # struct MyUserData;</span>
 <span class="doccomment">/// #</span>
-<span class="doccomment">/// # impl&lt;D&gt; DelegateDispatch&lt;wl_registry::WlRegistry, (), D&gt; for DelegateToMe</span>
+<span class="doccomment">/// # impl&lt;State&gt; Dispatch&lt;wl_registry::WlRegistry, MyUserData, State&gt; for DelegateToMe</span>
 <span class="doccomment">/// # where</span>
-<span class="doccomment">/// #     D: Dispatch&lt;wl_registry::WlRegistry, ()&gt; + AsMut&lt;DelegateToMe&gt;,</span>
+<span class="doccomment">/// #     State: Dispatch&lt;wl_registry::WlRegistry, MyUserData&gt; + AsMut&lt;DelegateToMe&gt;,</span>
 <span class="doccomment">/// # {</span>
 <span class="doccomment">/// #     fn event(</span>
-<span class="doccomment">/// #         _data: &amp;mut D,</span>
+<span class="doccomment">/// #         _state: &amp;mut State,</span>
 <span class="doccomment">/// #         _proxy: &amp;wl_registry::WlRegistry,</span>
 <span class="doccomment">/// #         _event: wl_registry::Event,</span>
-<span class="doccomment">/// #         _udata: &amp;(),</span>
+<span class="doccomment">/// #         _udata: &amp;MyUserData,</span>
 <span class="doccomment">/// #         _conn: &amp;wayland_client::Connection,</span>
-<span class="doccomment">/// #         _qhandle: &amp;wayland_client::QueueHandle&lt;D&gt;,</span>
+<span class="doccomment">/// #         _qhandle: &amp;wayland_client::QueueHandle&lt;State&gt;,</span>
 <span class="doccomment">/// #     ) {</span>
 <span class="doccomment">/// #     }</span>
 <span class="doccomment">/// # }</span>
@@ -1186,10 +1467,11 @@
 <span class="doccomment">///     delegate: DelegateToMe,</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// // Use delegate_dispatch to implement Dispatch&lt;wl_registry::WlRegistry&gt; for ExampleApp with unit as the user data.</span>
-<span class="doccomment">/// delegate_dispatch!(ExampleApp: [wl_registry::WlRegistry: ()] =&gt; DelegateToMe);</span>
+<span class="doccomment">/// // Use delegate_dispatch to implement Dispatch&lt;wl_registry::WlRegistry, MyUserData&gt; for ExampleApp</span>
+<span class="doccomment">/// delegate_dispatch!(ExampleApp: [wl_registry::WlRegistry: MyUserData] =&gt; DelegateToMe);</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// // DelegateToMe requires that ExampleApp implements AsMut&lt;DelegateToMe&gt;, so we provide the trait implementation.</span>
+<span class="doccomment">/// // DelegateToMe requires that ExampleApp implements AsMut&lt;DelegateToMe&gt;, so we provide the</span>
+<span class="doccomment">/// // trait implementation.</span>
 <span class="doccomment">/// impl AsMut&lt;DelegateToMe&gt; for ExampleApp {</span>
 <span class="doccomment">///     fn as_mut(&amp;mut self) -&gt; &amp;mut DelegateToMe {</span>
 <span class="doccomment">///         &amp;mut self.delegate</span>
@@ -1203,7 +1485,7 @@
 <span class="doccomment">/// // Assert ExampleApp can Dispatch events for wl_registry</span>
 <span class="doccomment">/// fn assert_is_registry_delegate&lt;T&gt;()</span>
 <span class="doccomment">/// where</span>
-<span class="doccomment">///     T: Dispatch&lt;wl_registry::WlRegistry, ()&gt;,</span>
+<span class="doccomment">///     T: Dispatch&lt;wl_registry::WlRegistry, MyUserData&gt;,</span>
 <span class="doccomment">/// {</span>
 <span class="doccomment">/// }</span>
 <span class="doccomment">///</span>
@@ -1229,21 +1511,21 @@
         $(
             <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Dispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">user_data</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_from</span> {
                 <span class="kw">fn</span> <span class="ident">event</span>(
-                    <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+                    <span class="ident">state</span>: <span class="kw-2">&amp;mut</span> <span class="self">Self</span>,
                     <span class="ident">proxy</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>,
                     <span class="ident">event</span>: <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Proxy</span><span class="op">&gt;</span><span class="ident">::Event</span>,
                     <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">user_data</span>,
                     <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Connection</span>,
                     <span class="ident">qhandle</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::QueueHandle</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
                 ) {
-                    <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_to</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::DelegateDispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">user_data</span>, <span class="self">Self</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::event</span>(<span class="self">self</span>, <span class="ident">proxy</span>, <span class="ident">event</span>, <span class="ident">data</span>, <span class="ident">conn</span>, <span class="ident">qhandle</span>)
+                    <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_to</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Dispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">user_data</span>, <span class="self">Self</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::event</span>(<span class="ident">state</span>, <span class="ident">proxy</span>, <span class="ident">event</span>, <span class="ident">data</span>, <span class="ident">conn</span>, <span class="ident">qhandle</span>)
                 }
 
                 <span class="kw">fn</span> <span class="ident">event_created_child</span>(
                     <span class="ident">opcode</span>: <span class="ident">u16</span>,
                     <span class="ident">qhandle</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::QueueHandle</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
                 ) -&gt; <span class="ident">::std::sync::Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::backend::ObjectData</span><span class="op">&gt;</span> {
-                    <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_to</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::DelegateDispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">user_data</span>, <span class="self">Self</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::event_created_child</span>(<span class="ident">opcode</span>, <span class="ident">qhandle</span>)
+                    <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_to</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Dispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">user_data</span>, <span class="self">Self</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::event_created_child</span>(<span class="ident">opcode</span>, <span class="ident">qhandle</span>)
                 }
             }
         )<span class="op">*</span>

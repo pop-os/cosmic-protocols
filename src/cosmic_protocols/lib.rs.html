@@ -44,6 +44,18 @@
 <span id="39">39</span>
 <span id="40">40</span>
 <span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
 </pre><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: GPL-3.0-only</span>
 
 <span class="doccomment">//! This crate provides bindings to the COSMIC wayland protocol extensions.</span>
@@ -70,6 +82,18 @@
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./unstable/cosmic-toplevel-info-unstable-v1.xml&quot;</span>,
             [<span class="ident"><span class="kw">crate</span>::workspace::v1</span>]
+        );
+    }
+}
+
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">toplevel_management</span> {
+    <span class="doccomment">//! Receive information about toplevel surfaces.</span>
+
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">v1</span> {
+        <span class="macro">wayland_protocol!</span>(
+            <span class="string">&quot;./unstable/cosmic-toplevel-management-unstable-v1.xml&quot;</span>,
+            [<span class="ident"><span class="kw">crate</span>::toplevel_info::v1</span>]
         );
     }
 }

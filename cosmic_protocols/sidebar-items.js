@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["toplevel_info","Receive information about toplevel surfaces."],["workspace","Receive information about and control workspaces."]]});
+initSidebarItems({"mod":[["toplevel_info","Receive information about toplevel surfaces."],["toplevel_management","Receive information about toplevel surfaces."],["workspace","Receive information about and control workspaces."]]});

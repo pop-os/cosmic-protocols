@@ -29,7 +29,7 @@ pub mod toplevel_info {
 }
 
 pub mod toplevel_management {
-    //! Receive information about toplevel surfaces.
+    //! Modify state toplevel surfaces.
 
     #[allow(missing_docs)]
     pub mod v1 {

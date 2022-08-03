@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["toplevel_info","Receive information about toplevel surfaces."],["toplevel_management","Receive information about toplevel surfaces."],["workspace","Receive information about and control workspaces."]]});
+initSidebarItems({"mod":[["export_dmabuf","Low overhead capture interface."],["toplevel_info","Receive information about toplevel surfaces."],["toplevel_management","Modify state toplevel surfaces."],["workspace","Receive information about and control workspaces."]]});

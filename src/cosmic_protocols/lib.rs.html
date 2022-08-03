@@ -56,6 +56,18 @@
 <span id="51">51</span>
 <span id="52">52</span>
 <span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
 </pre><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: GPL-3.0-only</span>
 
 <span class="doccomment">//! This crate provides bindings to the COSMIC wayland protocol extensions.</span>
@@ -74,6 +86,18 @@
 <span class="attribute">#[<span class="ident">macro_use</span>]</span>
 <span class="kw">mod</span> <span class="ident">protocol_macro</span>;
 
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">export_dmabuf</span> {
+    <span class="doccomment">//! Low overhead capture interface.</span>
+
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">v1</span> {
+        <span class="macro">wayland_protocol!</span>(
+            <span class="string">&quot;./unstable/cosmic-export-dmabuf-unstable-v1.xml&quot;</span>,
+            [<span class="ident"><span class="kw">crate</span>::workspace::v1</span>, <span class="ident"><span class="kw">crate</span>::toplevel_info::v1</span>]
+        );
+    }
+}
+
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">toplevel_info</span> {
     <span class="doccomment">//! Receive information about toplevel surfaces.</span>
 
@@ -87,7 +111,7 @@
 }
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">toplevel_management</span> {
-    <span class="doccomment">//! Receive information about toplevel surfaces.</span>
+    <span class="doccomment">//! Modify state toplevel surfaces.</span>
 
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
     <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">v1</span> {
@@ -110,5 +134,5 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="cosmic_protocols" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0 (a8314ef7d 2022-06-27)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="cosmic_protocols" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.1 (e092d0b6b 2022-07-16)" ></div>
 </body></html>

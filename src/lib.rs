@@ -16,6 +16,18 @@
 #[macro_use]
 mod protocol_macro;
 
+pub mod export_dmabuf {
+    //! Low overhead capture interface.
+
+    #[allow(missing_docs)]
+    pub mod v1 {
+        wayland_protocol!(
+            "./unstable/cosmic-export-dmabuf-unstable-v1.xml",
+            [crate::workspace::v1, crate::toplevel_info::v1]
+        );
+    }
+}
+
 pub mod toplevel_info {
     //! Receive information about toplevel surfaces.
 
@@ -29,7 +41,7 @@ pub mod toplevel_info {
 }
 
 pub mod toplevel_management {
-    //! Receive information about toplevel surfaces.
+    //! Modify state toplevel surfaces.
 
     #[allow(missing_docs)]
     pub mod v1 {

@@ -55,11 +55,21 @@
     <request name="capture_workspace">
       <description summary="capture a frame from an workspace">
         Capture the next frame of an entire workspace.
+
+        An output must be provided that has previously been associated
+        with the given workspace through an `output_enter` event
+        (see cosmic-workspace-unstable-v1).
+
+        If the provided output is not associated with the workspace at the
+        time this request is send, the compositor will cancel the request
+        with "permanent" until a new association is established, as the arguments
+        are treated as impossible to fulfill at the time of the request.
       </description>
       <arg name="frame" type="new_id" interface="zcosmic_export_dmabuf_frame_v1"/>
       <arg name="overlay_cursor" type="int"
           summary="include custom client hardware cursor on top of the frame"/>
       <arg name="workspace" type="object" interface="zcosmic_workspace_handle_v1"/>
+      <arg name="output" type="object" interface="wl_output"/>
     </request>
 
     <request name="capture_toplevel">

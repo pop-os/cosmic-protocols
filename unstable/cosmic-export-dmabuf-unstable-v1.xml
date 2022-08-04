@@ -116,7 +116,7 @@
           summary="device dev_t value"/>
     </event>
 
-    <enum name="flags">
+    <enum name="flags" bitfield="true">
       <description summary="frame flags">
         Special flags that should be respected by the client.
       </description>

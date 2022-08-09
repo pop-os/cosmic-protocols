@@ -4,17 +4,17 @@ use cosmic_protocols::export_dmabuf::v1::client::{
 use smithay::{
     backend::{
         allocator::{
+            dmabuf::{Dmabuf, DmabufFlags},
             Fourcc, Modifier,
-            {
-                dmabuf::{Dmabuf, DmabufFlags},
-                gbm::GbmDevice,
-            },
         },
         drm::node::DrmNode,
-        egl::{context::EGLContext, display::EGLDisplay},
-        renderer::{gles2::Gles2Renderer, ExportMem, ImportDma, Texture},
+        renderer::{
+            gles2::Gles2Texture,
+            multigpu::{egl::EglGlesBackend, GpuManager},
+            Bind, ExportMem,
+        },
     },
-    utils::{Point, Rectangle},
+    utils::{Point, Rectangle, Size},
 };
 use std::{collections::HashMap, fs, io, os::unix::io::RawFd};
 use wayland_client::{
@@ -198,17 +198,9 @@ fn main() {
         event_queue.blocking_dispatch(&mut app_data).unwrap();
     }
 
-    for (k, v) in app_data.frames {
-        let drm_path = v.node.as_ref().unwrap().dev_path().unwrap();
-        let drm_file = fs::File::options()
-            .read(true)
-            .write(true)
-            .open(drm_path)
-            .unwrap();
-        let gbm = GbmDevice::new(drm_file).unwrap();
-        let display = EGLDisplay::new(&gbm, None).unwrap();
-        let context = EGLContext::new(&display, None).unwrap();
+    let mut gpu_manager = GpuManager::new(EglGlesBackend, None).unwrap();
 
+    for (k, v) in app_data.frames {
         let mut builder = Dmabuf::builder(
             (v.width as i32, v.height as i32),
             v.format.unwrap(),
@@ -225,13 +217,16 @@ fn main() {
         }
         let dmabuf = builder.build().unwrap();
 
-        let mut renderer = unsafe { Gles2Renderer::new(context, None).unwrap() };
-        let texture = renderer.import_dmabuf(&dmabuf, None).unwrap();
+        let drm_node = v.node.as_ref().unwrap();
+        let mut renderer = gpu_manager
+            .renderer::<Gles2Texture>(drm_node, drm_node)
+            .unwrap();
+        renderer.bind(dmabuf).unwrap();
         let rectangle = Rectangle {
             loc: Point::default(),
-            size: texture.size(),
+            size: Size::from((v.width as i32, v.height as i32)),
         };
-        let mapping = renderer.copy_texture(&texture, rectangle).unwrap();
+        let mapping = renderer.copy_framebuffer(rectangle).unwrap();
         let data = renderer.map_texture(&mapping).unwrap();
 
         let path = format!("{}.png", k);

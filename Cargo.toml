@@ -21,7 +21,7 @@ bitflags = "1.0"
 
 [dev-dependencies]
 png = "0.17.5"
-smithay = { git = "https://github.com/Smithay/smithay" }
+smithay = { git = "https://github.com/Smithay/smithay", rev = "4d1d565", features = ["backend_drm", "backend_egl", "renderer_gl"] }
 
 [features]
 default = ["client", "server"]

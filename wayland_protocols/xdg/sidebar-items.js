@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["shell","XDG Shell protocol"]]});
+window.SIDEBAR_ITEMS = {"mod":[["shell","XDG Shell protocol"]]};

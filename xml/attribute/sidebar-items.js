@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Attribute","A borrowed version of an XML attribute."],["OwnedAttribute","An owned version of an XML attribute."]]});
+window.SIDEBAR_ITEMS = {"struct":[["Attribute","A borrowed version of an XML attribute."],["OwnedAttribute","An owned version of an XML attribute."]]};

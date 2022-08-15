@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["client","Client-side rust implementation of a Wayland protocol backend"],["server","Server-side rust implementation of a Wayland protocol backend"]]});
+window.SIDEBAR_ITEMS = {"mod":[["client","Client-side rust implementation of a Wayland protocol backend"],["server","Server-side rust implementation of a Wayland protocol backend"]]};

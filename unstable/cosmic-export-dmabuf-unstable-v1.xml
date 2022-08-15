@@ -109,7 +109,7 @@
     </description>
 
     <event name="device">
-      <description>
+      <description summary="device node used to allocate the buffer">
         This event denotes which device was used to allocate the given dmabuf.
         Imports on other devices or structures derived from other devices (like EGLDisplays)
         may not be able to import the buffer.

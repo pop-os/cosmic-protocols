@@ -12,16 +12,16 @@ categories = ["gui", "api-bindings"]
 readme = "README.md"
 
 [dependencies]
-wayland-scanner = "0.30.0-beta.8"
-wayland-backend = "0.1.0-beta.8"
-wayland-protocols = "0.30.0-beta.8"
-wayland-client = { version = "0.30.0-beta.8", optional = true }
-wayland-server = { version = "0.30.0-beta.8", optional = true }
+wayland-scanner = "0.30.0-beta.10"
+wayland-backend = "0.1.0-beta.10"
+wayland-protocols = "0.30.0-beta.10"
+wayland-client = { version = "0.30.0-beta.10", optional = true }
+wayland-server = { version = "0.30.0-beta.10", optional = true }
 bitflags = "1.0"
 
 [dev-dependencies]
 png = "0.17.5"
-smithay = { git = "https://github.com/Smithay/smithay", rev = "4d1d565", features = ["backend_drm", "backend_egl", "renderer_gl"] }
+smithay = { git = "https://github.com/Smithay/smithay", rev = "625cbca5", default-features = false, features = ["backend_drm", "backend_egl", "renderer_gl", "renderer_multi"] }
 
 [features]
 default = ["client", "server"]

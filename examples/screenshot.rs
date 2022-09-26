@@ -16,15 +16,15 @@ use smithay::{
     },
     utils::{Point, Rectangle, Size},
 };
-use std::{collections::HashMap, fs, io, os::unix::io::RawFd};
+use std::{collections::HashMap, fs, io, os::unix::io::OwnedFd};
 use wayland_client::{
     protocol::{wl_output, wl_registry},
     Connection, Dispatch, QueueHandle,
 };
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 struct Object {
-    fd: RawFd,
+    fd: OwnedFd,
     index: u32,
     offset: u32,
     stride: u32,
@@ -73,13 +73,10 @@ impl Dispatch<wl_registry::WlRegistry, ()> for AppData {
                             1,
                             qh,
                             (),
-                        )
-                        .unwrap());
+                        ));
                 }
                 "wl_output" => {
-                    registry
-                        .bind::<wl_output::WlOutput, _, _>(name, 4, qh, ())
-                        .unwrap();
+                    registry.bind::<wl_output::WlOutput, _, _>(name, 4, qh, ());
                 }
                 _ => {}
             }
@@ -180,7 +177,7 @@ fn main() {
     let display = conn.display();
     let mut event_queue = conn.new_event_queue();
     let qh = event_queue.handle();
-    let _registry = display.get_registry(&qh, ()).unwrap();
+    let _registry = display.get_registry(&qh, ());
 
     let mut app_data = AppData::default();
 
@@ -189,9 +186,7 @@ fn main() {
 
     let manager = app_data.export_dmabuf_manager.as_ref().unwrap();
     for (output, name) in &app_data.outputs {
-        manager
-            .capture_output(0, output, &qh, name.clone())
-            .unwrap();
+        manager.capture_output(0, output, &qh, name.clone());
     }
 
     while app_data.frames.values().filter(|x| x.ready).count() < app_data.outputs.len() {

@@ -1,10 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.8/src/rs/server_impl/client.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>client.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../wayland_backend/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><div id="settings-menu" tabindex="-1">
-                                <a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.10/src/rs/server_impl/client.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>client.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../wayland_backend/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -733,12 +727,10 @@
 <span id="727">727</span>
 <span id="728">728</span>
 <span id="729">729</span>
+<span id="730">730</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">ffi::CString</span>,
-    <span class="ident">os::unix</span>::{
-        <span class="ident">io</span>::{<span class="ident">FromRawFd</span>, <span class="ident">IntoRawFd</span>},
-        <span class="ident">net::UnixStream</span>,
-    },
+    <span class="ident">os::unix</span>::{<span class="ident">io::RawFd</span>, <span class="ident">net::UnixStream</span>},
     <span class="ident">sync::Arc</span>,
 };
 
@@ -752,6 +744,7 @@
     <span class="ident">types::server</span>::{<span class="ident">DisconnectReason</span>, <span class="ident">InvalidId</span>},
 };
 
+<span class="kw">use</span> <span class="ident">io_lifetimes::OwnedFd</span>;
 <span class="kw">use</span> <span class="ident">smallvec::SmallVec</span>;
 
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::rs</span>::{
@@ -766,7 +759,7 @@
     <span class="ident">ObjectId</span>, <span class="ident">UninitObjectData</span>,
 };
 
-<span class="kw">type</span> <span class="ident">ArgSmallVec</span> <span class="op">=</span> <span class="ident">SmallVec</span><span class="op">&lt;</span>[<span class="ident">Argument</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>; <span class="ident">INLINE_ARGS</span>]<span class="op">&gt;</span>;
+<span class="kw">type</span> <span class="ident">ArgSmallVec</span><span class="op">&lt;</span><span class="ident">Fd</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">SmallVec</span><span class="op">&lt;</span>[<span class="ident">Argument</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">Fd</span><span class="op">&gt;</span>; <span class="ident">INLINE_ARGS</span>]<span class="op">&gt;</span>;
 
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">u32</span>)]</span>
 <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
@@ -802,7 +795,7 @@
         <span class="ident">debug</span>: <span class="ident">bool</span>,
         <span class="ident">data</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ClientData</span><span class="op">&gt;</span>,
     ) -&gt; <span class="self">Self</span> {
-        <span class="kw">let</span> <span class="ident">socket</span> <span class="op">=</span> <span class="ident">BufferedSocket::new</span>(<span class="kw">unsafe</span> { <span class="ident">Socket::from_raw_fd</span>(<span class="ident">stream</span>.<span class="ident">into_raw_fd</span>()) });
+        <span class="kw">let</span> <span class="ident">socket</span> <span class="op">=</span> <span class="ident">BufferedSocket::new</span>(<span class="ident">Socket::from</span>(<span class="ident">stream</span>));
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">map</span> <span class="op">=</span> <span class="ident">ObjectMap::new</span>();
         <span class="ident">map</span>.<span class="ident">insert_at</span>(
             <span class="number">1</span>,
@@ -841,7 +834,7 @@
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">send_event</span>(
         <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-        <span class="ident">Message</span> { <span class="ident">sender_id</span>: <span class="ident">object_id</span>, <span class="ident">opcode</span>, <span class="ident">args</span> }: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>,
+        <span class="ident">Message</span> { <span class="ident">sender_id</span>: <span class="ident">object_id</span>, <span class="ident">opcode</span>, <span class="ident">args</span> }: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">RawFd</span><span class="op">&gt;</span>,
         <span class="ident">pending_destructors</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident"><span class="kw">super</span>::handle::PendingDestructor</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">InvalidId</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">killed</span> {
@@ -902,7 +895,7 @@
                         <span class="kw">if</span> <span class="op">!</span><span class="ident">same_interface</span>(<span class="ident">child_interface</span>, <span class="ident">object</span>.<span class="ident">interface</span>) {
                             <span class="macro">panic!</span>(<span class="string">&quot;Event {}@{}.{} expects a newid argument of interface {} but {} was provided instead.&quot;</span>, <span class="ident">object</span>.<span class="ident">interface</span>.<span class="ident">name</span>, <span class="ident">object_id</span>.<span class="ident">id</span>, <span class="ident">message_desc</span>.<span class="ident">name</span>, <span class="ident">child_interface</span>.<span class="ident">name</span>, <span class="ident">object</span>.<span class="ident">interface</span>.<span class="ident">name</span>);
                         }
-                    } <span class="kw">else</span> <span class="kw">if</span> <span class="op">!</span><span class="macro">matches!</span>(<span class="ident">message_desc</span>.<span class="ident">signature</span>[<span class="ident">i</span>], <span class="ident">ArgumentType::NewId</span>(<span class="ident">AllowNull::Yes</span>)) {
+                    } <span class="kw">else</span> <span class="kw">if</span> <span class="op">!</span><span class="macro">matches!</span>(<span class="ident">message_desc</span>.<span class="ident">signature</span>[<span class="ident">i</span>], <span class="ident">ArgumentType::NewId</span>) {
                         <span class="macro">panic!</span>(<span class="string">&quot;Request {}@{}.{} expects an non-null newid argument.&quot;</span>, <span class="ident">object</span>.<span class="ident">interface</span>.<span class="ident">name</span>, <span class="ident">object_id</span>.<span class="ident">id</span>, <span class="ident">message_desc</span>.<span class="ident">name</span>);
                     }
                     <span class="ident">Argument::Object</span>(<span class="ident">o</span>.<span class="ident">id</span>.<span class="ident">id</span>)
@@ -1026,7 +1019,7 @@
         }));
     }
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;linux&quot;</span>)]</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;linux&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;android&quot;</span>))]</span>
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">get_credentials</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Credentials</span> {
         <span class="kw">use</span> <span class="ident">std::os::unix::io::AsRawFd</span>;
         <span class="kw">let</span> <span class="ident">creds</span> <span class="op">=</span> <span class="ident">nix::sys::socket::getsockopt</span>(
@@ -1037,7 +1030,7 @@
         <span class="ident">Credentials</span> { <span class="ident">pid</span>: <span class="ident">creds</span>.<span class="ident">pid</span>(), <span class="ident">uid</span>: <span class="ident">creds</span>.<span class="ident">uid</span>(), <span class="ident">gid</span>: <span class="ident">creds</span>.<span class="ident">gid</span>() }
     }
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;linux&quot;</span>))]</span>
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">any</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;linux&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;android&quot;</span>)))]</span>
     <span class="comment">// for now this only works on linux</span>
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">get_credentials</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Credentials</span> {
         <span class="ident">Credentials</span> { <span class="ident">pid</span>: <span class="number">0</span>, <span class="ident">uid</span>: <span class="number">0</span>, <span class="ident">gid</span>: <span class="number">0</span> }
@@ -1064,7 +1057,10 @@
         })
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">next_request</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">std::io::Result</span><span class="op">&lt;</span>(<span class="ident">Message</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>, <span class="ident">Object</span><span class="op">&lt;</span><span class="ident">Data</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::type_complexity</span>)]</span>
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">next_request</span>(
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+    ) -&gt; <span class="ident">std::io::Result</span><span class="op">&lt;</span>(<span class="ident">Message</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>, <span class="ident">Object</span><span class="op">&lt;</span><span class="ident">Data</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">killed</span> {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">nix::errno::Errno::EPIPE</span>.<span class="ident">into</span>());
         }
@@ -1132,7 +1128,7 @@
 
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">handle_display_request</span>(
         <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-        <span class="ident">message</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
+        <span class="ident">message</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>,
         <span class="ident">registry</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Registry</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>,
     ) {
         <span class="kw">match</span> <span class="ident">message</span>.<span class="ident">opcode</span> {
@@ -1210,7 +1206,7 @@
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::type_complexity</span>)]</span>
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">handle_registry_request</span>(
         <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-        <span class="ident">message</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
+        <span class="ident">message</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>,
         <span class="ident">registry</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Registry</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>,
     ) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">InnerClientId</span>, <span class="ident">InnerGlobalId</span>, <span class="ident">InnerObjectId</span>, <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">GlobalHandler</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="ident">message</span>.<span class="ident">opcode</span> {
@@ -1281,8 +1277,8 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">process_request</span>(
         <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
         <span class="ident">object</span>: <span class="kw-2">&amp;</span><span class="ident">Object</span><span class="op">&lt;</span><span class="ident">Data</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-        <span class="ident">message</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">ArgSmallVec</span>, <span class="ident">bool</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">InnerObjectId</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {
+        <span class="ident">message</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>,
+    ) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">ArgSmallVec</span><span class="op">&lt;</span><span class="ident">OwnedFd</span><span class="op">&gt;</span>, <span class="ident">bool</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">InnerObjectId</span><span class="op">&gt;</span>)<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">message_desc</span> <span class="op">=</span> <span class="ident">object</span>.<span class="ident">interface</span>.<span class="ident">requests</span>.<span class="ident">get</span>(<span class="ident">message</span>.<span class="ident">opcode</span> <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">unwrap</span>();
         <span class="comment">// Convert the arguments and create the new object if applicable</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_args</span> <span class="op">=</span> <span class="ident">SmallVec::with_capacity</span>(<span class="ident">message</span>.<span class="ident">args</span>.<span class="ident">len</span>());
@@ -1463,5 +1459,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="wayland_backend" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0 (4b91a6ea7 2022-08-08)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="wayland_backend" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>

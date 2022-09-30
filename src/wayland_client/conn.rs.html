@@ -1,10 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-client-0.30.0-beta.8/src/conn.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>conn.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_client/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../wayland_client/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_client/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><div id="settings-menu" tabindex="-1">
-                                <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-client-0.30.0-beta.10/src/conn.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>conn.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_client/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_client/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_client/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -284,11 +278,14 @@
 <span id="278">278</span>
 <span id="279">279</span>
 <span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">env</span>,
     <span class="ident">io::ErrorKind</span>,
     <span class="ident">os::unix::net::UnixStream</span>,
-    <span class="ident">os::unix::prelude::FromRawFd</span>,
+    <span class="ident">os::unix::prelude</span>::{<span class="ident">AsRawFd</span>, <span class="ident">FromRawFd</span>},
     <span class="ident">path::PathBuf</span>,
     <span class="ident">sync</span>::{
         <span class="ident">atomic</span>::{<span class="ident">AtomicBool</span>, <span class="ident">Ordering</span>},
@@ -298,6 +295,7 @@
 
 <span class="kw">use</span> <span class="ident">wayland_backend</span>::{
     <span class="ident">client</span>::{<span class="ident">Backend</span>, <span class="ident">InvalidId</span>, <span class="ident">ObjectData</span>, <span class="ident">ObjectId</span>, <span class="ident">ReadEventsGuard</span>, <span class="ident">WaylandError</span>},
+    <span class="ident">io_lifetimes::OwnedFd</span>,
     <span class="ident">protocol</span>::{<span class="ident">ObjectInfo</span>, <span class="ident">ProtocolError</span>},
 };
 
@@ -308,7 +306,7 @@
 <span class="doccomment">/// The Wayland connection</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This is the main type representing your connection to the Wayland server, though most of the interaction</span>
-<span class="doccomment">/// with the protocol are actually done using other types. The two main an simple app as for the</span>
+<span class="doccomment">/// with the protocol are actually done using other types. The two main uses a simple app has for the</span>
 <span class="doccomment">/// [`Connection`] are:</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// - Obtaining the initial [`WlDisplay`] through the [`display()`](Connection::display) method.</span>
@@ -354,10 +352,22 @@
                 }
             }
         } <span class="kw">else</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">socket_path</span> <span class="op">=</span> <span class="ident">env::var_os</span>(<span class="string">&quot;XDG_RUNTIME_DIR&quot;</span>)
+            <span class="kw">let</span> <span class="ident">socket_name</span> <span class="op">=</span> <span class="ident">env::var_os</span>(<span class="string">&quot;WAYLAND_DISPLAY&quot;</span>)
                 .<span class="ident">map</span>(<span class="ident">Into</span>::<span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span><span class="ident">::into</span>)
                 .<span class="ident">ok_or</span>(<span class="ident">ConnectError::NoCompositor</span>)<span class="question-mark">?</span>;
-            <span class="ident">socket_path</span>.<span class="ident">push</span>(<span class="ident">env::var_os</span>(<span class="string">&quot;WAYLAND_DISPLAY&quot;</span>).<span class="ident">ok_or</span>(<span class="ident">ConnectError::NoCompositor</span>)<span class="question-mark">?</span>);
+
+            <span class="kw">let</span> <span class="ident">socket_path</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">socket_name</span>.<span class="ident">is_absolute</span>() {
+                <span class="ident">socket_name</span>
+            } <span class="kw">else</span> {
+                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">socket_path</span> <span class="op">=</span> <span class="ident">env::var_os</span>(<span class="string">&quot;XDG_RUNTIME_DIR&quot;</span>)
+                    .<span class="ident">map</span>(<span class="ident">Into</span>::<span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span><span class="ident">::into</span>)
+                    .<span class="ident">ok_or</span>(<span class="ident">ConnectError::NoCompositor</span>)<span class="question-mark">?</span>;
+                <span class="kw">if</span> <span class="op">!</span><span class="ident">socket_path</span>.<span class="ident">is_absolute</span>() {
+                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ConnectError::NoCompositor</span>);
+                }
+                <span class="ident">socket_path</span>.<span class="ident">push</span>(<span class="ident">socket_name</span>);
+                <span class="ident">socket_path</span>
+            };
 
             <span class="ident">UnixStream::connect</span>(<span class="ident">socket_path</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">ConnectError::NoCompositor</span>)<span class="question-mark">?</span>
         };
@@ -408,25 +418,9 @@
     <span class="doccomment">/// their event queues using [`EventQueue::dispatch_pending()`](EventQueue::dispatch_pending).</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// If you don&#39;t need to manage multiple event sources, see</span>
-    <span class="doccomment">/// [`blocking_dispatch()`](Connection::blocking_read) for a simpler mechanism. [`EventQueue`] has an</span>
-    <span class="doccomment">/// identical method for convenience.</span>
+    <span class="doccomment">/// [`blocking_dispatch()`](EventQueue::blocking_dispatch) for a simpler mechanism.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">prepare_read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ReadEventsGuard</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">prepare_read</span>()
-    }
-
-    <span class="doccomment">/// Block until events are received from the server</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This will flush the outgoing socket, and then block until events are received from the</span>
-    <span class="doccomment">/// server and read them. You&#39;ll then need to invoke</span>
-    <span class="doccomment">/// [`EventQueue::dispatch_pending()`](EventQueue::dispatch_pending) to dispatch them on</span>
-    <span class="doccomment">/// their respective event queues. Alternatively,</span>
-    <span class="doccomment">/// [`EventQueue::blocking_dispatch()`](EventQueue::blocking_dispatch) does the same thing as this</span>
-    <span class="doccomment">/// method but also dispatches the pending messages on the queue it was invoked.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If you created objects bypassing the event queues with direct [`ObjectData`] callbacks, those</span>
-    <span class="doccomment">/// callbacks will be invoked (if those objects received any events) before this method returns.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">blocking_read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
-        <span class="ident">blocking_dispatch_impl</span>(<span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">clone</span>())
     }
 
     <span class="doccomment">/// Do a roundtrip to the server</span>
@@ -437,23 +431,34 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// See [`EventQueue::roundtrip()`] for a version that includes the dispatching of the event queue.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">roundtrip</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">done</span> <span class="op">=</span> <span class="ident">Arc::new</span>(<span class="ident">AtomicBool::new</span>(<span class="bool-val">false</span>));
-        {
-            <span class="kw">let</span> <span class="ident">display</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">display</span>();
-            <span class="kw">let</span> <span class="ident">cb_done</span> <span class="op">=</span> <span class="ident">done</span>.<span class="ident">clone</span>();
-            <span class="kw">let</span> <span class="ident">sync_data</span> <span class="op">=</span> <span class="ident">Arc::new</span>(<span class="ident">SyncData</span> { <span class="ident">done</span>: <span class="ident">cb_done</span> });
-            <span class="self">self</span>.<span class="ident">send_request</span>(
-                <span class="kw-2">&amp;</span><span class="ident">display</span>,
-                <span class="ident"><span class="kw">crate</span>::protocol::wl_display::Request::Sync</span> {},
-                <span class="prelude-val">Some</span>(<span class="ident">sync_data</span>),
-            )
-            .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">WaylandError::Io</span>(<span class="ident">Error::EPIPE</span>.<span class="ident">into</span>()))<span class="question-mark">?</span>;
-        }
+        <span class="kw">let</span> <span class="ident">done</span> <span class="op">=</span> <span class="ident">Arc::new</span>(<span class="ident">SyncData::default</span>());
+        <span class="kw">let</span> <span class="ident">display</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">display</span>();
+        <span class="self">self</span>.<span class="ident">send_request</span>(
+            <span class="kw-2">&amp;</span><span class="ident">display</span>,
+            <span class="ident"><span class="kw">crate</span>::protocol::wl_display::Request::Sync</span> {},
+            <span class="prelude-val">Some</span>(<span class="ident">done</span>.<span class="ident">clone</span>()),
+        )
+        .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">WaylandError::Io</span>(<span class="ident">Error::EPIPE</span>.<span class="ident">into</span>()))<span class="question-mark">?</span>;
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dispatched</span> <span class="op">=</span> <span class="number">0</span>;
 
-        <span class="kw">while</span> <span class="op">!</span><span class="ident">done</span>.<span class="ident">load</span>(<span class="ident">Ordering::Acquire</span>) {
-            <span class="ident">dispatched</span> <span class="op">+</span><span class="op">=</span> <span class="ident">blocking_dispatch_impl</span>(<span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
+        <span class="kw">loop</span> {
+            <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">flush</span>()<span class="question-mark">?</span>;
+
+            <span class="comment">// first, prepare the read</span>
+            <span class="kw">let</span> <span class="ident">guard</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">prepare_read</span>()<span class="question-mark">?</span>;
+
+            <span class="comment">// If another thread processed events prior to prepare_read, we might already be done.</span>
+            <span class="kw">if</span> <span class="ident">done</span>.<span class="ident">done</span>.<span class="ident">load</span>(<span class="ident">Ordering::Relaxed</span>) {
+                <span class="kw">break</span>;
+            }
+
+            <span class="ident">dispatched</span> <span class="op">+</span><span class="op">=</span> <span class="ident">blocking_read</span>(<span class="ident">guard</span>)<span class="question-mark">?</span>;
+
+            <span class="comment">// see if the successful read included our callback</span>
+            <span class="kw">if</span> <span class="ident">done</span>.<span class="ident">done</span>.<span class="ident">load</span>(<span class="ident">Ordering::Relaxed</span>) {
+                <span class="kw">break</span>;
+            }
         }
 
         <span class="prelude-val">Ok</span>(<span class="ident">dispatched</span>)
@@ -499,18 +504,13 @@
     }
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">blocking_dispatch_impl</span>(<span class="ident">backend</span>: <span class="ident">Backend</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
-    <span class="ident">backend</span>.<span class="ident">flush</span>()<span class="question-mark">?</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">blocking_read</span>(<span class="ident">guard</span>: <span class="ident">ReadEventsGuard</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
+    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">fds</span> <span class="op">=</span> [<span class="ident">nix::poll::PollFd::new</span>(
+        <span class="ident">guard</span>.<span class="ident">connection_fd</span>().<span class="ident">as_raw_fd</span>(),
+        <span class="ident">nix::poll::PollFlags::POLLIN</span> <span class="op">|</span> <span class="ident">nix::poll::PollFlags::POLLERR</span>,
+    )];
 
-    <span class="comment">// first, prepare the read</span>
-    <span class="kw">let</span> <span class="ident">guard</span> <span class="op">=</span> <span class="ident">backend</span>.<span class="ident">prepare_read</span>()<span class="question-mark">?</span>;
-
-    <span class="comment">// there is nothing to dispatch, wait for readiness</span>
     <span class="kw">loop</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">fds</span> <span class="op">=</span> [<span class="ident">nix::poll::PollFd::new</span>(
-            <span class="ident">guard</span>.<span class="ident">connection_fd</span>(),
-            <span class="ident">nix::poll::PollFlags::POLLIN</span> <span class="op">|</span> <span class="ident">nix::poll::PollFlags::POLLERR</span>,
-        )];
         <span class="kw">match</span> <span class="ident">nix::poll::poll</span>(<span class="kw-2">&amp;mut</span> <span class="ident">fds</span>, <span class="op">-</span><span class="number">1</span>) {
             <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="kw">break</span>,
             <span class="prelude-val">Err</span>(<span class="ident">nix::errno::Errno::EINTR</span>) =&gt; <span class="kw">continue</span>,
@@ -521,8 +521,7 @@
     <span class="comment">// at this point the fd is ready</span>
     <span class="kw">match</span> <span class="ident">guard</span>.<span class="ident">read</span>() {
         <span class="prelude-val">Ok</span>(<span class="ident">n</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">n</span>),
-        <span class="comment">// if we are still &quot;wouldblock&quot;, that means that there was a dispatch from an other</span>
-        <span class="comment">// thread with the C-based backend, spuriously return 0.</span>
+        <span class="comment">// if we are still &quot;wouldblock&quot;, just return 0; the caller will retry.</span>
         <span class="prelude-val">Err</span>(<span class="ident">WaylandError::Io</span>(<span class="ident">e</span>)) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">ErrorKind::WouldBlock</span> =&gt; <span class="prelude-val">Ok</span>(<span class="number">0</span>),
         <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">e</span>),
     }
@@ -548,22 +547,22 @@
     wl_callback object data for wl_display.sync
 */</span>
 
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>)]</span>
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">SyncData</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">done</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">AtomicBool</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">done</span>: <span class="ident">AtomicBool</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">ObjectData</span> <span class="kw">for</span> <span class="ident">SyncData</span> {
     <span class="kw">fn</span> <span class="ident">event</span>(
         <span class="self">self</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
         <span class="ident">_handle</span>: <span class="kw-2">&amp;</span><span class="ident">Backend</span>,
-        <span class="ident">_msg</span>: <span class="ident">wayland_backend::protocol::Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>,
+        <span class="ident">_msg</span>: <span class="ident">wayland_backend::protocol::Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>,
     ) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">done</span>.<span class="ident">store</span>(<span class="bool-val">true</span>, <span class="ident">Ordering::Release</span>);
+        <span class="self">self</span>.<span class="ident">done</span>.<span class="ident">store</span>(<span class="bool-val">true</span>, <span class="ident">Ordering::Relaxed</span>);
         <span class="prelude-val">None</span>
     }
 
     <span class="kw">fn</span> <span class="ident">destroyed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">ObjectId</span>) {}
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_client" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0 (4b91a6ea7 2022-08-08)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_client" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>

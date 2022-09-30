@@ -1,10 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-client-0.30.0-beta.8/src/event_queue.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>event_queue.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_client/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a><h2 class="location"></h2>
-    </nav>
-    <nav class="sidebar"><a class="sidebar-logo" href="../../wayland_client/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_client/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><div id="settings-menu" tabindex="-1">
-                                <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div>
-                        </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-client-0.30.0-beta.10/src/event_queue.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>event_queue.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_client/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_client/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_client/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -768,19 +762,114 @@
 <span id="762">762</span>
 <span id="763">763</span>
 <span id="764">764</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::convert::Infallible</span>;
-<span class="kw">use</span> <span class="ident">std::pin::Pin</span>;
-<span class="kw">use</span> <span class="ident">std::sync</span>::{
-    <span class="ident">atomic</span>::{<span class="ident">AtomicBool</span>, <span class="ident">Ordering</span>},
-    <span class="ident">Arc</span>,
-};
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
+<span id="778">778</span>
+<span id="779">779</span>
+<span id="780">780</span>
+<span id="781">781</span>
+<span id="782">782</span>
+<span id="783">783</span>
+<span id="784">784</span>
+<span id="785">785</span>
+<span id="786">786</span>
+<span id="787">787</span>
+<span id="788">788</span>
+<span id="789">789</span>
+<span id="790">790</span>
+<span id="791">791</span>
+<span id="792">792</span>
+<span id="793">793</span>
+<span id="794">794</span>
+<span id="795">795</span>
+<span id="796">796</span>
+<span id="797">797</span>
+<span id="798">798</span>
+<span id="799">799</span>
+<span id="800">800</span>
+<span id="801">801</span>
+<span id="802">802</span>
+<span id="803">803</span>
+<span id="804">804</span>
+<span id="805">805</span>
+<span id="806">806</span>
+<span id="807">807</span>
+<span id="808">808</span>
+<span id="809">809</span>
+<span id="810">810</span>
+<span id="811">811</span>
+<span id="812">812</span>
+<span id="813">813</span>
+<span id="814">814</span>
+<span id="815">815</span>
+<span id="816">816</span>
+<span id="817">817</span>
+<span id="818">818</span>
+<span id="819">819</span>
+<span id="820">820</span>
+<span id="821">821</span>
+<span id="822">822</span>
+<span id="823">823</span>
+<span id="824">824</span>
+<span id="825">825</span>
+<span id="826">826</span>
+<span id="827">827</span>
+<span id="828">828</span>
+<span id="829">829</span>
+<span id="830">830</span>
+<span id="831">831</span>
+<span id="832">832</span>
+<span id="833">833</span>
+<span id="834">834</span>
+<span id="835">835</span>
+<span id="836">836</span>
+<span id="837">837</span>
+<span id="838">838</span>
+<span id="839">839</span>
+<span id="840">840</span>
+<span id="841">841</span>
+<span id="842">842</span>
+<span id="843">843</span>
+<span id="844">844</span>
+<span id="845">845</span>
+<span id="846">846</span>
+<span id="847">847</span>
+<span id="848">848</span>
+<span id="849">849</span>
+<span id="850">850</span>
+<span id="851">851</span>
+<span id="852">852</span>
+<span id="853">853</span>
+<span id="854">854</span>
+<span id="855">855</span>
+<span id="856">856</span>
+<span id="857">857</span>
+<span id="858">858</span>
+<span id="859">859</span>
+<span id="860">860</span>
+<span id="861">861</span>
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::any::Any</span>;
+<span class="kw">use</span> <span class="ident">std::collections::VecDeque</span>;
+<span class="kw">use</span> <span class="ident">std::convert::Infallible</span>;
+<span class="kw">use</span> <span class="ident">std::marker::PhantomData</span>;
+<span class="kw">use</span> <span class="ident">std::sync</span>::{<span class="ident">atomic::Ordering</span>, <span class="ident">Arc</span>, <span class="ident">Condvar</span>, <span class="ident">Mutex</span>};
 <span class="kw">use</span> <span class="ident">std::task</span>;
 
-<span class="kw">use</span> <span class="ident">futures_channel::mpsc</span>::{<span class="ident">unbounded</span>, <span class="ident">UnboundedReceiver</span>, <span class="ident">UnboundedSender</span>};
-<span class="kw">use</span> <span class="ident">futures_core::stream::Stream</span>;
 <span class="kw">use</span> <span class="ident">nix::Error</span>;
 <span class="kw">use</span> <span class="ident">wayland_backend</span>::{
     <span class="ident">client</span>::{<span class="ident">Backend</span>, <span class="ident">ObjectData</span>, <span class="ident">ObjectId</span>, <span class="ident">ReadEventsGuard</span>, <span class="ident">WaylandError</span>},
+    <span class="ident">io_lifetimes::OwnedFd</span>,
     <span class="ident">protocol</span>::{<span class="ident">Argument</span>, <span class="ident">Message</span>},
 };
 
@@ -934,7 +1023,8 @@
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">event_created_child</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">selftype</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">iface</span>:<span class="ident">ty</span>, [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">opcode</span>:<span class="ident">expr</span> =&gt; (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">child_iface</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">child_udata</span>:<span class="ident">expr</span>)),<span class="op">*</span> $(,)<span class="question-mark">?</span>]) =&gt; {
+    <span class="comment">// Must match `pat` to allow paths `wl_data_device::EVT_DONE_OPCODE` and expressions `0` to both work.</span>
+    ($(@<span class="op">&lt;</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">lt</span>:<span class="ident">tt</span> $( : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">clt</span>:<span class="ident">tt</span> $(<span class="op">+</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dlt</span>:<span class="ident">tt</span> )<span class="op">*</span> )<span class="question-mark">?</span> ),<span class="op">+</span> <span class="op">&gt;</span>)<span class="question-mark">?</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">selftype</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">iface</span>:<span class="ident">ty</span>, [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">opcode</span>:<span class="ident">pat</span> =&gt; (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">child_iface</span>:<span class="ident">ty</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">child_udata</span>:<span class="ident">expr</span>)),<span class="op">*</span> $(,)<span class="question-mark">?</span>]) =&gt; {
         <span class="kw">fn</span> <span class="ident">event_created_child</span>(
             <span class="ident">opcode</span>: <span class="ident">u16</span>,
             <span class="ident">qhandle</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::QueueHandle</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">selftype</span><span class="op">&gt;</span>
@@ -950,18 +1040,18 @@
                 },
             }
         }
-    }
+    };
 }
 
 <span class="kw">type</span> <span class="ident">QueueCallback</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> <span class="op">=</span> <span class="kw">fn</span>(
     <span class="kw-2">&amp;</span><span class="ident">Connection</span>,
-    <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>,
+    <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>,
     <span class="kw-2">&amp;mut</span> <span class="ident">State</span>,
     <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>,
     <span class="kw-2">&amp;</span><span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>,
 ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DispatchError</span><span class="op">&gt;</span>;
 
-<span class="kw">struct</span> <span class="ident">QueueEvent</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>(<span class="ident">QueueCallback</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>, <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>, <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>);
+<span class="kw">struct</span> <span class="ident">QueueEvent</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>(<span class="ident">QueueCallback</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>, <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>, <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>);
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> <span class="ident">std::fmt::Debug</span> <span class="kw">for</span> <span class="ident">QueueEvent</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
@@ -1082,25 +1172,52 @@
 <span class="doccomment">/// }</span>
 <span class="doccomment">/// ```</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EventQueue</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
-    <span class="ident">rx</span>: <span class="ident">UnboundedReceiver</span><span class="op">&lt;</span><span class="ident">QueueEvent</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span><span class="op">&gt;</span>,
     <span class="ident">handle</span>: <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>,
     <span class="ident">conn</span>: <span class="ident">Connection</span>,
+}
+
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">EventQueueInner</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
+    <span class="ident">queue</span>: <span class="ident">VecDeque</span><span class="op">&lt;</span><span class="ident">QueueEvent</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">freeze_count</span>: <span class="ident">usize</span>,
+    <span class="ident">waker</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">task::Waker</span><span class="op">&gt;</span>,
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> <span class="ident">EventQueueInner</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">enqueue_event</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
+        <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>,
+        <span class="ident">odata</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>,
+    ) <span class="kw">where</span>
+        <span class="ident">State</span>: <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">U</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        <span class="ident">I</span>: <span class="ident">Proxy</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+    {
+        <span class="kw">let</span> <span class="ident">func</span> <span class="op">=</span> <span class="ident">queue_callback</span>::<span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">State</span><span class="op">&gt;</span>;
+        <span class="self">self</span>.<span class="ident">queue</span>.<span class="ident">push_back</span>(<span class="ident">QueueEvent</span>(<span class="ident">func</span>, <span class="ident">msg</span>, <span class="ident">odata</span>));
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">freeze_count</span> <span class="op">==</span> <span class="number">0</span> {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">waker</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">waker</span>.<span class="ident">take</span>() {
+                <span class="ident">waker</span>.<span class="ident">wake</span>();
+            }
+        }
+    }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> <span class="ident">std::fmt::Debug</span> <span class="kw">for</span> <span class="ident">EventQueue</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
-        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;EventQueue&quot;</span>)
-            .<span class="ident">field</span>(<span class="string">&quot;rx&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">rx</span>)
-            .<span class="ident">field</span>(<span class="string">&quot;handle&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">handle</span>)
-            .<span class="ident">finish_non_exhaustive</span>()
+        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;EventQueue&quot;</span>).<span class="ident">field</span>(<span class="string">&quot;handle&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">handle</span>).<span class="ident">finish_non_exhaustive</span>()
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> <span class="ident">EventQueue</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">conn</span>: <span class="ident">Connection</span>) -&gt; <span class="self">Self</span> {
-        <span class="kw">let</span> (<span class="ident">tx</span>, <span class="ident">rx</span>) <span class="op">=</span> <span class="ident">unbounded</span>();
-        <span class="self">Self</span> { <span class="ident">rx</span>, <span class="ident">handle</span>: <span class="ident">QueueHandle</span> { <span class="ident">tx</span> }, <span class="ident">conn</span> }
+        <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">Arc::new</span>(<span class="ident">Mutex::new</span>(<span class="ident">EventQueueInner</span> {
+            <span class="ident">queue</span>: <span class="ident">VecDeque::new</span>(),
+            <span class="ident">freeze_count</span>: <span class="number">0</span>,
+            <span class="ident">waker</span>: <span class="prelude-val">None</span>,
+        }));
+        <span class="self">Self</span> { <span class="ident">handle</span>: <span class="ident">QueueHandle</span> { <span class="ident">inner</span> }, <span class="ident">conn</span> }
     }
 
     <span class="doccomment">/// Get a [`QueueHandle`] for this event queue</span>
@@ -1114,8 +1231,10 @@
     <span class="doccomment">/// the read APIs on [`Connection`](crate::Connection), or when reading is done from an other thread.</span>
     <span class="doccomment">/// This method will dispatch all such pending events by sequentially invoking their associated handlers:</span>
     <span class="doccomment">/// the [`Dispatch`](crate::Dispatch) implementations on the provided `&amp;mut D`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Note: this may block if another thread has frozen the queue.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch_pending</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">State</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">DispatchError</span><span class="op">&gt;</span> {
-        <span class="ident"><span class="self">Self</span>::dispatching_impl</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">conn</span>, <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">rx</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">handle</span>, <span class="ident">data</span>)
+        <span class="ident"><span class="self">Self</span>::dispatching_impl</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">conn</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">handle</span>, <span class="ident">data</span>)
     }
 
     <span class="doccomment">/// Block waiting for events and dispatch them</span>
@@ -1126,13 +1245,24 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// A simple app event loop can consist of invoking this method in a loop.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">blocking_dispatch</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">State</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">DispatchError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">dispatched</span> <span class="op">=</span> <span class="ident"><span class="self">Self</span>::dispatching_impl</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">conn</span>, <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">rx</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">handle</span>, <span class="ident">data</span>)<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">dispatched</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">dispatch_pending</span>(<span class="ident">data</span>)<span class="question-mark">?</span>;
         <span class="kw">if</span> <span class="ident">dispatched</span> <span class="op">&gt;</span> <span class="number">0</span> {
-            <span class="prelude-val">Ok</span>(<span class="ident">dispatched</span>)
-        } <span class="kw">else</span> {
-            <span class="ident"><span class="kw">crate</span>::conn::blocking_dispatch_impl</span>(<span class="self">self</span>.<span class="ident">conn</span>.<span class="ident">backend</span>())<span class="question-mark">?</span>;
-            <span class="ident"><span class="self">Self</span>::dispatching_impl</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">conn</span>, <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">rx</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">handle</span>, <span class="ident">data</span>)
+            <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">dispatched</span>);
         }
+
+        <span class="self">self</span>.<span class="ident">conn</span>.<span class="ident">flush</span>()<span class="question-mark">?</span>;
+
+        <span class="kw">let</span> <span class="ident">guard</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">conn</span>.<span class="ident">prepare_read</span>()<span class="question-mark">?</span>;
+
+        <span class="comment">// we need to check the queue again, just in case another thread did a read between</span>
+        <span class="comment">// dispatch_pending and prepare_read</span>
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">inner</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>().<span class="ident">queue</span>.<span class="ident">is_empty</span>() {
+            <span class="ident"><span class="kw">crate</span>::conn::blocking_read</span>(<span class="ident">guard</span>)<span class="question-mark">?</span>;
+        } <span class="kw">else</span> {
+            <span class="ident">drop</span>(<span class="ident">guard</span>);
+        }
+
+        <span class="self">self</span>.<span class="ident">dispatch_pending</span>(<span class="ident">data</span>)
     }
 
     <span class="doccomment">/// Synchronous roundtrip</span>
@@ -1143,24 +1273,20 @@
     <span class="doccomment">/// This function may be useful during initial setup of your app. This function may also be useful</span>
     <span class="doccomment">/// where you need to guarantee all requests prior to calling this function are completed.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">roundtrip</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">State</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">DispatchError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">done</span> <span class="op">=</span> <span class="ident">Arc::new</span>(<span class="ident">AtomicBool::new</span>(<span class="bool-val">false</span>));
+        <span class="kw">let</span> <span class="ident">done</span> <span class="op">=</span> <span class="ident">Arc::new</span>(<span class="ident">SyncData::default</span>());
 
-        {
-            <span class="kw">let</span> <span class="ident">display</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">conn</span>.<span class="ident">display</span>();
-            <span class="kw">let</span> <span class="ident">cb_done</span> <span class="op">=</span> <span class="ident">done</span>.<span class="ident">clone</span>();
-            <span class="kw">let</span> <span class="ident">sync_data</span> <span class="op">=</span> <span class="ident">Arc::new</span>(<span class="ident">SyncData</span> { <span class="ident">done</span>: <span class="ident">cb_done</span> });
-            <span class="self">self</span>.<span class="ident">conn</span>
-                .<span class="ident">send_request</span>(
-                    <span class="kw-2">&amp;</span><span class="ident">display</span>,
-                    <span class="ident"><span class="kw">crate</span>::protocol::wl_display::Request::Sync</span> {},
-                    <span class="prelude-val">Some</span>(<span class="ident">sync_data</span>),
-                )
-                .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">WaylandError::Io</span>(<span class="ident">Error::EPIPE</span>.<span class="ident">into</span>()))<span class="question-mark">?</span>;
-        }
+        <span class="kw">let</span> <span class="ident">display</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">conn</span>.<span class="ident">display</span>();
+        <span class="self">self</span>.<span class="ident">conn</span>
+            .<span class="ident">send_request</span>(
+                <span class="kw-2">&amp;</span><span class="ident">display</span>,
+                <span class="ident"><span class="kw">crate</span>::protocol::wl_display::Request::Sync</span> {},
+                <span class="prelude-val">Some</span>(<span class="ident">done</span>.<span class="ident">clone</span>()),
+            )
+            .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">WaylandError::Io</span>(<span class="ident">Error::EPIPE</span>.<span class="ident">into</span>()))<span class="question-mark">?</span>;
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dispatched</span> <span class="op">=</span> <span class="number">0</span>;
 
-        <span class="kw">while</span> <span class="op">!</span><span class="ident">done</span>.<span class="ident">load</span>(<span class="ident">Ordering::Acquire</span>) {
+        <span class="kw">while</span> <span class="op">!</span><span class="ident">done</span>.<span class="ident">done</span>.<span class="ident">load</span>(<span class="ident">Ordering::Relaxed</span>) {
             <span class="ident">dispatched</span> <span class="op">+</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">blocking_dispatch</span>(<span class="ident">data</span>)<span class="question-mark">?</span>;
         }
 
@@ -1192,7 +1318,6 @@
 
     <span class="kw">fn</span> <span class="ident">dispatching_impl</span>(
         <span class="ident">backend</span>: <span class="kw-2">&amp;</span><span class="ident">Connection</span>,
-        <span class="ident">rx</span>: <span class="kw-2">&amp;mut</span> <span class="ident">UnboundedReceiver</span><span class="op">&lt;</span><span class="ident">QueueEvent</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span><span class="op">&gt;</span>,
         <span class="ident">qhandle</span>: <span class="kw-2">&amp;</span><span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>,
         <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">State</span>,
     ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">DispatchError</span><span class="op">&gt;</span> {
@@ -1205,11 +1330,23 @@
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">backend</span>.<span class="ident">backend</span>.<span class="ident">dispatch_inner_queue</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dispatched</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">QueueEvent</span>(<span class="ident">cb</span>, <span class="ident">msg</span>, <span class="ident">odata</span>))) <span class="op">=</span> <span class="ident">rx</span>.<span class="ident">try_next</span>() {
+        <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">QueueEvent</span>(<span class="ident">cb</span>, <span class="ident">msg</span>, <span class="ident">odata</span>)) <span class="op">=</span> <span class="ident"><span class="self">Self</span>::try_next</span>(<span class="kw-2">&amp;</span><span class="ident">qhandle</span>.<span class="ident">inner</span>) {
             <span class="ident">cb</span>(<span class="ident">backend</span>, <span class="ident">msg</span>, <span class="ident">data</span>, <span class="ident">odata</span>, <span class="ident">qhandle</span>)<span class="question-mark">?</span>;
             <span class="ident">dispatched</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
         }
         <span class="prelude-val">Ok</span>(<span class="ident">dispatched</span>)
+    }
+
+    <span class="kw">fn</span> <span class="ident">try_next</span>(<span class="ident">inner</span>: <span class="kw-2">&amp;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">EventQueueInner</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">QueueEvent</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">lock</span> <span class="op">=</span> <span class="ident">inner</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
+        <span class="kw">if</span> <span class="ident">lock</span>.<span class="ident">freeze_count</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">lock</span>.<span class="ident">queue</span>.<span class="ident">is_empty</span>() {
+            <span class="kw">let</span> <span class="ident">waker</span> <span class="op">=</span> <span class="ident">Arc::new</span>(<span class="ident">DispatchWaker</span> { <span class="ident">cond</span>: <span class="ident">Condvar::new</span>() });
+            <span class="kw">while</span> <span class="ident">lock</span>.<span class="ident">freeze_count</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+                <span class="ident">lock</span>.<span class="ident">waker</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">waker</span>.<span class="ident">clone</span>().<span class="ident">into</span>());
+                <span class="ident">lock</span> <span class="op">=</span> <span class="ident">waker</span>.<span class="ident">cond</span>.<span class="ident">wait</span>(<span class="ident">lock</span>).<span class="ident">unwrap</span>();
+            }
+        }
+        <span class="ident">lock</span>.<span class="ident">queue</span>.<span class="ident">pop_front</span>()
     }
 
     <span class="doccomment">/// Attempt to dispatch events from this queue, registering the current task for wakeup if no</span>
@@ -1266,53 +1403,54 @@
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">conn</span>.<span class="ident">backend</span>.<span class="ident">dispatch_inner_queue</span>() {
                 <span class="kw">return</span> <span class="ident">task::Poll::Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>()));
             }
-            <span class="kw">match</span> <span class="ident">Pin::new</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">rx</span>).<span class="ident">poll_next</span>(<span class="ident">cx</span>) {
-                <span class="ident">task::Poll::Pending</span> =&gt; <span class="kw">return</span> <span class="ident">task::Poll::Pending</span>,
-                <span class="ident">task::Poll::Ready</span>(<span class="prelude-val">None</span>) =&gt; {
-                    <span class="comment">// We never close the channel, and we hold a valid sender in self.handle.tx, so</span>
-                    <span class="comment">// our event stream will never reach an end.</span>
-                    <span class="macro">unreachable!</span>(<span class="string">&quot;Got end of stream while holding a valid sender&quot;</span>);
-                }
-                <span class="ident">task::Poll::Ready</span>(<span class="prelude-val">Some</span>(<span class="ident">QueueEvent</span>(<span class="ident">cb</span>, <span class="ident">msg</span>, <span class="ident">odata</span>))) =&gt; {
-                    <span class="ident">cb</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">conn</span>, <span class="ident">msg</span>, <span class="ident">data</span>, <span class="ident">odata</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">handle</span>)<span class="question-mark">?</span>
-                }
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">lock</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">inner</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
+            <span class="kw">if</span> <span class="ident">lock</span>.<span class="ident">freeze_count</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
+                <span class="ident">lock</span>.<span class="ident">waker</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">cx</span>.<span class="ident">waker</span>().<span class="ident">clone</span>());
+                <span class="kw">return</span> <span class="ident">task::Poll::Pending</span>;
             }
+            <span class="kw">let</span> <span class="ident">QueueEvent</span>(<span class="ident">cb</span>, <span class="ident">msg</span>, <span class="ident">odata</span>) <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">elt</span>) <span class="op">=</span> <span class="ident">lock</span>.<span class="ident">queue</span>.<span class="ident">pop_front</span>() {
+                <span class="ident">elt</span>
+            } <span class="kw">else</span> {
+                <span class="ident">lock</span>.<span class="ident">waker</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">cx</span>.<span class="ident">waker</span>().<span class="ident">clone</span>());
+                <span class="kw">return</span> <span class="ident">task::Poll::Pending</span>;
+            };
+            <span class="ident">drop</span>(<span class="ident">lock</span>);
+            <span class="ident">cb</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">conn</span>, <span class="ident">msg</span>, <span class="ident">data</span>, <span class="ident">odata</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">handle</span>)<span class="question-mark">?</span>
         }
+    }
+}
+
+<span class="kw">struct</span> <span class="ident">DispatchWaker</span> {
+    <span class="ident">cond</span>: <span class="ident">Condvar</span>,
+}
+
+<span class="kw">impl</span> <span class="ident">task::Wake</span> <span class="kw">for</span> <span class="ident">DispatchWaker</span> {
+    <span class="kw">fn</span> <span class="ident">wake</span>(<span class="self">self</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>) {
+        <span class="self">self</span>.<span class="ident">cond</span>.<span class="ident">notify_all</span>()
     }
 }
 
 <span class="doccomment">/// A handle representing an [`EventQueue`], used to assign objects upon creation.</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
-    <span class="ident">tx</span>: <span class="ident">UnboundedSender</span><span class="op">&lt;</span><span class="ident">QueueEvent</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">inner</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">EventQueueInner</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+}
+
+<span class="doccomment">/// A handle that temporarily pauses event processing on an [`EventQueue`].</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">QueueFreezeGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">State</span><span class="op">&gt;</span> {
+    <span class="ident">qh</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> <span class="ident">std::fmt::Debug</span> <span class="kw">for</span> <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
-        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;QueueHandle&quot;</span>).<span class="ident">field</span>(<span class="string">&quot;tx&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">tx</span>).<span class="ident">finish</span>()
+        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;QueueHandle&quot;</span>).<span class="ident">field</span>(<span class="string">&quot;inner&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">Arc::as_ptr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">inner</span>)).<span class="ident">finish</span>()
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">Self</span> { <span class="ident">tx</span>: <span class="self">self</span>.<span class="ident">tx</span>.<span class="ident">clone</span>() }
-    }
-}
-
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">QueueSender</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
-    <span class="ident">func</span>: <span class="ident">QueueCallback</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">handle</span>: <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>,
-}
-
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">trait</span> <span class="ident">ErasedQueueSender</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">send</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>, <span class="ident">odata</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>);
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Proxy</span>, <span class="ident">State</span><span class="op">&gt;</span> <span class="ident">ErasedQueueSender</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">QueueSender</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">send</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>, <span class="ident">odata</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>) {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">tx</span>.<span class="ident">unbounded_send</span>(<span class="ident">QueueEvent</span>(<span class="self">self</span>.<span class="ident">func</span>, <span class="ident">msg</span>, <span class="ident">odata</span>)).<span class="ident">is_err</span>() {
-            <span class="macro">crate::log_error!</span>(<span class="string">&quot;Event received for EventQueue after it was dropped.&quot;</span>);
-        }
+        <span class="self">Self</span> { <span class="ident">inner</span>: <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">clone</span>() }
     }
 }
 
@@ -1329,34 +1467,32 @@
     <span class="kw">where</span>
         <span class="ident">State</span>: <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">State</span><span class="op">&gt;</span>,
     {
-        <span class="kw">let</span> <span class="ident">sender</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ErasedQueueSender</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span> <span class="op">=</span>
-            <span class="ident">Box::new</span>(<span class="ident">QueueSender</span> { <span class="ident">func</span>: <span class="ident">queue_callback</span>::<span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">State</span><span class="op">&gt;</span>, <span class="ident">handle</span>: <span class="self">self</span>.<span class="ident">clone</span>() });
+        <span class="ident">Arc::new</span>(<span class="ident">QueueProxyData</span>::<span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">State</span><span class="op">&gt;</span> {
+            <span class="ident">handle</span>: <span class="self">self</span>.<span class="ident">clone</span>(),
+            <span class="ident">udata</span>: <span class="ident">user_data</span>,
+            <span class="ident">_phantom</span>: <span class="ident">PhantomData</span>,
+        })
+    }
 
-        <span class="kw">let</span> <span class="ident">has_creating_event</span> <span class="op">=</span>
-            <span class="ident">I::interface</span>().<span class="ident">events</span>.<span class="ident">iter</span>().<span class="ident">any</span>(<span class="op">|</span><span class="ident">desc</span><span class="op">|</span> <span class="ident">desc</span>.<span class="ident">child_interface</span>.<span class="ident">is_some</span>());
+    <span class="doccomment">/// Temporarily block processing on this queue.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This will cause the associated queue to block (or return `NotReady` to poll) until all</span>
+    <span class="doccomment">/// [`QueueFreezeGuard`]s associated with the queue are dropped.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">freeze</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">QueueFreezeGuard</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
+        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>().<span class="ident">freeze_count</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+        <span class="ident">QueueFreezeGuard</span> { <span class="ident">qh</span>: <span class="self">self</span> }
+    }
+}
 
-        <span class="kw">let</span> <span class="ident">odata_maker</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">has_creating_event</span> {
-            <span class="kw">let</span> <span class="ident">qhandle</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">clone</span>();
-            <span class="ident">Box::new</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span><span class="op">|</span> {
-                <span class="kw">for</span> <span class="ident">arg</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">args</span> {
-                    <span class="kw">match</span> <span class="ident">arg</span> {
-                        <span class="ident">Argument::NewId</span>(<span class="ident">id</span>) <span class="kw">if</span> <span class="ident">id</span>.<span class="ident">is_null</span>() =&gt; {
-                            <span class="kw">return</span> <span class="prelude-val">None</span>;
-                        }
-                        <span class="ident">Argument::NewId</span>(<span class="kw">_</span>) =&gt; {
-                            <span class="kw">return</span> <span class="prelude-val">Some</span>(<span class="op">&lt;</span><span class="ident">State</span> <span class="kw">as</span> <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">State</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::event_created_child</span>(
-                                <span class="ident">msg</span>.<span class="ident">opcode</span>, <span class="kw-2">&amp;</span><span class="ident">qhandle</span>,
-                            ));
-                        }
-                        <span class="kw">_</span> =&gt; <span class="kw">continue</span>,
-                    }
-                }
-                <span class="prelude-val">None</span>
-            }) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>
-        } <span class="kw">else</span> {
-            <span class="ident">Box::new</span>(<span class="op">|</span><span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span><span class="op">|</span> <span class="prelude-val">None</span>) <span class="kw">as</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>
-        };
-        <span class="ident">Arc::new</span>(<span class="ident">QueueProxyData</span> { <span class="ident">sender</span>, <span class="ident">odata_maker</span>, <span class="ident">udata</span>: <span class="ident">user_data</span> })
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">State</span><span class="op">&gt;</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">QueueFreezeGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">State</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">lock</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">qh</span>.<span class="ident">inner</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
+        <span class="ident">lock</span>.<span class="ident">freeze_count</span> <span class="op">-</span><span class="op">=</span> <span class="number">1</span>;
+        <span class="kw">if</span> <span class="ident">lock</span>.<span class="ident">freeze_count</span> <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">lock</span>.<span class="ident">queue</span>.<span class="ident">is_empty</span>() {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">waker</span>) <span class="op">=</span> <span class="ident">lock</span>.<span class="ident">waker</span>.<span class="ident">take</span>() {
+                <span class="ident">waker</span>.<span class="ident">wake</span>();
+            }
+        }
     }
 }
 
@@ -1366,46 +1502,53 @@
     <span class="ident">State</span>: <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">State</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
 <span class="op">&gt;</span>(
     <span class="ident">handle</span>: <span class="kw-2">&amp;</span><span class="ident">Connection</span>,
-    <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>,
+    <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>,
     <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">State</span>,
     <span class="ident">odata</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>,
     <span class="ident">qhandle</span>: <span class="kw-2">&amp;</span><span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>,
 ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">DispatchError</span><span class="op">&gt;</span> {
     <span class="kw">let</span> (<span class="ident">proxy</span>, <span class="ident">event</span>) <span class="op">=</span> <span class="ident">I::parse_event</span>(<span class="ident">handle</span>, <span class="ident">msg</span>)<span class="question-mark">?</span>;
-    <span class="kw">let</span> <span class="ident">proxy_data</span> <span class="op">=</span>
-        (<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">odata</span>).<span class="ident">downcast_ref</span>::<span class="op">&lt;</span><span class="ident">QueueProxyData</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span>().<span class="ident">expect</span>(<span class="string">&quot;Wrong user_data value for object&quot;</span>);
-    <span class="op">&lt;</span><span class="ident">State</span> <span class="kw">as</span> <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">State</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::event</span>(
-        <span class="ident">data</span>,
-        <span class="kw-2">&amp;</span><span class="ident">proxy</span>,
-        <span class="ident">event</span>,
-        <span class="kw-2">&amp;</span><span class="ident">proxy_data</span>.<span class="ident">udata</span>,
-        <span class="ident">handle</span>,
-        <span class="ident">qhandle</span>,
-    );
+    <span class="kw">let</span> <span class="ident">udata</span> <span class="op">=</span> <span class="ident">odata</span>.<span class="ident">data_as_any</span>().<span class="ident">downcast_ref</span>().<span class="ident">expect</span>(<span class="string">&quot;Wrong user_data value for object&quot;</span>);
+    <span class="op">&lt;</span><span class="ident">State</span> <span class="kw">as</span> <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">State</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::event</span>(<span class="ident">data</span>, <span class="kw-2">&amp;</span><span class="ident">proxy</span>, <span class="ident">event</span>, <span class="ident">udata</span>, <span class="ident">handle</span>, <span class="ident">qhandle</span>);
     <span class="prelude-val">Ok</span>(())
 }
 
-<span class="kw">type</span> <span class="ident">ObjectDataFactory</span> <span class="op">=</span> <span class="kw">dyn</span> <span class="ident">Fn</span>(<span class="kw-2">&amp;</span><span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span>;
-
 <span class="doccomment">/// The [`ObjectData`] implementation used by Wayland proxies, integrating with [`Dispatch`]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">QueueProxyData</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Proxy</span>, <span class="ident">U</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">sender</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ErasedQueueSender</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span>,
-    <span class="ident">odata_maker</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">ObjectDataFactory</span><span class="op">&gt;</span>,
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">QueueProxyData</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Proxy</span>, <span class="ident">U</span>, <span class="ident">State</span><span class="op">&gt;</span> {
+    <span class="ident">handle</span>: <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>,
     <span class="doccomment">/// The user data associated with this object</span>
     <span class="kw">pub</span> <span class="ident">udata</span>: <span class="ident">U</span>,
+    <span class="ident">_phantom</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="kw">fn</span>(<span class="kw-2">&amp;</span><span class="ident">I</span>)<span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Proxy</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>, <span class="ident">U</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span> <span class="ident">ObjectData</span> <span class="kw">for</span> <span class="ident">QueueProxyData</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">event</span>(<span class="self">self</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Backend</span>, <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">ret</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">odata_maker</span>)(<span class="kw-2">&amp;</span><span class="ident">msg</span>);
-        <span class="self">self</span>.<span class="ident">sender</span>.<span class="ident">send</span>(<span class="ident">msg</span>, <span class="self">self</span>.<span class="ident">clone</span>());
-        <span class="ident">ret</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Proxy</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>, <span class="ident">U</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>, <span class="ident">State</span><span class="op">&gt;</span> <span class="ident">ObjectData</span> <span class="kw">for</span> <span class="ident">QueueProxyData</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">State</span><span class="op">&gt;</span>
+<span class="kw">where</span>
+    <span class="ident">State</span>: <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">State</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+{
+    <span class="kw">fn</span> <span class="ident">event</span>(
+        <span class="self">self</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
+        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Backend</span>,
+        <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>,
+    ) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">new_data</span> <span class="op">=</span> <span class="ident">msg</span>
+            .<span class="ident">args</span>
+            .<span class="ident">iter</span>()
+            .<span class="ident">any</span>(<span class="op">|</span><span class="ident">arg</span><span class="op">|</span> <span class="macro">matches!</span>(<span class="ident">arg</span>, <span class="ident">Argument::NewId</span>(<span class="ident">id</span>) <span class="kw">if</span> <span class="op">!</span><span class="ident">id</span>.<span class="ident">is_null</span>()))
+            .<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">State::event_created_child</span>(<span class="ident">msg</span>.<span class="ident">opcode</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">handle</span>));
+
+        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">inner</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>().<span class="ident">enqueue_event</span>::<span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span>(<span class="ident">msg</span>, <span class="self">self</span>.<span class="ident">clone</span>());
+
+        <span class="ident">new_data</span>
     }
 
     <span class="kw">fn</span> <span class="ident">destroyed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="ident">ObjectId</span>) {}
+
+    <span class="kw">fn</span> <span class="ident">data_as_any</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">Any</span> {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">udata</span>
+    }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Proxy</span>, <span class="ident">U</span>: <span class="ident">std::fmt::Debug</span><span class="op">&gt;</span> <span class="ident">std::fmt::Debug</span> <span class="kw">for</span> <span class="ident">QueueProxyData</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Proxy</span>, <span class="ident">U</span>: <span class="ident">std::fmt::Debug</span>, <span class="ident">State</span><span class="op">&gt;</span> <span class="ident">std::fmt::Debug</span> <span class="kw">for</span> <span class="ident">QueueProxyData</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">State</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;QueueProxyData&quot;</span>).<span class="ident">field</span>(<span class="string">&quot;udata&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">udata</span>).<span class="ident">finish</span>()
@@ -1415,7 +1558,11 @@
 <span class="kw">struct</span> <span class="ident">TemporaryData</span>;
 
 <span class="kw">impl</span> <span class="ident">ObjectData</span> <span class="kw">for</span> <span class="ident">TemporaryData</span> {
-    <span class="kw">fn</span> <span class="ident">event</span>(<span class="self">self</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>, <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Backend</span>, <span class="kw">_</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">event</span>(
+        <span class="self">self</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
+        <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="ident">Backend</span>,
+        <span class="kw">_</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>,
+    ) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="macro">unreachable!</span>()
     }
 
@@ -1492,46 +1639,86 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// assert_is_registry_delegate::&lt;ExampleApp&gt;();</span>
 <span class="doccomment">/// ```</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// You may also delegate multiple proxies to a single type. This is especially useful for handling multiple</span>
-<span class="doccomment">/// related protocols in the same modular component.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// For example, a type which can dispatch both the `wl_output` and `xdg_output` protocols may be used as a</span>
-<span class="doccomment">/// delegate:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```ignore</span>
-<span class="doccomment">/// # // This is not tested because xdg_output is in wayland-protocols.</span>
-<span class="doccomment">/// delegate_dispatch!(ExampleApp: [</span>
-<span class="doccomment">///     wl_output::WlOutput: OutputData,</span>
-<span class="doccomment">///     xdg_output::XdgOutput: XdgOutputData,</span>
-<span class="doccomment">/// ] =&gt; OutputDelegate);</span>
-<span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
 <span class="macro">macro_rules!</span> <span class="ident">delegate_dispatch</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_from</span>: <span class="ident">ty</span>: [ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>: <span class="ident">ty</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">user_data</span>: <span class="ident">ty</span>),<span class="op">*</span> $(,)<span class="question-mark">?</span>] =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_to</span>: <span class="ident">ty</span>) =&gt; {
-        $(
-            <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Dispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">user_data</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_from</span> {
-                <span class="kw">fn</span> <span class="ident">event</span>(
-                    <span class="ident">state</span>: <span class="kw-2">&amp;mut</span> <span class="self">Self</span>,
-                    <span class="ident">proxy</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>,
-                    <span class="ident">event</span>: <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Proxy</span><span class="op">&gt;</span><span class="ident">::Event</span>,
-                    <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">user_data</span>,
-                    <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Connection</span>,
-                    <span class="ident">qhandle</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::QueueHandle</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
-                ) {
-                    <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_to</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Dispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">user_data</span>, <span class="self">Self</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::event</span>(<span class="ident">state</span>, <span class="ident">proxy</span>, <span class="ident">event</span>, <span class="ident">data</span>, <span class="ident">conn</span>, <span class="ident">qhandle</span>)
-                }
-
-                <span class="kw">fn</span> <span class="ident">event_created_child</span>(
-                    <span class="ident">opcode</span>: <span class="ident">u16</span>,
-                    <span class="ident">qhandle</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::QueueHandle</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
-                ) -&gt; <span class="ident">::std::sync::Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::backend::ObjectData</span><span class="op">&gt;</span> {
-                    <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_to</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Dispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">user_data</span>, <span class="self">Self</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::event_created_child</span>(<span class="ident">opcode</span>, <span class="ident">qhandle</span>)
-                }
+    ($(@<span class="op">&lt;</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">lt</span>:<span class="ident">tt</span> $( : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">clt</span>:<span class="ident">tt</span> $(<span class="op">+</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dlt</span>:<span class="ident">tt</span> )<span class="op">*</span> )<span class="question-mark">?</span> ),<span class="op">+</span> <span class="op">&gt;</span>)<span class="question-mark">?</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_from</span>:<span class="ident">ty</span> : [<span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>: <span class="ident">ty</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span>: <span class="ident">ty</span>] =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_to</span>: <span class="ident">ty</span>) =&gt; {
+        <span class="kw">impl</span>$(<span class="op">&lt;</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">lt</span> $( : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">clt</span> $(<span class="op">+</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dlt</span> )<span class="op">*</span> )<span class="question-mark">?</span> ),<span class="op">+</span> <span class="op">&gt;</span>)<span class="question-mark">?</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Dispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_from</span> {
+            <span class="kw">fn</span> <span class="ident">event</span>(
+                <span class="ident">state</span>: <span class="kw-2">&amp;mut</span> <span class="self">Self</span>,
+                <span class="ident">proxy</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>,
+                <span class="ident">event</span>: <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Proxy</span><span class="op">&gt;</span><span class="ident">::Event</span>,
+                <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span>,
+                <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Connection</span>,
+                <span class="ident">qhandle</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::QueueHandle</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
+            ) {
+                <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_to</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Dispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span>, <span class="self">Self</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::event</span>(<span class="ident">state</span>, <span class="ident">proxy</span>, <span class="ident">event</span>, <span class="ident">data</span>, <span class="ident">conn</span>, <span class="ident">qhandle</span>)
             }
-        )<span class="op">*</span>
+
+            <span class="kw">fn</span> <span class="ident">event_created_child</span>(
+                <span class="ident">opcode</span>: <span class="ident">u16</span>,
+                <span class="ident">qhandle</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::QueueHandle</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>
+            ) -&gt; <span class="ident">::std::sync::Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::backend::ObjectData</span><span class="op">&gt;</span> {
+                <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_to</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Dispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span>, <span class="self">Self</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::event_created_child</span>(<span class="ident">opcode</span>, <span class="ident">qhandle</span>)
+            }
+        }
+    };
+}
+
+<span class="doccomment">/// A helper macro which delegates a set of [`Dispatch`] implementations for proxies to a static handler.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Usage</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This macro is useful to implement [`Dispatch`] for interfaces where events are unimportant to</span>
+<span class="doccomment">/// the current application and can be ignored.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Example</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// use wayland_client::{delegate_noop, protocol::{wl_data_offer, wl_subcompositor}};</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// /// The application state</span>
+<span class="doccomment">/// struct ExampleApp {</span>
+<span class="doccomment">///     // ...</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// // Ignore all events for this interface:</span>
+<span class="doccomment">/// delegate_noop!(ExampleApp: ignore wl_data_offer::WlDataOffer);</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// // This interface should not emit events:</span>
+<span class="doccomment">/// delegate_noop!(ExampleApp: wl_subcompositor::WlSubcompositor);</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// This last example will execute `unreachable!()` if the interface emits any events.</span>
+<span class="attribute">#[<span class="ident">macro_export</span>]</span>
+<span class="macro">macro_rules!</span> <span class="ident">delegate_noop</span> {
+    ($(@<span class="op">&lt;</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">lt</span>:<span class="ident">tt</span> $( : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">clt</span>:<span class="ident">tt</span> $(<span class="op">+</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dlt</span>:<span class="ident">tt</span> )<span class="op">*</span> )<span class="question-mark">?</span> ),<span class="op">+</span> <span class="op">&gt;</span>)<span class="question-mark">?</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_from</span>: <span class="ident">ty</span> : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>: <span class="ident">ty</span>) =&gt; {
+        <span class="kw">impl</span>$(<span class="op">&lt;</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">lt</span> $( : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">clt</span> $(<span class="op">+</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dlt</span> )<span class="op">*</span> )<span class="question-mark">?</span> ),<span class="op">+</span> <span class="op">&gt;</span>)<span class="question-mark">?</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Dispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, ()<span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_from</span> {
+            <span class="kw">fn</span> <span class="ident">event</span>(
+                <span class="kw">_</span>: <span class="kw-2">&amp;mut</span> <span class="self">Self</span>,
+                <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>,
+                <span class="kw">_</span>: <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Proxy</span><span class="op">&gt;</span><span class="ident">::Event</span>,
+                <span class="kw">_</span>: <span class="kw-2">&amp;</span>(),
+                <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Connection</span>,
+                <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::QueueHandle</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
+            ) {
+                <span class="macro">unreachable!</span>();
+            }
+        }
+    };
+
+    ($(@<span class="op">&lt;</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">lt</span>:<span class="ident">tt</span> $( : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">clt</span>:<span class="ident">tt</span> $(<span class="op">+</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dlt</span>:<span class="ident">tt</span> )<span class="op">*</span> )<span class="question-mark">?</span> ),<span class="op">+</span> <span class="op">&gt;</span>)<span class="question-mark">?</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_from</span>: <span class="ident">ty</span> : <span class="ident">ignore</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>: <span class="ident">ty</span>) =&gt; {
+        <span class="kw">impl</span>$(<span class="op">&lt;</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">lt</span> $( : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">clt</span> $(<span class="op">+</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dlt</span> )<span class="op">*</span> )<span class="question-mark">?</span> ),<span class="op">+</span> <span class="op">&gt;</span>)<span class="question-mark">?</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Dispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, ()<span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_from</span> {
+            <span class="kw">fn</span> <span class="ident">event</span>(
+                <span class="kw">_</span>: <span class="kw-2">&amp;mut</span> <span class="self">Self</span>,
+                <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>,
+                <span class="kw">_</span>: <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Proxy</span><span class="op">&gt;</span><span class="ident">::Event</span>,
+                <span class="kw">_</span>: <span class="kw-2">&amp;</span>(),
+                <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Connection</span>,
+                <span class="kw">_</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::QueueHandle</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
+            ) {
+            }
+        }
     };
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_client" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0 (4b91a6ea7 2022-08-08)" ></div>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_client" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>

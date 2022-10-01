@@ -1,8 +1,13 @@
 // TODO: sctk dispatch implementation? Helper there for globals?
 // Use same abstraction in an iced example
 
-use cosmic_protocols::export_dmabuf::v1::client::{
-    zcosmic_export_dmabuf_frame_v1, zcosmic_export_dmabuf_manager_v1,
+use cascade::cascade;
+use cosmic_protocols::{
+    export_dmabuf::v1::client::{zcosmic_export_dmabuf_frame_v1, zcosmic_export_dmabuf_manager_v1},
+    workspace::v1::client::{
+        zcosmic_workspace_group_handle_v1, zcosmic_workspace_handle_v1,
+        zcosmic_workspace_manager_v1,
+    },
 };
 use gtk4::{gdk, glib, prelude::*};
 use smithay::{
@@ -27,6 +32,26 @@ use wayland_client::{
     Connection, Dispatch, QueueHandle,
 };
 
+#[derive(Default, Clone)]
+struct WorkspaceGroup {
+    output: Option<wl_output::WlOutput>,
+    workspaces: Vec<(
+        zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1,
+        Workspace,
+    )>,
+}
+
+#[derive(Default, Clone)]
+struct Workspace {
+    name: Option<String>,
+}
+
+#[derive(Eq, Hash, PartialEq)]
+enum Capture {
+    Output(String),
+    Workspace(String),
+}
+
 #[derive(Debug)]
 struct Object {
     fd: OwnedFd,
@@ -50,8 +75,13 @@ struct DmaBufFrame {
 #[derive(Default)]
 struct AppData {
     export_dmabuf_manager: Option<zcosmic_export_dmabuf_manager_v1::ZcosmicExportDmabufManagerV1>,
+    workspace_manager: Option<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1>,
     outputs: Vec<(wl_output::WlOutput, String)>,
-    frames: HashMap<String, (async_channel::Sender<DmaBufFrame>, DmaBufFrame)>,
+    workspace_groups: Vec<(
+        zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
+        WorkspaceGroup,
+    )>,
+    frames: HashMap<Capture, (async_channel::Sender<DmaBufFrame>, DmaBufFrame)>,
 }
 
 impl Dispatch<wl_registry::WlRegistry, ()> for AppData {
@@ -78,6 +108,17 @@ impl Dispatch<wl_registry::WlRegistry, ()> for AppData {
                             qh,
                             (),
                         ));
+                }
+                "zcosmic_workspace_manager_v1" => {
+                    app_data.workspace_manager = Some(
+                        registry
+                            .bind::<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, _, _>(
+                                name,
+                                1,
+                                qh,
+                                (),
+                            ),
+                    );
                 }
                 "wl_output" => {
                     registry.bind::<wl_output::WlOutput, _, _>(name, 4, qh, ());
@@ -106,6 +147,111 @@ impl Dispatch<wl_output::WlOutput, ()> for AppData {
     }
 }
 
+impl Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, ()> for AppData {
+    fn event(
+        app_data: &mut Self,
+        _: &zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1,
+        event: zcosmic_workspace_manager_v1::Event,
+        _: &(),
+        _: &Connection,
+        _: &QueueHandle<AppData>,
+    ) {
+        match event {
+            zcosmic_workspace_manager_v1::Event::WorkspaceGroup { workspace_group } => {
+                app_data
+                    .workspace_groups
+                    .push((workspace_group, WorkspaceGroup::default()));
+            }
+            _ => {}
+        }
+    }
+
+    wayland_client::event_created_child!(AppData, zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, [
+        zcosmic_workspace_manager_v1::EVT_WORKSPACE_GROUP_OPCODE => (zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, ())
+    ]);
+}
+
+impl Dispatch<zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, ()> for AppData {
+    fn event(
+        app_data: &mut Self,
+        workspace_group: &zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
+        event: zcosmic_workspace_group_handle_v1::Event,
+        _: &(),
+        _: &Connection,
+        _: &QueueHandle<AppData>,
+    ) {
+        let mut group_info = &mut app_data
+            .workspace_groups
+            .iter_mut()
+            .find(|(group, _)| group == workspace_group)
+            .unwrap()
+            .1;
+        match event {
+            zcosmic_workspace_group_handle_v1::Event::OutputEnter { output } => {
+                group_info.output = Some(output);
+            }
+            zcosmic_workspace_group_handle_v1::Event::Workspace { workspace } => {
+                group_info
+                    .workspaces
+                    .push((workspace, Workspace::default()));
+            }
+            zcosmic_workspace_group_handle_v1::Event::Remove => {
+                if let Some(idx) = app_data
+                    .workspace_groups
+                    .iter()
+                    .position(|(group, _)| group == workspace_group)
+                {
+                    app_data.workspace_groups.remove(idx);
+                }
+            }
+            _ => {}
+        }
+    }
+
+    wayland_client::event_created_child!(AppData, zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, [
+        zcosmic_workspace_group_handle_v1::EVT_WORKSPACE_OPCODE => (zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1, ())
+    ]);
+}
+
+impl Dispatch<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1, ()> for AppData {
+    fn event(
+        app_data: &mut Self,
+        workspace: &zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1,
+        event: zcosmic_workspace_handle_v1::Event,
+        _: &(),
+        _: &Connection,
+        _: &QueueHandle<AppData>,
+    ) {
+        let (_, workspace_info) = app_data
+            .workspace_groups
+            .iter_mut()
+            .find_map(|(_, group_info)| {
+                group_info
+                    .workspaces
+                    .iter_mut()
+                    .find(|(w, _)| w == workspace)
+            })
+            .unwrap();
+        match event {
+            zcosmic_workspace_handle_v1::Event::Name { name } => {
+                workspace_info.name = Some(name);
+            }
+            zcosmic_workspace_handle_v1::Event::Remove => {
+                for (_, group_info) in app_data.workspace_groups.iter_mut() {
+                    if let Some(idx) = group_info
+                        .workspaces
+                        .iter()
+                        .position(|(w, _)| w == workspace)
+                    {
+                        group_info.workspaces.remove(idx);
+                    }
+                }
+            }
+            _ => {}
+        }
+    }
+}
+
 impl Dispatch<zcosmic_export_dmabuf_manager_v1::ZcosmicExportDmabufManagerV1, ()> for AppData {
     fn event(
         _: &mut Self,
@@ -118,16 +264,16 @@ impl Dispatch<zcosmic_export_dmabuf_manager_v1::ZcosmicExportDmabufManagerV1, ()
     }
 }
 
-impl Dispatch<zcosmic_export_dmabuf_frame_v1::ZcosmicExportDmabufFrameV1, String> for AppData {
+impl Dispatch<zcosmic_export_dmabuf_frame_v1::ZcosmicExportDmabufFrameV1, Capture> for AppData {
     fn event(
         app_data: &mut Self,
         _: &zcosmic_export_dmabuf_frame_v1::ZcosmicExportDmabufFrameV1,
         event: zcosmic_export_dmabuf_frame_v1::Event,
-        output_name: &String,
+        capture: &Capture,
         _: &Connection,
         _: &QueueHandle<AppData>,
     ) {
-        let (sender, frame) = app_data.frames.get_mut(output_name).unwrap();
+        let (sender, frame) = app_data.frames.get_mut(capture).unwrap();
 
         match event {
             zcosmic_export_dmabuf_frame_v1::Event::Device { ref node } => {
@@ -228,6 +374,32 @@ fn frame_to_texture(
     )
 }
 
+fn image_vbox<F: FnMut() + 'static>(
+    name: &str,
+    mut capture: F,
+) -> (gtk4::Box, async_channel::Sender<DmaBufFrame>) {
+    let picture = gtk4::Picture::new();
+    let (sender, receiver) = async_channel::unbounded();
+
+    glib::MainContext::default().spawn_local(glib::clone!(@strong picture => async move {
+        let mut gpu_manager = GpuManager::new(EglGlesBackend, None).unwrap();
+        loop {
+            capture();
+            let frame = receiver.recv().await.unwrap();
+            let texture = frame_to_texture(frame, &mut gpu_manager);
+            picture.set_paintable(Some(&texture));
+        }
+    }));
+
+    let image_vbox = cascade! {
+        gtk4::Box::new(gtk4::Orientation::Vertical, 8);
+        ..set_hexpand(true);
+        ..append(&gtk4::Label::new(Some(&name)));
+        ..append(&picture);
+    };
+    (image_vbox, sender)
+}
+
 fn main() {
     env_logger::init();
     gtk4::init().unwrap();
@@ -250,41 +422,57 @@ fn main() {
 
     // XXX update as outputs added/removed
     let outputs = app_data.outputs.clone();
+    let workspace_groups = app_data.workspace_groups.clone();
+    let dmabuf_manager = app_data.export_dmabuf_manager.clone().unwrap();
 
-    let window = gtk4::Window::new();
-    let hbox = gtk4::Box::new(gtk4::Orientation::Horizontal, 24);
-    for (output, name) in outputs.clone() {
-        let vbox = gtk4::Box::new(gtk4::Orientation::Vertical, 8);
-        vbox.append(&gtk4::Label::new(Some(&name)));
-        vbox.set_hexpand(true);
-        let picture = gtk4::Picture::new();
-        vbox.append(&picture);
-        hbox.append(&vbox);
-
-        let (sender, receiver) = async_channel::unbounded();
-        app_data
-            .frames
-            .insert(name.to_string(), (sender, DmaBufFrame::default()));
-
-        let qh = qh.clone();
-        let mut gpu_manager = GpuManager::new(EglGlesBackend, None).unwrap();
-        let dmabuf_manager = app_data.export_dmabuf_manager.clone().unwrap();
-        glib::MainContext::default().spawn_local(async move {
-            loop {
-                dmabuf_manager.capture_output(0, &output, &qh, name.to_string());
-                let frame = receiver.recv().await.unwrap();
-                let texture = frame_to_texture(frame, &mut gpu_manager);
-                picture.set_paintable(Some(&texture));
-            }
-        });
+    let outputs_hbox = gtk4::Box::new(gtk4::Orientation::Horizontal, 24);
+    for (output, name) in outputs {
+        let (image_vbox, sender) = image_vbox(
+            &name,
+            glib::clone!(@strong dmabuf_manager, @strong qh, @strong name => move || {
+                dmabuf_manager.capture_output(0, &output, &qh, Capture::Output(name.clone()));
+            }),
+        );
+        app_data.frames.insert(
+            Capture::Output(name.to_string()),
+            (sender, DmaBufFrame::default()),
+        );
+        outputs_hbox.append(&image_vbox);
     }
-    window.set_child(Some(&hbox));
-    window.show();
 
-    // XXX No success using `poll_dispatch_pending`?
-    // XXX Busy loop?
+    let workspaces_hbox = gtk4::Box::new(gtk4::Orientation::Horizontal, 24);
+    for (_, group_info) in workspace_groups {
+        for (workspace, workspace_info) in &group_info.workspaces {
+            let name = workspace_info.name.clone().unwrap();
+            if let Some(output) = group_info.output.clone() {
+                let (image_vbox, sender) = image_vbox(
+                    &name,
+                    glib::clone!(@strong dmabuf_manager, @strong workspace, @strong qh, @strong name => move || {
+                        dmabuf_manager.capture_workspace(0, &workspace, &output, &qh, Capture::Workspace(name.clone()));
+                    }),
+                );
+                app_data.frames.insert(
+                    Capture::Workspace(name.to_string()),
+                    (sender, DmaBufFrame::default()),
+                );
+                workspaces_hbox.append(&image_vbox);
+            }
+        }
+    }
+
+    cascade! {
+        gtk4::Window::new();
+        ..set_child(Some(&cascade! {
+            gtk4::Box::new(gtk4::Orientation::Vertical, 24);
+            ..append(&outputs_hbox);
+            ..append(&workspaces_hbox);
+        }));
+        ..show();
+    };
+
+    // XXX Should it be possible to use `poll_dispatch_pending`?
     std::thread::spawn(move || loop {
-        event_queue.dispatch_pending(&mut app_data).unwrap();
+        event_queue.blocking_dispatch(&mut app_data).unwrap();
     });
 
     glib::MainLoop::new(None, false).run();

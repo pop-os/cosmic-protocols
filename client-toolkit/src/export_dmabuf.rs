@@ -2,6 +2,22 @@ use cosmic_protocols::export_dmabuf::v1::client::{
     zcosmic_export_dmabuf_frame_v1, zcosmic_export_dmabuf_manager_v1,
 };
 use sctk::registry::{ProvidesRegistryState, RegistryHandler};
+#[cfg(feature = "smithay")]
+use smithay::{
+    backend::{
+        allocator::{
+            dmabuf::{Dmabuf, DmabufFlags},
+            Fourcc, Modifier,
+        },
+        drm::node::DrmNode,
+        renderer::{
+            gles2::Gles2Texture,
+            multigpu::{egl::EglGlesBackend, GpuManager},
+            Bind, ExportMem,
+        },
+    },
+    utils::{Point, Rectangle, Size},
+};
 use std::{collections::HashMap, os::unix::io::OwnedFd};
 use wayland_client::{backend::ObjectId, Connection, Dispatch, Proxy, QueueHandle};
 
@@ -23,6 +39,40 @@ pub struct DmabufFrame {
     pub modifier: u64,
     pub format: u32,
     pub flags: u32,
+}
+
+#[cfg(feature = "smithay")]
+impl DmabufFrame {
+    // TODO: Don't create new renderer every frame?
+    pub fn import_to_bytes(self, gpu_manager: &mut GpuManager<EglGlesBackend>) -> Vec<u8> {
+        let mut builder = Dmabuf::builder(
+            (self.width as i32, self.height as i32),
+            Fourcc::try_from(self.format).unwrap(),
+            DmabufFlags::from_bits(u32::from(self.flags)).unwrap(),
+        );
+        for object in self.objects {
+            builder.add_plane(
+                object.fd,
+                object.index,
+                object.offset,
+                object.stride,
+                Modifier::from(self.modifier),
+            );
+        }
+        let dmabuf = builder.build().unwrap();
+
+        let drm_node = DrmNode::from_dev_id(self.node).unwrap();
+        let mut renderer = gpu_manager
+            .renderer::<Gles2Texture>(&drm_node, &drm_node)
+            .unwrap();
+        renderer.bind(dmabuf).unwrap();
+        let rectangle = Rectangle {
+            loc: Point::default(),
+            size: Size::from((self.width as i32, self.height as i32)),
+        };
+        let mapping = renderer.copy_framebuffer(rectangle).unwrap();
+        Vec::from(renderer.map_texture(&mapping).unwrap())
+    }
 }
 
 pub struct ExportDmabufState {

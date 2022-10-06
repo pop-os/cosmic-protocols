@@ -11,21 +11,7 @@ use sctk::{
     output::{OutputHandler, OutputState},
     registry::{ProvidesRegistryState, RegistryState},
 };
-use smithay::{
-    backend::{
-        allocator::{
-            dmabuf::{Dmabuf, DmabufFlags},
-            Fourcc, Modifier,
-        },
-        drm::node::DrmNode,
-        renderer::{
-            gles2::Gles2Texture,
-            multigpu::{egl::EglGlesBackend, GpuManager},
-            Bind, ExportMem,
-        },
-    },
-    utils::{Point, Rectangle, Size},
-};
+use smithay::backend::renderer::multigpu::{egl::EglGlesBackend, GpuManager};
 use std::{
     collections::HashMap,
     sync::{Arc, Mutex},
@@ -117,49 +103,17 @@ impl WorkspaceHandler for AppData {
     }
 }
 
-// TODO: Don't create new renderer every frame?
 // XXX: Import dmabuf into GDK's GLContext and use gdk::GLTexture? GDK doesn't seem to expose
 // EGLContext.
 // Maybe use a single `Paintable` that is updated every frame?
-fn frame_to_bytes(frame: DmabufFrame, gpu_manager: &mut GpuManager<EglGlesBackend>) -> Vec<u8> {
-    let mut builder = Dmabuf::builder(
-        (frame.width as i32, frame.height as i32),
-        Fourcc::try_from(frame.format).unwrap(),
-        DmabufFlags::from_bits(u32::from(frame.flags)).unwrap(),
-    );
-    for object in frame.objects {
-        builder.add_plane(
-            object.fd,
-            object.index,
-            object.offset,
-            object.stride,
-            Modifier::from(frame.modifier),
-        );
-    }
-    let dmabuf = builder.build().unwrap();
-
-    let drm_node = DrmNode::from_dev_id(frame.node).unwrap();
-    let mut renderer = gpu_manager
-        .renderer::<Gles2Texture>(&drm_node, &drm_node)
-        .unwrap();
-    renderer.bind(dmabuf).unwrap();
-    let rectangle = Rectangle {
-        loc: Point::default(),
-        size: Size::from((frame.width as i32, frame.height as i32)),
-    };
-    let mapping = renderer.copy_framebuffer(rectangle).unwrap();
-    let bytes = Vec::from(renderer.map_texture(&mapping).unwrap());
-    gdk::GLContext::clear_current();
-    bytes
-}
-
 fn frame_to_texture(
     frame: DmabufFrame,
     gpu_manager: &mut GpuManager<EglGlesBackend>,
 ) -> gdk::MemoryTexture {
     let width = frame.width as i32;
     let height = frame.height as i32;
-    let bytes = frame_to_bytes(frame, gpu_manager);
+    let bytes = frame.import_to_bytes(gpu_manager);
+    gdk::GLContext::clear_current();
     gdk::MemoryTexture::new(
         width,
         height,

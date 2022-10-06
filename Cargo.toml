@@ -35,3 +35,6 @@ memfd = "0.6.1"
 default = ["client", "server"]
 client = ["wayland-client", "wayland-protocols/client"]
 server = ["wayland-server", "wayland-protocols/server"]
+
+[workspace]
+members = ["client-toolkit"]

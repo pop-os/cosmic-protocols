@@ -10,12 +10,13 @@ wayland-client = { version = "0.30.0-beta.10" }
 smithay = { git = "https://github.com/Smithay/smithay", rev = "625cbca5", default-features = false, features = ["backend_egl", "renderer_gl", "renderer_multi", "slog-stdlog"], optional = true }
 
 [dev-dependencies]
-async-channel = "1.7.1"
+futures = "0.3.24"
 cascade = "1"
 env_logger = "0.9.1"
 gdk-pixbuf = "0.15.11"
 gtk4 = { version = "0.4.8" }
 gdk4-wayland = { version = "0.4.8", features = ["wayland_crate", "v4_4", "egl"] }
+iced = { git = "https://github.com/iced-rs/iced", features = ["image"] }
 wayland-backend = { version = "0.1.0-beta.10", features = ["client_system"] }
 
 [features]

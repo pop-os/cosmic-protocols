@@ -6,6 +6,7 @@ use cosmic_client_toolkit::{
     workspace::{WorkspaceHandler, WorkspaceState},
 };
 use cosmic_protocols::export_dmabuf::v1::client::zcosmic_export_dmabuf_frame_v1;
+use futures::{channel::mpsc, stream::StreamExt};
 use gtk4::{gdk, glib, prelude::*};
 use sctk::{
     output::{OutputHandler, OutputState},
@@ -23,7 +24,7 @@ use wayland_client::{
 };
 
 struct AppData {
-    frames: Arc<Mutex<HashMap<ObjectId, async_channel::Sender<DmabufFrame>>>>,
+    frames: Arc<Mutex<HashMap<ObjectId, mpsc::UnboundedSender<DmabufFrame>>>>,
     registry_state: RegistryState,
     output_state: OutputState,
     export_dmabuf_state: ExportDmabufState,
@@ -84,7 +85,7 @@ impl ExportDmabufHandler for AppData {
             .unwrap()
             .remove(&frame.id())
             .unwrap()
-            .send_blocking(dmabuf)
+            .unbounded_send(dmabuf)
             .unwrap();
     }
 
@@ -131,7 +132,7 @@ fn image_vbox<
     mut capture: F,
 ) -> gtk4::Box {
     let picture = gtk4::Picture::new();
-    let (sender, receiver) = async_channel::unbounded();
+    let (sender, mut receiver) = mpsc::unbounded();
 
     let frames = app_data.frames.clone();
     glib::MainContext::default().spawn_local(glib::clone!(@strong picture => async move {
@@ -139,7 +140,7 @@ fn image_vbox<
         loop {
             let frame = capture();
             frames.lock().unwrap().insert(frame.id(), sender.clone());
-            let dmabuf = receiver.recv().await.unwrap();
+            let dmabuf = receiver.next().await.unwrap();
             let texture = frame_to_texture(dmabuf, &mut gpu_manager);
             picture.set_paintable(Some(&texture));
         }

@@ -12,9 +12,14 @@ use sctk::{
     output::{OutputHandler, OutputState},
     registry::{ProvidesRegistryState, RegistryState},
 };
-use smithay::backend::renderer::multigpu::{egl::EglGlesBackend, GpuManager};
+use smithay::backend::renderer::{
+    gles2::Gles2Renderer,
+    multigpu::{egl::EglGlesBackend, GpuManager},
+};
 use std::{
+    cell::RefCell,
     collections::HashMap,
+    rc::Rc,
     sync::{Arc, Mutex},
 };
 use wayland_client::{
@@ -104,13 +109,12 @@ impl WorkspaceHandler for AppData {
     }
 }
 
-// XXX: Import dmabuf into GDK's GLContext and use gdk::GLTexture? GDK doesn't seem to expose
-// EGLContext.
+// XXX: Import dmabuf into GDK's GLContext and use gdk::GLTexture?
 // Maybe use a single `Paintable` that is updated every frame?
 fn frame_to_texture(
     frame: DmabufFrame,
-    gpu_manager: &mut GpuManager<EglGlesBackend>,
-) -> gdk::MemoryTexture {
+    gpu_manager: &mut GpuManager<EglGlesBackend<Gles2Renderer>>,
+) -> gdk::Texture {
     let width = frame.width as i32;
     let height = frame.height as i32;
     let bytes = frame.import_to_bytes(gpu_manager);
@@ -122,6 +126,38 @@ fn frame_to_texture(
         &glib::Bytes::from_owned(bytes),
         width as usize * 4,
     )
+    .upcast()
+}
+
+unsafe fn frame_to_texture_direct(
+    frame: DmabufFrame,
+    egl_display: *const std::ffi::c_void,
+    gl_context: &gdk::GLContext,
+) -> gdk::Texture {
+    use cosmic_client_toolkit::{egl, gl};
+    let egl_image = egl::EGLImage::import_dmabuf(egl_display, &frame).unwrap();
+    gl_context.make_current();
+    let texture = gl::bind_eglimage_to_texture(&egl_image).unwrap();
+    let bytes = gl::texture_read_pixels(texture, frame.width as i32, frame.height as i32).unwrap();
+    gdk::GLContext::clear_current();
+    /*
+    gdk::GLTexture::with_release_func(
+        gl_context,
+        texture,
+        frame.width as i32,
+        frame.height as i32,
+        move || cosmic_client_toolkit::gl::delete_texture(texture),
+    )
+    .upcast()
+    */
+    gdk::MemoryTexture::new(
+        frame.width as i32,
+        frame.height as i32,
+        gdk::MemoryFormat::R8g8b8a8,
+        &glib::Bytes::from_owned(bytes),
+        frame.width as usize * 4,
+    )
+    .upcast()
 }
 
 fn image_vbox<
@@ -129,6 +165,8 @@ fn image_vbox<
 >(
     app_data: &AppData,
     name: &str,
+    egl_display: *const std::ffi::c_void,
+    gl_context: Rc<RefCell<Option<gdk::GLContext>>>,
     mut capture: F,
 ) -> gtk4::Box {
     let picture = gtk4::Picture::new();
@@ -136,13 +174,16 @@ fn image_vbox<
 
     let frames = app_data.frames.clone();
     glib::MainContext::default().spawn_local(glib::clone!(@strong picture => async move {
-        let mut gpu_manager = GpuManager::new(EglGlesBackend, None).unwrap();
+        let mut gpu_manager = GpuManager::new(EglGlesBackend::<Gles2Renderer>::default(), None).unwrap();
         loop {
             let frame = capture();
             frames.lock().unwrap().insert(frame.id(), sender.clone());
             let dmabuf = receiver.next().await.unwrap();
-            let texture = frame_to_texture(dmabuf, &mut gpu_manager);
-            picture.set_paintable(Some(&texture));
+            //let texture = frame_to_texture(dmabuf, &mut gpu_manager);
+            if let Some(gl_context) = &*gl_context.borrow() {
+                let texture = unsafe { frame_to_texture_direct(dmabuf, egl_display, &gl_context) };
+                picture.set_paintable(Some(&texture));
+            }
         }
     }));
 
@@ -163,6 +204,10 @@ fn main() {
         .downcast::<gdk4_wayland::WaylandDisplay>()
         .unwrap();
     let wl_display = display.wl_display().c_ptr();
+    let egl_display = display.egl_display().unwrap().as_ptr();
+    //let gl_context = display.create_gl_context().unwrap();
+    let gl_context = Rc::new(RefCell::new(None));
+
     let connection =
         Connection::from_backend(unsafe { Backend::from_foreign_display(wl_display as _) });
     let mut event_queue = connection.new_event_queue();
@@ -204,6 +249,8 @@ fn main() {
         let image_vbox = image_vbox(
             &app_data,
             &name,
+            egl_display,
+            gl_context.clone(),
             glib::clone!(@strong export_dmabuf_manager, @strong qh, @strong name => move || {
                 export_dmabuf_manager.capture_output(0, &output, &qh, ())
             }),
@@ -219,6 +266,8 @@ fn main() {
                 let image_vbox = image_vbox(
                     &app_data,
                     &name,
+                    egl_display,
+                    gl_context.clone(),
                     glib::clone!(@strong export_dmabuf_manager, @strong workspace, @strong qh, @strong name => move || {
                         export_dmabuf_manager.capture_workspace(0, &workspace, &output, &qh, ())
                     }),
@@ -234,6 +283,12 @@ fn main() {
             gtk4::Box::new(gtk4::Orientation::Vertical, 24);
             ..append(&outputs_hbox);
             ..append(&workspaces_hbox);
+        }));
+        ..connect_realize(glib::clone!(@strong gl_context => move |window| {
+            *gl_context.borrow_mut() = Some(window.surface().create_gl_context().unwrap());
+        }));
+        ..connect_unrealize(glib::clone!(@strong gl_context => move |_| {
+            *gl_context.borrow_mut() = None;
         }));
         ..show();
     };

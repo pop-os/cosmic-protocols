@@ -11,7 +11,7 @@ use smithay::{
         },
         drm::node::DrmNode,
         renderer::{
-            gles2::Gles2Texture,
+            gles2::{Gles2Renderer, Gles2Texture},
             multigpu::{egl::EglGlesBackend, GpuManager},
             Bind, ExportMem,
         },
@@ -44,7 +44,10 @@ pub struct DmabufFrame {
 #[cfg(feature = "smithay")]
 impl DmabufFrame {
     // TODO: Don't create new renderer every frame?
-    pub fn import_to_bytes(self, gpu_manager: &mut GpuManager<EglGlesBackend>) -> Vec<u8> {
+    pub fn import_to_bytes(
+        self,
+        gpu_manager: &mut GpuManager<EglGlesBackend<Gles2Renderer>>,
+    ) -> Vec<u8> {
         let mut builder = Dmabuf::builder(
             (self.width as i32, self.height as i32),
             Fourcc::try_from(self.format).unwrap(),

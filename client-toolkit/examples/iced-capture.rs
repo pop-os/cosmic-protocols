@@ -33,7 +33,7 @@ fn empty_image() -> iced::widget::image::Handle {
 // XXX don't create `gpu_manager` every frame; had issues with it not being `Send`, and EGL
 fn dmabuf_to_image(dmabuf: DmabufFrame) -> iced::widget::image::Handle {
     // error
-    let mut gpu_manager = GpuManager::new(EglGlesBackend, None).unwrap();
+    let mut gpu_manager = GpuManager::new(EglGlesBackend::default(), None).unwrap();
     let width = dmabuf.width;
     let height = dmabuf.height;
     let bytes = dmabuf.import_to_bytes(&mut gpu_manager);

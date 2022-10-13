@@ -66,7 +66,7 @@ static DMA_BUF_PLANE_ATTRIBS: &[(
     ),
 ];
 
-pub(crate) fn get_proc_address(procname: &str) -> *const c_void {
+pub fn get_proc_address(procname: &str) -> *const c_void {
     let procname = CString::new(procname.as_bytes()).unwrap();
     unsafe { ffi::eglGetProcAddress(procname.as_ptr()) }
 }

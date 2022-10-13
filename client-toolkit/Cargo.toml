@@ -17,10 +17,14 @@ futures = "0.3.24"
 cascade = "1"
 env_logger = "0.9.1"
 gdk-pixbuf = "0.15.11"
+glow = "0.11.2"
+glutin = "0.30.0-beta.2"
 gtk4 = { version = "0.4.8", features = ["v4_6"] }
 gdk4-wayland = { version = "0.4.8", features = ["wayland_crate", "v4_4", "egl"] }
 iced = { git = "https://github.com/iced-rs/iced", features = ["image"] }
+raw-window-handle = "0.5.0"
 wayland-backend = { version = "0.1.0-beta.10", features = ["client_system"] }
+winit = "0.27.4"
 
 [features]
 default = ["gl", "smithay"]

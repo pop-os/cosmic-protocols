@@ -27,6 +27,7 @@ pub unsafe fn bind_eglimage_to_texture(
     ffi::GenTextures(1, &mut texture);
     ffi::BindTexture(ffi::TEXTURE_2D, texture);
     ffi::EGLImageTargetTexture2DOES(ffi::TEXTURE_2D, image.ptr());
+    ffi::TexParameteri(ffi::TEXTURE_2D, ffi::TEXTURE_MIN_FILTER, ffi::LINEAR as i32);
     ffi::BindTexture(ffi::TEXTURE_2D, 0);
     match ffi::GetError() {
         ffi::NO_ERROR => Ok(texture),

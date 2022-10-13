@@ -1,5 +1,3 @@
-// Use same abstraction in an iced example
-
 use cascade::cascade;
 use cosmic_client_toolkit::{
     export_dmabuf::{DmabufFrame, ExportDmabufHandler, ExportDmabufState},
@@ -140,22 +138,12 @@ unsafe fn frame_to_texture_direct(
     let texture = gl::bind_eglimage_to_texture(&egl_image).unwrap();
     let bytes = gl::texture_read_pixels(texture, frame.width as i32, frame.height as i32).unwrap();
     gdk::GLContext::clear_current();
-    /*
     gdk::GLTexture::with_release_func(
         gl_context,
         texture,
         frame.width as i32,
         frame.height as i32,
         move || cosmic_client_toolkit::gl::delete_texture(texture),
-    )
-    .upcast()
-    */
-    gdk::MemoryTexture::new(
-        frame.width as i32,
-        frame.height as i32,
-        gdk::MemoryFormat::R8g8b8a8,
-        &glib::Bytes::from_owned(bytes),
-        frame.width as usize * 4,
     )
     .upcast()
 }

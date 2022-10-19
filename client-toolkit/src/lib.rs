@@ -7,4 +7,5 @@ pub mod egl;
 pub mod export_dmabuf;
 #[cfg(feature = "gl")]
 pub mod gl;
+pub mod toplevel_info;
 pub mod workspace;

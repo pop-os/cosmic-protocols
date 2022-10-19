@@ -1,9 +1,11 @@
 use cascade::cascade;
 use cosmic_client_toolkit::{
     export_dmabuf::{DmabufFrame, ExportDmabufHandler, ExportDmabufState},
+    toplevel_info::{ToplevelInfoHandler, ToplevelInfoState},
     workspace::{WorkspaceHandler, WorkspaceState},
 };
 use cosmic_protocols::export_dmabuf::v1::client::zcosmic_export_dmabuf_frame_v1;
+use cosmic_protocols::toplevel_info::v1::client::zcosmic_toplevel_handle_v1;
 use futures::{channel::mpsc, stream::StreamExt};
 use gtk4::{gdk, glib, prelude::*};
 use sctk::{
@@ -33,6 +35,7 @@ struct AppData {
     export_dmabuf_state: ExportDmabufState,
     workspace_state: WorkspaceState,
     workspaces_done: bool,
+    toplevel_info_state: ToplevelInfoState,
 }
 
 impl ProvidesRegistryState for AppData {
@@ -40,7 +43,12 @@ impl ProvidesRegistryState for AppData {
         &mut self.registry_state
     }
 
-    sctk::registry_handlers!(OutputState, ExportDmabufState, WorkspaceState,);
+    sctk::registry_handlers!(
+        OutputState,
+        ExportDmabufState,
+        WorkspaceState,
+        ToplevelInfoState,
+    );
 }
 
 impl OutputHandler for AppData {
@@ -104,6 +112,36 @@ impl WorkspaceHandler for AppData {
 
     fn done(&mut self) {
         self.workspaces_done = true;
+    }
+}
+
+impl ToplevelInfoHandler for AppData {
+    fn toplevel_info_state(&mut self) -> &mut ToplevelInfoState {
+        &mut self.toplevel_info_state
+    }
+
+    fn new_toplevel(
+        &mut self,
+        _conn: &Connection,
+        _qh: &QueueHandle<Self>,
+        toplevel: &zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1,
+    ) {
+    }
+
+    fn update_toplevel(
+        &mut self,
+        _conn: &Connection,
+        _qh: &QueueHandle<Self>,
+        toplevel: &zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1,
+    ) {
+    }
+
+    fn toplevel_closed(
+        &mut self,
+        _conn: &Connection,
+        _qh: &QueueHandle<Self>,
+        toplevel: &zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1,
+    ) {
     }
 }
 
@@ -207,6 +245,7 @@ fn main() {
         output_state: OutputState::new(),
         export_dmabuf_state: ExportDmabufState::new(),
         workspace_state: WorkspaceState::new(),
+        toplevel_info_state: ToplevelInfoState::new(),
         workspaces_done: false,
     };
     while !app_data.registry_state.ready() || !app_data.workspaces_done {
@@ -228,6 +267,12 @@ fn main() {
             let info = app_data.output_state.info(&output).unwrap();
             (output, info.name.unwrap().to_string())
         })
+        .collect();
+
+    let toplevels: Vec<_> = app_data
+        .toplevel_info_state
+        .toplevels()
+        .map(|(toplevel, toplevel_info)| (toplevel.clone(), toplevel_info.clone()))
         .collect();
 
     let workspace_groups = app_data.workspace_state.workspace_groups().to_owned();
@@ -265,12 +310,30 @@ fn main() {
         }
     }
 
+    let toplevel_hbox = gtk4::Box::new(gtk4::Orientation::Horizontal, 24);
+    for (toplevel, toplevel_info) in toplevels {
+        if let Some(toplevel_info) = toplevel_info {
+            let name = toplevel_info.title.clone();
+            let image_vbox = image_vbox(
+                &app_data,
+                &name,
+                egl_display,
+                gl_context.clone(),
+                glib::clone!(@strong export_dmabuf_manager, @strong qh => move || {
+                    export_dmabuf_manager.capture_toplevel(0, &toplevel, &qh, ())
+                }),
+            );
+            toplevel_hbox.append(&image_vbox);
+        }
+    }
+
     cascade! {
         gtk4::Window::new();
         ..set_child(Some(&cascade! {
             gtk4::Box::new(gtk4::Orientation::Vertical, 24);
             ..append(&outputs_hbox);
             ..append(&workspaces_hbox);
+            ..append(&toplevel_hbox);
         }));
         ..connect_realize(glib::clone!(@strong gl_context => move |window| {
             *gl_context.borrow_mut() = Some(window.surface().create_gl_context().unwrap());
@@ -293,3 +356,4 @@ sctk::delegate_output!(AppData);
 sctk::delegate_registry!(AppData);
 cosmic_client_toolkit::delegate_export_dmabuf!(AppData);
 cosmic_client_toolkit::delegate_workspace!(AppData);
+cosmic_client_toolkit::delegate_toplevel_info!(AppData);

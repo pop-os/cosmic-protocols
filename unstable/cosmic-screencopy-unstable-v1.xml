@@ -144,6 +144,11 @@
       create a new session to replace it.
     </description>
 
+    <enum name="error">
+      <entry name="invalid_cursor_mode" value="0"
+        summary="the provided cursor mode is not supported"/>
+    </enum>
+
     <enum name="failure_reason">
       <entry name="unspec" value="0"/>
       <entry name="invalid_buffer" value="1"/>

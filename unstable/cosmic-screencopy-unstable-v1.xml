@@ -156,7 +156,7 @@
       <entry name="invalid_workspace" value="3"/>
       <entry name="invalid_toplevel" value="4"/>
       <entry name="invalid_seat" value="5"/>
-      <entry name="resized" value="6"/>
+      <entry name="invalid_size" value="6"/>
     </enum>
 
     <enum name="options" bitfield="true">

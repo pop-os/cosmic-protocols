@@ -148,9 +148,9 @@
       <entry name="unspec" value="0"/>
       <entry name="invalid_buffer" value="1"/>
       <entry name="invalid_output" value="2"/>
-      <entry name="output_disabled" value="4"/>
-      <entry name="toplevel_destroyed" value="5"/>
-      <entry name="unknown_input" value="6"/>
+      <entry name="invalid_workspace" value="3"/>
+      <entry name="invalid_toplevel" value="4"/>
+      <entry name="resized" value="5"/>
     </enum>
 
     <enum name="options" bitfield="true">
@@ -170,6 +170,9 @@
     <request name="capture_cursor">
       <description summary="create sub-session to capture cursor">
         Creates a sub-session used to capture the cursor of a given seat.
+        Using this request, when the server did not indicate support
+        through a `supported_cursor_mode` event with the value `capture` is
+        a protocol error.
 
         The sub-session will not generate cursor_enter or cursor_leave events.
         It will generate a single cursor_info event for the captured seat, if

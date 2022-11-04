@@ -16,6 +16,17 @@
 #[macro_use]
 mod protocol_macro;
 
+pub mod screencopy {
+    //! Capture interface.
+
+    #[allow(missing_docs)]
+    pub mod v1 {
+        wayland_protocol!(
+            "./unstable/cosmic-screencopy-unstable-v1.xml",
+            [crate::workspace::v1, crate::toplevel_info::v1]
+        );
+    }
+}
 pub mod export_dmabuf {
     //! Low overhead capture interface.
 

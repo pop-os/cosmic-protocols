@@ -245,7 +245,7 @@ fn main() {
 
     let exporter = start_sctk(event_loop.raw_display_handle());
 
-    let gl_display = unsafe { Display::from_raw(event_loop.raw_display_handle()).unwrap() };
+    let gl_display = unsafe { Display::new(event_loop.raw_display_handle()).unwrap() };
     let config_template = config::ConfigTemplateBuilder::default()
         .compatible_with_native_window(window.raw_window_handle())
         .with_surface_type(config::ConfigSurfaceTypes::WINDOW)

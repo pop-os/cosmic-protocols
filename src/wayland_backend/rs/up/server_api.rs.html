@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.10/src/rs/../server_api.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>server_api.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../wayland_backend/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.10/src/rs/../server_api.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>server_api.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../normalize.css"><link rel="stylesheet" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../dark.css" disabled><link rel="stylesheet" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../wayland_backend/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -581,588 +581,588 @@
 <span id="581">581</span>
 <span id="582">582</span>
 <span id="583">583</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">ffi::CString</span>,
-    <span class="ident">fmt</span>,
-    <span class="ident">os::unix</span>::{<span class="ident">io::RawFd</span>, <span class="ident">net::UnixStream</span>},
-    <span class="ident">sync::Arc</span>,
+</pre><pre class="rust"><code><span class="kw">use </span>std::{
+    ffi::CString,
+    fmt,
+    os::unix::{io::RawFd, net::UnixStream},
+    sync::Arc,
 };
 
-<span class="kw">use</span> <span class="ident">io_lifetimes</span>::{<span class="ident">BorrowedFd</span>, <span class="ident">OwnedFd</span>};
+<span class="kw">use </span>io_lifetimes::{BorrowedFd, OwnedFd};
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::protocol</span>::{<span class="ident">Interface</span>, <span class="ident">Message</span>, <span class="ident">ObjectInfo</span>};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::types::server</span>::{<span class="ident">Credentials</span>, <span class="ident">DisconnectReason</span>, <span class="ident">GlobalInfo</span>, <span class="ident">InitError</span>, <span class="ident">InvalidId</span>};
+<span class="kw">use </span><span class="kw">crate</span>::protocol::{Interface, Message, ObjectInfo};
+<span class="kw">pub use </span><span class="kw">crate</span>::types::server::{Credentials, DisconnectReason, GlobalInfo, InitError, InvalidId};
 
-<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::server_impl</span>;
+<span class="kw">use </span><span class="kw">super</span>::server_impl;
 
-<span class="doccomment">/// A trait representing your data associated to an object</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// You will only be given access to it as a `&amp;` reference, so you</span>
-<span class="doccomment">/// need to handle interior mutability by yourself.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The methods of this trait will be invoked internally every time a</span>
-<span class="doccomment">/// new object is created to initialize its data.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ObjectData</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>: <span class="ident">downcast_rs::DowncastSync</span> {
-    <span class="doccomment">/// Dispatch a request for the associated object</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the request has a `NewId` argument, the callback must return the object data</span>
-    <span class="doccomment">/// for the newly created object</span>
-    <span class="kw">fn</span> <span class="ident">request</span>(
-        <span class="self">self</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
-        <span class="ident">handle</span>: <span class="kw-2">&amp;</span><span class="ident">Handle</span>,
-        <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>,
-        <span class="ident">client_id</span>: <span class="ident">ClientId</span>,
-        <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>;
-    <span class="doccomment">/// Notification that the object has been destroyed and is no longer active</span>
-    <span class="kw">fn</span> <span class="ident">destroyed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>, <span class="ident">client_id</span>: <span class="ident">ClientId</span>, <span class="ident">object_id</span>: <span class="ident">ObjectId</span>);
-    <span class="doccomment">/// Helper for forwarding a Debug implementation of your `ObjectData` type</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By default will just print `ObjectData { ... }`</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">debug</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
-        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;ObjectData&quot;</span>).<span class="ident">finish_non_exhaustive</span>()
+<span class="doccomment">/// A trait representing your data associated to an object
+///
+/// You will only be given access to it as a `&amp;` reference, so you
+/// need to handle interior mutability by yourself.
+///
+/// The methods of this trait will be invoked internally every time a
+/// new object is created to initialize its data.
+</span><span class="kw">pub trait </span>ObjectData&lt;D&gt;: downcast_rs::DowncastSync {
+    <span class="doccomment">/// Dispatch a request for the associated object
+    ///
+    /// If the request has a `NewId` argument, the callback must return the object data
+    /// for the newly created object
+    </span><span class="kw">fn </span>request(
+        <span class="self">self</span>: Arc&lt;<span class="self">Self</span>&gt;,
+        handle: <span class="kw-2">&amp;</span>Handle,
+        data: <span class="kw-2">&amp;mut </span>D,
+        client_id: ClientId,
+        msg: Message&lt;ObjectId, OwnedFd&gt;,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;Arc&lt;<span class="kw">dyn </span>ObjectData&lt;D&gt;&gt;&gt;;
+    <span class="doccomment">/// Notification that the object has been destroyed and is no longer active
+    </span><span class="kw">fn </span>destroyed(<span class="kw-2">&amp;</span><span class="self">self</span>, data: <span class="kw-2">&amp;mut </span>D, client_id: ClientId, object_id: ObjectId);
+    <span class="doccomment">/// Helper for forwarding a Debug implementation of your `ObjectData` type
+    ///
+    /// By default will just print `ObjectData { ... }`
+    </span><span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>debug(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
+        f.debug_struct(<span class="string">&quot;ObjectData&quot;</span>).finish_non_exhaustive()
     }
 }
 
-<span class="macro">downcast_rs::impl_downcast!</span>(<span class="ident">sync</span> <span class="ident">ObjectData</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>);
+<span class="macro">downcast_rs::impl_downcast!</span>(sync ObjectData&lt;D&gt;);
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span> <span class="ident">std::fmt::Debug</span> <span class="kw">for</span> <span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
-        <span class="self">self</span>.<span class="ident">debug</span>(<span class="ident">f</span>)
+<span class="kw">impl</span>&lt;D: <span class="lifetime">&#39;static</span>&gt; std::fmt::Debug <span class="kw">for dyn </span>ObjectData&lt;D&gt; {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
+        <span class="self">self</span>.debug(f)
     }
 }
 
-<span class="doccomment">/// A trait representing the handling of new bound globals</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">GlobalHandler</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>: <span class="ident">downcast_rs::DowncastSync</span> {
-    <span class="doccomment">/// Check if given client is allowed to interact with given global</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If this function returns false, the client will not be notified of the existence</span>
-    <span class="doccomment">/// of this global, and any attempt to bind it will result in a protocol error as if</span>
-    <span class="doccomment">/// the global did not exist.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Default implementation always return true.</span>
-    <span class="kw">fn</span> <span class="ident">can_view</span>(
+<span class="doccomment">/// A trait representing the handling of new bound globals
+</span><span class="kw">pub trait </span>GlobalHandler&lt;D&gt;: downcast_rs::DowncastSync {
+    <span class="doccomment">/// Check if given client is allowed to interact with given global
+    ///
+    /// If this function returns false, the client will not be notified of the existence
+    /// of this global, and any attempt to bind it will result in a protocol error as if
+    /// the global did not exist.
+    ///
+    /// Default implementation always return true.
+    </span><span class="kw">fn </span>can_view(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">_client_id</span>: <span class="ident">ClientId</span>,
-        <span class="ident">_client_data</span>: <span class="kw-2">&amp;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ClientData</span><span class="op">&gt;</span>,
-        <span class="ident">_global_id</span>: <span class="ident">GlobalId</span>,
-    ) -&gt; <span class="ident">bool</span> {
-        <span class="bool-val">true</span>
-    }
-    <span class="doccomment">/// A global has been bound</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Given client bound given global, creating given object.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The method must return the object data for the newly created object.</span>
-    <span class="kw">fn</span> <span class="ident">bind</span>(
-        <span class="self">self</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
-        <span class="ident">handle</span>: <span class="kw-2">&amp;</span><span class="ident">Handle</span>,
-        <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>,
-        <span class="ident">client_id</span>: <span class="ident">ClientId</span>,
-        <span class="ident">global_id</span>: <span class="ident">GlobalId</span>,
-        <span class="ident">object_id</span>: <span class="ident">ObjectId</span>,
-    ) -&gt; <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>;
-    <span class="doccomment">/// Helper for forwarding a Debug implementation of your `GlobalHandler` type</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By default will just print `GlobalHandler { ... }`</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">debug</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
-        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;GlobalHandler&quot;</span>).<span class="ident">finish_non_exhaustive</span>()
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span> <span class="ident">std::fmt::Debug</span> <span class="kw">for</span> <span class="kw">dyn</span> <span class="ident">GlobalHandler</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="self">self</span>.<span class="ident">debug</span>(<span class="ident">f</span>)
+        _client_id: ClientId,
+        _client_data: <span class="kw-2">&amp;</span>Arc&lt;<span class="kw">dyn </span>ClientData&gt;,
+        _global_id: GlobalId,
+    ) -&gt; bool {
+        <span class="bool-val">true
+    </span>}
+    <span class="doccomment">/// A global has been bound
+    ///
+    /// Given client bound given global, creating given object.
+    ///
+    /// The method must return the object data for the newly created object.
+    </span><span class="kw">fn </span>bind(
+        <span class="self">self</span>: Arc&lt;<span class="self">Self</span>&gt;,
+        handle: <span class="kw-2">&amp;</span>Handle,
+        data: <span class="kw-2">&amp;mut </span>D,
+        client_id: ClientId,
+        global_id: GlobalId,
+        object_id: ObjectId,
+    ) -&gt; Arc&lt;<span class="kw">dyn </span>ObjectData&lt;D&gt;&gt;;
+    <span class="doccomment">/// Helper for forwarding a Debug implementation of your `GlobalHandler` type
+    ///
+    /// By default will just print `GlobalHandler { ... }`
+    </span><span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>debug(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
+        f.debug_struct(<span class="string">&quot;GlobalHandler&quot;</span>).finish_non_exhaustive()
     }
 }
 
-<span class="macro">downcast_rs::impl_downcast!</span>(<span class="ident">sync</span> <span class="ident">GlobalHandler</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>);
-
-<span class="doccomment">/// A trait representing your data associated to a client</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ClientData</span>: <span class="ident">downcast_rs::DowncastSync</span> {
-    <span class="doccomment">/// Notification that the client was initialized</span>
-    <span class="kw">fn</span> <span class="ident">initialized</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_client_id</span>: <span class="ident">ClientId</span>) {}
-    <span class="doccomment">/// Notification that the client is disconnected</span>
-    <span class="kw">fn</span> <span class="ident">disconnected</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_client_id</span>: <span class="ident">ClientId</span>, <span class="ident">_reason</span>: <span class="ident">DisconnectReason</span>) {}
-    <span class="doccomment">/// Helper for forwarding a Debug implementation of your `ClientData` type</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By default will just print `GlobalHandler { ... }`</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">debug</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
-        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;ClientData&quot;</span>).<span class="ident">finish_non_exhaustive</span>()
+<span class="kw">impl</span>&lt;D: <span class="lifetime">&#39;static</span>&gt; std::fmt::Debug <span class="kw">for dyn </span>GlobalHandler&lt;D&gt; {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="self">self</span>.debug(f)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">std::fmt::Debug</span> <span class="kw">for</span> <span class="kw">dyn</span> <span class="ident">ClientData</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="self">self</span>.<span class="ident">debug</span>(<span class="ident">f</span>)
+<span class="macro">downcast_rs::impl_downcast!</span>(sync GlobalHandler&lt;D&gt;);
+
+<span class="doccomment">/// A trait representing your data associated to a client
+</span><span class="kw">pub trait </span>ClientData: downcast_rs::DowncastSync {
+    <span class="doccomment">/// Notification that the client was initialized
+    </span><span class="kw">fn </span>initialized(<span class="kw-2">&amp;</span><span class="self">self</span>, _client_id: ClientId) {}
+    <span class="doccomment">/// Notification that the client is disconnected
+    </span><span class="kw">fn </span>disconnected(<span class="kw-2">&amp;</span><span class="self">self</span>, _client_id: ClientId, _reason: DisconnectReason) {}
+    <span class="doccomment">/// Helper for forwarding a Debug implementation of your `ClientData` type
+    ///
+    /// By default will just print `GlobalHandler { ... }`
+    </span><span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>debug(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
+        f.debug_struct(<span class="string">&quot;ClientData&quot;</span>).finish_non_exhaustive()
     }
 }
 
-<span class="kw">impl</span> <span class="ident">ClientData</span> <span class="kw">for</span> () {}
-
-<span class="macro">downcast_rs::impl_downcast!</span>(<span class="ident">sync</span> <span class="ident">ClientData</span>);
-
-<span class="doccomment">/// An ID representing a Wayland object</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The backend internally tracks which IDs are still valid, invalidates them when the protocol object they</span>
-<span class="doccomment">/// represent is destroyed. As such even though the Wayland protocol reuses IDs, you still confidently compare</span>
-<span class="doccomment">/// two `ObjectId` for equality, they will only compare as equal if they both represent the same protocol</span>
-<span class="doccomment">/// object from the same client.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ObjectId</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">id</span>: <span class="ident">server_impl::InnerObjectId</span>,
-}
-
-<span class="kw">impl</span> <span class="ident">ObjectId</span> {
-    <span class="doccomment">/// Returns whether this object is a null object.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note:** This is not the same as checking if the ID is still valid, which cannot be done without the</span>
-    <span class="doccomment">/// [`Backend`]. A null ID is the ID equivalent of a null pointer: it never has been valid and never will</span>
-    <span class="doccomment">/// be.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_null</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">is_null</span>()
-    }
-
-    <span class="doccomment">/// Returns an object id that represents a null object.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This object ID is always invalid, and should be used for events with an optional `Object` argument.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">null</span>() -&gt; <span class="ident">ObjectId</span> {
-        <span class="ident">server_impl::InnerHandle::null_id</span>()
-    }
-
-    <span class="doccomment">/// Returns the interface of this object.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">interface</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span> {
-        <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">interface</span>()
-    }
-
-    <span class="doccomment">/// Check if two object IDs are associated with the same client</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// *Note:* This may spuriously return `false` if one (or both) of the objects to compare</span>
-    <span class="doccomment">/// is no longer valid.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">same_client_as</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">same_client_as</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>.<span class="ident">id</span>)
-    }
-
-    <span class="doccomment">/// Return the protocol-level numerical ID of this object</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Protocol IDs are reused after object destruction and each client has its own ID space, so this should</span>
-    <span class="doccomment">/// not be used as a unique identifier, instead use the `ObjectId` directly, it implements `Clone`,</span>
-    <span class="doccomment">/// `PartialEq`, `Eq` and `Hash`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">protocol_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> {
-        <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">protocol_id</span>()
+<span class="kw">impl </span>std::fmt::Debug <span class="kw">for dyn </span>ClientData {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="self">self</span>.debug(f)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">ObjectId</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">fmt</span>(<span class="ident">f</span>)
+<span class="kw">impl </span>ClientData <span class="kw">for </span>() {}
+
+<span class="macro">downcast_rs::impl_downcast!</span>(sync ClientData);
+
+<span class="doccomment">/// An ID representing a Wayland object
+///
+/// The backend internally tracks which IDs are still valid, invalidates them when the protocol object they
+/// represent is destroyed. As such even though the Wayland protocol reuses IDs, you still confidently compare
+/// two `ObjectId` for equality, they will only compare as equal if they both represent the same protocol
+/// object from the same client.
+</span><span class="attribute">#[derive(Clone, PartialEq, Eq, Hash)]
+</span><span class="kw">pub struct </span>ObjectId {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) id: server_impl::InnerObjectId,
+}
+
+<span class="kw">impl </span>ObjectId {
+    <span class="doccomment">/// Returns whether this object is a null object.
+    ///
+    /// **Note:** This is not the same as checking if the ID is still valid, which cannot be done without the
+    /// [`Backend`]. A null ID is the ID equivalent of a null pointer: it never has been valid and never will
+    /// be.
+    </span><span class="kw">pub fn </span>is_null(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.id.is_null()
+    }
+
+    <span class="doccomment">/// Returns an object id that represents a null object.
+    ///
+    /// This object ID is always invalid, and should be used for events with an optional `Object` argument.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>null() -&gt; ObjectId {
+        server_impl::InnerHandle::null_id()
+    }
+
+    <span class="doccomment">/// Returns the interface of this object.
+    </span><span class="kw">pub fn </span>interface(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface {
+        <span class="self">self</span>.id.interface()
+    }
+
+    <span class="doccomment">/// Check if two object IDs are associated with the same client
+    ///
+    /// *Note:* This may spuriously return `false` if one (or both) of the objects to compare
+    /// is no longer valid.
+    </span><span class="kw">pub fn </span>same_client_as(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
+        <span class="self">self</span>.id.same_client_as(<span class="kw-2">&amp;</span>other.id)
+    }
+
+    <span class="doccomment">/// Return the protocol-level numerical ID of this object
+    ///
+    /// Protocol IDs are reused after object destruction and each client has its own ID space, so this should
+    /// not be used as a unique identifier, instead use the `ObjectId` directly, it implements `Clone`,
+    /// `PartialEq`, `Eq` and `Hash`.
+    </span><span class="kw">pub fn </span>protocol_id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+        <span class="self">self</span>.id.protocol_id()
     }
 }
 
-<span class="kw">impl</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">ObjectId</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">fmt</span>(<span class="ident">f</span>)
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>ObjectId {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="self">self</span>.id.fmt(f)
     }
 }
 
-<span class="doccomment">/// An ID representing a Wayland client</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The backend internally tracks which IDs are still valid, invalidates them when the client they represent</span>
-<span class="doccomment">/// is disconnected. As such you can confidently compare two `ClientId` for equality, they will only compare</span>
-<span class="doccomment">/// as equal if they both represent the same client.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ClientId</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">id</span>: <span class="ident">server_impl::InnerClientId</span>,
-}
-
-<span class="kw">impl</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">ClientId</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">fmt</span>(<span class="ident">f</span>)
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>ObjectId {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="self">self</span>.id.fmt(f)
     }
 }
 
-<span class="doccomment">/// An Id representing a global</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GlobalId</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">id</span>: <span class="ident">server_impl::InnerGlobalId</span>,
+<span class="doccomment">/// An ID representing a Wayland client
+///
+/// The backend internally tracks which IDs are still valid, invalidates them when the client they represent
+/// is disconnected. As such you can confidently compare two `ClientId` for equality, they will only compare
+/// as equal if they both represent the same client.
+</span><span class="attribute">#[derive(Clone, PartialEq, Eq, Hash)]
+</span><span class="kw">pub struct </span>ClientId {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) id: server_impl::InnerClientId,
 }
 
-<span class="kw">impl</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">GlobalId</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">fmt</span>(<span class="ident">f</span>)
-    }
-}
-
-<span class="doccomment">/// Main handle of a backend to the Wayland protocol</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This type hosts most of the protocol-related functionality of the backend, and is the</span>
-<span class="doccomment">/// main entry point for manipulating Wayland objects. It can be retrieved from the backend via</span>
-<span class="doccomment">/// [`Backend::handle()`](Backend::handle) and cloned, and is given to you as argument in many callbacks.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Handle</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">handle</span>: <span class="ident">server_impl::InnerHandle</span>,
-}
-
-<span class="doccomment">/// A weak reference to a [`Handle`]</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This handle behaves similarly to [`Weak`](std::sync::Weak), and can be used to keep access to</span>
-<span class="doccomment">/// the handle without actually preventing it from being dropped.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WeakHandle</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">handle</span>: <span class="ident">server_impl::WeakInnerHandle</span>,
-}
-
-<span class="kw">impl</span> <span class="ident">WeakHandle</span> {
-    <span class="doccomment">/// Try to upgrade this weak handle to a [`Handle`]</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns `None` if the associated backend was already dropped.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">upgrade</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Handle</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">upgrade</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">handle</span><span class="op">|</span> <span class="ident">Handle</span> { <span class="ident">handle</span> })
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>ClientId {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="self">self</span>.id.fmt(f)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Handle</span> {
-    <span class="doccomment">/// Get a [`WeakHandle`] from this handle</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">downgrade</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">WeakHandle</span> {
-        <span class="ident">WeakHandle</span> { <span class="ident">handle</span>: <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">downgrade</span>() }
+<span class="doccomment">/// An Id representing a global
+</span><span class="attribute">#[derive(Clone, PartialEq, Eq, Hash)]
+</span><span class="kw">pub struct </span>GlobalId {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) id: server_impl::InnerGlobalId,
+}
+
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>GlobalId {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="self">self</span>.id.fmt(f)
+    }
+}
+
+<span class="doccomment">/// Main handle of a backend to the Wayland protocol
+///
+/// This type hosts most of the protocol-related functionality of the backend, and is the
+/// main entry point for manipulating Wayland objects. It can be retrieved from the backend via
+/// [`Backend::handle()`](Backend::handle) and cloned, and is given to you as argument in many callbacks.
+</span><span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>Handle {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) handle: server_impl::InnerHandle,
+}
+
+<span class="doccomment">/// A weak reference to a [`Handle`]
+///
+/// This handle behaves similarly to [`Weak`](std::sync::Weak), and can be used to keep access to
+/// the handle without actually preventing it from being dropped.
+</span><span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>WeakHandle {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) handle: server_impl::WeakInnerHandle,
+}
+
+<span class="kw">impl </span>WeakHandle {
+    <span class="doccomment">/// Try to upgrade this weak handle to a [`Handle`]
+    ///
+    /// Returns `None` if the associated backend was already dropped.
+    </span><span class="kw">pub fn </span>upgrade(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Handle&gt; {
+        <span class="self">self</span>.handle.upgrade().map(|handle| Handle { handle })
+    }
+}
+
+<span class="kw">impl </span>Handle {
+    <span class="doccomment">/// Get a [`WeakHandle`] from this handle
+    </span><span class="kw">pub fn </span>downgrade(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; WeakHandle {
+        WeakHandle { handle: <span class="self">self</span>.handle.downgrade() }
     }
 
-    <span class="doccomment">/// Get the detailed protocol information about a wayland object</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns an error if the provided object ID is no longer valid.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">object_info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">ObjectId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ObjectInfo</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">object_info</span>(<span class="ident">id</span>.<span class="ident">id</span>)
+    <span class="doccomment">/// Get the detailed protocol information about a wayland object
+    ///
+    /// Returns an error if the provided object ID is no longer valid.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>object_info(<span class="kw-2">&amp;</span><span class="self">self</span>, id: ObjectId) -&gt; <span class="prelude-ty">Result</span>&lt;ObjectInfo, InvalidId&gt; {
+        <span class="self">self</span>.handle.object_info(id.id)
     }
 
-    <span class="doccomment">/// Initializes a connection with a client.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The `data` parameter contains data that will be associated with the client.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">insert_client</span>(
-        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-        <span class="ident">stream</span>: <span class="ident">UnixStream</span>,
-        <span class="ident">data</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ClientData</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="ident">std::io::Result</span><span class="op">&lt;</span><span class="ident">ClientId</span><span class="op">&gt;</span> {
-        <span class="prelude-val">Ok</span>(<span class="ident">ClientId</span> { <span class="ident">id</span>: <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">insert_client</span>(<span class="ident">stream</span>, <span class="ident">data</span>)<span class="question-mark">?</span> })
+    <span class="doccomment">/// Initializes a connection with a client.
+    ///
+    /// The `data` parameter contains data that will be associated with the client.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>insert_client(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        stream: UnixStream,
+        data: Arc&lt;<span class="kw">dyn </span>ClientData&gt;,
+    ) -&gt; std::io::Result&lt;ClientId&gt; {
+        <span class="prelude-val">Ok</span>(ClientId { id: <span class="self">self</span>.handle.insert_client(stream, data)<span class="question-mark">? </span>})
     }
 
-    <span class="doccomment">/// Returns the id of the client which owns the object.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_client</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">ObjectId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ClientId</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">get_client</span>(<span class="ident">id</span>.<span class="ident">id</span>)
+    <span class="doccomment">/// Returns the id of the client which owns the object.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>get_client(<span class="kw-2">&amp;</span><span class="self">self</span>, id: ObjectId) -&gt; <span class="prelude-ty">Result</span>&lt;ClientId, InvalidId&gt; {
+        <span class="self">self</span>.handle.get_client(id.id)
     }
 
-    <span class="doccomment">/// Returns the data associated with a client.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_client_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">ClientId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ClientData</span><span class="op">&gt;</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">get_client_data</span>(<span class="ident">id</span>.<span class="ident">id</span>)
+    <span class="doccomment">/// Returns the data associated with a client.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>get_client_data(<span class="kw-2">&amp;</span><span class="self">self</span>, id: ClientId) -&gt; <span class="prelude-ty">Result</span>&lt;Arc&lt;<span class="kw">dyn </span>ClientData&gt;, InvalidId&gt; {
+        <span class="self">self</span>.handle.get_client_data(id.id)
     }
 
-    <span class="doccomment">/// Retrive the [`Credentials`] of a client</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_client_credentials</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">ClientId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Credentials</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">get_client_credentials</span>(<span class="ident">id</span>.<span class="ident">id</span>)
+    <span class="doccomment">/// Retrive the [`Credentials`] of a client
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>get_client_credentials(<span class="kw-2">&amp;</span><span class="self">self</span>, id: ClientId) -&gt; <span class="prelude-ty">Result</span>&lt;Credentials, InvalidId&gt; {
+        <span class="self">self</span>.handle.get_client_credentials(id.id)
     }
 
-    <span class="doccomment">/// Invokes a closure for all clients connected to this server</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Note that while this method is running, an internal lock of the backend is held,</span>
-    <span class="doccomment">/// as a result invoking other methods of the `Handle` within the closure will deadlock.</span>
-    <span class="doccomment">/// You should thus store the relevant `ClientId` in a container of your choice and process</span>
-    <span class="doccomment">/// them after this method has returned.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_all_clients</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw">impl</span> <span class="ident">FnMut</span>(<span class="ident">ClientId</span>)) {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">with_all_clients</span>(<span class="ident">f</span>)
+    <span class="doccomment">/// Invokes a closure for all clients connected to this server
+    ///
+    /// Note that while this method is running, an internal lock of the backend is held,
+    /// as a result invoking other methods of the `Handle` within the closure will deadlock.
+    /// You should thus store the relevant `ClientId` in a container of your choice and process
+    /// them after this method has returned.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>with_all_clients(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw">impl </span>FnMut(ClientId)) {
+        <span class="self">self</span>.handle.with_all_clients(f)
     }
 
-    <span class="doccomment">/// Invokes a closure for all objects owned by a client.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Note that while this method is running, an internal lock of the backend is held,</span>
-    <span class="doccomment">/// as a result invoking other methods of the `Handle` within the closure will deadlock.</span>
-    <span class="doccomment">/// You should thus store the relevant `ObjectId` in a container of your choice and process</span>
-    <span class="doccomment">/// them after this method has returned.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_all_objects_for</span>(
+    <span class="doccomment">/// Invokes a closure for all objects owned by a client.
+    ///
+    /// Note that while this method is running, an internal lock of the backend is held,
+    /// as a result invoking other methods of the `Handle` within the closure will deadlock.
+    /// You should thus store the relevant `ObjectId` in a container of your choice and process
+    /// them after this method has returned.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>with_all_objects_for(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">client_id</span>: <span class="ident">ClientId</span>,
-        <span class="ident">f</span>: <span class="kw">impl</span> <span class="ident">FnMut</span>(<span class="ident">ObjectId</span>),
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">with_all_objects_for</span>(<span class="ident">client_id</span>.<span class="ident">id</span>, <span class="ident">f</span>)
+        client_id: ClientId,
+        f: <span class="kw">impl </span>FnMut(ObjectId),
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), InvalidId&gt; {
+        <span class="self">self</span>.handle.with_all_objects_for(client_id.id, f)
     }
 
-    <span class="doccomment">/// Retrieve the `ObjectId` for a wayland object given its protocol numerical ID</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">object_for_protocol_id</span>(
+    <span class="doccomment">/// Retrieve the `ObjectId` for a wayland object given its protocol numerical ID
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>object_for_protocol_id(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">client_id</span>: <span class="ident">ClientId</span>,
-        <span class="ident">interface</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span>,
-        <span class="ident">protocol_id</span>: <span class="ident">u32</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">object_for_protocol_id</span>(<span class="ident">client_id</span>.<span class="ident">id</span>, <span class="ident">interface</span>, <span class="ident">protocol_id</span>)
+        client_id: ClientId,
+        interface: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface,
+        protocol_id: u32,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;ObjectId, InvalidId&gt; {
+        <span class="self">self</span>.handle.object_for_protocol_id(client_id.id, interface, protocol_id)
     }
 
-    <span class="doccomment">/// Create a new object for given client</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// To ensure state coherence of the protocol, the created object should be immediately</span>
-    <span class="doccomment">/// sent as a &quot;New ID&quot; argument in an event to the client.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method will panic if the type parameter `D` is not same to the same type as the</span>
-    <span class="doccomment">/// one the backend was initialized with.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_object</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
+    <span class="doccomment">/// Create a new object for given client
+    ///
+    /// To ensure state coherence of the protocol, the created object should be immediately
+    /// sent as a &quot;New ID&quot; argument in an event to the client.
+    ///
+    /// # Panics
+    ///
+    /// This method will panic if the type parameter `D` is not same to the same type as the
+    /// one the backend was initialized with.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>create_object&lt;D: <span class="lifetime">&#39;static</span>&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">client_id</span>: <span class="ident">ClientId</span>,
-        <span class="ident">interface</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span>,
-        <span class="ident">version</span>: <span class="ident">u32</span>,
-        <span class="ident">data</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">create_object</span>(<span class="ident">client_id</span>.<span class="ident">id</span>, <span class="ident">interface</span>, <span class="ident">version</span>, <span class="ident">data</span>)
+        client_id: ClientId,
+        interface: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface,
+        version: u32,
+        data: Arc&lt;<span class="kw">dyn </span>ObjectData&lt;D&gt;&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;ObjectId, InvalidId&gt; {
+        <span class="self">self</span>.handle.create_object(client_id.id, interface, version, data)
     }
 
-    <span class="doccomment">/// Send an event to the client</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns an error if the sender ID of the provided message is no longer valid.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Checks against the protocol specification are done, and this method will panic if they do</span>
-    <span class="doccomment">/// not pass:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// - the message opcode must be valid for the sender interface</span>
-    <span class="doccomment">/// - the argument list must match the prototype for the message associated with this opcode</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_event</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">RawFd</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">send_event</span>(<span class="ident">msg</span>)
+    <span class="doccomment">/// Send an event to the client
+    ///
+    /// Returns an error if the sender ID of the provided message is no longer valid.
+    ///
+    /// # Panics
+    ///
+    /// Checks against the protocol specification are done, and this method will panic if they do
+    /// not pass:
+    ///
+    /// - the message opcode must be valid for the sender interface
+    /// - the argument list must match the prototype for the message associated with this opcode
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>send_event(<span class="kw-2">&amp;</span><span class="self">self</span>, msg: Message&lt;ObjectId, RawFd&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), InvalidId&gt; {
+        <span class="self">self</span>.handle.send_event(msg)
     }
 
-    <span class="doccomment">/// Returns the data associated with an object.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Panic:** This method will panic if the type parameter `D` is not same to the same type as the</span>
-    <span class="doccomment">/// one the backend was initialized with.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_object_data</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
+    <span class="doccomment">/// Returns the data associated with an object.
+    ///
+    /// **Panic:** This method will panic if the type parameter `D` is not same to the same type as the
+    /// one the backend was initialized with.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>get_object_data&lt;D: <span class="lifetime">&#39;static</span>&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">id</span>: <span class="ident">ObjectId</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">get_object_data</span>(<span class="ident">id</span>.<span class="ident">id</span>)
+        id: ObjectId,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;Arc&lt;<span class="kw">dyn </span>ObjectData&lt;D&gt;&gt;, InvalidId&gt; {
+        <span class="self">self</span>.handle.get_object_data(id.id)
     }
 
-    <span class="doccomment">/// Returns the data associated with an object as a `dyn Any`</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_object_data_any</span>(
+    <span class="doccomment">/// Returns the data associated with an object as a `dyn Any`
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>get_object_data_any(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">id</span>: <span class="ident">ObjectId</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">std::any::Any</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">get_object_data_any</span>(<span class="ident">id</span>.<span class="ident">id</span>)
+        id: ObjectId,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;Arc&lt;<span class="kw">dyn </span>std::any::Any + Send + Sync&gt;, InvalidId&gt; {
+        <span class="self">self</span>.handle.get_object_data_any(id.id)
     }
 
-    <span class="doccomment">/// Sets the data associated with some object.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Panic:** This method will panic if the type parameter `D` is not same to the same type as the</span>
-    <span class="doccomment">/// one the backend was initialized with.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_object_data</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
+    <span class="doccomment">/// Sets the data associated with some object.
+    ///
+    /// **Panic:** This method will panic if the type parameter `D` is not same to the same type as the
+    /// one the backend was initialized with.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>set_object_data&lt;D: <span class="lifetime">&#39;static</span>&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">id</span>: <span class="ident">ObjectId</span>,
-        <span class="ident">data</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">set_object_data</span>(<span class="ident">id</span>.<span class="ident">id</span>, <span class="ident">data</span>)
+        id: ObjectId,
+        data: Arc&lt;<span class="kw">dyn </span>ObjectData&lt;D&gt;&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), InvalidId&gt; {
+        <span class="self">self</span>.handle.set_object_data(id.id, data)
     }
 
-    <span class="doccomment">/// Posts a protocol error on an object. This will also disconnect the client which created the object.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">post_error</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">object_id</span>: <span class="ident">ObjectId</span>, <span class="ident">error_code</span>: <span class="ident">u32</span>, <span class="ident">message</span>: <span class="ident">CString</span>) {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">post_error</span>(<span class="ident">object_id</span>.<span class="ident">id</span>, <span class="ident">error_code</span>, <span class="ident">message</span>)
+    <span class="doccomment">/// Posts a protocol error on an object. This will also disconnect the client which created the object.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>post_error(<span class="kw-2">&amp;</span><span class="self">self</span>, object_id: ObjectId, error_code: u32, message: CString) {
+        <span class="self">self</span>.handle.post_error(object_id.id, error_code, message)
     }
 
-    <span class="doccomment">/// Kills the connection to a client.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The disconnection reason determines the error message that is sent to the client (if any).</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">kill_client</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">client_id</span>: <span class="ident">ClientId</span>, <span class="ident">reason</span>: <span class="ident">DisconnectReason</span>) {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">kill_client</span>(<span class="ident">client_id</span>.<span class="ident">id</span>, <span class="ident">reason</span>)
+    <span class="doccomment">/// Kills the connection to a client.
+    ///
+    /// The disconnection reason determines the error message that is sent to the client (if any).
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>kill_client(<span class="kw-2">&amp;</span><span class="self">self</span>, client_id: ClientId, reason: DisconnectReason) {
+        <span class="self">self</span>.handle.kill_client(client_id.id, reason)
     }
 
-    <span class="doccomment">/// Creates a global of the specified interface and version and then advertises it to clients.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The clients which the global is advertised to is determined by the implementation of the [`GlobalHandler`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Panic:** This method will panic if the type parameter `D` is not same to the same type as the</span>
-    <span class="doccomment">/// one the backend was initialized with.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_global</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
+    <span class="doccomment">/// Creates a global of the specified interface and version and then advertises it to clients.
+    ///
+    /// The clients which the global is advertised to is determined by the implementation of the [`GlobalHandler`].
+    ///
+    /// **Panic:** This method will panic if the type parameter `D` is not same to the same type as the
+    /// one the backend was initialized with.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>create_global&lt;D: <span class="lifetime">&#39;static</span>&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">interface</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span>,
-        <span class="ident">version</span>: <span class="ident">u32</span>,
-        <span class="ident">handler</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">GlobalHandler</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="ident">GlobalId</span> {
-        <span class="ident">GlobalId</span> { <span class="ident">id</span>: <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">create_global</span>(<span class="ident">interface</span>, <span class="ident">version</span>, <span class="ident">handler</span>) }
+        interface: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface,
+        version: u32,
+        handler: Arc&lt;<span class="kw">dyn </span>GlobalHandler&lt;D&gt;&gt;,
+    ) -&gt; GlobalId {
+        GlobalId { id: <span class="self">self</span>.handle.create_global(interface, version, handler) }
     }
 
-    <span class="doccomment">/// Disables a global object that is currently active.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The global removal will be signaled to all currently connected clients. New clients will not know of</span>
-    <span class="doccomment">/// the global, but the associated state and callbacks will not be freed. As such, clients that still try</span>
-    <span class="doccomment">/// to bind the global afterwards (because they have not yet realized it was removed) will succeed.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Invoking this method on an already disabled or removed global does nothing. It is not possible to</span>
-    <span class="doccomment">/// re-enable a disabled global, this method is meant to be invoked some time before actually removing</span>
-    <span class="doccomment">/// the global, to avoid killing clients because of a race.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Panic:** This method will panic if the type parameter `D` is not same to the same type as the</span>
-    <span class="doccomment">/// one the backend was initialized with.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">disable_global</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">GlobalId</span>) {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">disable_global</span>::<span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">id</span>.<span class="ident">id</span>)
+    <span class="doccomment">/// Disables a global object that is currently active.
+    ///
+    /// The global removal will be signaled to all currently connected clients. New clients will not know of
+    /// the global, but the associated state and callbacks will not be freed. As such, clients that still try
+    /// to bind the global afterwards (because they have not yet realized it was removed) will succeed.
+    ///
+    /// Invoking this method on an already disabled or removed global does nothing. It is not possible to
+    /// re-enable a disabled global, this method is meant to be invoked some time before actually removing
+    /// the global, to avoid killing clients because of a race.
+    ///
+    /// **Panic:** This method will panic if the type parameter `D` is not same to the same type as the
+    /// one the backend was initialized with.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>disable_global&lt;D: <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, id: GlobalId) {
+        <span class="self">self</span>.handle.disable_global::&lt;D&gt;(id.id)
     }
 
-    <span class="doccomment">/// Removes a global object and free its ressources.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The global object will no longer be considered valid by the server, clients trying to bind it will be</span>
-    <span class="doccomment">/// killed, and the global ID is freed for re-use.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// It is advised to first disable a global and wait some amount of time before removing it, to ensure all</span>
-    <span class="doccomment">/// clients are correctly aware of its removal. Note that clients will generally not expect globals that</span>
-    <span class="doccomment">/// represent a capability of the server to be removed, as opposed to globals representing peripherals</span>
-    <span class="doccomment">/// (like `wl_output` or `wl_seat`).</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This methods does nothing if the provided `GlobalId` corresponds to an already removed global.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Panic:** This method will panic if the type parameter `D` is not same to the same type as the</span>
-    <span class="doccomment">/// one the backend was initialized with.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_global</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">GlobalId</span>) {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">remove_global</span>::<span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>(<span class="ident">id</span>.<span class="ident">id</span>)
+    <span class="doccomment">/// Removes a global object and free its ressources.
+    ///
+    /// The global object will no longer be considered valid by the server, clients trying to bind it will be
+    /// killed, and the global ID is freed for re-use.
+    ///
+    /// It is advised to first disable a global and wait some amount of time before removing it, to ensure all
+    /// clients are correctly aware of its removal. Note that clients will generally not expect globals that
+    /// represent a capability of the server to be removed, as opposed to globals representing peripherals
+    /// (like `wl_output` or `wl_seat`).
+    ///
+    /// This methods does nothing if the provided `GlobalId` corresponds to an already removed global.
+    ///
+    /// **Panic:** This method will panic if the type parameter `D` is not same to the same type as the
+    /// one the backend was initialized with.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>remove_global&lt;D: <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, id: GlobalId) {
+        <span class="self">self</span>.handle.remove_global::&lt;D&gt;(id.id)
     }
 
-    <span class="doccomment">/// Returns information about a global.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">global_info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">GlobalId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">GlobalInfo</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">global_info</span>(<span class="ident">id</span>.<span class="ident">id</span>)
+    <span class="doccomment">/// Returns information about a global.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>global_info(<span class="kw-2">&amp;</span><span class="self">self</span>, id: GlobalId) -&gt; <span class="prelude-ty">Result</span>&lt;GlobalInfo, InvalidId&gt; {
+        <span class="self">self</span>.handle.global_info(id.id)
     }
 
-    <span class="doccomment">/// Returns the handler which manages the visibility and notifies when a client has bound the global.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_global_handler</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(
+    <span class="doccomment">/// Returns the handler which manages the visibility and notifies when a client has bound the global.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>get_global_handler&lt;D: <span class="lifetime">&#39;static</span>&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">id</span>: <span class="ident">GlobalId</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">GlobalHandler</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">get_global_handler</span>(<span class="ident">id</span>.<span class="ident">id</span>)
+        id: GlobalId,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;Arc&lt;<span class="kw">dyn </span>GlobalHandler&lt;D&gt;&gt;, InvalidId&gt; {
+        <span class="self">self</span>.handle.get_global_handler(id.id)
     }
 }
 
-<span class="doccomment">/// A backend object that represents the state of a wayland server.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// A backend is used to drive a wayland server by receiving requests, dispatching messages to the appropriate</span>
-<span class="doccomment">/// handlers and flushes requests to be sent back to the client.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Backend</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">backend</span>: <span class="ident">server_impl::InnerBackend</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span>,
+<span class="doccomment">/// A backend object that represents the state of a wayland server.
+///
+/// A backend is used to drive a wayland server by receiving requests, dispatching messages to the appropriate
+/// handlers and flushes requests to be sent back to the client.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>Backend&lt;D: <span class="lifetime">&#39;static</span>&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) backend: server_impl::InnerBackend&lt;D&gt;,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> <span class="ident">Backend</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Initialize a new Wayland backend</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">InitError</span><span class="op">&gt;</span> {
-        <span class="prelude-val">Ok</span>(<span class="self">Self</span> { <span class="ident">backend</span>: <span class="ident">server_impl::InnerBackend::new</span>()<span class="question-mark">?</span> })
+<span class="kw">impl</span>&lt;D&gt; Backend&lt;D&gt; {
+    <span class="doccomment">/// Initialize a new Wayland backend
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>new() -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InitError&gt; {
+        <span class="prelude-val">Ok</span>(<span class="self">Self </span>{ backend: server_impl::InnerBackend::new()<span class="question-mark">? </span>})
     }
 
-    <span class="doccomment">/// Flushes pending events destined for a client.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If no client is specified, all pending events are flushed to all clients.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">client</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ClientId</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">flush</span>(<span class="ident">client</span>)
+    <span class="doccomment">/// Flushes pending events destined for a client.
+    ///
+    /// If no client is specified, all pending events are flushed to all clients.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>flush(<span class="kw-2">&amp;mut </span><span class="self">self</span>, client: <span class="prelude-ty">Option</span>&lt;ClientId&gt;) -&gt; std::io::Result&lt;()&gt; {
+        <span class="self">self</span>.backend.flush(client)
     }
 
-    <span class="doccomment">/// Returns a handle which represents the server side state of the backend.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The handle provides a variety of functionality, such as querying information about wayland objects,</span>
-    <span class="doccomment">/// obtaining data associated with a client and it&#39;s objects, and creating globals.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">handle</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Handle</span> {
-        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">handle</span>()
+    <span class="doccomment">/// Returns a handle which represents the server side state of the backend.
+    ///
+    /// The handle provides a variety of functionality, such as querying information about wayland objects,
+    /// obtaining data associated with a client and it&#39;s objects, and creating globals.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>handle(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Handle {
+        <span class="self">self</span>.backend.handle()
     }
 
-    <span class="doccomment">/// Returns the underlying file descriptor.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The file descriptor may be monitored for activity with a polling mechanism such as epoll or kqueue.</span>
-    <span class="doccomment">/// When it becomes readable, this means there are pending messages that would be dispatched if you call</span>
-    <span class="doccomment">/// [`Backend::dispatch_all_clients`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The file descriptor should not be used for any other purpose than monitoring it.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">poll_fd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">BorrowedFd</span> {
-        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">poll_fd</span>()
+    <span class="doccomment">/// Returns the underlying file descriptor.
+    ///
+    /// The file descriptor may be monitored for activity with a polling mechanism such as epoll or kqueue.
+    /// When it becomes readable, this means there are pending messages that would be dispatched if you call
+    /// [`Backend::dispatch_all_clients`].
+    ///
+    /// The file descriptor should not be used for any other purpose than monitoring it.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>poll_fd(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BorrowedFd {
+        <span class="self">self</span>.backend.poll_fd()
     }
 
-    <span class="doccomment">/// Dispatches all pending messages from the specified client.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method will not block if there are no pending messages.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The provided `data` will be provided to the handler of messages received from the client.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For performance reasons, use of this function should be integrated with an event loop, monitoring</span>
-    <span class="doccomment">/// the file descriptor associated with the client and only calling this method when messages are</span>
-    <span class="doccomment">/// available.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note:** This functionality is currently only available on the rust backend, invoking this method on</span>
-    <span class="doccomment">/// the system backend will do the same as invoking</span>
-    <span class="doccomment">/// [`Backend::dispatch_all_clients()`](Backend::dispatch_all_clients).</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch_single_client</span>(
-        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-        <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>,
-        <span class="ident">client_id</span>: <span class="ident">ClientId</span>,
-    ) -&gt; <span class="ident">std::io::Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">dispatch_client</span>(<span class="ident">data</span>, <span class="ident">client_id</span>.<span class="ident">id</span>)
+    <span class="doccomment">/// Dispatches all pending messages from the specified client.
+    ///
+    /// This method will not block if there are no pending messages.
+    ///
+    /// The provided `data` will be provided to the handler of messages received from the client.
+    ///
+    /// For performance reasons, use of this function should be integrated with an event loop, monitoring
+    /// the file descriptor associated with the client and only calling this method when messages are
+    /// available.
+    ///
+    /// **Note:** This functionality is currently only available on the rust backend, invoking this method on
+    /// the system backend will do the same as invoking
+    /// [`Backend::dispatch_all_clients()`](Backend::dispatch_all_clients).
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>dispatch_single_client(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        data: <span class="kw-2">&amp;mut </span>D,
+        client_id: ClientId,
+    ) -&gt; std::io::Result&lt;usize&gt; {
+        <span class="self">self</span>.backend.dispatch_client(data, client_id.id)
     }
 
-    <span class="doccomment">/// Dispatches all pending messages from all clients.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method will not block if there are no pending messages.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The provided `data` will be provided to the handler of messages received from the clients.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For performance reasons, use of this function should be integrated with an event loop, monitoring the</span>
-    <span class="doccomment">/// file descriptor retrieved by [`Backend::poll_fd`] and only calling this method when messages are</span>
-    <span class="doccomment">/// available.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch_all_clients</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>) -&gt; <span class="ident">std::io::Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">dispatch_all_clients</span>(<span class="ident">data</span>)
+    <span class="doccomment">/// Dispatches all pending messages from all clients.
+    ///
+    /// This method will not block if there are no pending messages.
+    ///
+    /// The provided `data` will be provided to the handler of messages received from the clients.
+    ///
+    /// For performance reasons, use of this function should be integrated with an event loop, monitoring the
+    /// file descriptor retrieved by [`Backend::poll_fd`] and only calling this method when messages are
+    /// available.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>dispatch_all_clients(<span class="kw-2">&amp;mut </span><span class="self">self</span>, data: <span class="kw-2">&amp;mut </span>D) -&gt; std::io::Result&lt;usize&gt; {
+        <span class="self">self</span>.backend.dispatch_all_clients(data)
     }
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">DumbObjectData</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>DumbObjectData;
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> <span class="ident">ObjectData</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DumbObjectData</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">request</span>(
-        <span class="self">self</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
-        <span class="ident">_handle</span>: <span class="kw-2">&amp;</span><span class="ident">Handle</span>,
-        <span class="ident">_data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>,
-        <span class="ident">_client_id</span>: <span class="ident">ClientId</span>,
-        <span class="ident">_msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+<span class="kw">impl</span>&lt;D&gt; ObjectData&lt;D&gt; <span class="kw">for </span>DumbObjectData {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>request(
+        <span class="self">self</span>: Arc&lt;<span class="self">Self</span>&gt;,
+        _handle: <span class="kw-2">&amp;</span>Handle,
+        _data: <span class="kw-2">&amp;mut </span>D,
+        _client_id: ClientId,
+        _msg: Message&lt;ObjectId, OwnedFd&gt;,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;Arc&lt;<span class="kw">dyn </span>ObjectData&lt;D&gt;&gt;&gt; {
         <span class="macro">unreachable!</span>()
     }
 
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">destroyed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>, <span class="ident">_client_id</span>: <span class="ident">ClientId</span>, <span class="ident">_object_id</span>: <span class="ident">ObjectId</span>) {}
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>destroyed(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="kw">_</span>: <span class="kw-2">&amp;mut </span>D, _client_id: ClientId, _object_id: ObjectId) {}
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="wayland_backend" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="wayland_backend" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

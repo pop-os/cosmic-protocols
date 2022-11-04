@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-protocols-0.30.0-beta.10/src/wp.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>wp.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_protocols/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_protocols/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_protocols/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-protocols-0.30.0-beta.10/src/wp.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>wp.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_protocols/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_protocols/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_protocols/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -405,40 +405,40 @@
 <span id="405">405</span>
 <span id="406">406</span>
 <span id="407">407</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Generic wayland protocols</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Generic wayland protocols
 
-<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">rustfmt</span>, <span class="ident">rustfmt_skip</span>)]</span>
+</span><span class="attribute">#![cfg_attr(rustfmt, rustfmt_skip)]
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;staging&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">drm_lease</span> {
-    <span class="doccomment">//! This protocol is used by Wayland compositors which act as Direct</span>
-    <span class="doccomment">//! Renderering Manager (DRM) masters to lease DRM resources to Wayland</span>
-    <span class="doccomment">//! clients.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! The compositor will advertise one wp_drm_lease_device_v1 global for each</span>
-    <span class="doccomment">//! DRM node. Some time after a client binds to the wp_drm_lease_device_v1</span>
-    <span class="doccomment">//! global, the compositor will send a drm_fd event followed by zero, one or</span>
-    <span class="doccomment">//! more connector events. After all currently available connectors have been</span>
-    <span class="doccomment">//! sent, the compositor will send a wp_drm_lease_device_v1.done event.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! When the list of connectors available for lease changes the compositor</span>
-    <span class="doccomment">//! will send wp_drm_lease_device_v1.connector events for added connectors and</span>
-    <span class="doccomment">//! wp_drm_lease_connector_v1.withdrawn events for removed connectors,</span>
-    <span class="doccomment">//! followed by a wp_drm_lease_device_v1.done event.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! The compositor will indicate when a device is gone by removing the global</span>
-    <span class="doccomment">//! via a wl_registry.global_remove event. Upon receiving this event, the</span>
-    <span class="doccomment">//! client should destroy any matching wp_drm_lease_device_v1 object.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! To destroy a wp_drm_lease_device_v1 object, the client must first issue</span>
-    <span class="doccomment">//! a release request. Upon receiving this request, the compositor will</span>
-    <span class="doccomment">//! immediately send a released event and destroy the object. The client must</span>
-    <span class="doccomment">//! continue to process and discard drm_fd and connector events until it</span>
-    <span class="doccomment">//! receives the released event. Upon receiving the released event, the</span>
-    <span class="doccomment">//! client can safely cleanup any client-side resources.</span>
+#[cfg(feature = <span class="string">&quot;staging&quot;</span>)]
+</span><span class="kw">pub mod </span>drm_lease {
+    <span class="doccomment">//! This protocol is used by Wayland compositors which act as Direct
+    //! Renderering Manager (DRM) masters to lease DRM resources to Wayland
+    //! clients.
+    //!
+    //! The compositor will advertise one wp_drm_lease_device_v1 global for each
+    //! DRM node. Some time after a client binds to the wp_drm_lease_device_v1
+    //! global, the compositor will send a drm_fd event followed by zero, one or
+    //! more connector events. After all currently available connectors have been
+    //! sent, the compositor will send a wp_drm_lease_device_v1.done event.
+    //!
+    //! When the list of connectors available for lease changes the compositor
+    //! will send wp_drm_lease_device_v1.connector events for added connectors and
+    //! wp_drm_lease_connector_v1.withdrawn events for removed connectors,
+    //! followed by a wp_drm_lease_device_v1.done event.
+    //!
+    //! The compositor will indicate when a device is gone by removing the global
+    //! via a wl_registry.global_remove event. Upon receiving this event, the
+    //! client should destroy any matching wp_drm_lease_device_v1 object.
+    //!
+    //! To destroy a wp_drm_lease_device_v1 object, the client must first issue
+    //! a release request. Upon receiving this request, the compositor will
+    //! immediately send a released event and destroy the object. The client must
+    //! continue to process and discard drm_fd and connector events until it
+    //! receives the released event. Upon receiving the released event, the
+    //! client can safely cleanup any client-side resources.
 
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">v1</span> {
+    </span><span class="attribute">#[allow(missing_docs)]
+    </span><span class="kw">pub mod </span>v1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/staging/drm-lease/drm-lease-v1.xml&quot;</span>,
             []
@@ -446,12 +446,12 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">fullscreen_shell</span> {
-    <span class="doccomment">//! Fullscreen shell protocol</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub mod </span>fullscreen_shell {
+    <span class="doccomment">//! Fullscreen shell protocol
 
-    <span class="doccomment">/// Unstable version 1</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv1</span> {
+    /// Unstable version 1
+    </span><span class="kw">pub mod </span>zv1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/fullscreen-shell/fullscreen-shell-unstable-v1.xml&quot;</span>,
             []
@@ -459,12 +459,12 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">idle_inhibit</span> {
-    <span class="doccomment">//! Screensaver inhibition protocol</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub mod </span>idle_inhibit {
+    <span class="doccomment">//! Screensaver inhibition protocol
 
-    <span class="doccomment">/// Unstable version 1</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv1</span> {
+    /// Unstable version 1
+    </span><span class="kw">pub mod </span>zv1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/idle-inhibit/idle-inhibit-unstable-v1.xml&quot;</span>,
             []
@@ -472,12 +472,12 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">input_method</span> {
-    <span class="doccomment">//! Input method protocol</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub mod </span>input_method {
+    <span class="doccomment">//! Input method protocol
 
-    <span class="doccomment">/// Unstable version 1</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv1</span> {
+    /// Unstable version 1
+    </span><span class="kw">pub mod </span>zv1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/input-method/input-method-unstable-v1.xml&quot;</span>,
             []
@@ -485,12 +485,12 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">input_timestamps</span> {
-    <span class="doccomment">//! Input timestamps protocol</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub mod </span>input_timestamps {
+    <span class="doccomment">//! Input timestamps protocol
 
-    <span class="doccomment">/// Unstable version 1</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv1</span> {
+    /// Unstable version 1
+    </span><span class="kw">pub mod </span>zv1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/input-timestamps/input-timestamps-unstable-v1.xml&quot;</span>,
             []
@@ -498,16 +498,16 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">keyboard_shortcuts_inhibit</span> {
-    <span class="doccomment">//! Protocol for inhibiting the compositor keyboard shortcuts</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! This protocol specifies a way for a client to request the compositor</span>
-    <span class="doccomment">//! to ignore its own keyboard shortcuts for a given seat, so that all</span>
-    <span class="doccomment">//! key events from that seat get forwarded to a surface.</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub mod </span>keyboard_shortcuts_inhibit {
+    <span class="doccomment">//! Protocol for inhibiting the compositor keyboard shortcuts
+    //!
+    //! This protocol specifies a way for a client to request the compositor
+    //! to ignore its own keyboard shortcuts for a given seat, so that all
+    //! key events from that seat get forwarded to a surface.
 
-    <span class="doccomment">/// Unstable version 1</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv1</span> {
+    /// Unstable version 1
+    </span><span class="kw">pub mod </span>zv1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/keyboard-shortcuts-inhibit/keyboard-shortcuts-inhibit-unstable-v1.xml&quot;</span>,
             []
@@ -515,12 +515,12 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">linux_dmabuf</span> {
-    <span class="doccomment">//! Linux DMA-BUF protocol</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub mod </span>linux_dmabuf {
+    <span class="doccomment">//! Linux DMA-BUF protocol
 
-    <span class="doccomment">/// Unstable version 1</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv1</span> {
+    /// Unstable version 1
+    </span><span class="kw">pub mod </span>zv1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/linux-dmabuf/linux-dmabuf-unstable-v1.xml&quot;</span>,
             []
@@ -528,12 +528,12 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">linux_explicit_synchronization</span> {
-    <span class="doccomment">//! Linux explicit synchronization protocol</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub mod </span>linux_explicit_synchronization {
+    <span class="doccomment">//! Linux explicit synchronization protocol
 
-    <span class="doccomment">/// Unstable version 1</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv1</span> {
+    /// Unstable version 1
+    </span><span class="kw">pub mod </span>zv1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/linux-explicit-synchronization/linux-explicit-synchronization-unstable-v1.xml&quot;</span>,
             []
@@ -541,22 +541,22 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">pointer_constraints</span> {
-    <span class="doccomment">//! protocol for constraining pointer motions</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! This protocol specifies a set of interfaces used for adding constraints to</span>
-    <span class="doccomment">//! the motion of a pointer. Possible constraints include confining pointer</span>
-    <span class="doccomment">//! motions to a given region, or locking it to its current position.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! In order to constrain the pointer, a client must first bind the global</span>
-    <span class="doccomment">//! interface &quot;wp_pointer_constraints&quot; which, if a compositor supports pointer</span>
-    <span class="doccomment">//! constraints, is exposed by the registry. Using the bound global object, the</span>
-    <span class="doccomment">//! client uses the request that corresponds to the type of constraint it wants</span>
-    <span class="doccomment">//! to make. See wp_pointer_constraints for more details.</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub mod </span>pointer_constraints {
+    <span class="doccomment">//! protocol for constraining pointer motions
+    //!
+    //! This protocol specifies a set of interfaces used for adding constraints to
+    //! the motion of a pointer. Possible constraints include confining pointer
+    //! motions to a given region, or locking it to its current position.
+    //!
+    //! In order to constrain the pointer, a client must first bind the global
+    //! interface &quot;wp_pointer_constraints&quot; which, if a compositor supports pointer
+    //! constraints, is exposed by the registry. Using the bound global object, the
+    //! client uses the request that corresponds to the type of constraint it wants
+    //! to make. See wp_pointer_constraints for more details.
 
-    <span class="doccomment">/// Unstable version 1</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv1</span> {
+    /// Unstable version 1
+    </span><span class="kw">pub mod </span>zv1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/pointer-constraints/pointer-constraints-unstable-v1.xml&quot;</span>,
             []
@@ -564,12 +564,12 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">pointer_gestures</span> {
-    <span class="doccomment">//! Pointer gestures protocol</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub mod </span>pointer_gestures {
+    <span class="doccomment">//! Pointer gestures protocol
 
-    <span class="doccomment">/// Unstable version 1</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv1</span> {
+    /// Unstable version 1
+    </span><span class="kw">pub mod </span>zv1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/pointer-gestures/pointer-gestures-unstable-v1.xml&quot;</span>,
             []
@@ -577,23 +577,23 @@
     }
 }
 
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">presentation_time</span> {
-    <span class="doccomment">//! Presentation time protocol</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! Allows precise feedback on presentation timing, for example for smooth video playback.</span>
+<span class="kw">pub mod </span>presentation_time {
+    <span class="doccomment">//! Presentation time protocol
+    //!
+    //! Allows precise feedback on presentation timing, for example for smooth video playback.
 
-    <span class="macro">wayland_protocol!</span>(
+    </span><span class="macro">wayland_protocol!</span>(
         <span class="string">&quot;./protocols/stable/presentation-time/presentation-time.xml&quot;</span>,
         []
     );
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">primary_selection</span> {
-    <span class="doccomment">//! Primary selection protocol</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub mod </span>primary_selection {
+    <span class="doccomment">//! Primary selection protocol
 
-    <span class="doccomment">/// Unstable version 1</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv1</span> {
+    /// Unstable version 1
+    </span><span class="kw">pub mod </span>zv1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/primary-selection/primary-selection-unstable-v1.xml&quot;</span>,
             []
@@ -601,26 +601,26 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">relative_pointer</span> {
-    <span class="doccomment">//! protocol for relative pointer motion events</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! This protocol specifies a set of interfaces used for making clients able to</span>
-    <span class="doccomment">//! receive relative pointer events not obstructed by barriers (such as the</span>
-    <span class="doccomment">//! monitor edge or other pointer barriers).</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! To start receiving relative pointer events, a client must first bind the</span>
-    <span class="doccomment">//! global interface &quot;wp_relative_pointer_manager&quot; which, if a compositor</span>
-    <span class="doccomment">//! supports relative pointer motion events, is exposed by the registry. After</span>
-    <span class="doccomment">//! having created the relative pointer manager proxy object, the client uses</span>
-    <span class="doccomment">//! it to create the actual relative pointer object using the</span>
-    <span class="doccomment">//! &quot;get_relative_pointer&quot; request given a wl_pointer. The relative pointer</span>
-    <span class="doccomment">//! motion events will then, when applicable, be transmitted via the proxy of</span>
-    <span class="doccomment">//! the newly created relative pointer object. See the documentation of the</span>
-    <span class="doccomment">//! relative pointer interface for more details.</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub mod </span>relative_pointer {
+    <span class="doccomment">//! protocol for relative pointer motion events
+    //!
+    //! This protocol specifies a set of interfaces used for making clients able to
+    //! receive relative pointer events not obstructed by barriers (such as the
+    //! monitor edge or other pointer barriers).
+    //!
+    //! To start receiving relative pointer events, a client must first bind the
+    //! global interface &quot;wp_relative_pointer_manager&quot; which, if a compositor
+    //! supports relative pointer motion events, is exposed by the registry. After
+    //! having created the relative pointer manager proxy object, the client uses
+    //! it to create the actual relative pointer object using the
+    //! &quot;get_relative_pointer&quot; request given a wl_pointer. The relative pointer
+    //! motion events will then, when applicable, be transmitted via the proxy of
+    //! the newly created relative pointer object. See the documentation of the
+    //! relative pointer interface for more details.
 
-    <span class="doccomment">/// Unstable version 1</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv1</span> {
+    /// Unstable version 1
+    </span><span class="kw">pub mod </span>zv1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/relative-pointer/relative-pointer-unstable-v1.xml&quot;</span>,
             []
@@ -628,16 +628,16 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;staging&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">single_pixel_buffer</span> {
-    <span class="doccomment">//! This protocol extension allows clients to create single-pixel buffers.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! Compositors supporting this protocol extension should also support the</span>
-    <span class="doccomment">//! viewporter protocol extension. Clients may use viewporter to scale a</span>
-    <span class="doccomment">//! single-pixel buffer to a desired size.</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;staging&quot;</span>)]
+</span><span class="kw">pub mod </span>single_pixel_buffer {
+    <span class="doccomment">//! This protocol extension allows clients to create single-pixel buffers.
+    //!
+    //! Compositors supporting this protocol extension should also support the
+    //! viewporter protocol extension. Clients may use viewporter to scale a
+    //! single-pixel buffer to a desired size.
 
-    <span class="doccomment">/// Version 1</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">v1</span> {
+    /// Version 1
+    </span><span class="kw">pub mod </span>v1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/staging/single-pixel-buffer/single-pixel-buffer-v1.xml&quot;</span>,
             []
@@ -645,97 +645,97 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tablet</span> {
-    <span class="doccomment">//! Wayland protocol for graphics tablets</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! This description provides a high-level overview of the interplay between</span>
-    <span class="doccomment">//! the interfaces defined this protocol. For details, see the protocol</span>
-    <span class="doccomment">//! specification.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! More than one tablet may exist, and device-specifics matter. Tablets are</span>
-    <span class="doccomment">//! not represented by a single virtual device like wl_pointer. A client</span>
-    <span class="doccomment">//! binds to the tablet manager object which is just a proxy object. From</span>
-    <span class="doccomment">//! that, the client requests wp_tablet_manager.get_tablet_seat(wl_seat)</span>
-    <span class="doccomment">//! and that returns the actual interface that has all the tablets. With</span>
-    <span class="doccomment">//! this indirection, we can avoid merging wp_tablet into the actual Wayland</span>
-    <span class="doccomment">//! protocol, a long-term benefit.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! The wp_tablet_seat sends a &quot;tablet added&quot; event for each tablet</span>
-    <span class="doccomment">//! connected. That event is followed by descriptive events about the</span>
-    <span class="doccomment">//! hardware; currently that includes events for name, vid/pid and</span>
-    <span class="doccomment">//! a wp_tablet.path event that describes a local path. This path can be</span>
-    <span class="doccomment">//! used to uniquely identify a tablet or get more information through</span>
-    <span class="doccomment">//! libwacom. Emulated or nested tablets can skip any of those, e.g. a</span>
-    <span class="doccomment">//! virtual tablet may not have a vid/pid. The sequence of descriptive</span>
-    <span class="doccomment">//! events is terminated by a wp_tablet.done event to signal that a client</span>
-    <span class="doccomment">//! may now finalize any initialization for that tablet.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! Events from tablets require a tool in proximity. Tools are also managed</span>
-    <span class="doccomment">//! by the tablet seat; a &quot;tool added&quot; event is sent whenever a tool is new</span>
-    <span class="doccomment">//! to the compositor. That event is followed by a number of descriptive</span>
-    <span class="doccomment">//! events about the hardware; currently that includes capabilities,</span>
-    <span class="doccomment">//! hardware id and serial number, and tool type. Similar to the tablet</span>
-    <span class="doccomment">//! interface, a wp_tablet_tool.done event is sent to terminate that initial</span>
-    <span class="doccomment">//! sequence.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! Any event from a tool happens on the wp_tablet_tool interface. When the</span>
-    <span class="doccomment">//! tool gets into proximity of the tablet, a proximity_in event is sent on</span>
-    <span class="doccomment">//! the wp_tablet_tool interface, listing the tablet and the surface. That</span>
-    <span class="doccomment">//! event is followed by a motion event with the coordinates. After that,</span>
-    <span class="doccomment">//! it&#39;s the usual motion, axis, button, etc. events. The protocol&#39;s</span>
-    <span class="doccomment">//! serialisation means events are grouped by wp_tablet_tool.frame events.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! Two special events (that don&#39;t exist in X) are down and up. They signal</span>
-    <span class="doccomment">//! &quot;tip touching the surface&quot;. For tablets without real proximity</span>
-    <span class="doccomment">//! detection, the sequence is: proximity_in, motion, down, frame.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! When the tool leaves proximity, a proximity_out event is sent. If any</span>
-    <span class="doccomment">//! button is still down, a button release event is sent before this</span>
-    <span class="doccomment">//! proximity event. These button events are sent in the same frame as the</span>
-    <span class="doccomment">//! proximity event to signal to the client that the buttons were held when</span>
-    <span class="doccomment">//! the tool left proximity.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! If the tool moves out of the surface but stays in proximity (i.e.</span>
-    <span class="doccomment">//! between windows), compositor-specific grab policies apply. This usually</span>
-    <span class="doccomment">//! means that the proximity-out is delayed until all buttons are released.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! Moving a tool physically from one tablet to the other has no real effect</span>
-    <span class="doccomment">//! on the protocol, since we already have the tool object from the &quot;tool</span>
-    <span class="doccomment">//! added&quot; event. All the information is already there and the proximity</span>
-    <span class="doccomment">//! events on both tablets are all a client needs to reconstruct what</span>
-    <span class="doccomment">//! happened.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! Some extra axes are normalized, i.e. the client knows the range as</span>
-    <span class="doccomment">//! specified in the protocol (e.g. [0, 65535]), the granularity however is</span>
-    <span class="doccomment">//! unknown. The current normalized axes are pressure, distance, and slider.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! Other extra axes are in physical units as specified in the protocol.</span>
-    <span class="doccomment">//! The current extra axes with physical units are tilt, rotation and</span>
-    <span class="doccomment">//! wheel rotation.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! Since tablets work independently of the pointer controlled by the mouse,</span>
-    <span class="doccomment">//! the focus handling is independent too and controlled by proximity.</span>
-    <span class="doccomment">//! The wp_tablet_tool.set_cursor request sets a tool-specific cursor.</span>
-    <span class="doccomment">//! This cursor surface may be the same as the mouse cursor, and it may be</span>
-    <span class="doccomment">//! the same across tools but it is possible to be more fine-grained. For</span>
-    <span class="doccomment">//! example, a client may set different cursors for the pen and eraser.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! Tools are generally independent of tablets and it is</span>
-    <span class="doccomment">//! compositor-specific policy when a tool can be removed. Common approaches</span>
-    <span class="doccomment">//! will likely include some form of removing a tool when all tablets the</span>
-    <span class="doccomment">//! tool was used on are removed.</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub mod </span>tablet {
+    <span class="doccomment">//! Wayland protocol for graphics tablets
+    //!
+    //! This description provides a high-level overview of the interplay between
+    //! the interfaces defined this protocol. For details, see the protocol
+    //! specification.
+    //!
+    //! More than one tablet may exist, and device-specifics matter. Tablets are
+    //! not represented by a single virtual device like wl_pointer. A client
+    //! binds to the tablet manager object which is just a proxy object. From
+    //! that, the client requests wp_tablet_manager.get_tablet_seat(wl_seat)
+    //! and that returns the actual interface that has all the tablets. With
+    //! this indirection, we can avoid merging wp_tablet into the actual Wayland
+    //! protocol, a long-term benefit.
+    //!
+    //! The wp_tablet_seat sends a &quot;tablet added&quot; event for each tablet
+    //! connected. That event is followed by descriptive events about the
+    //! hardware; currently that includes events for name, vid/pid and
+    //! a wp_tablet.path event that describes a local path. This path can be
+    //! used to uniquely identify a tablet or get more information through
+    //! libwacom. Emulated or nested tablets can skip any of those, e.g. a
+    //! virtual tablet may not have a vid/pid. The sequence of descriptive
+    //! events is terminated by a wp_tablet.done event to signal that a client
+    //! may now finalize any initialization for that tablet.
+    //!
+    //! Events from tablets require a tool in proximity. Tools are also managed
+    //! by the tablet seat; a &quot;tool added&quot; event is sent whenever a tool is new
+    //! to the compositor. That event is followed by a number of descriptive
+    //! events about the hardware; currently that includes capabilities,
+    //! hardware id and serial number, and tool type. Similar to the tablet
+    //! interface, a wp_tablet_tool.done event is sent to terminate that initial
+    //! sequence.
+    //!
+    //! Any event from a tool happens on the wp_tablet_tool interface. When the
+    //! tool gets into proximity of the tablet, a proximity_in event is sent on
+    //! the wp_tablet_tool interface, listing the tablet and the surface. That
+    //! event is followed by a motion event with the coordinates. After that,
+    //! it&#39;s the usual motion, axis, button, etc. events. The protocol&#39;s
+    //! serialisation means events are grouped by wp_tablet_tool.frame events.
+    //!
+    //! Two special events (that don&#39;t exist in X) are down and up. They signal
+    //! &quot;tip touching the surface&quot;. For tablets without real proximity
+    //! detection, the sequence is: proximity_in, motion, down, frame.
+    //!
+    //! When the tool leaves proximity, a proximity_out event is sent. If any
+    //! button is still down, a button release event is sent before this
+    //! proximity event. These button events are sent in the same frame as the
+    //! proximity event to signal to the client that the buttons were held when
+    //! the tool left proximity.
+    //!
+    //! If the tool moves out of the surface but stays in proximity (i.e.
+    //! between windows), compositor-specific grab policies apply. This usually
+    //! means that the proximity-out is delayed until all buttons are released.
+    //!
+    //! Moving a tool physically from one tablet to the other has no real effect
+    //! on the protocol, since we already have the tool object from the &quot;tool
+    //! added&quot; event. All the information is already there and the proximity
+    //! events on both tablets are all a client needs to reconstruct what
+    //! happened.
+    //!
+    //! Some extra axes are normalized, i.e. the client knows the range as
+    //! specified in the protocol (e.g. [0, 65535]), the granularity however is
+    //! unknown. The current normalized axes are pressure, distance, and slider.
+    //!
+    //! Other extra axes are in physical units as specified in the protocol.
+    //! The current extra axes with physical units are tilt, rotation and
+    //! wheel rotation.
+    //!
+    //! Since tablets work independently of the pointer controlled by the mouse,
+    //! the focus handling is independent too and controlled by proximity.
+    //! The wp_tablet_tool.set_cursor request sets a tool-specific cursor.
+    //! This cursor surface may be the same as the mouse cursor, and it may be
+    //! the same across tools but it is possible to be more fine-grained. For
+    //! example, a client may set different cursors for the pen and eraser.
+    //!
+    //! Tools are generally independent of tablets and it is
+    //! compositor-specific policy when a tool can be removed. Common approaches
+    //! will likely include some form of removing a tool when all tablets the
+    //! tool was used on are removed.
 
-    <span class="doccomment">/// Unstable version 1</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv1</span> {
+    /// Unstable version 1
+    </span><span class="kw">pub mod </span>zv1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/tablet/tablet-unstable-v1.xml&quot;</span>,
             []
         );
     }
 
-    <span class="doccomment">/// Unstable version 2</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv2</span> {
+    <span class="doccomment">/// Unstable version 2
+    </span><span class="kw">pub mod </span>zv2 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/tablet/tablet-unstable-v2.xml&quot;</span>,
             []
@@ -743,20 +743,20 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">text_input</span> {
-    <span class="doccomment">//! Text input protocol</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub mod </span>text_input {
+    <span class="doccomment">//! Text input protocol
 
-    <span class="doccomment">/// Unstable version 1</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv1</span> {
+    /// Unstable version 1
+    </span><span class="kw">pub mod </span>zv1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/text-input/text-input-unstable-v1.xml&quot;</span>,
             []
         );
     }
 
-    <span class="doccomment">/// Unstable version 3</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv3</span> {
+    <span class="doccomment">/// Unstable version 3
+    </span><span class="kw">pub mod </span>zv3 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/text-input/text-input-unstable-v3.xml&quot;</span>,
             []
@@ -764,48 +764,48 @@
     }
 }
 
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">viewporter</span> {
-    <span class="doccomment">//! Viewporter protocol</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! Provides the capability of scaling and cropping surfaces, decorrelating the surface</span>
-    <span class="doccomment">//! dimensions from the size of the buffer.</span>
+<span class="kw">pub mod </span>viewporter {
+    <span class="doccomment">//! Viewporter protocol
+    //!
+    //! Provides the capability of scaling and cropping surfaces, decorrelating the surface
+    //! dimensions from the size of the buffer.
 
-    <span class="macro">wayland_protocol!</span>(<span class="string">&quot;./protocols/stable/viewporter/viewporter.xml&quot;</span>, []);
+    </span><span class="macro">wayland_protocol!</span>(<span class="string">&quot;./protocols/stable/viewporter/viewporter.xml&quot;</span>, []);
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">xwayland_keyboard_grab</span> {
-    <span class="doccomment">//! Protocol for grabbing the keyboard from Xwayland</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! This protocol is application-specific to meet the needs of the X11</span>
-    <span class="doccomment">//! protocol through Xwayland. It provides a way for Xwayland to request</span>
-    <span class="doccomment">//! all keyboard events to be forwarded to a surface even when the</span>
-    <span class="doccomment">//! surface does not have keyboard focus.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! In the X11 protocol, a client may request an &quot;active grab&quot; on the</span>
-    <span class="doccomment">//! keyboard. On success, all key events are reported only to the</span>
-    <span class="doccomment">//! grabbing X11 client. For details, see XGrabKeyboard(3).</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! The core Wayland protocol does not have a notion of an active</span>
-    <span class="doccomment">//! keyboard grab. When running in Xwayland, X11 applications may</span>
-    <span class="doccomment">//! acquire an active grab inside Xwayland but that cannot be translated</span>
-    <span class="doccomment">//! to the Wayland compositor who may set the input focus to some other</span>
-    <span class="doccomment">//! surface. In doing so, it breaks the X11 client assumption that all</span>
-    <span class="doccomment">//! key events are reported to the grabbing client.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! This protocol specifies a way for Xwayland to request all keyboard</span>
-    <span class="doccomment">//! be directed to the given surface. The protocol does not guarantee</span>
-    <span class="doccomment">//! that the compositor will honor this request and it does not</span>
-    <span class="doccomment">//! prescribe user interfaces on how to handle the respond. For example,</span>
-    <span class="doccomment">//! a compositor may inform the user that all key events are now</span>
-    <span class="doccomment">//! forwarded to the given client surface, or it may ask the user for</span>
-    <span class="doccomment">//! permission to do so.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! Compositors are required to restrict access to this application</span>
-    <span class="doccomment">//! specific protocol to Xwayland alone.</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub mod </span>xwayland_keyboard_grab {
+    <span class="doccomment">//! Protocol for grabbing the keyboard from Xwayland
+    //!
+    //! This protocol is application-specific to meet the needs of the X11
+    //! protocol through Xwayland. It provides a way for Xwayland to request
+    //! all keyboard events to be forwarded to a surface even when the
+    //! surface does not have keyboard focus.
+    //!
+    //! In the X11 protocol, a client may request an &quot;active grab&quot; on the
+    //! keyboard. On success, all key events are reported only to the
+    //! grabbing X11 client. For details, see XGrabKeyboard(3).
+    //!
+    //! The core Wayland protocol does not have a notion of an active
+    //! keyboard grab. When running in Xwayland, X11 applications may
+    //! acquire an active grab inside Xwayland but that cannot be translated
+    //! to the Wayland compositor who may set the input focus to some other
+    //! surface. In doing so, it breaks the X11 client assumption that all
+    //! key events are reported to the grabbing client.
+    //!
+    //! This protocol specifies a way for Xwayland to request all keyboard
+    //! be directed to the given surface. The protocol does not guarantee
+    //! that the compositor will honor this request and it does not
+    //! prescribe user interfaces on how to handle the respond. For example,
+    //! a compositor may inform the user that all key events are now
+    //! forwarded to the given client surface, or it may ask the user for
+    //! permission to do so.
+    //!
+    //! Compositors are required to restrict access to this application
+    //! specific protocol to Xwayland alone.
 
-    <span class="doccomment">/// Unstable version 1</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv1</span> {
+    /// Unstable version 1
+    </span><span class="kw">pub mod </span>zv1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/xwayland-keyboard-grab/xwayland-keyboard-grab-unstable-v1.xml&quot;</span>,
             []
@@ -813,4 +813,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_protocols" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_protocols" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

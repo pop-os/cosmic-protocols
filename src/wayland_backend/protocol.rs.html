@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.10/src/protocol.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>protocol.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_backend/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.10/src/protocol.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>protocol.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_backend/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -351,358 +351,358 @@
 <span id="351">351</span>
 <span id="352">352</span>
 <span id="353">353</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Types and utilities for manipulating the Wayland protocol</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Types and utilities for manipulating the Wayland protocol
 
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">ffi::CString</span>, <span class="ident">os::unix::prelude::AsRawFd</span>};
+</span><span class="kw">use </span>std::{ffi::CString, os::unix::prelude::AsRawFd};
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wayland_sys::common</span>::{<span class="ident">wl_argument</span>, <span class="ident">wl_interface</span>, <span class="ident">wl_message</span>};
+<span class="kw">pub use </span>wayland_sys::common::{wl_argument, wl_interface, wl_message};
 
-<span class="doccomment">/// Describes whether an argument may have a null value.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">AllowNull</span> {
-    <span class="doccomment">/// Null values are allowed.</span>
-    <span class="ident">Yes</span>,
-    <span class="doccomment">/// Null values are forbidden.</span>
-    <span class="ident">No</span>,
+<span class="doccomment">/// Describes whether an argument may have a null value.
+</span><span class="attribute">#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+</span><span class="kw">pub enum </span>AllowNull {
+    <span class="doccomment">/// Null values are allowed.
+    </span>Yes,
+    <span class="doccomment">/// Null values are forbidden.
+    </span>No,
 }
 
-<span class="doccomment">/// Enum of possible argument types as recognized by the wire</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ArgumentType</span> {
-    <span class="doccomment">/// An integer argument. Represented by a [`i32`].</span>
-    <span class="ident">Int</span>,
-    <span class="doccomment">/// An unsigned integer argument. Represented by a [`u32`].</span>
-    <span class="ident">Uint</span>,
-    <span class="doccomment">/// A signed fixed point number with 1/256 precision</span>
-    <span class="ident">Fixed</span>,
-    <span class="doccomment">/// A string. This is represented as a [`CString`] in a message.</span>
-    <span class="ident">Str</span>(<span class="ident">AllowNull</span>),
-    <span class="doccomment">/// Id of a wayland object</span>
-    <span class="ident">Object</span>(<span class="ident">AllowNull</span>),
-    <span class="doccomment">/// Id of a newly created wayland object</span>
-    <span class="ident">NewId</span>,
-    <span class="doccomment">/// Vec&lt;u8&gt;</span>
-    <span class="ident">Array</span>,
-    <span class="doccomment">/// A file descriptor argument. Represented by a [`RawFd`].</span>
-    <span class="ident">Fd</span>,
+<span class="doccomment">/// Enum of possible argument types as recognized by the wire
+</span><span class="attribute">#[derive(Copy, Clone, PartialEq, Eq, Debug)]
+</span><span class="kw">pub enum </span>ArgumentType {
+    <span class="doccomment">/// An integer argument. Represented by a [`i32`].
+    </span>Int,
+    <span class="doccomment">/// An unsigned integer argument. Represented by a [`u32`].
+    </span>Uint,
+    <span class="doccomment">/// A signed fixed point number with 1/256 precision
+    </span>Fixed,
+    <span class="doccomment">/// A string. This is represented as a [`CString`] in a message.
+    </span>Str(AllowNull),
+    <span class="doccomment">/// Id of a wayland object
+    </span>Object(AllowNull),
+    <span class="doccomment">/// Id of a newly created wayland object
+    </span>NewId,
+    <span class="doccomment">/// Vec&lt;u8&gt;
+    </span>Array,
+    <span class="doccomment">/// A file descriptor argument. Represented by a [`RawFd`].
+    </span>Fd,
 }
 
-<span class="kw">impl</span> <span class="ident">ArgumentType</span> {
-    <span class="doccomment">/// Returns true if the type of the argument is the same.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">same_type</span>(<span class="self">self</span>, <span class="ident">other</span>: <span class="self">Self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="ident">std::mem::discriminant</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">==</span> <span class="ident">std::mem::discriminant</span>(<span class="kw-2">&amp;</span><span class="ident">other</span>)
+<span class="kw">impl </span>ArgumentType {
+    <span class="doccomment">/// Returns true if the type of the argument is the same.
+    </span><span class="kw">pub fn </span>same_type(<span class="self">self</span>, other: <span class="self">Self</span>) -&gt; bool {
+        std::mem::discriminant(<span class="kw-2">&amp;</span><span class="self">self</span>) == std::mem::discriminant(<span class="kw-2">&amp;</span>other)
     }
 }
 
-<span class="doccomment">/// Enum of possible argument of the protocol</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::box_collection</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Argument</span><span class="op">&lt;</span><span class="ident">Id</span>, <span class="ident">Fd</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// An integer argument. Represented by a [`i32`].</span>
-    <span class="ident">Int</span>(<span class="ident">i32</span>),
-    <span class="doccomment">/// An unsigned integer argument. Represented by a [`u32`].</span>
-    <span class="ident">Uint</span>(<span class="ident">u32</span>),
-    <span class="doccomment">/// A signed fixed point number with 1/256 precision</span>
-    <span class="ident">Fixed</span>(<span class="ident">i32</span>),
-    <span class="doccomment">/// CString</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The value is boxed to reduce the stack size of Argument. The performance</span>
-    <span class="doccomment">/// impact is negligible as `string` arguments are pretty rare in the protocol.</span>
-    <span class="ident">Str</span>(<span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">CString</span><span class="op">&gt;</span><span class="op">&gt;</span>),
-    <span class="doccomment">/// Id of a wayland object</span>
-    <span class="ident">Object</span>(<span class="ident">Id</span>),
-    <span class="doccomment">/// Id of a newly created wayland object</span>
-    <span class="ident">NewId</span>(<span class="ident">Id</span>),
-    <span class="doccomment">/// Vec&lt;u8&gt;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The value is boxed to reduce the stack size of Argument. The performance</span>
-    <span class="doccomment">/// impact is negligible as `array` arguments are pretty rare in the protocol.</span>
-    <span class="ident">Array</span>(<span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>),
-    <span class="doccomment">/// A file descriptor argument. Represented by a [`RawFd`].</span>
-    <span class="ident">Fd</span>(<span class="ident">Fd</span>),
+<span class="doccomment">/// Enum of possible argument of the protocol
+</span><span class="attribute">#[derive(Debug, Clone)]
+#[allow(clippy::box_collection)]
+</span><span class="kw">pub enum </span>Argument&lt;Id, Fd&gt; {
+    <span class="doccomment">/// An integer argument. Represented by a [`i32`].
+    </span>Int(i32),
+    <span class="doccomment">/// An unsigned integer argument. Represented by a [`u32`].
+    </span>Uint(u32),
+    <span class="doccomment">/// A signed fixed point number with 1/256 precision
+    </span>Fixed(i32),
+    <span class="doccomment">/// CString
+    ///
+    /// The value is boxed to reduce the stack size of Argument. The performance
+    /// impact is negligible as `string` arguments are pretty rare in the protocol.
+    </span>Str(<span class="prelude-ty">Option</span>&lt;Box&lt;CString&gt;&gt;),
+    <span class="doccomment">/// Id of a wayland object
+    </span>Object(Id),
+    <span class="doccomment">/// Id of a newly created wayland object
+    </span>NewId(Id),
+    <span class="doccomment">/// Vec&lt;u8&gt;
+    ///
+    /// The value is boxed to reduce the stack size of Argument. The performance
+    /// impact is negligible as `array` arguments are pretty rare in the protocol.
+    </span>Array(Box&lt;Vec&lt;u8&gt;&gt;),
+    <span class="doccomment">/// A file descriptor argument. Represented by a [`RawFd`].
+    </span>Fd(Fd),
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Id</span>, <span class="ident">Fd</span><span class="op">&gt;</span> <span class="ident">Argument</span><span class="op">&lt;</span><span class="ident">Id</span>, <span class="ident">Fd</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Retrieve the type of a given argument instance</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_type</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">ArgumentType</span> {
-        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident"><span class="self">Self</span>::Int</span>(<span class="kw">_</span>) =&gt; <span class="ident">ArgumentType::Int</span>,
-            <span class="ident"><span class="self">Self</span>::Uint</span>(<span class="kw">_</span>) =&gt; <span class="ident">ArgumentType::Uint</span>,
-            <span class="ident"><span class="self">Self</span>::Fixed</span>(<span class="kw">_</span>) =&gt; <span class="ident">ArgumentType::Fixed</span>,
-            <span class="ident"><span class="self">Self</span>::Str</span>(<span class="kw">_</span>) =&gt; <span class="ident">ArgumentType::Str</span>(<span class="ident">AllowNull::Yes</span>),
-            <span class="ident"><span class="self">Self</span>::Object</span>(<span class="kw">_</span>) =&gt; <span class="ident">ArgumentType::Object</span>(<span class="ident">AllowNull::Yes</span>),
-            <span class="ident"><span class="self">Self</span>::NewId</span>(<span class="kw">_</span>) =&gt; <span class="ident">ArgumentType::NewId</span>,
-            <span class="ident"><span class="self">Self</span>::Array</span>(<span class="kw">_</span>) =&gt; <span class="ident">ArgumentType::Array</span>,
-            <span class="ident"><span class="self">Self</span>::Fd</span>(<span class="kw">_</span>) =&gt; <span class="ident">ArgumentType::Fd</span>,
+<span class="kw">impl</span>&lt;Id, Fd&gt; Argument&lt;Id, Fd&gt; {
+    <span class="doccomment">/// Retrieve the type of a given argument instance
+    </span><span class="kw">pub fn </span>get_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ArgumentType {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            <span class="self">Self</span>::Int(<span class="kw">_</span>) =&gt; ArgumentType::Int,
+            <span class="self">Self</span>::Uint(<span class="kw">_</span>) =&gt; ArgumentType::Uint,
+            <span class="self">Self</span>::Fixed(<span class="kw">_</span>) =&gt; ArgumentType::Fixed,
+            <span class="self">Self</span>::Str(<span class="kw">_</span>) =&gt; ArgumentType::Str(AllowNull::Yes),
+            <span class="self">Self</span>::Object(<span class="kw">_</span>) =&gt; ArgumentType::Object(AllowNull::Yes),
+            <span class="self">Self</span>::NewId(<span class="kw">_</span>) =&gt; ArgumentType::NewId,
+            <span class="self">Self</span>::Array(<span class="kw">_</span>) =&gt; ArgumentType::Array,
+            <span class="self">Self</span>::Fd(<span class="kw">_</span>) =&gt; ArgumentType::Fd,
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">map_fd</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="kw">impl</span> <span class="ident">FnMut</span>(<span class="ident">Fd</span>) -&gt; <span class="ident">T</span>) -&gt; <span class="ident">Argument</span><span class="op">&lt;</span><span class="ident">Id</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident"><span class="self">Self</span>::Int</span>(<span class="ident">val</span>) =&gt; <span class="ident">Argument::Int</span>(<span class="ident">val</span>),
-            <span class="ident"><span class="self">Self</span>::Uint</span>(<span class="ident">val</span>) =&gt; <span class="ident">Argument::Uint</span>(<span class="ident">val</span>),
-            <span class="ident"><span class="self">Self</span>::Fixed</span>(<span class="ident">val</span>) =&gt; <span class="ident">Argument::Fixed</span>(<span class="ident">val</span>),
-            <span class="ident"><span class="self">Self</span>::Str</span>(<span class="ident">val</span>) =&gt; <span class="ident">Argument::Str</span>(<span class="ident">val</span>),
-            <span class="ident"><span class="self">Self</span>::Object</span>(<span class="ident">val</span>) =&gt; <span class="ident">Argument::Object</span>(<span class="ident">val</span>),
-            <span class="ident"><span class="self">Self</span>::NewId</span>(<span class="ident">val</span>) =&gt; <span class="ident">Argument::NewId</span>(<span class="ident">val</span>),
-            <span class="ident"><span class="self">Self</span>::Array</span>(<span class="ident">val</span>) =&gt; <span class="ident">Argument::Array</span>(<span class="ident">val</span>),
-            <span class="ident"><span class="self">Self</span>::Fd</span>(<span class="ident">val</span>) =&gt; <span class="ident">Argument::Fd</span>(<span class="ident">f</span>(<span class="ident">val</span>)),
-        }
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Id</span>: <span class="ident">PartialEq</span>, <span class="ident">Fd</span>: <span class="ident">AsRawFd</span><span class="op">&gt;</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">Argument</span><span class="op">&lt;</span><span class="ident">Id</span>, <span class="ident">Fd</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="kw">match</span> (<span class="self">self</span>, <span class="ident">other</span>) {
-            (<span class="ident"><span class="self">Self</span>::Int</span>(<span class="ident">a</span>), <span class="ident"><span class="self">Self</span>::Int</span>(<span class="ident">b</span>)) =&gt; <span class="ident">a</span> <span class="op">==</span> <span class="ident">b</span>,
-            (<span class="ident"><span class="self">Self</span>::Uint</span>(<span class="ident">a</span>), <span class="ident"><span class="self">Self</span>::Uint</span>(<span class="ident">b</span>)) =&gt; <span class="ident">a</span> <span class="op">==</span> <span class="ident">b</span>,
-            (<span class="ident"><span class="self">Self</span>::Fixed</span>(<span class="ident">a</span>), <span class="ident"><span class="self">Self</span>::Fixed</span>(<span class="ident">b</span>)) =&gt; <span class="ident">a</span> <span class="op">==</span> <span class="ident">b</span>,
-            (<span class="ident"><span class="self">Self</span>::Str</span>(<span class="ident">a</span>), <span class="ident"><span class="self">Self</span>::Str</span>(<span class="ident">b</span>)) =&gt; <span class="ident">a</span> <span class="op">==</span> <span class="ident">b</span>,
-            (<span class="ident"><span class="self">Self</span>::Object</span>(<span class="ident">a</span>), <span class="ident"><span class="self">Self</span>::Object</span>(<span class="ident">b</span>)) =&gt; <span class="ident">a</span> <span class="op">==</span> <span class="ident">b</span>,
-            (<span class="ident"><span class="self">Self</span>::NewId</span>(<span class="ident">a</span>), <span class="ident"><span class="self">Self</span>::NewId</span>(<span class="ident">b</span>)) =&gt; <span class="ident">a</span> <span class="op">==</span> <span class="ident">b</span>,
-            (<span class="ident"><span class="self">Self</span>::Array</span>(<span class="ident">a</span>), <span class="ident"><span class="self">Self</span>::Array</span>(<span class="ident">b</span>)) =&gt; <span class="ident">a</span> <span class="op">==</span> <span class="ident">b</span>,
-            (<span class="ident"><span class="self">Self</span>::Fd</span>(<span class="ident">a</span>), <span class="ident"><span class="self">Self</span>::Fd</span>(<span class="ident">b</span>)) =&gt; <span class="ident">a</span>.<span class="ident">as_raw_fd</span>() <span class="op">==</span> <span class="ident">b</span>.<span class="ident">as_raw_fd</span>(),
-            <span class="kw">_</span> =&gt; <span class="bool-val">false</span>,
+    <span class="kw">fn </span>map_fd&lt;T&gt;(<span class="self">self</span>, f: <span class="kw-2">&amp;mut </span><span class="kw">impl </span>FnMut(Fd) -&gt; T) -&gt; Argument&lt;Id, T&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="self">Self</span>::Int(val) =&gt; Argument::Int(val),
+            <span class="self">Self</span>::Uint(val) =&gt; Argument::Uint(val),
+            <span class="self">Self</span>::Fixed(val) =&gt; Argument::Fixed(val),
+            <span class="self">Self</span>::Str(val) =&gt; Argument::Str(val),
+            <span class="self">Self</span>::Object(val) =&gt; Argument::Object(val),
+            <span class="self">Self</span>::NewId(val) =&gt; Argument::NewId(val),
+            <span class="self">Self</span>::Array(val) =&gt; Argument::Array(val),
+            <span class="self">Self</span>::Fd(val) =&gt; Argument::Fd(f(val)),
         }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Id</span>: <span class="ident">Eq</span>, <span class="ident">Fd</span>: <span class="ident">AsRawFd</span><span class="op">&gt;</span> <span class="ident">Eq</span> <span class="kw">for</span> <span class="ident">Argument</span><span class="op">&lt;</span><span class="ident">Id</span>, <span class="ident">Fd</span><span class="op">&gt;</span> {}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Id</span>: <span class="ident">std::fmt::Display</span>, <span class="ident">Fd</span>: <span class="ident">AsRawFd</span><span class="op">&gt;</span> <span class="ident">std::fmt::Display</span> <span class="kw">for</span> <span class="ident">Argument</span><span class="op">&lt;</span><span class="ident">Id</span>, <span class="ident">Fd</span><span class="op">&gt;</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident"><span class="self">Self</span>::Int</span>(<span class="ident">value</span>) =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">value</span>),
-            <span class="ident"><span class="self">Self</span>::Uint</span>(<span class="ident">value</span>) =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">value</span>),
-            <span class="ident"><span class="self">Self</span>::Fixed</span>(<span class="ident">value</span>) =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">value</span>),
-            <span class="ident"><span class="self">Self</span>::Str</span>(<span class="ident">value</span>) =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{:?}&quot;</span>, <span class="ident">value</span>),
-            <span class="ident"><span class="self">Self</span>::Object</span>(<span class="ident">value</span>) =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">value</span>),
-            <span class="ident"><span class="self">Self</span>::NewId</span>(<span class="ident">value</span>) =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">value</span>),
-            <span class="ident"><span class="self">Self</span>::Array</span>(<span class="ident">value</span>) =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{:?}&quot;</span>, <span class="ident">value</span>),
-            <span class="ident"><span class="self">Self</span>::Fd</span>(<span class="ident">value</span>) =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">value</span>.<span class="ident">as_raw_fd</span>()),
+<span class="kw">impl</span>&lt;Id: PartialEq, Fd: AsRawFd&gt; PartialEq <span class="kw">for </span>Argument&lt;Id, Fd&gt; {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
+        <span class="kw">match </span>(<span class="self">self</span>, other) {
+            (<span class="self">Self</span>::Int(a), <span class="self">Self</span>::Int(b)) =&gt; a == b,
+            (<span class="self">Self</span>::Uint(a), <span class="self">Self</span>::Uint(b)) =&gt; a == b,
+            (<span class="self">Self</span>::Fixed(a), <span class="self">Self</span>::Fixed(b)) =&gt; a == b,
+            (<span class="self">Self</span>::Str(a), <span class="self">Self</span>::Str(b)) =&gt; a == b,
+            (<span class="self">Self</span>::Object(a), <span class="self">Self</span>::Object(b)) =&gt; a == b,
+            (<span class="self">Self</span>::NewId(a), <span class="self">Self</span>::NewId(b)) =&gt; a == b,
+            (<span class="self">Self</span>::Array(a), <span class="self">Self</span>::Array(b)) =&gt; a == b,
+            (<span class="self">Self</span>::Fd(a), <span class="self">Self</span>::Fd(b)) =&gt; a.as_raw_fd() == b.as_raw_fd(),
+            <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
         }
     }
 }
 
-<span class="doccomment">/// Description of wayland interface.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// An interface describes the possible requests and events that a wayland client and compositor use to</span>
-<span class="doccomment">/// communicate.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Interface</span> {
-    <span class="doccomment">/// The name of the interface.</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
-    <span class="doccomment">/// The maximum supported version of the interface.</span>
-    <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">u32</span>,
-    <span class="doccomment">/// A list that describes every request this interface supports.</span>
-    <span class="kw">pub</span> <span class="ident">requests</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="ident">MessageDesc</span>],
-    <span class="doccomment">/// A list that describes every event this interface supports.</span>
-    <span class="kw">pub</span> <span class="ident">events</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="ident">MessageDesc</span>],
-    <span class="doccomment">/// A C representation of this interface that may be used to interoperate with libwayland.</span>
-    <span class="kw">pub</span> <span class="ident">c_ptr</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">wayland_sys::common::wl_interface</span><span class="op">&gt;</span>,
-}
+<span class="kw">impl</span>&lt;Id: Eq, Fd: AsRawFd&gt; Eq <span class="kw">for </span>Argument&lt;Id, Fd&gt; {}
 
-<span class="kw">impl</span> <span class="ident">std::fmt::Display</span> <span class="kw">for</span> <span class="ident">Interface</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
-        <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="self">self</span>.<span class="ident">name</span>)
-    }
-}
-
-<span class="doccomment">/// Wire metadata of a given message</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">MessageDesc</span> {
-    <span class="doccomment">/// Name of this message</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
-    <span class="doccomment">/// Signature of the message</span>
-    <span class="kw">pub</span> <span class="ident">signature</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="ident">ArgumentType</span>],
-    <span class="doccomment">/// Minimum required version of the interface</span>
-    <span class="kw">pub</span> <span class="ident">since</span>: <span class="ident">u32</span>,
-    <span class="doccomment">/// Whether this message is a destructor</span>
-    <span class="kw">pub</span> <span class="ident">is_destructor</span>: <span class="ident">bool</span>,
-    <span class="doccomment">/// The child interface created from this message.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// In the wayland xml format, this corresponds to the `new_id` type.</span>
-    <span class="kw">pub</span> <span class="ident">child_interface</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span><span class="op">&gt;</span>,
-    <span class="doccomment">/// The interfaces passed into this message as arguments.</span>
-    <span class="kw">pub</span> <span class="ident">arg_interfaces</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> [<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span>],
-}
-
-<span class="doccomment">/// Special interface representing an anonymous object</span>
-<span class="kw">pub</span> <span class="kw">static</span> <span class="ident">ANONYMOUS_INTERFACE</span>: <span class="ident">Interface</span> <span class="op">=</span>
-    <span class="ident">Interface</span> { <span class="ident">name</span>: <span class="string">&quot;&lt;anonymous&gt;&quot;</span>, <span class="ident">version</span>: <span class="number">0</span>, <span class="ident">requests</span>: <span class="kw-2">&amp;</span>[], <span class="ident">events</span>: <span class="kw-2">&amp;</span>[], <span class="ident">c_ptr</span>: <span class="prelude-val">None</span> };
-
-<span class="doccomment">/// Description of the protocol-level information of an object</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ObjectInfo</span> {
-    <span class="doccomment">/// The protocol ID</span>
-    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">u32</span>,
-    <span class="doccomment">/// The interface</span>
-    <span class="kw">pub</span> <span class="ident">interface</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span>,
-    <span class="doccomment">/// The version</span>
-    <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">u32</span>,
-}
-
-<span class="doccomment">/// A protocol error</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This kind of error is generated by the server if your client didn&#39;t respect</span>
-<span class="doccomment">/// the protocol, after which the server will kill your connection.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProtocolError</span> {
-    <span class="doccomment">/// The error code associated with the error</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// It should be interpreted as an instance of the `Error` enum of the</span>
-    <span class="doccomment">/// associated interface.</span>
-    <span class="kw">pub</span> <span class="ident">code</span>: <span class="ident">u32</span>,
-    <span class="doccomment">/// The id of the object that caused the error</span>
-    <span class="kw">pub</span> <span class="ident">object_id</span>: <span class="ident">u32</span>,
-    <span class="doccomment">/// The interface of the object that caused the error</span>
-    <span class="kw">pub</span> <span class="ident">object_interface</span>: <span class="ident">String</span>,
-    <span class="doccomment">/// The message sent by the server describing the error</span>
-    <span class="kw">pub</span> <span class="ident">message</span>: <span class="ident">String</span>,
-}
-
-<span class="doccomment">/// Number of arguments that are stocked inline in a `Message` before allocating</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This is a ad-hoc number trying to reach a good balance between avoiding too many allocations</span>
-<span class="doccomment">/// and keeping the stack size of `Message` small.</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">INLINE_ARGS</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">4</span>;
-
-<span class="doccomment">/// Represents a message that has been sent from some object.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">Id</span>, <span class="ident">Fd</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// The id of the object that sent the message.</span>
-    <span class="kw">pub</span> <span class="ident">sender_id</span>: <span class="ident">Id</span>,
-    <span class="doccomment">/// The opcode of the message.</span>
-    <span class="kw">pub</span> <span class="ident">opcode</span>: <span class="ident">u16</span>,
-    <span class="doccomment">/// The arguments of the message.</span>
-    <span class="kw">pub</span> <span class="ident">args</span>: <span class="ident">smallvec::SmallVec</span><span class="op">&lt;</span>[<span class="ident">Argument</span><span class="op">&lt;</span><span class="ident">Id</span>, <span class="ident">Fd</span><span class="op">&gt;</span>; <span class="ident">INLINE_ARGS</span>]<span class="op">&gt;</span>,
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Id</span>, <span class="ident">Fd</span><span class="op">&gt;</span> <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">Id</span>, <span class="ident">Fd</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Map some closure on all Fd contained in this message, to change the Fd generic parameter.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">map_fd</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="self">self</span>, <span class="kw-2">mut</span> <span class="ident">f</span>: <span class="kw">impl</span> <span class="ident">FnMut</span>(<span class="ident">Fd</span>) -&gt; <span class="ident">T</span>) -&gt; <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">Id</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">Message</span> {
-            <span class="ident">sender_id</span>: <span class="self">self</span>.<span class="ident">sender_id</span>,
-            <span class="ident">opcode</span>: <span class="self">self</span>.<span class="ident">opcode</span>,
-            <span class="ident">args</span>: <span class="self">self</span>.<span class="ident">args</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">arg</span><span class="op">|</span> <span class="ident">arg</span>.<span class="ident">map_fd</span>(<span class="kw-2">&amp;mut</span> <span class="ident">f</span>)).<span class="ident">collect</span>(),
+<span class="kw">impl</span>&lt;Id: std::fmt::Display, Fd: AsRawFd&gt; std::fmt::Display <span class="kw">for </span>Argument&lt;Id, Fd&gt; {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="self">Self</span>::Int(value) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, value),
+            <span class="self">Self</span>::Uint(value) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, value),
+            <span class="self">Self</span>::Fixed(value) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, value),
+            <span class="self">Self</span>::Str(value) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{:?}&quot;</span>, value),
+            <span class="self">Self</span>::Object(value) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, value),
+            <span class="self">Self</span>::NewId(value) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, value),
+            <span class="self">Self</span>::Array(value) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{:?}&quot;</span>, value),
+            <span class="self">Self</span>::Fd(value) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;{}&quot;</span>, value.as_raw_fd()),
         }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Id</span>: <span class="ident">PartialEq</span>, <span class="ident">Fd</span>: <span class="ident">AsRawFd</span><span class="op">&gt;</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">Id</span>, <span class="ident">Fd</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">sender_id</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">sender_id</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">opcode</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">opcode</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">args</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">args</span>
+<span class="doccomment">/// Description of wayland interface.
+///
+/// An interface describes the possible requests and events that a wayland client and compositor use to
+/// communicate.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>Interface {
+    <span class="doccomment">/// The name of the interface.
+    </span><span class="kw">pub </span>name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+    <span class="doccomment">/// The maximum supported version of the interface.
+    </span><span class="kw">pub </span>version: u32,
+    <span class="doccomment">/// A list that describes every request this interface supports.
+    </span><span class="kw">pub </span>requests: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[MessageDesc],
+    <span class="doccomment">/// A list that describes every event this interface supports.
+    </span><span class="kw">pub </span>events: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[MessageDesc],
+    <span class="doccomment">/// A C representation of this interface that may be used to interoperate with libwayland.
+    </span><span class="kw">pub </span>c_ptr: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>wayland_sys::common::wl_interface&gt;,
+}
+
+<span class="kw">impl </span>std::fmt::Display <span class="kw">for </span>Interface {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
+        f.write_str(<span class="self">self</span>.name)
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Id</span>: <span class="ident">Eq</span>, <span class="ident">Fd</span>: <span class="ident">AsRawFd</span><span class="op">&gt;</span> <span class="ident">Eq</span> <span class="kw">for</span> <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">Id</span>, <span class="ident">Fd</span><span class="op">&gt;</span> {}
+<span class="doccomment">/// Wire metadata of a given message
+</span><span class="attribute">#[derive(Copy, Clone, Debug)]
+</span><span class="kw">pub struct </span>MessageDesc {
+    <span class="doccomment">/// Name of this message
+    </span><span class="kw">pub </span>name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+    <span class="doccomment">/// Signature of the message
+    </span><span class="kw">pub </span>signature: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[ArgumentType],
+    <span class="doccomment">/// Minimum required version of the interface
+    </span><span class="kw">pub </span>since: u32,
+    <span class="doccomment">/// Whether this message is a destructor
+    </span><span class="kw">pub </span>is_destructor: bool,
+    <span class="doccomment">/// The child interface created from this message.
+    ///
+    /// In the wayland xml format, this corresponds to the `new_id` type.
+    </span><span class="kw">pub </span>child_interface: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface&gt;,
+    <span class="doccomment">/// The interfaces passed into this message as arguments.
+    </span><span class="kw">pub </span>arg_interfaces: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface],
+}
 
-<span class="kw">impl</span> <span class="ident">std::error::Error</span> <span class="kw">for</span> <span class="ident">ProtocolError</span> {}
+<span class="doccomment">/// Special interface representing an anonymous object
+</span><span class="kw">pub static </span>ANONYMOUS_INTERFACE: Interface =
+    Interface { name: <span class="string">&quot;&lt;anonymous&gt;&quot;</span>, version: <span class="number">0</span>, requests: <span class="kw-2">&amp;</span>[], events: <span class="kw-2">&amp;</span>[], c_ptr: <span class="prelude-val">None </span>};
 
-<span class="kw">impl</span> <span class="ident">std::fmt::Display</span> <span class="kw">for</span> <span class="ident">ProtocolError</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">::std::fmt::Formatter</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">::std::fmt::Error</span><span class="op">&gt;</span> {
+<span class="doccomment">/// Description of the protocol-level information of an object
+</span><span class="attribute">#[derive(Copy, Clone, Debug)]
+</span><span class="kw">pub struct </span>ObjectInfo {
+    <span class="doccomment">/// The protocol ID
+    </span><span class="kw">pub </span>id: u32,
+    <span class="doccomment">/// The interface
+    </span><span class="kw">pub </span>interface: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface,
+    <span class="doccomment">/// The version
+    </span><span class="kw">pub </span>version: u32,
+}
+
+<span class="doccomment">/// A protocol error
+///
+/// This kind of error is generated by the server if your client didn&#39;t respect
+/// the protocol, after which the server will kill your connection.
+</span><span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>ProtocolError {
+    <span class="doccomment">/// The error code associated with the error
+    ///
+    /// It should be interpreted as an instance of the `Error` enum of the
+    /// associated interface.
+    </span><span class="kw">pub </span>code: u32,
+    <span class="doccomment">/// The id of the object that caused the error
+    </span><span class="kw">pub </span>object_id: u32,
+    <span class="doccomment">/// The interface of the object that caused the error
+    </span><span class="kw">pub </span>object_interface: String,
+    <span class="doccomment">/// The message sent by the server describing the error
+    </span><span class="kw">pub </span>message: String,
+}
+
+<span class="doccomment">/// Number of arguments that are stocked inline in a `Message` before allocating
+///
+/// This is a ad-hoc number trying to reach a good balance between avoiding too many allocations
+/// and keeping the stack size of `Message` small.
+</span><span class="kw">pub const </span>INLINE_ARGS: usize = <span class="number">4</span>;
+
+<span class="doccomment">/// Represents a message that has been sent from some object.
+</span><span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>Message&lt;Id, Fd&gt; {
+    <span class="doccomment">/// The id of the object that sent the message.
+    </span><span class="kw">pub </span>sender_id: Id,
+    <span class="doccomment">/// The opcode of the message.
+    </span><span class="kw">pub </span>opcode: u16,
+    <span class="doccomment">/// The arguments of the message.
+    </span><span class="kw">pub </span>args: smallvec::SmallVec&lt;[Argument&lt;Id, Fd&gt;; INLINE_ARGS]&gt;,
+}
+
+<span class="kw">impl</span>&lt;Id, Fd&gt; Message&lt;Id, Fd&gt; {
+    <span class="doccomment">/// Map some closure on all Fd contained in this message, to change the Fd generic parameter.
+    </span><span class="kw">pub fn </span>map_fd&lt;T&gt;(<span class="self">self</span>, <span class="kw-2">mut </span>f: <span class="kw">impl </span>FnMut(Fd) -&gt; T) -&gt; Message&lt;Id, T&gt; {
+        Message {
+            sender_id: <span class="self">self</span>.sender_id,
+            opcode: <span class="self">self</span>.opcode,
+            args: <span class="self">self</span>.args.into_iter().map(<span class="kw">move </span>|arg| arg.map_fd(<span class="kw-2">&amp;mut </span>f)).collect(),
+        }
+    }
+}
+
+<span class="kw">impl</span>&lt;Id: PartialEq, Fd: AsRawFd&gt; PartialEq <span class="kw">for </span>Message&lt;Id, Fd&gt; {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
+        <span class="self">self</span>.sender_id == other.sender_id &amp;&amp; <span class="self">self</span>.opcode == other.opcode &amp;&amp; <span class="self">self</span>.args == other.args
+    }
+}
+
+<span class="kw">impl</span>&lt;Id: Eq, Fd: AsRawFd&gt; Eq <span class="kw">for </span>Message&lt;Id, Fd&gt; {}
+
+<span class="kw">impl </span>std::error::Error <span class="kw">for </span>ProtocolError {}
+
+<span class="kw">impl </span>std::fmt::Display <span class="kw">for </span>ProtocolError {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>::std::fmt::Formatter) -&gt; <span class="prelude-ty">Result</span>&lt;(), ::std::fmt::Error&gt; {
         <span class="macro">write!</span>(
-            <span class="ident">f</span>,
+            f,
             <span class="string">&quot;Protocol error {} on object {}@{}: {}&quot;</span>,
-            <span class="self">self</span>.<span class="ident">code</span>, <span class="self">self</span>.<span class="ident">object_interface</span>, <span class="self">self</span>.<span class="ident">object_id</span>, <span class="self">self</span>.<span class="ident">message</span>
+            <span class="self">self</span>.code, <span class="self">self</span>.object_interface, <span class="self">self</span>.object_id, <span class="self">self</span>.message
         )
     }
 }
 
-<span class="doccomment">/// Returns true if the two interfaces are the same.</span>
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">same_interface</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span>, <span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span>) -&gt; <span class="ident">bool</span> {
-    <span class="ident">std::ptr::eq</span>(<span class="ident">a</span>, <span class="ident">b</span>) <span class="op">|</span><span class="op">|</span> <span class="ident">a</span>.<span class="ident">name</span> <span class="op">==</span> <span class="ident">b</span>.<span class="ident">name</span>
+<span class="doccomment">/// Returns true if the two interfaces are the same.
+</span><span class="attribute">#[inline]
+</span><span class="kw">pub fn </span>same_interface(a: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface, b: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface) -&gt; bool {
+    std::ptr::eq(a, b) || a.name == b.name
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">check_for_signature</span><span class="op">&lt;</span><span class="ident">Id</span>, <span class="ident">Fd</span><span class="op">&gt;</span>(
-    <span class="ident">signature</span>: <span class="kw-2">&amp;</span>[<span class="ident">ArgumentType</span>],
-    <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">Argument</span><span class="op">&lt;</span><span class="ident">Id</span>, <span class="ident">Fd</span><span class="op">&gt;</span>],
-) -&gt; <span class="ident">bool</span> {
-    <span class="kw">if</span> <span class="ident">signature</span>.<span class="ident">len</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">args</span>.<span class="ident">len</span>() {
-        <span class="kw">return</span> <span class="bool-val">false</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>check_for_signature&lt;Id, Fd&gt;(
+    signature: <span class="kw-2">&amp;</span>[ArgumentType],
+    args: <span class="kw-2">&amp;</span>[Argument&lt;Id, Fd&gt;],
+) -&gt; bool {
+    <span class="kw">if </span>signature.len() != args.len() {
+        <span class="kw">return </span><span class="bool-val">false</span>;
     }
-    <span class="kw">for</span> (<span class="ident">typ</span>, <span class="ident">arg</span>) <span class="kw">in</span> <span class="ident">signature</span>.<span class="ident">iter</span>().<span class="ident">copied</span>().<span class="ident">zip</span>(<span class="ident">args</span>.<span class="ident">iter</span>()) {
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">arg</span>.<span class="ident">get_type</span>().<span class="ident">same_type</span>(<span class="ident">typ</span>) {
-            <span class="kw">return</span> <span class="bool-val">false</span>;
+    <span class="kw">for </span>(typ, arg) <span class="kw">in </span>signature.iter().copied().zip(args.iter()) {
+        <span class="kw">if </span>!arg.get_type().same_type(typ) {
+            <span class="kw">return </span><span class="bool-val">false</span>;
         }
     }
-    <span class="bool-val">true</span>
+    <span class="bool-val">true
+</span>}
+
+<span class="attribute">#[inline]
+#[allow(dead_code)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>same_interface_or_anonymous(a: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface, b: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface) -&gt; bool {
+    same_interface(a, b) || same_interface(a, <span class="kw-2">&amp;</span>ANONYMOUS_INTERFACE)
 }
 
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">dead_code</span>)]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">same_interface_or_anonymous</span>(<span class="ident">a</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span>, <span class="ident">b</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span>) -&gt; <span class="ident">bool</span> {
-    <span class="ident">same_interface</span>(<span class="ident">a</span>, <span class="ident">b</span>) <span class="op">|</span><span class="op">|</span> <span class="ident">same_interface</span>(<span class="ident">a</span>, <span class="kw-2">&amp;</span><span class="ident">ANONYMOUS_INTERFACE</span>)
+<span class="doccomment">/// An enum value in the protocol.
+</span><span class="attribute">#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+</span><span class="kw">pub enum </span>WEnum&lt;T&gt; {
+    <span class="doccomment">/// The interpreted value
+    </span>Value(T),
+    <span class="doccomment">/// The stored value does not match one defined by the protocol file
+    </span>Unknown(u32),
 }
 
-<span class="doccomment">/// An enum value in the protocol.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">WEnum</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// The interpreted value</span>
-    <span class="ident">Value</span>(<span class="ident">T</span>),
-    <span class="doccomment">/// The stored value does not match one defined by the protocol file</span>
-    <span class="ident">Unknown</span>(<span class="ident">u32</span>),
+<span class="doccomment">/// Error representing an unknown numeric variant for a [`WEnum`]
+</span><span class="attribute">#[derive(Debug, Copy, Clone)]
+</span><span class="kw">pub struct </span>WEnumError {
+    typ: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+    value: u32,
 }
 
-<span class="doccomment">/// Error representing an unknown numeric variant for a [`WEnum`]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WEnumError</span> {
-    <span class="ident">typ</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
-    <span class="ident">value</span>: <span class="ident">u32</span>,
-}
+<span class="kw">impl </span>std::error::Error <span class="kw">for </span>WEnumError {}
 
-<span class="kw">impl</span> <span class="ident">std::error::Error</span> <span class="kw">for</span> <span class="ident">WEnumError</span> {}
-
-<span class="kw">impl</span> <span class="ident">std::fmt::Display</span> <span class="kw">for</span> <span class="ident">WEnumError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
-        <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;Unknown numeric value {} for enum {}&quot;</span>, <span class="self">self</span>.<span class="ident">value</span>, <span class="self">self</span>.<span class="ident">typ</span>)
+<span class="kw">impl </span>std::fmt::Display <span class="kw">for </span>WEnumError {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">&quot;Unknown numeric value {} for enum {}&quot;</span>, <span class="self">self</span>.value, <span class="self">self</span>.typ)
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">WEnum</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Convert this [`WEnum`] into a result</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This can be used to take advantage of the numerous helper methods on [`Result`] if you</span>
-    <span class="doccomment">/// don&#39;t plan to handle the unknown case of this enum.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// You can also use the [`From`] and [`Into`] traits to perform the same conversion.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_result</span>(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">WEnumError</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident"><span class="self">Self</span>::Value</span>(<span class="ident">v</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">v</span>),
-            <span class="ident"><span class="self">Self</span>::Unknown</span>(<span class="ident">value</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">WEnumError</span> { <span class="ident">typ</span>: <span class="ident">std::any::type_name</span>::<span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(), <span class="ident">value</span> }),
-        }
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">WEnum</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">WEnumError</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">me</span>: <span class="ident">WEnum</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">me</span>.<span class="ident">into_result</span>()
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">std::convert::TryFrom</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">WEnum</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Constructs an enum from the integer format used by the wayland protocol.</span>
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">v</span>: <span class="ident">u32</span>) -&gt; <span class="self">Self</span> {
-        <span class="kw">match</span> <span class="ident">T::try_from</span>(<span class="ident">v</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">t</span>) =&gt; <span class="ident"><span class="self">Self</span>::Value</span>(<span class="ident">t</span>),
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="ident"><span class="self">Self</span>::Unknown</span>(<span class="ident">v</span>),
+<span class="kw">impl</span>&lt;T&gt; WEnum&lt;T&gt; {
+    <span class="doccomment">/// Convert this [`WEnum`] into a result
+    ///
+    /// This can be used to take advantage of the numerous helper methods on [`Result`] if you
+    /// don&#39;t plan to handle the unknown case of this enum.
+    ///
+    /// You can also use the [`From`] and [`Into`] traits to perform the same conversion.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>into_result(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;T, WEnumError&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="self">Self</span>::Value(v) =&gt; <span class="prelude-val">Ok</span>(v),
+            <span class="self">Self</span>::Unknown(value) =&gt; <span class="prelude-val">Err</span>(WEnumError { typ: std::any::type_name::&lt;T&gt;(), value }),
         }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">WEnum</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">u32</span> {
-    <span class="doccomment">/// Converts an enum into a numerical form used by the wayland protocol.</span>
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">enu</span>: <span class="ident">WEnum</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) -&gt; <span class="ident">u32</span> {
-        <span class="kw">match</span> <span class="ident">enu</span> {
-            <span class="ident">WEnum::Unknown</span>(<span class="ident">u</span>) =&gt; <span class="ident">u</span>,
-            <span class="ident">WEnum::Value</span>(<span class="ident">t</span>) =&gt; <span class="ident">t</span>.<span class="ident">into</span>(),
+<span class="kw">impl</span>&lt;T&gt; From&lt;WEnum&lt;T&gt;&gt; <span class="kw">for </span><span class="prelude-ty">Result</span>&lt;T, WEnumError&gt; {
+    <span class="kw">fn </span>from(me: WEnum&lt;T&gt;) -&gt; <span class="self">Self </span>{
+        me.into_result()
+    }
+}
+
+<span class="kw">impl</span>&lt;T: std::convert::TryFrom&lt;u32&gt;&gt; From&lt;u32&gt; <span class="kw">for </span>WEnum&lt;T&gt; {
+    <span class="doccomment">/// Constructs an enum from the integer format used by the wayland protocol.
+    </span><span class="kw">fn </span>from(v: u32) -&gt; <span class="self">Self </span>{
+        <span class="kw">match </span>T::try_from(v) {
+            <span class="prelude-val">Ok</span>(t) =&gt; <span class="self">Self</span>::Value(t),
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="self">Self</span>::Unknown(v),
+        }
+    }
+}
+
+<span class="kw">impl</span>&lt;T: Into&lt;u32&gt;&gt; From&lt;WEnum&lt;T&gt;&gt; <span class="kw">for </span>u32 {
+    <span class="doccomment">/// Converts an enum into a numerical form used by the wayland protocol.
+    </span><span class="kw">fn </span>from(enu: WEnum&lt;T&gt;) -&gt; u32 {
+        <span class="kw">match </span>enu {
+            WEnum::Unknown(u) =&gt; u,
+            WEnum::Value(t) =&gt; t.into(),
         }
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_backend" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_backend" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

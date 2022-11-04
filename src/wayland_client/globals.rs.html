@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-client-0.30.0-beta.10/src/globals.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>globals.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_client/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_client/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_client/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-client-0.30.0-beta.10/src/globals.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>globals.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_client/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_client/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_client/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -315,322 +315,322 @@
 <span id="315">315</span>
 <span id="316">316</span>
 <span id="317">317</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Helpers for handling the initialization of an app</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! At the startup of your Wayland app, the initial step is generally to retrieve the list of globals</span>
-<span class="doccomment">//! advertized by the compositor from the registry. Using the [`Dispatch`] mechanism for this task can be</span>
-<span class="doccomment">//! very unpractical, this is why this module provides a special helper for handling the registry.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! The entry point of this helper is the [`registry_queue_init`] function. Given a reference to your</span>
-<span class="doccomment">//! [`Connection`] it will create an [`EventQueue`], retrieve the initial list of globals, and register a</span>
-<span class="doccomment">//! handler using your provided `Dispatch&lt;WlRegistry,_&gt;` implementation for handling dynamic registry events.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Example</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```no_run</span>
-<span class="doccomment">//! use wayland_client::{</span>
-<span class="doccomment">//!     Connection, Dispatch, QueueHandle,</span>
-<span class="doccomment">//!     globals::{registry_queue_init, Global, GlobalListContents},</span>
-<span class="doccomment">//!     protocol::{wl_registry, wl_compositor},</span>
-<span class="doccomment">//! };</span>
-<span class="doccomment">//! # use std::sync::Mutex;</span>
-<span class="doccomment">//! # struct State;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // You need to provide a Dispatch&lt;WlRegistry, GlobalListContents&gt; impl for your app</span>
-<span class="doccomment">//! impl wayland_client::Dispatch&lt;wl_registry::WlRegistry, GlobalListContents&gt; for State {</span>
-<span class="doccomment">//!     fn event(</span>
-<span class="doccomment">//!         state: &amp;mut State,</span>
-<span class="doccomment">//!         proxy: &amp;wl_registry::WlRegistry,</span>
-<span class="doccomment">//!         event: wl_registry::Event,</span>
-<span class="doccomment">//!         // This mutex contains an up-to-date list of the currently known globals</span>
-<span class="doccomment">//!         // including the one that was just added or destroyed</span>
-<span class="doccomment">//!         data: &amp;GlobalListContents,</span>
-<span class="doccomment">//!         conn: &amp;Connection,</span>
-<span class="doccomment">//!         qhandle: &amp;QueueHandle&lt;State&gt;,</span>
-<span class="doccomment">//!     ) {</span>
-<span class="doccomment">//!         /* react to dynamic global events here */</span>
-<span class="doccomment">//!     }</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! let conn = Connection::connect_to_env().unwrap();</span>
-<span class="doccomment">//! let (globals, queue) = registry_queue_init::&lt;State&gt;(&amp;conn).unwrap();</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! # impl wayland_client::Dispatch&lt;wl_compositor::WlCompositor, ()&gt; for State {</span>
-<span class="doccomment">//! #     fn event(</span>
-<span class="doccomment">//! #         state: &amp;mut State,</span>
-<span class="doccomment">//! #         proxy: &amp;wl_compositor::WlCompositor,</span>
-<span class="doccomment">//! #         event: wl_compositor::Event,</span>
-<span class="doccomment">//! #         data: &amp;(),</span>
-<span class="doccomment">//! #         conn: &amp;Connection,</span>
-<span class="doccomment">//! #         qhandle: &amp;QueueHandle&lt;State&gt;,</span>
-<span class="doccomment">//! #     ) {}</span>
-<span class="doccomment">//! # }</span>
-<span class="doccomment">//! // now you can bind the globals you need for your app</span>
-<span class="doccomment">//! let compositor: wl_compositor::WlCompositor = globals.bind(&amp;queue.handle(), 4..=5, ()).unwrap();</span>
-<span class="doccomment">//! ```</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Helpers for handling the initialization of an app
+//!
+//! At the startup of your Wayland app, the initial step is generally to retrieve the list of globals
+//! advertized by the compositor from the registry. Using the [`Dispatch`] mechanism for this task can be
+//! very unpractical, this is why this module provides a special helper for handling the registry.
+//!
+//! The entry point of this helper is the [`registry_queue_init`] function. Given a reference to your
+//! [`Connection`] it will create an [`EventQueue`], retrieve the initial list of globals, and register a
+//! handler using your provided `Dispatch&lt;WlRegistry,_&gt;` implementation for handling dynamic registry events.
+//!
+//! ## Example
+//!
+//! ```no_run
+//! use wayland_client::{
+//!     Connection, Dispatch, QueueHandle,
+//!     globals::{registry_queue_init, Global, GlobalListContents},
+//!     protocol::{wl_registry, wl_compositor},
+//! };
+//! # use std::sync::Mutex;
+//! # struct State;
+//!
+//! // You need to provide a Dispatch&lt;WlRegistry, GlobalListContents&gt; impl for your app
+//! impl wayland_client::Dispatch&lt;wl_registry::WlRegistry, GlobalListContents&gt; for State {
+//!     fn event(
+//!         state: &amp;mut State,
+//!         proxy: &amp;wl_registry::WlRegistry,
+//!         event: wl_registry::Event,
+//!         // This mutex contains an up-to-date list of the currently known globals
+//!         // including the one that was just added or destroyed
+//!         data: &amp;GlobalListContents,
+//!         conn: &amp;Connection,
+//!         qhandle: &amp;QueueHandle&lt;State&gt;,
+//!     ) {
+//!         /* react to dynamic global events here */
+//!     }
+//! }
+//!
+//! let conn = Connection::connect_to_env().unwrap();
+//! let (globals, queue) = registry_queue_init::&lt;State&gt;(&amp;conn).unwrap();
+//!
+//! # impl wayland_client::Dispatch&lt;wl_compositor::WlCompositor, ()&gt; for State {
+//! #     fn event(
+//! #         state: &amp;mut State,
+//! #         proxy: &amp;wl_compositor::WlCompositor,
+//! #         event: wl_compositor::Event,
+//! #         data: &amp;(),
+//! #         conn: &amp;Connection,
+//! #         qhandle: &amp;QueueHandle&lt;State&gt;,
+//! #     ) {}
+//! # }
+//! // now you can bind the globals you need for your app
+//! let compositor: wl_compositor::WlCompositor = globals.bind(&amp;queue.handle(), 4..=5, ()).unwrap();
+//! ```
 
-<span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">ops::RangeInclusive</span>,
-    <span class="ident">sync</span>::{
-        <span class="ident">atomic</span>::{<span class="ident">AtomicBool</span>, <span class="ident">Ordering</span>},
-        <span class="ident">Arc</span>, <span class="ident">Mutex</span>,
+</span><span class="kw">use </span>std::{
+    ops::RangeInclusive,
+    sync::{
+        atomic::{AtomicBool, Ordering},
+        Arc, Mutex,
     },
 };
 
-<span class="kw">use</span> <span class="ident">wayland_backend</span>::{
-    <span class="ident">client</span>::{<span class="ident">Backend</span>, <span class="ident">InvalidId</span>, <span class="ident">ObjectData</span>, <span class="ident">ObjectId</span>, <span class="ident">WaylandError</span>},
-    <span class="ident">io_lifetimes::OwnedFd</span>,
-    <span class="ident">protocol::Message</span>,
+<span class="kw">use </span>wayland_backend::{
+    client::{Backend, InvalidId, ObjectData, ObjectId, WaylandError},
+    io_lifetimes::OwnedFd,
+    protocol::Message,
 };
 
-<span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">protocol</span>::{<span class="ident">wl_display</span>, <span class="ident">wl_registry</span>},
-    <span class="ident">Connection</span>, <span class="ident">Dispatch</span>, <span class="ident">EventQueue</span>, <span class="ident">Proxy</span>, <span class="ident">QueueHandle</span>,
+<span class="kw">use crate</span>::{
+    protocol::{wl_display, wl_registry},
+    Connection, Dispatch, EventQueue, Proxy, QueueHandle,
 };
 
-<span class="doccomment">/// Initialize a new event queue with its associated registry and retrieve the initial list of globals</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// See [the module level documentation](self) for more.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">registry_queue_init</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>(
-    <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="ident">Connection</span>,
-) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">GlobalList</span>, <span class="ident">EventQueue</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>), <span class="ident">GlobalError</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">State</span>: <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">wl_registry::WlRegistry</span>, <span class="ident">GlobalListContents</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+<span class="doccomment">/// Initialize a new event queue with its associated registry and retrieve the initial list of globals
+///
+/// See [the module level documentation](self) for more.
+</span><span class="kw">pub fn </span>registry_queue_init&lt;State&gt;(
+    conn: <span class="kw-2">&amp;</span>Connection,
+) -&gt; <span class="prelude-ty">Result</span>&lt;(GlobalList, EventQueue&lt;State&gt;), GlobalError&gt;
+<span class="kw">where
+    </span>State: Dispatch&lt;wl_registry::WlRegistry, GlobalListContents&gt; + <span class="lifetime">&#39;static</span>,
 {
-    <span class="kw">let</span> <span class="ident">event_queue</span> <span class="op">=</span> <span class="ident">conn</span>.<span class="ident">new_event_queue</span>();
-    <span class="kw">let</span> <span class="ident">display</span> <span class="op">=</span> <span class="ident">conn</span>.<span class="ident">display</span>();
-    <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">Arc::new</span>(<span class="ident">RegistryState</span> {
-        <span class="ident">globals</span>: <span class="ident">GlobalListContents</span> { <span class="ident">contents</span>: <span class="ident">Default::default</span>() },
-        <span class="ident">handle</span>: <span class="ident">event_queue</span>.<span class="ident">handle</span>(),
-        <span class="ident">initial_roundtrip_done</span>: <span class="ident">AtomicBool::new</span>(<span class="bool-val">false</span>),
+    <span class="kw">let </span>event_queue = conn.new_event_queue();
+    <span class="kw">let </span>display = conn.display();
+    <span class="kw">let </span>data = Arc::new(RegistryState {
+        globals: GlobalListContents { contents: Default::default() },
+        handle: event_queue.handle(),
+        initial_roundtrip_done: AtomicBool::new(<span class="bool-val">false</span>),
     });
-    <span class="kw">let</span> <span class="ident">registry</span> <span class="op">=</span> <span class="ident">display</span>.<span class="ident">send_constructor</span>(<span class="ident">wl_display::Request::GetRegistry</span> {}, <span class="ident">data</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
-    <span class="comment">// We don&#39;t need to dispatch the event queue as for now nothing will be sent to it</span>
-    <span class="ident">conn</span>.<span class="ident">roundtrip</span>()<span class="question-mark">?</span>;
-    <span class="ident">data</span>.<span class="ident">initial_roundtrip_done</span>.<span class="ident">store</span>(<span class="bool-val">true</span>, <span class="ident">Ordering::Relaxed</span>);
-    <span class="prelude-val">Ok</span>((<span class="ident">GlobalList</span> { <span class="ident">registry</span> }, <span class="ident">event_queue</span>))
+    <span class="kw">let </span>registry = display.send_constructor(wl_display::Request::GetRegistry {}, data.clone())<span class="question-mark">?</span>;
+    <span class="comment">// We don&#39;t need to dispatch the event queue as for now nothing will be sent to it
+    </span>conn.roundtrip()<span class="question-mark">?</span>;
+    data.initial_roundtrip_done.store(<span class="bool-val">true</span>, Ordering::Relaxed);
+    <span class="prelude-val">Ok</span>((GlobalList { registry }, event_queue))
 }
 
-<span class="doccomment">/// A helper for global initialization.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// See [the module level documentation](self) for more.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GlobalList</span> {
-    <span class="ident">registry</span>: <span class="ident">wl_registry::WlRegistry</span>,
+<span class="doccomment">/// A helper for global initialization.
+///
+/// See [the module level documentation](self) for more.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>GlobalList {
+    registry: wl_registry::WlRegistry,
 }
 
-<span class="kw">impl</span> <span class="ident">GlobalList</span> {
-    <span class="doccomment">/// Access the contents of the list of globals</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">contents</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">GlobalListContents</span> {
-        <span class="self">self</span>.<span class="ident">registry</span>.<span class="ident">data</span>::<span class="op">&lt;</span><span class="ident">GlobalListContents</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>()
+<span class="kw">impl </span>GlobalList {
+    <span class="doccomment">/// Access the contents of the list of globals
+    </span><span class="kw">pub fn </span>contents(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>GlobalListContents {
+        <span class="self">self</span>.registry.data::&lt;GlobalListContents&gt;().unwrap()
     }
 
-    <span class="doccomment">/// Binds a global, returning a new protocol object associated with the global.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The `version` specifies the range of versions that should be bound. This function will guarantee the</span>
-    <span class="doccomment">/// version of the returned protocol object is the lower of the maximum requested version and the advertised</span>
-    <span class="doccomment">/// version.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the lower bound of the `version` is less than the version advertised by the server, then</span>
-    <span class="doccomment">/// [`BindError::UnsupportedVersion`] is returned.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ## Multi-instance/Device globals.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This function is not intended to be used with globals that have multiple instances such as `wl_output`</span>
-    <span class="doccomment">/// and `wl_seat`. These types of globals need their own initialization mechanism because these</span>
-    <span class="doccomment">/// multi-instance globals may be removed at runtime. To handle then, you should instead rely on the</span>
-    <span class="doccomment">/// `Dispatch` implementation for `WlRegistry` of your `State`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This function will panic if the maximum requested version is greater than the known maximum version of</span>
-    <span class="doccomment">/// the interface. The known maximum version is determined by the code generated using wayland-scanner.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bind</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">State</span>, <span class="ident">U</span><span class="op">&gt;</span>(
+    <span class="doccomment">/// Binds a global, returning a new protocol object associated with the global.
+    ///
+    /// The `version` specifies the range of versions that should be bound. This function will guarantee the
+    /// version of the returned protocol object is the lower of the maximum requested version and the advertised
+    /// version.
+    ///
+    /// If the lower bound of the `version` is less than the version advertised by the server, then
+    /// [`BindError::UnsupportedVersion`] is returned.
+    ///
+    /// ## Multi-instance/Device globals.
+    ///
+    /// This function is not intended to be used with globals that have multiple instances such as `wl_output`
+    /// and `wl_seat`. These types of globals need their own initialization mechanism because these
+    /// multi-instance globals may be removed at runtime. To handle then, you should instead rely on the
+    /// `Dispatch` implementation for `WlRegistry` of your `State`.
+    ///
+    /// # Panics
+    ///
+    /// This function will panic if the maximum requested version is greater than the known maximum version of
+    /// the interface. The known maximum version is determined by the code generated using wayland-scanner.
+    </span><span class="kw">pub fn </span>bind&lt;I, State, U&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">qh</span>: <span class="kw-2">&amp;</span><span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>,
-        <span class="ident">version</span>: <span class="ident">RangeInclusive</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
-        <span class="ident">udata</span>: <span class="ident">U</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">BindError</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">I</span>: <span class="ident">Proxy</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">State</span>: <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
-        <span class="ident">U</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
+        qh: <span class="kw-2">&amp;</span>QueueHandle&lt;State&gt;,
+        version: RangeInclusive&lt;u32&gt;,
+        udata: U,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;I, BindError&gt;
+    <span class="kw">where
+        </span>I: Proxy + <span class="lifetime">&#39;static</span>,
+        State: Dispatch&lt;I, U&gt; + <span class="lifetime">&#39;static</span>,
+        U: Send + Sync + <span class="lifetime">&#39;static</span>,
     {
-        <span class="kw">let</span> <span class="ident">version_start</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">version</span>.<span class="ident">start</span>();
-        <span class="kw">let</span> <span class="ident">version_end</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">version</span>.<span class="ident">end</span>();
-        <span class="kw">let</span> <span class="ident">interface</span> <span class="op">=</span> <span class="ident">I::interface</span>();
+        <span class="kw">let </span>version_start = <span class="kw-2">*</span>version.start();
+        <span class="kw">let </span>version_end = <span class="kw-2">*</span>version.end();
+        <span class="kw">let </span>interface = I::interface();
 
-        <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">version</span>.<span class="ident">end</span>() <span class="op">&gt;</span> <span class="ident">interface</span>.<span class="ident">version</span> {
-            <span class="comment">// This is a panic because it&#39;s a compile-time programmer error, not a runtime error.</span>
-            <span class="macro">panic!</span>(<span class="string">&quot;Maximum version ({}) of {} was higher than the proxy&#39;s maximum version ({}); outdated wayland XML files?&quot;</span>,
-                <span class="ident">version</span>.<span class="ident">end</span>(), <span class="ident">interface</span>.<span class="ident">name</span>, <span class="ident">interface</span>.<span class="ident">version</span>);
+        <span class="kw">if </span><span class="kw-2">*</span>version.end() &gt; interface.version {
+            <span class="comment">// This is a panic because it&#39;s a compile-time programmer error, not a runtime error.
+            </span><span class="macro">panic!</span>(<span class="string">&quot;Maximum version ({}) of {} was higher than the proxy&#39;s maximum version ({}); outdated wayland XML files?&quot;</span>,
+                version.end(), interface.name, interface.version);
         }
 
-        <span class="kw">let</span> <span class="ident">globals</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">registry</span>.<span class="ident">data</span>::<span class="op">&lt;</span><span class="ident">GlobalListContents</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>().<span class="ident">contents</span>;
-        <span class="kw">let</span> <span class="ident">guard</span> <span class="op">=</span> <span class="ident">globals</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
-        <span class="kw">let</span> (<span class="ident">name</span>, <span class="ident">version</span>) <span class="op">=</span> <span class="ident">guard</span>
-            .<span class="ident">iter</span>()
-            <span class="comment">// Find the with the correct interface</span>
-            .<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">Global</span> { <span class="ident">name</span>, <span class="ident">interface</span>: <span class="ident">interface_name</span>, <span class="ident">version</span> }<span class="op">|</span> {
-                <span class="comment">// TODO: then_some</span>
-                <span class="kw">if</span> <span class="ident">interface</span>.<span class="ident">name</span> <span class="op">==</span> <span class="kw-2">&amp;</span><span class="ident">interface_name</span>[..] {
-                    <span class="prelude-val">Some</span>((<span class="kw-2">*</span><span class="ident">name</span>, <span class="kw-2">*</span><span class="ident">version</span>))
-                } <span class="kw">else</span> {
-                    <span class="prelude-val">None</span>
-                }
+        <span class="kw">let </span>globals = <span class="kw-2">&amp;</span><span class="self">self</span>.registry.data::&lt;GlobalListContents&gt;().unwrap().contents;
+        <span class="kw">let </span>guard = globals.lock().unwrap();
+        <span class="kw">let </span>(name, version) = guard
+            .iter()
+            <span class="comment">// Find the with the correct interface
+            </span>.filter_map(|Global { name, interface: interface_name, version }| {
+                <span class="comment">// TODO: then_some
+                </span><span class="kw">if </span>interface.name == <span class="kw-2">&amp;</span>interface_name[..] {
+                    <span class="prelude-val">Some</span>((<span class="kw-2">*</span>name, <span class="kw-2">*</span>version))
+                } <span class="kw">else </span>{
+                    <span class="prelude-val">None
+                </span>}
             })
-            .<span class="ident">next</span>()
-            .<span class="ident">ok_or</span>(<span class="ident">BindError::NotPresent</span>)<span class="question-mark">?</span>;
+            .next()
+            .ok_or(BindError::NotPresent)<span class="question-mark">?</span>;
 
-        <span class="comment">// Test version requirements</span>
-        <span class="kw">if</span> <span class="ident">version</span> <span class="op">&lt;</span> <span class="ident">version_start</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindError::UnsupportedVersion</span>);
+        <span class="comment">// Test version requirements
+        </span><span class="kw">if </span>version &lt; version_start {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(BindError::UnsupportedVersion);
         }
 
-        <span class="comment">// To get the version to bind, take the lower of the version advertised by the server and the maximum</span>
-        <span class="comment">// requested version.</span>
-        <span class="kw">let</span> <span class="ident">version</span> <span class="op">=</span> <span class="ident">version</span>.<span class="ident">min</span>(<span class="ident">version_end</span>);
+        <span class="comment">// To get the version to bind, take the lower of the version advertised by the server and the maximum
+        // requested version.
+        </span><span class="kw">let </span>version = version.min(version_end);
 
-        <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">registry</span>.<span class="ident">bind</span>(<span class="ident">name</span>, <span class="ident">version</span>, <span class="ident">qh</span>, <span class="ident">udata</span>))
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.registry.bind(name, version, qh, udata))
     }
 
-    <span class="doccomment">/// Returns the [`WlRegistry`](wl_registry) protocol object.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This may be used if more direct control when creating globals is needed.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">registry</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">wl_registry::WlRegistry</span> {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">registry</span>
-    }
-}
-
-<span class="doccomment">/// An error that may occur when initializing the global list.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">thiserror::Error</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">GlobalError</span> {
-    <span class="doccomment">/// The backend generated an error</span>
-    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;Backend error: {0}&quot;</span>)]</span>
-    <span class="ident">Backend</span>(<span class="attribute">#[<span class="ident">from</span>]</span> <span class="ident">WaylandError</span>),
-
-    <span class="doccomment">/// An invalid object id was acted upon.</span>
-    <span class="attribute">#[<span class="ident">error</span>(<span class="ident">transparent</span>)]</span>
-    <span class="ident">InvalidId</span>(<span class="attribute">#[<span class="ident">from</span>]</span> <span class="ident">InvalidId</span>),
-}
-
-<span class="doccomment">/// An error that occurs when a binding a global fails.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">thiserror::Error</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BindError</span> {
-    <span class="doccomment">/// The requested version of the global is not supported.</span>
-    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;the requested version of the global is not supported&quot;</span>)]</span>
-    <span class="ident">UnsupportedVersion</span>,
-
-    <span class="doccomment">/// The requested global was not found in the registry.</span>
-    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;the requested global was not found in the registry&quot;</span>)]</span>
-    <span class="ident">NotPresent</span>,
-}
-
-<span class="doccomment">/// Description of a global.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Global</span> {
-    <span class="doccomment">/// The name of the global.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This is an identifier used by the server to reference some specific global.</span>
-    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">u32</span>,
-    <span class="doccomment">/// The interface of the global.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This describes what type of protocol object the global is.</span>
-    <span class="kw">pub</span> <span class="ident">interface</span>: <span class="ident">String</span>,
-    <span class="doccomment">/// The advertised version of the global.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This specifies the maximum version of the global that may be bound. This means any lower version of</span>
-    <span class="doccomment">/// the global may be bound.</span>
-    <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">u32</span>,
-}
-
-<span class="doccomment">/// A container representing the current contents of the list of globals</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GlobalListContents</span> {
-    <span class="ident">contents</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Global</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-}
-
-<span class="kw">impl</span> <span class="ident">GlobalListContents</span> {
-    <span class="doccomment">/// Access the list of globals</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Your closure is invoked on the global list, and its return value is forwarded to the return value</span>
-    <span class="doccomment">/// of this function. This allows you to process the list without making a copy.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_list</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">F</span>: <span class="ident">FnOnce</span>(<span class="kw-2">&amp;</span>[<span class="ident">Global</span>]) -&gt; <span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="ident">F</span>) -&gt; <span class="ident">T</span> {
-        <span class="kw">let</span> <span class="ident">guard</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">contents</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
-        <span class="ident">f</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">guard</span>)
-    }
-
-    <span class="doccomment">/// Get a copy of the contents of the list of globals.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">clone_list</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Global</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">contents</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>().<span class="ident">clone</span>()
+    <span class="doccomment">/// Returns the [`WlRegistry`](wl_registry) protocol object.
+    ///
+    /// This may be used if more direct control when creating globals is needed.
+    </span><span class="kw">pub fn </span>registry(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>wl_registry::WlRegistry {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.registry
     }
 }
 
-<span class="kw">struct</span> <span class="ident">RegistryState</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span> {
-    <span class="ident">globals</span>: <span class="ident">GlobalListContents</span>,
-    <span class="ident">handle</span>: <span class="ident">QueueHandle</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>,
-    <span class="ident">initial_roundtrip_done</span>: <span class="ident">AtomicBool</span>,
+<span class="doccomment">/// An error that may occur when initializing the global list.
+</span><span class="attribute">#[derive(Debug, thiserror::Error)]
+</span><span class="kw">pub enum </span>GlobalError {
+    <span class="doccomment">/// The backend generated an error
+    </span><span class="attribute">#[error(<span class="string">&quot;Backend error: {0}&quot;</span>)]
+    </span>Backend(<span class="attribute">#[from] </span>WaylandError),
+
+    <span class="doccomment">/// An invalid object id was acted upon.
+    </span><span class="attribute">#[error(transparent)]
+    </span>InvalidId(<span class="attribute">#[from] </span>InvalidId),
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">State</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span> <span class="ident">ObjectData</span> <span class="kw">for</span> <span class="ident">RegistryState</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">State</span>: <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">wl_registry::WlRegistry</span>, <span class="ident">GlobalListContents</span><span class="op">&gt;</span>,
+<span class="doccomment">/// An error that occurs when a binding a global fails.
+</span><span class="attribute">#[derive(Debug, thiserror::Error)]
+</span><span class="kw">pub enum </span>BindError {
+    <span class="doccomment">/// The requested version of the global is not supported.
+    </span><span class="attribute">#[error(<span class="string">&quot;the requested version of the global is not supported&quot;</span>)]
+    </span>UnsupportedVersion,
+
+    <span class="doccomment">/// The requested global was not found in the registry.
+    </span><span class="attribute">#[error(<span class="string">&quot;the requested global was not found in the registry&quot;</span>)]
+    </span>NotPresent,
+}
+
+<span class="doccomment">/// Description of a global.
+</span><span class="attribute">#[derive(Debug, Clone, PartialEq, Eq)]
+</span><span class="kw">pub struct </span>Global {
+    <span class="doccomment">/// The name of the global.
+    ///
+    /// This is an identifier used by the server to reference some specific global.
+    </span><span class="kw">pub </span>name: u32,
+    <span class="doccomment">/// The interface of the global.
+    ///
+    /// This describes what type of protocol object the global is.
+    </span><span class="kw">pub </span>interface: String,
+    <span class="doccomment">/// The advertised version of the global.
+    ///
+    /// This specifies the maximum version of the global that may be bound. This means any lower version of
+    /// the global may be bound.
+    </span><span class="kw">pub </span>version: u32,
+}
+
+<span class="doccomment">/// A container representing the current contents of the list of globals
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>GlobalListContents {
+    contents: Mutex&lt;Vec&lt;Global&gt;&gt;,
+}
+
+<span class="kw">impl </span>GlobalListContents {
+    <span class="doccomment">/// Access the list of globals
+    ///
+    /// Your closure is invoked on the global list, and its return value is forwarded to the return value
+    /// of this function. This allows you to process the list without making a copy.
+    </span><span class="kw">pub fn </span>with_list&lt;T, F: FnOnce(<span class="kw-2">&amp;</span>[Global]) -&gt; T&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, f: F) -&gt; T {
+        <span class="kw">let </span>guard = <span class="self">self</span>.contents.lock().unwrap();
+        f(<span class="kw-2">&amp;**</span>guard)
+    }
+
+    <span class="doccomment">/// Get a copy of the contents of the list of globals.
+    </span><span class="kw">pub fn </span>clone_list(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;Global&gt; {
+        <span class="self">self</span>.contents.lock().unwrap().clone()
+    }
+}
+
+<span class="kw">struct </span>RegistryState&lt;State&gt; {
+    globals: GlobalListContents,
+    handle: QueueHandle&lt;State&gt;,
+    initial_roundtrip_done: AtomicBool,
+}
+
+<span class="kw">impl</span>&lt;State: <span class="lifetime">&#39;static</span>&gt; ObjectData <span class="kw">for </span>RegistryState&lt;State&gt;
+<span class="kw">where
+    </span>State: Dispatch&lt;wl_registry::WlRegistry, GlobalListContents&gt;,
 {
-    <span class="kw">fn</span> <span class="ident">event</span>(
-        <span class="self">self</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
-        <span class="ident">backend</span>: <span class="kw-2">&amp;</span><span class="ident">Backend</span>,
-        <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">conn</span> <span class="op">=</span> <span class="ident">Connection::from_backend</span>(<span class="ident">backend</span>.<span class="ident">clone</span>());
+    <span class="kw">fn </span>event(
+        <span class="self">self</span>: Arc&lt;<span class="self">Self</span>&gt;,
+        backend: <span class="kw-2">&amp;</span>Backend,
+        msg: Message&lt;ObjectId, OwnedFd&gt;,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;Arc&lt;<span class="kw">dyn </span>ObjectData&gt;&gt; {
+        <span class="kw">let </span>conn = Connection::from_backend(backend.clone());
 
-        <span class="comment">// The registry messages don&#39;t contain any fd, so use some type trickery to</span>
-        <span class="comment">// clone the message</span>
-        <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-        <span class="kw">enum</span> <span class="ident">Void</span> {}
-        <span class="kw">let</span> <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">Void</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">msg</span>.<span class="ident">map_fd</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="macro">unreachable!</span>());
-        <span class="kw">let</span> <span class="ident">to_forward</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">initial_roundtrip_done</span>.<span class="ident">load</span>(<span class="ident">Ordering::Relaxed</span>) {
-            <span class="prelude-val">Some</span>(<span class="ident">msg</span>.<span class="ident">clone</span>().<span class="ident">map_fd</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">v</span> {}))
-        } <span class="kw">else</span> {
-            <span class="prelude-val">None</span>
-        };
-        <span class="comment">// and restore the type</span>
-        <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">msg</span>.<span class="ident">map_fd</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">v</span> {});
+        <span class="comment">// The registry messages don&#39;t contain any fd, so use some type trickery to
+        // clone the message
+        </span><span class="attribute">#[derive(Debug, Clone)]
+        </span><span class="kw">enum </span>Void {}
+        <span class="kw">let </span>msg: Message&lt;ObjectId, Void&gt; = msg.map_fd(|<span class="kw">_</span>| <span class="macro">unreachable!</span>());
+        <span class="kw">let </span>to_forward = <span class="kw">if </span><span class="self">self</span>.initial_roundtrip_done.load(Ordering::Relaxed) {
+            <span class="prelude-val">Some</span>(msg.clone().map_fd(|v| <span class="kw">match </span>v {}))
+        } <span class="kw">else </span>{
+            <span class="prelude-val">None
+        </span>};
+        <span class="comment">// and restore the type
+        </span><span class="kw">let </span>msg = msg.map_fd(|v| <span class="kw">match </span>v {});
 
-        <span class="comment">// Can&#39;t do much if the server sends a malformed message</span>
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>((<span class="kw">_</span>, <span class="ident">event</span>)) <span class="op">=</span> <span class="ident">wl_registry::WlRegistry::parse_event</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>, <span class="ident">msg</span>) {
-            <span class="kw">match</span> <span class="ident">event</span> {
-                <span class="ident">wl_registry::Event::Global</span> { <span class="ident">name</span>, <span class="ident">interface</span>, <span class="ident">version</span> } =&gt; {
-                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">guard</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">globals</span>.<span class="ident">contents</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
-                    <span class="ident">guard</span>.<span class="ident">push</span>(<span class="ident">Global</span> { <span class="ident">name</span>, <span class="ident">interface</span>, <span class="ident">version</span> });
+        <span class="comment">// Can&#39;t do much if the server sends a malformed message
+        </span><span class="kw">if let </span><span class="prelude-val">Ok</span>((<span class="kw">_</span>, event)) = wl_registry::WlRegistry::parse_event(<span class="kw-2">&amp;</span>conn, msg) {
+            <span class="kw">match </span>event {
+                wl_registry::Event::Global { name, interface, version } =&gt; {
+                    <span class="kw">let </span><span class="kw-2">mut </span>guard = <span class="self">self</span>.globals.contents.lock().unwrap();
+                    guard.push(Global { name, interface, version });
                 }
 
-                <span class="ident">wl_registry::Event::GlobalRemove</span> { <span class="ident">name</span>: <span class="ident">remove</span> } =&gt; {
-                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">guard</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">globals</span>.<span class="ident">contents</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
-                    <span class="ident">guard</span>.<span class="ident">retain</span>(<span class="op">|</span><span class="ident">Global</span> { <span class="ident">name</span>, .. }<span class="op">|</span> <span class="ident">name</span> <span class="op">!</span><span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">remove</span>);
+                wl_registry::Event::GlobalRemove { name: remove } =&gt; {
+                    <span class="kw">let </span><span class="kw-2">mut </span>guard = <span class="self">self</span>.globals.contents.lock().unwrap();
+                    guard.retain(|Global { name, .. }| name != <span class="kw-2">&amp;</span>remove);
                 }
             }
         };
 
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">msg</span>) <span class="op">=</span> <span class="ident">to_forward</span> {
-            <span class="comment">// forward the message to the event queue as normal</span>
-            <span class="self">self</span>.<span class="ident">handle</span>
-                .<span class="ident">inner</span>
-                .<span class="ident">lock</span>()
-                .<span class="ident">unwrap</span>()
-                .<span class="ident">enqueue_event</span>::<span class="op">&lt;</span><span class="ident">wl_registry::WlRegistry</span>, <span class="ident">GlobalListContents</span><span class="op">&gt;</span>(<span class="ident">msg</span>, <span class="self">self</span>.<span class="ident">clone</span>())
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(msg) = to_forward {
+            <span class="comment">// forward the message to the event queue as normal
+            </span><span class="self">self</span>.handle
+                .inner
+                .lock()
+                .unwrap()
+                .enqueue_event::&lt;wl_registry::WlRegistry, GlobalListContents&gt;(msg, <span class="self">self</span>.clone())
         }
 
-        <span class="comment">// We do not create any objects in this event handler.</span>
-        <span class="prelude-val">None</span>
-    }
+        <span class="comment">// We do not create any objects in this event handler.
+        </span><span class="prelude-val">None
+    </span>}
 
-    <span class="kw">fn</span> <span class="ident">destroyed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_id</span>: <span class="ident">ObjectId</span>) {
-        <span class="comment">// A registry cannot be destroyed unless disconnected.</span>
-    }
+    <span class="kw">fn </span>destroyed(<span class="kw-2">&amp;</span><span class="self">self</span>, _id: ObjectId) {
+        <span class="comment">// A registry cannot be destroyed unless disconnected.
+    </span>}
 
-    <span class="kw">fn</span> <span class="ident">data_as_any</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">std::any::Any</span> {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">globals</span>
+    <span class="kw">fn </span>data_as_any(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw">dyn </span>std::any::Any {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.globals
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_client" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_client" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

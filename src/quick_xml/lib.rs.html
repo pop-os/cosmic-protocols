@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/quick-xml-0.23.1/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../quick_xml/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../quick_xml/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../quick_xml/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/quick-xml-0.23.1/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../quick_xml/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../quick_xml/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../quick_xml/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -155,162 +155,162 @@
 <span id="155">155</span>
 <span id="156">156</span>
 <span id="157">157</span>
-</pre><pre class="rust"><code><span class="doccomment">//! High performance XML reader/writer.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Description</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! quick-xml contains two modes of operation:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! A streaming API based on the [StAX] model. This is suited for larger XML documents which</span>
-<span class="doccomment">//! cannot completely read into memory at once.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! The user has to expicitely _ask_ for the next XML event, similar</span>
-<span class="doccomment">//! to a database cursor.</span>
-<span class="doccomment">//! This is achieved by the following two structs:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! - [`Reader`]: A low level XML pull-reader where buffer allocation/clearing is left to user.</span>
-<span class="doccomment">//! - [`Writer`]: A XML writer. Can be nested with readers if you want to transform XMLs.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Especially for nested XML elements, the user must keep track _where_ (how deep) in the XML document</span>
-<span class="doccomment">//! the current event is located. This is needed as the</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Furthermore, quick-xml also contains optional [Serde] support to directly serialize and deserialize from</span>
-<span class="doccomment">//! structs, without having to deal with the XML events.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Examples</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ### Reader</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! use quick_xml::Reader;</span>
-<span class="doccomment">//! use quick_xml::events::Event;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! let xml = r#&quot;&lt;tag1 att1 = &quot;test&quot;&gt;</span>
-<span class="doccomment">//!                 &lt;tag2&gt;&lt;!--Test comment--&gt;Test&lt;/tag2&gt;</span>
-<span class="doccomment">//!                 &lt;tag2&gt;</span>
-<span class="doccomment">//!                     Test 2</span>
-<span class="doccomment">//!                 &lt;/tag2&gt;</span>
-<span class="doccomment">//!             &lt;/tag1&gt;&quot;#;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! let mut reader = Reader::from_str(xml);</span>
-<span class="doccomment">//! reader.trim_text(true);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! let mut count = 0;</span>
-<span class="doccomment">//! let mut txt = Vec::new();</span>
-<span class="doccomment">//! let mut buf = Vec::new();</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // The `Reader` does not implement `Iterator` because it outputs borrowed data (`Cow`s)</span>
-<span class="doccomment">//! loop {</span>
-<span class="doccomment">//!     match reader.read_event(&amp;mut buf) {</span>
-<span class="doccomment">//!     // for triggering namespaced events, use this instead:</span>
-<span class="doccomment">//!     // match reader.read_namespaced_event(&amp;mut buf) {</span>
-<span class="doccomment">//!         Ok(Event::Start(ref e)) =&gt; {</span>
-<span class="doccomment">//!         // for namespaced:</span>
-<span class="doccomment">//!         // Ok((ref namespace_value, Event::Start(ref e)))</span>
-<span class="doccomment">//!             match e.name() {</span>
-<span class="doccomment">//!                 b&quot;tag1&quot; =&gt; println!(&quot;attributes values: {:?}&quot;,</span>
-<span class="doccomment">//!                                     e.attributes().map(|a| a.unwrap().value)</span>
-<span class="doccomment">//!                                     .collect::&lt;Vec&lt;_&gt;&gt;()),</span>
-<span class="doccomment">//!                 b&quot;tag2&quot; =&gt; count += 1,</span>
-<span class="doccomment">//!                 _ =&gt; (),</span>
-<span class="doccomment">//!             }</span>
-<span class="doccomment">//!         },</span>
-<span class="doccomment">//!         // unescape and decode the text event using the reader encoding</span>
-<span class="doccomment">//!         Ok(Event::Text(e)) =&gt; txt.push(e.unescape_and_decode(&amp;reader).unwrap()),</span>
-<span class="doccomment">//!         Ok(Event::Eof) =&gt; break, // exits the loop when reaching end of file</span>
-<span class="doccomment">//!         Err(e) =&gt; panic!(&quot;Error at position {}: {:?}&quot;, reader.buffer_position(), e),</span>
-<span class="doccomment">//!         _ =&gt; (), // There are several other `Event`s we do not consider here</span>
-<span class="doccomment">//!     }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     // if we don&#39;t keep a borrow elsewhere, we can clear the buffer to keep memory usage low</span>
-<span class="doccomment">//!     buf.clear();</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ### Writer</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! # use pretty_assertions::assert_eq;</span>
-<span class="doccomment">//! use quick_xml::Writer;</span>
-<span class="doccomment">//! use quick_xml::events::{Event, BytesEnd, BytesStart};</span>
-<span class="doccomment">//! use quick_xml::Reader;</span>
-<span class="doccomment">//! use std::io::Cursor;</span>
-<span class="doccomment">//! use std::iter;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! let xml = r#&quot;&lt;this_tag k1=&quot;v1&quot; k2=&quot;v2&quot;&gt;&lt;child&gt;text&lt;/child&gt;&lt;/this_tag&gt;&quot;#;</span>
-<span class="doccomment">//! let mut reader = Reader::from_str(xml);</span>
-<span class="doccomment">//! reader.trim_text(true);</span>
-<span class="doccomment">//! let mut writer = Writer::new(Cursor::new(Vec::new()));</span>
-<span class="doccomment">//! let mut buf = Vec::new();</span>
-<span class="doccomment">//! loop {</span>
-<span class="doccomment">//!     match reader.read_event(&amp;mut buf) {</span>
-<span class="doccomment">//!         Ok(Event::Start(ref e)) if e.name() == b&quot;this_tag&quot; =&gt; {</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!             // crates a new element ... alternatively we could reuse `e` by calling</span>
-<span class="doccomment">//!             // `e.into_owned()`</span>
-<span class="doccomment">//!             let mut elem = BytesStart::owned(b&quot;my_elem&quot;.to_vec(), &quot;my_elem&quot;.len());</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!             // collect existing attributes</span>
-<span class="doccomment">//!             elem.extend_attributes(e.attributes().map(|attr| attr.unwrap()));</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!             // copy existing attributes, adds a new my-key=&quot;some value&quot; attribute</span>
-<span class="doccomment">//!             elem.push_attribute((&quot;my-key&quot;, &quot;some value&quot;));</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!             // writes the event to the writer</span>
-<span class="doccomment">//!             assert!(writer.write_event(Event::Start(elem)).is_ok());</span>
-<span class="doccomment">//!         },</span>
-<span class="doccomment">//!         Ok(Event::End(ref e)) if e.name() == b&quot;this_tag&quot; =&gt; {</span>
-<span class="doccomment">//!             assert!(writer.write_event(Event::End(BytesEnd::borrowed(b&quot;my_elem&quot;))).is_ok());</span>
-<span class="doccomment">//!         },</span>
-<span class="doccomment">//!         Ok(Event::Eof) =&gt; break,</span>
-<span class="doccomment">//!         Ok(e) =&gt; assert!(writer.write_event(e).is_ok()),</span>
-<span class="doccomment">//!         // or using the buffer</span>
-<span class="doccomment">//!         // Ok(e) =&gt; assert!(writer.write(&amp;buf).is_ok()),</span>
-<span class="doccomment">//!         Err(e) =&gt; panic!(&quot;Error at position {}: {:?}&quot;, reader.buffer_position(), e),</span>
-<span class="doccomment">//!     }</span>
-<span class="doccomment">//!     buf.clear();</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! let result = writer.into_inner().into_inner();</span>
-<span class="doccomment">//! let expected = r#&quot;&lt;my_elem k1=&quot;v1&quot; k2=&quot;v2&quot; my-key=&quot;some value&quot;&gt;&lt;child&gt;text&lt;/child&gt;&lt;/my_elem&gt;&quot;#;</span>
-<span class="doccomment">//! assert_eq!(result, expected.as_bytes());</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! # Features</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! quick-xml supports 2 additional features, non activated by default:</span>
-<span class="doccomment">//! - `encoding`: support non utf8 XMLs</span>
-<span class="doccomment">//! - `serialize`: support serde `Serialize`/`Deserialize`</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! [StAX]: https://en.wikipedia.org/wiki/StAX</span>
-<span class="doccomment">//! [Serde]: https://serde.rs/</span>
-<span class="attribute">#![<span class="ident">forbid</span>(<span class="ident">unsafe_code</span>)]</span>
-<span class="attribute">#![<span class="ident">deny</span>(<span class="ident">missing_docs</span>)]</span>
-<span class="attribute">#![<span class="ident">recursion_limit</span> <span class="op">=</span> <span class="string">&quot;1024&quot;</span>]</span>
+</pre><pre class="rust"><code><span class="doccomment">//! High performance XML reader/writer.
+//!
+//! ## Description
+//!
+//! quick-xml contains two modes of operation:
+//!
+//! A streaming API based on the [StAX] model. This is suited for larger XML documents which
+//! cannot completely read into memory at once.
+//!
+//! The user has to expicitely _ask_ for the next XML event, similar
+//! to a database cursor.
+//! This is achieved by the following two structs:
+//!
+//! - [`Reader`]: A low level XML pull-reader where buffer allocation/clearing is left to user.
+//! - [`Writer`]: A XML writer. Can be nested with readers if you want to transform XMLs.
+//!
+//! Especially for nested XML elements, the user must keep track _where_ (how deep) in the XML document
+//! the current event is located. This is needed as the
+//!
+//! Furthermore, quick-xml also contains optional [Serde] support to directly serialize and deserialize from
+//! structs, without having to deal with the XML events.
+//!
+//! ## Examples
+//!
+//! ### Reader
+//!
+//! ```rust
+//! use quick_xml::Reader;
+//! use quick_xml::events::Event;
+//!
+//! let xml = r#&quot;&lt;tag1 att1 = &quot;test&quot;&gt;
+//!                 &lt;tag2&gt;&lt;!--Test comment--&gt;Test&lt;/tag2&gt;
+//!                 &lt;tag2&gt;
+//!                     Test 2
+//!                 &lt;/tag2&gt;
+//!             &lt;/tag1&gt;&quot;#;
+//!
+//! let mut reader = Reader::from_str(xml);
+//! reader.trim_text(true);
+//!
+//! let mut count = 0;
+//! let mut txt = Vec::new();
+//! let mut buf = Vec::new();
+//!
+//! // The `Reader` does not implement `Iterator` because it outputs borrowed data (`Cow`s)
+//! loop {
+//!     match reader.read_event(&amp;mut buf) {
+//!     // for triggering namespaced events, use this instead:
+//!     // match reader.read_namespaced_event(&amp;mut buf) {
+//!         Ok(Event::Start(ref e)) =&gt; {
+//!         // for namespaced:
+//!         // Ok((ref namespace_value, Event::Start(ref e)))
+//!             match e.name() {
+//!                 b&quot;tag1&quot; =&gt; println!(&quot;attributes values: {:?}&quot;,
+//!                                     e.attributes().map(|a| a.unwrap().value)
+//!                                     .collect::&lt;Vec&lt;_&gt;&gt;()),
+//!                 b&quot;tag2&quot; =&gt; count += 1,
+//!                 _ =&gt; (),
+//!             }
+//!         },
+//!         // unescape and decode the text event using the reader encoding
+//!         Ok(Event::Text(e)) =&gt; txt.push(e.unescape_and_decode(&amp;reader).unwrap()),
+//!         Ok(Event::Eof) =&gt; break, // exits the loop when reaching end of file
+//!         Err(e) =&gt; panic!(&quot;Error at position {}: {:?}&quot;, reader.buffer_position(), e),
+//!         _ =&gt; (), // There are several other `Event`s we do not consider here
+//!     }
+//!
+//!     // if we don&#39;t keep a borrow elsewhere, we can clear the buffer to keep memory usage low
+//!     buf.clear();
+//! }
+//! ```
+//!
+//! ### Writer
+//!
+//! ```rust
+//! # use pretty_assertions::assert_eq;
+//! use quick_xml::Writer;
+//! use quick_xml::events::{Event, BytesEnd, BytesStart};
+//! use quick_xml::Reader;
+//! use std::io::Cursor;
+//! use std::iter;
+//!
+//! let xml = r#&quot;&lt;this_tag k1=&quot;v1&quot; k2=&quot;v2&quot;&gt;&lt;child&gt;text&lt;/child&gt;&lt;/this_tag&gt;&quot;#;
+//! let mut reader = Reader::from_str(xml);
+//! reader.trim_text(true);
+//! let mut writer = Writer::new(Cursor::new(Vec::new()));
+//! let mut buf = Vec::new();
+//! loop {
+//!     match reader.read_event(&amp;mut buf) {
+//!         Ok(Event::Start(ref e)) if e.name() == b&quot;this_tag&quot; =&gt; {
+//!
+//!             // crates a new element ... alternatively we could reuse `e` by calling
+//!             // `e.into_owned()`
+//!             let mut elem = BytesStart::owned(b&quot;my_elem&quot;.to_vec(), &quot;my_elem&quot;.len());
+//!
+//!             // collect existing attributes
+//!             elem.extend_attributes(e.attributes().map(|attr| attr.unwrap()));
+//!
+//!             // copy existing attributes, adds a new my-key=&quot;some value&quot; attribute
+//!             elem.push_attribute((&quot;my-key&quot;, &quot;some value&quot;));
+//!
+//!             // writes the event to the writer
+//!             assert!(writer.write_event(Event::Start(elem)).is_ok());
+//!         },
+//!         Ok(Event::End(ref e)) if e.name() == b&quot;this_tag&quot; =&gt; {
+//!             assert!(writer.write_event(Event::End(BytesEnd::borrowed(b&quot;my_elem&quot;))).is_ok());
+//!         },
+//!         Ok(Event::Eof) =&gt; break,
+//!         Ok(e) =&gt; assert!(writer.write_event(e).is_ok()),
+//!         // or using the buffer
+//!         // Ok(e) =&gt; assert!(writer.write(&amp;buf).is_ok()),
+//!         Err(e) =&gt; panic!(&quot;Error at position {}: {:?}&quot;, reader.buffer_position(), e),
+//!     }
+//!     buf.clear();
+//! }
+//!
+//! let result = writer.into_inner().into_inner();
+//! let expected = r#&quot;&lt;my_elem k1=&quot;v1&quot; k2=&quot;v2&quot; my-key=&quot;some value&quot;&gt;&lt;child&gt;text&lt;/child&gt;&lt;/my_elem&gt;&quot;#;
+//! assert_eq!(result, expected.as_bytes());
+//! ```
+//!
+//! # Features
+//!
+//! quick-xml supports 2 additional features, non activated by default:
+//! - `encoding`: support non utf8 XMLs
+//! - `serialize`: support serde `Serialize`/`Deserialize`
+//!
+//! [StAX]: https://en.wikipedia.org/wiki/StAX
+//! [Serde]: https://serde.rs/
+</span><span class="attribute">#![forbid(unsafe_code)]
+#![deny(missing_docs)]
+#![recursion_limit = <span class="string">&quot;1024&quot;</span>]
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serialize&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">de</span>;
-<span class="kw">mod</span> <span class="ident">errors</span>;
-<span class="kw">mod</span> <span class="ident">escapei</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">escape</span> {
-    <span class="doccomment">//! Manage xml character escapes</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::escapei</span>::{<span class="ident">do_unescape</span>, <span class="ident">EscapeError</span>};
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::escapei</span>::{<span class="ident">escape</span>, <span class="ident">partial_escape</span>, <span class="ident">unescape</span>, <span class="ident">unescape_with</span>};
+#[cfg(feature = <span class="string">&quot;serialize&quot;</span>)]
+</span><span class="kw">pub mod </span>de;
+<span class="kw">mod </span>errors;
+<span class="kw">mod </span>escapei;
+<span class="kw">pub mod </span>escape {
+    <span class="doccomment">//! Manage xml character escapes
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="kw">crate</span>::escapei::{do_unescape, EscapeError};
+    <span class="kw">pub use </span><span class="kw">crate</span>::escapei::{escape, partial_escape, unescape, unescape_with};
 }
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">events</span>;
-<span class="kw">mod</span> <span class="ident">reader</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serialize&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">se</span>;
-<span class="doccomment">/// Not an official API, public for integration tests</span>
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">utils</span>;
-<span class="kw">mod</span> <span class="ident">writer</span>;
+<span class="kw">pub mod </span>events;
+<span class="kw">mod </span>reader;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;serialize&quot;</span>)]
+</span><span class="kw">pub mod </span>se;
+<span class="doccomment">/// Not an official API, public for integration tests
+</span><span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub mod </span>utils;
+<span class="kw">mod </span>writer;
 
-<span class="comment">// reexports</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;serialize&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::errors::serialize::DeError</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::errors</span>::{<span class="ident">Error</span>, <span class="prelude-ty">Result</span>};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::reader::Reader</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::writer</span>::{<span class="ident">ElementWriter</span>, <span class="ident">Writer</span>};
+<span class="comment">// reexports
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;serialize&quot;</span>)]
+</span><span class="kw">pub use </span><span class="kw">crate</span>::errors::serialize::DeError;
+<span class="kw">pub use </span><span class="kw">crate</span>::errors::{Error, <span class="prelude-ty">Result</span>};
+<span class="kw">pub use </span><span class="kw">crate</span>::reader::Reader;
+<span class="kw">pub use </span><span class="kw">crate</span>::writer::{ElementWriter, Writer};
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="quick_xml" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="quick_xml" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

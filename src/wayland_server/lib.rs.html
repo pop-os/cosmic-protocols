@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-server-0.30.0-beta.10/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_server/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_server/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_server/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-server-0.30.0-beta.10/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_server/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_server/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_server/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -298,305 +298,305 @@
 <span id="298">298</span>
 <span id="299">299</span>
 <span id="300">300</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Interface for interacting with the Wayland protocol, server-side.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## General concepts</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! This crate is structured around four main objects: the [`Display`] and [`DisplayHandle`] structs,</span>
-<span class="doccomment">//! resources (objects implementing the [`Resource`] trait), and the [`Dispatch`] trait.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! The [`Display`] is the heart of this crate, it represents the protocol state of your Wayland server, and</span>
-<span class="doccomment">//! takes care of processing messages from clients. You&#39;ll need to integrate it in your event loop (see its</span>
-<span class="doccomment">//! documentation for details). From it you can retrieve the [`DisplayHandle`], which is a clonable handle to</span>
-<span class="doccomment">//! the Wayland state and is the type used to actually interact with the protocol.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Each of the Wayland object you can manipulate is represented by a struct implementing the [`Resource`]</span>
-<span class="doccomment">//! trait. Thos structs are automatically generated from the wayland XML protocol specification. This crate</span>
-<span class="doccomment">//! provides the types generated from the core protocol in the [`protocol`] module. For other standard</span>
-<span class="doccomment">//! protocols, see the `wayland-protocols` crate.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Request dispatching and the [`Dispatch`] trait</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! The request dispatching logic provided by this crate is build around the [`Dispatch`] trait. During the</span>
-<span class="doccomment">//! dispatching process (in [`Display::dispatch_clients()`]), all requests sent by clients are read from</span>
-<span class="doccomment">//! their respective process and delivered to your processing logic, by invoking methods on the various</span>
-<span class="doccomment">//! [`Dispatch`] implementations of your `State` struct. In this paradigm, your `State` needs to implement</span>
-<span class="doccomment">//! `Dispatch&lt;O, _&gt;` for every Wayland object `O` it needs to process events for.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! However, implementing all those traits on your own is a lot of (often uninteresting) work. To make this</span>
-<span class="doccomment">//! easier a composition mechanism is provided using the [`delegate_dispatch!`] macro. This way, another</span>
-<span class="doccomment">//! library (such as Smithay) can provide generic [`Dispatch`] implementations that you can reuse on your</span>
-<span class="doccomment">//! own app by delegating those objects to that provided implementation. See the documentation of those</span>
-<span class="doccomment">//! traits and macro for details.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Globals</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! The entry point of the protocol for clients goes through the protocol globals. Each global represents a</span>
-<span class="doccomment">//! capability of your compositor, a peripheral it has access to, or a protocol extension it supports.</span>
-<span class="doccomment">//! Globals are created by you using [`DisplayHandle::create_global()`], and require your `State` to</span>
-<span class="doccomment">//! implement the [`GlobalDispatch`] trait for the interface associated with that global.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Logging</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! This crate can generate some runtime error message (notably when a protocol error occurs). By default</span>
-<span class="doccomment">//! those messages are printed to stderr. If you activate the `log` cargo feature, they will instead be</span>
-<span class="doccomment">//! piped through the `log` crate.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Advanced use</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ### Bypassing [`Dispatch`]</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! It may be that for some of your objects, handling them via the [`Dispatch`] trait is impractical. In</span>
-<span class="doccomment">//! those contexts, this crate also provides some escape-hatches to directly interface with the low-level</span>
-<span class="doccomment">//! APIs from `wayland-backend`, allowing you to register callbacks for those objects by directly providing</span>
-<span class="doccomment">//! implementations of the backend [`ObjectData`](crate::backend::ObjectData) trait.</span>
-<span class="doccomment">//! See [`Client::create_resource_from_objdata()`] and [`DataInit::custom_init()`].</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ### Interaction with FFI</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! It can happen that you&#39;ll need to interact with Wayland states accross FFI, such as for example when</span>
-<span class="doccomment">//! interfacing with the graphics stack for enabling hardware acceleration for clients.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! In this case, you&#39;ll need to do it in two steps, by explicitly working with `wayland-backend`, adding</span>
-<span class="doccomment">//! it to your dependencies and enabling its `server_system` feature.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Then, you&#39;ll generally need:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! - The `*mut wl_display` pointer, that you can retrieve by first retrieving the</span>
-<span class="doccomment">//!   [`Backend`](crate::backend::Backend) using [`Display::backend()`], and then invoke</span>
-<span class="doccomment">//!   `Backend::display_ptr().</span>
-<span class="doccomment">//! - The `*mut wl_resource` pointers for the objects you need to share, by first getting the</span>
-<span class="doccomment">//!   [`ObjectId`](crate::backend::ObjectId) using the [`Resource::id()`] method, and then</span>
-<span class="doccomment">//!   the `ObjectId::as_ptr()` method.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! If you need to receive pointers from FFI, you can make [`ObjectId`]s from the `*mut wl_resource` pointers</span>
-<span class="doccomment">//! using `ObjectId::from_ptr()`, and then make the resources using [`Resource::from_id`].</span>
-<span class="attribute">#![<span class="ident">forbid</span>(<span class="ident">improper_ctypes</span>, <span class="ident">unsafe_op_in_unsafe_fn</span>)]</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Interface for interacting with the Wayland protocol, server-side.
+//!
+//! ## General concepts
+//!
+//! This crate is structured around four main objects: the [`Display`] and [`DisplayHandle`] structs,
+//! resources (objects implementing the [`Resource`] trait), and the [`Dispatch`] trait.
+//!
+//! The [`Display`] is the heart of this crate, it represents the protocol state of your Wayland server, and
+//! takes care of processing messages from clients. You&#39;ll need to integrate it in your event loop (see its
+//! documentation for details). From it you can retrieve the [`DisplayHandle`], which is a clonable handle to
+//! the Wayland state and is the type used to actually interact with the protocol.
+//!
+//! Each of the Wayland object you can manipulate is represented by a struct implementing the [`Resource`]
+//! trait. Thos structs are automatically generated from the wayland XML protocol specification. This crate
+//! provides the types generated from the core protocol in the [`protocol`] module. For other standard
+//! protocols, see the `wayland-protocols` crate.
+//!
+//! ## Request dispatching and the [`Dispatch`] trait
+//!
+//! The request dispatching logic provided by this crate is build around the [`Dispatch`] trait. During the
+//! dispatching process (in [`Display::dispatch_clients()`]), all requests sent by clients are read from
+//! their respective process and delivered to your processing logic, by invoking methods on the various
+//! [`Dispatch`] implementations of your `State` struct. In this paradigm, your `State` needs to implement
+//! `Dispatch&lt;O, _&gt;` for every Wayland object `O` it needs to process events for.
+//!
+//! However, implementing all those traits on your own is a lot of (often uninteresting) work. To make this
+//! easier a composition mechanism is provided using the [`delegate_dispatch!`] macro. This way, another
+//! library (such as Smithay) can provide generic [`Dispatch`] implementations that you can reuse on your
+//! own app by delegating those objects to that provided implementation. See the documentation of those
+//! traits and macro for details.
+//!
+//! ## Globals
+//!
+//! The entry point of the protocol for clients goes through the protocol globals. Each global represents a
+//! capability of your compositor, a peripheral it has access to, or a protocol extension it supports.
+//! Globals are created by you using [`DisplayHandle::create_global()`], and require your `State` to
+//! implement the [`GlobalDispatch`] trait for the interface associated with that global.
+//!
+//! ## Logging
+//!
+//! This crate can generate some runtime error message (notably when a protocol error occurs). By default
+//! those messages are printed to stderr. If you activate the `log` cargo feature, they will instead be
+//! piped through the `log` crate.
+//!
+//! ## Advanced use
+//!
+//! ### Bypassing [`Dispatch`]
+//!
+//! It may be that for some of your objects, handling them via the [`Dispatch`] trait is impractical. In
+//! those contexts, this crate also provides some escape-hatches to directly interface with the low-level
+//! APIs from `wayland-backend`, allowing you to register callbacks for those objects by directly providing
+//! implementations of the backend [`ObjectData`](crate::backend::ObjectData) trait.
+//! See [`Client::create_resource_from_objdata()`] and [`DataInit::custom_init()`].
+//!
+//! ### Interaction with FFI
+//!
+//! It can happen that you&#39;ll need to interact with Wayland states accross FFI, such as for example when
+//! interfacing with the graphics stack for enabling hardware acceleration for clients.
+//!
+//! In this case, you&#39;ll need to do it in two steps, by explicitly working with `wayland-backend`, adding
+//! it to your dependencies and enabling its `server_system` feature.
+//!
+//! Then, you&#39;ll generally need:
+//!
+//! - The `*mut wl_display` pointer, that you can retrieve by first retrieving the
+//!   [`Backend`](crate::backend::Backend) using [`Display::backend()`], and then invoke
+//!   `Backend::display_ptr().
+//! - The `*mut wl_resource` pointers for the objects you need to share, by first getting the
+//!   [`ObjectId`](crate::backend::ObjectId) using the [`Resource::id()`] method, and then
+//!   the `ObjectId::as_ptr()` method.
+//!
+//! If you need to receive pointers from FFI, you can make [`ObjectId`]s from the `*mut wl_resource` pointers
+//! using `ObjectId::from_ptr()`, and then make the resources using [`Resource::from_id`].
+</span><span class="attribute">#![forbid(improper_ctypes, unsafe_op_in_unsafe_fn)]
 
-<span class="kw">use</span> <span class="ident">std::hash</span>::{<span class="ident">Hash</span>, <span class="ident">Hasher</span>};
-<span class="kw">use</span> <span class="ident">wayland_backend</span>::{
-    <span class="ident">io_lifetimes::OwnedFd</span>,
-    <span class="ident">protocol</span>::{<span class="ident">Interface</span>, <span class="ident">Message</span>},
-    <span class="ident">server</span>::{<span class="ident">ClientId</span>, <span class="ident">InvalidId</span>, <span class="ident">ObjectId</span>, <span class="ident">WeakHandle</span>},
+</span><span class="kw">use </span>std::hash::{Hash, Hasher};
+<span class="kw">use </span>wayland_backend::{
+    io_lifetimes::OwnedFd,
+    protocol::{Interface, Message},
+    server::{ClientId, InvalidId, ObjectId, WeakHandle},
 };
 
-<span class="kw">mod</span> <span class="ident">client</span>;
-<span class="kw">mod</span> <span class="ident">dispatch</span>;
-<span class="kw">mod</span> <span class="ident">display</span>;
-<span class="kw">mod</span> <span class="ident">global</span>;
-<span class="kw">mod</span> <span class="ident">socket</span>;
+<span class="kw">mod </span>client;
+<span class="kw">mod </span>dispatch;
+<span class="kw">mod </span>display;
+<span class="kw">mod </span>global;
+<span class="kw">mod </span>socket;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">client::Client</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">dispatch</span>::{<span class="ident">DataInit</span>, <span class="ident">Dispatch</span>, <span class="ident">New</span>, <span class="ident">ResourceData</span>};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">display</span>::{<span class="ident">Display</span>, <span class="ident">DisplayHandle</span>};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">global::GlobalDispatch</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">socket</span>::{<span class="ident">BindError</span>, <span class="ident">ListeningSocket</span>};
+<span class="kw">pub use </span>client::Client;
+<span class="kw">pub use </span>dispatch::{DataInit, Dispatch, New, ResourceData};
+<span class="kw">pub use </span>display::{Display, DisplayHandle};
+<span class="kw">pub use </span>global::GlobalDispatch;
+<span class="kw">pub use </span>socket::{BindError, ListeningSocket};
 
-<span class="doccomment">/// Backend reexports</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">backend</span> {
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wayland_backend::io_lifetimes</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wayland_backend::protocol</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wayland_backend::server</span>::{
-        <span class="ident">Backend</span>, <span class="ident">ClientData</span>, <span class="ident">ClientId</span>, <span class="ident">Credentials</span>, <span class="ident">DisconnectReason</span>, <span class="ident">GlobalHandler</span>, <span class="ident">GlobalId</span>,
-        <span class="ident">Handle</span>, <span class="ident">InitError</span>, <span class="ident">InvalidId</span>, <span class="ident">ObjectData</span>, <span class="ident">ObjectId</span>, <span class="ident">WeakHandle</span>,
+<span class="doccomment">/// Backend reexports
+</span><span class="kw">pub mod </span>backend {
+    <span class="kw">pub use </span>wayland_backend::io_lifetimes;
+    <span class="kw">pub use </span>wayland_backend::protocol;
+    <span class="kw">pub use </span>wayland_backend::server::{
+        Backend, ClientData, ClientId, Credentials, DisconnectReason, GlobalHandler, GlobalId,
+        Handle, InitError, InvalidId, ObjectData, ObjectId, WeakHandle,
     };
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wayland_backend::smallvec</span>;
+    <span class="kw">pub use </span>wayland_backend::smallvec;
 }
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wayland_backend::protocol::WEnum</span>;
+<span class="kw">pub use </span>wayland_backend::protocol::WEnum;
 
-<span class="doccomment">/// Generated protocol definitions</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This module is automatically generated from the `wayland.xml` protocol specification, and contains the</span>
-<span class="doccomment">/// interface definitions for the core Wayland protocol.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">protocol</span> {
-    <span class="kw">use</span> <span class="ident"><span class="self">self</span>::__interfaces</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="kw">crate</span> <span class="kw">as</span> <span class="ident">wayland_server</span>;
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">__interfaces</span> {
+<span class="doccomment">/// Generated protocol definitions
+///
+/// This module is automatically generated from the `wayland.xml` protocol specification, and contains the
+/// interface definitions for the core Wayland protocol.
+</span><span class="attribute">#[allow(missing_docs)]
+</span><span class="kw">pub mod </span>protocol {
+    <span class="kw">use </span><span class="self">self</span>::__interfaces::<span class="kw-2">*</span>;
+    <span class="kw">use crate as </span>wayland_server;
+    <span class="kw">pub mod </span>__interfaces {
         <span class="macro">wayland_scanner::generate_interfaces!</span>(<span class="string">&quot;wayland.xml&quot;</span>);
     }
     <span class="macro">wayland_scanner::generate_server_code!</span>(<span class="string">&quot;wayland.xml&quot;</span>);
 }
 
-<span class="comment">// internal imports for dispatching logging depending on the `log` feature</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;log&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
-<span class="kw">use</span> <span class="ident">log</span>::{<span class="ident">debug</span> <span class="kw">as</span> <span class="ident">log_debug</span>, <span class="ident">error</span> <span class="kw">as</span> <span class="ident">log_error</span>, <span class="ident">info</span> <span class="kw">as</span> <span class="ident">log_info</span>, <span class="ident">warn</span> <span class="kw">as</span> <span class="ident">log_warn</span>};
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;log&quot;</span>))]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
-<span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">eprintln</span> <span class="kw">as</span> <span class="ident">log_error</span>, <span class="ident">eprintln</span> <span class="kw">as</span> <span class="ident">log_warn</span>, <span class="ident">eprintln</span> <span class="kw">as</span> <span class="ident">log_info</span>, <span class="ident">eprintln</span> <span class="kw">as</span> <span class="ident">log_debug</span>,
+<span class="comment">// internal imports for dispatching logging depending on the `log` feature
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;log&quot;</span>)]
+#[allow(unused_imports)]
+</span><span class="kw">use </span>log::{debug <span class="kw">as </span>log_debug, error <span class="kw">as </span>log_error, info <span class="kw">as </span>log_info, warn <span class="kw">as </span>log_warn};
+<span class="attribute">#[cfg(not(feature = <span class="string">&quot;log&quot;</span>))]
+#[allow(unused_imports)]
+</span><span class="kw">use </span>std::{
+    eprintln <span class="kw">as </span>log_error, eprintln <span class="kw">as </span>log_warn, eprintln <span class="kw">as </span>log_info, eprintln <span class="kw">as </span>log_debug,
 };
 
-<span class="doccomment">/// Trait representing a Wayland interface</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Resource</span>: <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">std::fmt::Debug</span> <span class="op">+</span> <span class="ident">Sized</span> {
-    <span class="doccomment">/// The event enum for this interface</span>
-    <span class="kw">type</span> <span class="ident">Event</span>;
-    <span class="doccomment">/// The request enum for this interface</span>
-    <span class="kw">type</span> <span class="ident">Request</span>;
+<span class="doccomment">/// Trait representing a Wayland interface
+</span><span class="kw">pub trait </span>Resource: Clone + std::fmt::Debug + Sized {
+    <span class="doccomment">/// The event enum for this interface
+    </span><span class="kw">type </span>Event;
+    <span class="doccomment">/// The request enum for this interface
+    </span><span class="kw">type </span>Request;
 
-    <span class="doccomment">/// The interface description</span>
-    <span class="kw">fn</span> <span class="ident">interface</span>() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span>;
+    <span class="doccomment">/// The interface description
+    </span><span class="kw">fn </span>interface() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface;
 
-    <span class="doccomment">/// The ID of this object</span>
-    <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">ObjectId</span>;
+    <span class="doccomment">/// The ID of this object
+    </span><span class="kw">fn </span>id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ObjectId;
 
-    <span class="doccomment">/// The ID of the client owning this object</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns [`None`] if the object is no longer alive.</span>
-    <span class="kw">fn</span> <span class="ident">client_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ClientId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">handle</span>().<span class="ident">upgrade</span>().<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">dh</span><span class="op">|</span> <span class="ident">dh</span>.<span class="ident">get_client</span>(<span class="self">self</span>.<span class="ident">id</span>()).<span class="ident">ok</span>())
+    <span class="doccomment">/// The ID of the client owning this object
+    ///
+    /// Returns [`None`] if the object is no longer alive.
+    </span><span class="kw">fn </span>client_id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;ClientId&gt; {
+        <span class="self">self</span>.handle().upgrade().and_then(|dh| dh.get_client(<span class="self">self</span>.id()).ok())
     }
 
-    <span class="doccomment">/// The version of this object</span>
-    <span class="kw">fn</span> <span class="ident">version</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span>;
+    <span class="doccomment">/// The version of this object
+    </span><span class="kw">fn </span>version(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32;
 
-    <span class="doccomment">/// Checks if the Wayland object associated with this proxy is still alive</span>
-    <span class="kw">fn</span> <span class="ident">is_alive</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">handle</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">handle</span>().<span class="ident">upgrade</span>() {
-            <span class="ident">handle</span>.<span class="ident">object_info</span>(<span class="self">self</span>.<span class="ident">id</span>()).<span class="ident">is_ok</span>()
-        } <span class="kw">else</span> {
-            <span class="bool-val">false</span>
+    <span class="doccomment">/// Checks if the Wayland object associated with this proxy is still alive
+    </span><span class="kw">fn </span>is_alive(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(handle) = <span class="self">self</span>.handle().upgrade() {
+            handle.object_info(<span class="self">self</span>.id()).is_ok()
+        } <span class="kw">else </span>{
+            <span class="bool-val">false
+        </span>}
+    }
+
+    <span class="doccomment">/// Access the user-data associated with this object
+    </span><span class="kw">fn </span>data&lt;U: <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>U&gt;;
+
+    <span class="doccomment">/// Access the raw data associated with this object.
+    ///
+    /// It is given to you as a `dyn Any`, and you are responsible for downcasting it.
+    ///
+    /// For objects created using the scanner-generated methods, this will be an instance of the
+    /// [`ResourceData`] type.
+    </span><span class="kw">fn </span>object_data(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>std::sync::Arc&lt;<span class="kw">dyn </span>std::any::Any + Send + Sync&gt;&gt;;
+
+    <span class="doccomment">/// Access the backend handle associated with this object
+    </span><span class="kw">fn </span>handle(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>backend::WeakHandle;
+
+    <span class="doccomment">/// Create an object resource from its ID
+    ///
+    /// Returns an error this the provided object ID does not correspond to the `Self` interface.
+    ///
+    /// **Note:** This method is mostly meant as an implementation detail to be used by code generated by
+    /// wayland-scanner.
+    </span><span class="kw">fn </span>from_id(dh: <span class="kw-2">&amp;</span>DisplayHandle, id: ObjectId) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidId&gt;;
+
+    <span class="doccomment">/// Send an event to this object
+    </span><span class="kw">fn </span>send_event(<span class="kw-2">&amp;</span><span class="self">self</span>, evt: <span class="self">Self</span>::Event) -&gt; <span class="prelude-ty">Result</span>&lt;(), InvalidId&gt;;
+
+    <span class="doccomment">/// Trigger a protocol error on this object
+    ///
+    /// The `code` is intended to be from the `Error` enum declared alongside that object interface.
+    ///
+    /// A protocol error is fatal to the Wayland connection, and the client will be disconnected.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">fn </span>post_error(<span class="kw-2">&amp;</span><span class="self">self</span>, code: <span class="kw">impl </span>Into&lt;u32&gt;, error: <span class="kw">impl </span>Into&lt;String&gt;) {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(dh) = <span class="self">self</span>.handle().upgrade().map(DisplayHandle::from) {
+            dh.post_error(<span class="self">self</span>, code.into(), error.into());
         }
     }
 
-    <span class="doccomment">/// Access the user-data associated with this object</span>
-    <span class="kw">fn</span> <span class="ident">data</span><span class="op">&lt;</span><span class="ident">U</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">U</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Parse a event for this object
+    ///
+    /// **Note:** This method is mostly meant as an implementation detail to be used by code generated by
+    /// wayland-scanner.
+    </span><span class="kw">fn </span>parse_request(
+        dh: <span class="kw-2">&amp;</span>DisplayHandle,
+        msg: Message&lt;ObjectId, OwnedFd&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(<span class="self">Self</span>, <span class="self">Self</span>::Request), DispatchError&gt;;
 
-    <span class="doccomment">/// Access the raw data associated with this object.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// It is given to you as a `dyn Any`, and you are responsible for downcasting it.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For objects created using the scanner-generated methods, this will be an instance of the</span>
-    <span class="doccomment">/// [`ResourceData`] type.</span>
-    <span class="kw">fn</span> <span class="ident">object_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">std::sync::Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">std::any::Any</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span><span class="op">&gt;</span>;
-
-    <span class="doccomment">/// Access the backend handle associated with this object</span>
-    <span class="kw">fn</span> <span class="ident">handle</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">backend::WeakHandle</span>;
-
-    <span class="doccomment">/// Create an object resource from its ID</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns an error this the provided object ID does not correspond to the `Self` interface.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note:** This method is mostly meant as an implementation detail to be used by code generated by</span>
-    <span class="doccomment">/// wayland-scanner.</span>
-    <span class="kw">fn</span> <span class="ident">from_id</span>(<span class="ident">dh</span>: <span class="kw-2">&amp;</span><span class="ident">DisplayHandle</span>, <span class="ident">id</span>: <span class="ident">ObjectId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span>;
-
-    <span class="doccomment">/// Send an event to this object</span>
-    <span class="kw">fn</span> <span class="ident">send_event</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">evt</span>: <span class="ident"><span class="self">Self</span>::Event</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">InvalidId</span><span class="op">&gt;</span>;
-
-    <span class="doccomment">/// Trigger a protocol error on this object</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The `code` is intended to be from the `Error` enum declared alongside that object interface.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// A protocol error is fatal to the Wayland connection, and the client will be disconnected.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">post_error</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">code</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>, <span class="ident">error</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>) {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">dh</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">handle</span>().<span class="ident">upgrade</span>().<span class="ident">map</span>(<span class="ident">DisplayHandle::from</span>) {
-            <span class="ident">dh</span>.<span class="ident">post_error</span>(<span class="self">self</span>, <span class="ident">code</span>.<span class="ident">into</span>(), <span class="ident">error</span>.<span class="ident">into</span>());
-        }
-    }
-
-    <span class="doccomment">/// Parse a event for this object</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note:** This method is mostly meant as an implementation detail to be used by code generated by</span>
-    <span class="doccomment">/// wayland-scanner.</span>
-    <span class="kw">fn</span> <span class="ident">parse_request</span>(
-        <span class="ident">dh</span>: <span class="kw-2">&amp;</span><span class="ident">DisplayHandle</span>,
-        <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="self">Self</span>, <span class="ident"><span class="self">Self</span>::Request</span>), <span class="ident">DispatchError</span><span class="op">&gt;</span>;
-
-    <span class="doccomment">/// Serialize an event for this object</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note:** This method is mostly meant as an implementation detail to be used by code generated by</span>
-    <span class="doccomment">/// wayland-scanner.</span>
-    <span class="kw">fn</span> <span class="ident">write_event</span>(
+    <span class="doccomment">/// Serialize an event for this object
+    ///
+    /// **Note:** This method is mostly meant as an implementation detail to be used by code generated by
+    /// wayland-scanner.
+    </span><span class="kw">fn </span>write_event(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">dh</span>: <span class="kw-2">&amp;</span><span class="ident">DisplayHandle</span>,
-        <span class="ident">req</span>: <span class="ident"><span class="self">Self</span>::Event</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">std::os::unix::io::RawFd</span><span class="op">&gt;</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span>;
+        dh: <span class="kw-2">&amp;</span>DisplayHandle,
+        req: <span class="self">Self</span>::Event,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;Message&lt;ObjectId, std::os::unix::io::RawFd&gt;, InvalidId&gt;;
 
-    <span class="doccomment">/// Creates a weak handle to this object</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This weak handle will not keep the user-data associated with the object alive,</span>
-    <span class="doccomment">/// and can be converted back to a full resource using [`Weak::upgrade()`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This can be of use if you need to store resources in the used data of other objects and want</span>
-    <span class="doccomment">/// to be sure to avoid reference cycles that would cause memory leaks.</span>
-    <span class="kw">fn</span> <span class="ident">downgrade</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Weak</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="ident">Weak</span> { <span class="ident">handle</span>: <span class="self">self</span>.<span class="ident">handle</span>().<span class="ident">clone</span>(), <span class="ident">id</span>: <span class="self">self</span>.<span class="ident">id</span>(), <span class="ident">_iface</span>: <span class="ident">std::marker::PhantomData</span> }
+    <span class="doccomment">/// Creates a weak handle to this object
+    ///
+    /// This weak handle will not keep the user-data associated with the object alive,
+    /// and can be converted back to a full resource using [`Weak::upgrade()`].
+    ///
+    /// This can be of use if you need to store resources in the used data of other objects and want
+    /// to be sure to avoid reference cycles that would cause memory leaks.
+    </span><span class="kw">fn </span>downgrade(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Weak&lt;<span class="self">Self</span>&gt; {
+        Weak { handle: <span class="self">self</span>.handle().clone(), id: <span class="self">self</span>.id(), _iface: std::marker::PhantomData }
     }
 
-    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">__set_object_data</span>(
-        <span class="kw-2">&amp;mut</span> <span class="self">self</span>,
-        <span class="ident">odata</span>: <span class="ident">std::sync::Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">std::any::Any</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>,
+    <span class="attribute">#[doc(hidden)]
+    </span><span class="kw">fn </span>__set_object_data(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        odata: std::sync::Arc&lt;<span class="kw">dyn </span>std::any::Any + Send + Sync + <span class="lifetime">&#39;static</span>&gt;,
     );
 }
 
-<span class="doccomment">/// An error generated if an illegal request was received from a client</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">thiserror::Error</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DispatchError</span> {
-    <span class="doccomment">/// The received message does not match the specification for the object&#39;s interface.</span>
-    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;Bad message for object {interface}@{sender_id} on opcode {opcode}&quot;</span>)]</span>
-    <span class="ident">BadMessage</span> {
-        <span class="doccomment">/// The id of the target object</span>
-        <span class="ident">sender_id</span>: <span class="ident">ObjectId</span>,
-        <span class="doccomment">/// The interface of the target object</span>
-        <span class="ident">interface</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
-        <span class="doccomment">/// The opcode number</span>
-        <span class="ident">opcode</span>: <span class="ident">u16</span>,
+<span class="doccomment">/// An error generated if an illegal request was received from a client
+</span><span class="attribute">#[derive(thiserror::Error, Debug)]
+</span><span class="kw">pub enum </span>DispatchError {
+    <span class="doccomment">/// The received message does not match the specification for the object&#39;s interface.
+    </span><span class="attribute">#[error(<span class="string">&quot;Bad message for object {interface}@{sender_id} on opcode {opcode}&quot;</span>)]
+    </span>BadMessage {
+        <span class="doccomment">/// The id of the target object
+        </span>sender_id: ObjectId,
+        <span class="doccomment">/// The interface of the target object
+        </span>interface: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+        <span class="doccomment">/// The opcode number
+        </span>opcode: u16,
     },
 }
 
-<span class="doccomment">/// A weak handle to a Wayland object</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This handle does not keep the underlying user data alive, and can be converted back to a full resource</span>
-<span class="doccomment">/// using [`Weak::upgrade()`].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Weak</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
-    <span class="ident">handle</span>: <span class="ident">WeakHandle</span>,
-    <span class="ident">id</span>: <span class="ident">ObjectId</span>,
-    <span class="ident">_iface</span>: <span class="ident">std::marker::PhantomData</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>,
+<span class="doccomment">/// A weak handle to a Wayland object
+///
+/// This handle does not keep the underlying user data alive, and can be converted back to a full resource
+/// using [`Weak::upgrade()`].
+</span><span class="attribute">#[derive(Debug, Clone)]
+</span><span class="kw">pub struct </span>Weak&lt;I&gt; {
+    handle: WeakHandle,
+    id: ObjectId,
+    _iface: std::marker::PhantomData&lt;I&gt;,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Resource</span><span class="op">&gt;</span> <span class="ident">Weak</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Try to upgrade with weak handle back into a full resource.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This will fail if either:</span>
-    <span class="doccomment">/// - the object represented by this handle has already been destroyed at the protocol level</span>
-    <span class="doccomment">/// - the Wayland connection has already been closed</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">upgrade</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">handle</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">upgrade</span>().<span class="ident">ok_or</span>(<span class="ident">InvalidId</span>)<span class="question-mark">?</span>;
-        <span class="kw">let</span> <span class="ident">d_handle</span> <span class="op">=</span> <span class="ident">DisplayHandle::from</span>(<span class="ident">handle</span>);
-        <span class="ident">I::from_id</span>(<span class="kw-2">&amp;</span><span class="ident">d_handle</span>, <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">clone</span>())
+<span class="kw">impl</span>&lt;I: Resource&gt; Weak&lt;I&gt; {
+    <span class="doccomment">/// Try to upgrade with weak handle back into a full resource.
+    ///
+    /// This will fail if either:
+    /// - the object represented by this handle has already been destroyed at the protocol level
+    /// - the Wayland connection has already been closed
+    </span><span class="kw">pub fn </span>upgrade(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;I, InvalidId&gt; {
+        <span class="kw">let </span>handle = <span class="self">self</span>.handle.upgrade().ok_or(InvalidId)<span class="question-mark">?</span>;
+        <span class="kw">let </span>d_handle = DisplayHandle::from(handle);
+        I::from_id(<span class="kw-2">&amp;</span>d_handle, <span class="self">self</span>.id.clone())
     }
 
-    <span class="doccomment">/// The underlying [`ObjectId`]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">ObjectId</span> {
-        <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">clone</span>()
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">Weak</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">id</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">id</span>
+    <span class="doccomment">/// The underlying [`ObjectId`]
+    </span><span class="kw">pub fn </span>id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ObjectId {
+        <span class="self">self</span>.id.clone()
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="ident">Eq</span> <span class="kw">for</span> <span class="ident">Weak</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="ident">Hash</span> <span class="kw">for</span> <span class="ident">Weak</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">hash</span><span class="op">&lt;</span><span class="ident">H</span>: <span class="ident">Hasher</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">state</span>: <span class="kw-2">&amp;mut</span> <span class="ident">H</span>) {
-        <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
+<span class="kw">impl</span>&lt;I&gt; PartialEq <span class="kw">for </span>Weak&lt;I&gt; {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
+        <span class="self">self</span>.id == other.id
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Resource</span><span class="op">&gt;</span> <span class="ident">PartialEq</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Weak</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">id</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">id</span>()
+<span class="kw">impl</span>&lt;I&gt; Eq <span class="kw">for </span>Weak&lt;I&gt; {}
+
+<span class="kw">impl</span>&lt;I&gt; Hash <span class="kw">for </span>Weak&lt;I&gt; {
+    <span class="kw">fn </span>hash&lt;H: Hasher&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: <span class="kw-2">&amp;mut </span>H) {
+        <span class="self">self</span>.id.hash(state);
+    }
+}
+
+<span class="kw">impl</span>&lt;I: Resource&gt; PartialEq&lt;I&gt; <span class="kw">for </span>Weak&lt;I&gt; {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>I) -&gt; bool {
+        <span class="self">self</span>.id == other.id()
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_server" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_server" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

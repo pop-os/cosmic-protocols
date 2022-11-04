@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/libloading-0.7.3/src/safe.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>safe.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../libloading/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../libloading/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../libloading/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/libloading-0.7.3/src/safe.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>safe.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../libloading/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../libloading/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../libloading/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -297,304 +297,304 @@
 <span id="297">297</span>
 <span id="298">298</span>
 <span id="299">299</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">super</span>::Error</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">libloading_docs</span>)]</span>
-<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::os::unix</span> <span class="kw">as</span> <span class="ident">imp</span>; <span class="comment">// the implementation used here doesn&#39;t matter particularly much...</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">not</span>(<span class="ident">libloading_docs</span>), <span class="ident">unix</span>))]</span>
-<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::os::unix</span> <span class="kw">as</span> <span class="ident">imp</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">not</span>(<span class="ident">libloading_docs</span>), <span class="ident">windows</span>))]</span>
-<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::os::windows</span> <span class="kw">as</span> <span class="ident">imp</span>;
-<span class="kw">use</span> <span class="ident">std::ffi::OsStr</span>;
-<span class="kw">use</span> <span class="ident">std::fmt</span>;
-<span class="kw">use</span> <span class="ident">std::marker</span>;
-<span class="kw">use</span> <span class="ident">std::ops</span>;
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">super</span>::Error;
+<span class="attribute">#[cfg(libloading_docs)]
+</span><span class="kw">use </span><span class="kw">super</span>::os::unix <span class="kw">as </span>imp; <span class="comment">// the implementation used here doesn&#39;t matter particularly much...
+</span><span class="attribute">#[cfg(all(not(libloading_docs), unix))]
+</span><span class="kw">use </span><span class="kw">super</span>::os::unix <span class="kw">as </span>imp;
+<span class="attribute">#[cfg(all(not(libloading_docs), windows))]
+</span><span class="kw">use </span><span class="kw">super</span>::os::windows <span class="kw">as </span>imp;
+<span class="kw">use </span>std::ffi::OsStr;
+<span class="kw">use </span>std::fmt;
+<span class="kw">use </span>std::marker;
+<span class="kw">use </span>std::ops;
 
-<span class="doccomment">/// A loaded dynamic library.</span>
-<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">libloading_docs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">unix</span>, <span class="ident">windows</span>))))]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Library</span>(<span class="ident">imp::Library</span>);
+<span class="doccomment">/// A loaded dynamic library.
+</span><span class="attribute">#[cfg_attr(libloading_docs, doc(cfg(any(unix, windows))))]
+</span><span class="kw">pub struct </span>Library(imp::Library);
 
-<span class="kw">impl</span> <span class="ident">Library</span> {
-    <span class="doccomment">/// Find and load a dynamic library.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The `filename` argument may be either:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * A library filename;</span>
-    <span class="doccomment">/// * The absolute path to the library;</span>
-    <span class="doccomment">/// * A relative (to the current working directory) path to the library.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// When a library is loaded, initialisation routines contained within it are executed.</span>
-    <span class="doccomment">/// For the purposes of safety, the execution of these routines is conceptually the same calling an</span>
-    <span class="doccomment">/// unknown foreign function and may impose arbitrary requirements on the caller for the call</span>
-    <span class="doccomment">/// to be sound.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Additionally, the callers of this function must also ensure that execution of the</span>
-    <span class="doccomment">/// termination routines contained within the library is safe as well. These routines may be</span>
-    <span class="doccomment">/// executed when the library is unloaded.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Thread-safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The implementation strives to be as MT-safe as sanely possible, however on certain</span>
-    <span class="doccomment">/// platforms the underlying error-handling related APIs not always MT-safe. This library</span>
-    <span class="doccomment">/// shares these limitations on those platforms. In particular, on certain UNIX targets</span>
-    <span class="doccomment">/// `dlerror` is not MT-safe, resulting in garbage error messages in certain MT-scenarios.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Calling this function from multiple threads is not MT-safe if used in conjunction with</span>
-    <span class="doccomment">/// library filenames and the library search path is modified (`SetDllDirectory` function on</span>
-    <span class="doccomment">/// Windows, `{DY,}LD_LIBRARY_PATH` environment variable on UNIX).</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Platform-specific behaviour</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// When a plain library filename is supplied, the locations in which the library is searched are</span>
-    <span class="doccomment">/// platform specific and cannot be adjusted in a portable manner. See the documentation for</span>
-    <span class="doccomment">/// the platform specific [`os::unix::Library::new`] and [`os::windows::Library::new`] methods</span>
-    <span class="doccomment">/// for further information on library lookup behaviour.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the `filename` specifies a library filename without a path and with the extension omitted,</span>
-    <span class="doccomment">/// the `.dll` extension is implicitly added on Windows.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`os::unix::Library::new`]: crate::os::unix::Library::new</span>
-    <span class="doccomment">/// [`os::windows::Library::new`]: crate::os::windows::Library::new</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Tips</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Distributing your dynamic libraries under a filename common to all platforms (e.g.</span>
-    <span class="doccomment">/// `awesome.module`) allows you to avoid code which has to account for platform’s conventional</span>
-    <span class="doccomment">/// library filenames.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Strive to specify an absolute or at least a relative path to your library, unless</span>
-    <span class="doccomment">/// system-wide libraries are being loaded. Platform-dependent library search locations</span>
-    <span class="doccomment">/// combined with various quirks related to path-less filenames may cause flakiness in</span>
-    <span class="doccomment">/// programs.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```no_run</span>
-    <span class="doccomment">/// # use ::libloading::Library;</span>
-    <span class="doccomment">/// // Any of the following are valid.</span>
-    <span class="doccomment">/// unsafe {</span>
-    <span class="doccomment">///     let _ = Library::new(&quot;/path/to/awesome.module&quot;).unwrap();</span>
-    <span class="doccomment">///     let _ = Library::new(&quot;../awesome.module&quot;).unwrap();</span>
-    <span class="doccomment">///     let _ = Library::new(&quot;libsomelib.so.1&quot;).unwrap();</span>
-    <span class="doccomment">/// }</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">OsStr</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">filename</span>: <span class="ident">P</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Library</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="ident">imp::Library::new</span>(<span class="ident">filename</span>).<span class="ident">map</span>(<span class="ident">From::from</span>)
+<span class="kw">impl </span>Library {
+    <span class="doccomment">/// Find and load a dynamic library.
+    ///
+    /// The `filename` argument may be either:
+    ///
+    /// * A library filename;
+    /// * The absolute path to the library;
+    /// * A relative (to the current working directory) path to the library.
+    ///
+    /// # Safety
+    ///
+    /// When a library is loaded, initialisation routines contained within it are executed.
+    /// For the purposes of safety, the execution of these routines is conceptually the same calling an
+    /// unknown foreign function and may impose arbitrary requirements on the caller for the call
+    /// to be sound.
+    ///
+    /// Additionally, the callers of this function must also ensure that execution of the
+    /// termination routines contained within the library is safe as well. These routines may be
+    /// executed when the library is unloaded.
+    ///
+    /// # Thread-safety
+    ///
+    /// The implementation strives to be as MT-safe as sanely possible, however on certain
+    /// platforms the underlying error-handling related APIs not always MT-safe. This library
+    /// shares these limitations on those platforms. In particular, on certain UNIX targets
+    /// `dlerror` is not MT-safe, resulting in garbage error messages in certain MT-scenarios.
+    ///
+    /// Calling this function from multiple threads is not MT-safe if used in conjunction with
+    /// library filenames and the library search path is modified (`SetDllDirectory` function on
+    /// Windows, `{DY,}LD_LIBRARY_PATH` environment variable on UNIX).
+    ///
+    /// # Platform-specific behaviour
+    ///
+    /// When a plain library filename is supplied, the locations in which the library is searched are
+    /// platform specific and cannot be adjusted in a portable manner. See the documentation for
+    /// the platform specific [`os::unix::Library::new`] and [`os::windows::Library::new`] methods
+    /// for further information on library lookup behaviour.
+    ///
+    /// If the `filename` specifies a library filename without a path and with the extension omitted,
+    /// the `.dll` extension is implicitly added on Windows.
+    ///
+    /// [`os::unix::Library::new`]: crate::os::unix::Library::new
+    /// [`os::windows::Library::new`]: crate::os::windows::Library::new
+    ///
+    /// # Tips
+    ///
+    /// Distributing your dynamic libraries under a filename common to all platforms (e.g.
+    /// `awesome.module`) allows you to avoid code which has to account for platform’s conventional
+    /// library filenames.
+    ///
+    /// Strive to specify an absolute or at least a relative path to your library, unless
+    /// system-wide libraries are being loaded. Platform-dependent library search locations
+    /// combined with various quirks related to path-less filenames may cause flakiness in
+    /// programs.
+    ///
+    /// # Examples
+    ///
+    /// ```no_run
+    /// # use ::libloading::Library;
+    /// // Any of the following are valid.
+    /// unsafe {
+    ///     let _ = Library::new(&quot;/path/to/awesome.module&quot;).unwrap();
+    ///     let _ = Library::new(&quot;../awesome.module&quot;).unwrap();
+    ///     let _ = Library::new(&quot;libsomelib.so.1&quot;).unwrap();
+    /// }
+    /// ```
+    </span><span class="kw">pub unsafe fn </span>new&lt;P: AsRef&lt;OsStr&gt;&gt;(filename: P) -&gt; <span class="prelude-ty">Result</span>&lt;Library, Error&gt; {
+        imp::Library::new(filename).map(From::from)
     }
 
-    <span class="doccomment">/// Get a pointer to a function or static variable by symbol name.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The `symbol` may not contain any null bytes, with the exception of the last byte. Providing a</span>
-    <span class="doccomment">/// null-terminated `symbol` may help to avoid an allocation.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The symbol is interpreted as-is; no mangling is done. This means that symbols like `x::y` are</span>
-    <span class="doccomment">/// most likely invalid.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Users of this API must specify the correct type of the function or variable loaded.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Platform-specific behaviour</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The implementation of thread-local variables is extremely platform specific and uses of such</span>
-    <span class="doccomment">/// variables that work on e.g. Linux may have unintended behaviour on other targets.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// On POSIX implementations where the `dlerror` function is not confirmed to be MT-safe (such</span>
-    <span class="doccomment">/// as FreeBSD), this function will unconditionally return an error when the underlying `dlsym`</span>
-    <span class="doccomment">/// call returns a null pointer. There are rare situations where `dlsym` returns a genuine null</span>
-    <span class="doccomment">/// pointer without it being an error. If loading a null pointer is something you care about,</span>
-    <span class="doccomment">/// consider using the [`os::unix::Library::get_singlethreaded`] call.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`os::unix::Library::get_singlethreaded`]: crate::os::unix::Library::get_singlethreaded</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Given a loaded library:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```no_run</span>
-    <span class="doccomment">/// # use ::libloading::Library;</span>
-    <span class="doccomment">/// let lib = unsafe {</span>
-    <span class="doccomment">///     Library::new(&quot;/path/to/awesome.module&quot;).unwrap()</span>
-    <span class="doccomment">/// };</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Loading and using a function looks like this:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```no_run</span>
-    <span class="doccomment">/// # use ::libloading::{Library, Symbol};</span>
-    <span class="doccomment">/// # let lib = unsafe {</span>
-    <span class="doccomment">/// #     Library::new(&quot;/path/to/awesome.module&quot;).unwrap()</span>
-    <span class="doccomment">/// # };</span>
-    <span class="doccomment">/// unsafe {</span>
-    <span class="doccomment">///     let awesome_function: Symbol&lt;unsafe extern fn(f64) -&gt; f64&gt; =</span>
-    <span class="doccomment">///         lib.get(b&quot;awesome_function\0&quot;).unwrap();</span>
-    <span class="doccomment">///     awesome_function(0.42);</span>
-    <span class="doccomment">/// }</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// A static variable may also be loaded and inspected:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```no_run</span>
-    <span class="doccomment">/// # use ::libloading::{Library, Symbol};</span>
-    <span class="doccomment">/// # let lib = unsafe { Library::new(&quot;/path/to/awesome.module&quot;).unwrap() };</span>
-    <span class="doccomment">/// unsafe {</span>
-    <span class="doccomment">///     let awesome_variable: Symbol&lt;*mut f64&gt; = lib.get(b&quot;awesome_variable\0&quot;).unwrap();</span>
-    <span class="doccomment">///     **awesome_variable = 42.0;</span>
-    <span class="doccomment">/// };</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;lib</span> <span class="self">self</span>, <span class="ident">symbol</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Symbol</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">get</span>(<span class="ident">symbol</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">from</span><span class="op">|</span> <span class="ident">Symbol::from_raw</span>(<span class="ident">from</span>, <span class="self">self</span>))
+    <span class="doccomment">/// Get a pointer to a function or static variable by symbol name.
+    ///
+    /// The `symbol` may not contain any null bytes, with the exception of the last byte. Providing a
+    /// null-terminated `symbol` may help to avoid an allocation.
+    ///
+    /// The symbol is interpreted as-is; no mangling is done. This means that symbols like `x::y` are
+    /// most likely invalid.
+    ///
+    /// # Safety
+    ///
+    /// Users of this API must specify the correct type of the function or variable loaded.
+    ///
+    /// # Platform-specific behaviour
+    ///
+    /// The implementation of thread-local variables is extremely platform specific and uses of such
+    /// variables that work on e.g. Linux may have unintended behaviour on other targets.
+    ///
+    /// On POSIX implementations where the `dlerror` function is not confirmed to be MT-safe (such
+    /// as FreeBSD), this function will unconditionally return an error when the underlying `dlsym`
+    /// call returns a null pointer. There are rare situations where `dlsym` returns a genuine null
+    /// pointer without it being an error. If loading a null pointer is something you care about,
+    /// consider using the [`os::unix::Library::get_singlethreaded`] call.
+    ///
+    /// [`os::unix::Library::get_singlethreaded`]: crate::os::unix::Library::get_singlethreaded
+    ///
+    /// # Examples
+    ///
+    /// Given a loaded library:
+    ///
+    /// ```no_run
+    /// # use ::libloading::Library;
+    /// let lib = unsafe {
+    ///     Library::new(&quot;/path/to/awesome.module&quot;).unwrap()
+    /// };
+    /// ```
+    ///
+    /// Loading and using a function looks like this:
+    ///
+    /// ```no_run
+    /// # use ::libloading::{Library, Symbol};
+    /// # let lib = unsafe {
+    /// #     Library::new(&quot;/path/to/awesome.module&quot;).unwrap()
+    /// # };
+    /// unsafe {
+    ///     let awesome_function: Symbol&lt;unsafe extern fn(f64) -&gt; f64&gt; =
+    ///         lib.get(b&quot;awesome_function\0&quot;).unwrap();
+    ///     awesome_function(0.42);
+    /// }
+    /// ```
+    ///
+    /// A static variable may also be loaded and inspected:
+    ///
+    /// ```no_run
+    /// # use ::libloading::{Library, Symbol};
+    /// # let lib = unsafe { Library::new(&quot;/path/to/awesome.module&quot;).unwrap() };
+    /// unsafe {
+    ///     let awesome_variable: Symbol&lt;*mut f64&gt; = lib.get(b&quot;awesome_variable\0&quot;).unwrap();
+    ///     **awesome_variable = 42.0;
+    /// };
+    /// ```
+    </span><span class="kw">pub unsafe fn </span>get&lt;<span class="lifetime">&#39;lib</span>, T&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;lib </span><span class="self">self</span>, symbol: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;Symbol&lt;<span class="lifetime">&#39;lib</span>, T&gt;, Error&gt; {
+        <span class="self">self</span>.<span class="number">0</span>.get(symbol).map(|from| Symbol::from_raw(from, <span class="self">self</span>))
     }
 
-    <span class="doccomment">/// Unload the library.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method might be a no-op, depending on the flags with which the `Library` was opened,</span>
-    <span class="doccomment">/// what library was opened or other platform specifics.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// You only need to call this if you are interested in handling any errors that may arise when</span>
-    <span class="doccomment">/// library is unloaded. Otherwise the implementation of `Drop` for `Library` will close the</span>
-    <span class="doccomment">/// library and ignore the errors were they arise.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The underlying data structures may still get leaked if an error does occur.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">close</span>(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">close</span>()
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">Library</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">fmt</span>(<span class="ident">f</span>)
+    <span class="doccomment">/// Unload the library.
+    ///
+    /// This method might be a no-op, depending on the flags with which the `Library` was opened,
+    /// what library was opened or other platform specifics.
+    ///
+    /// You only need to call this if you are interested in handling any errors that may arise when
+    /// library is unloaded. Otherwise the implementation of `Drop` for `Library` will close the
+    /// library and ignore the errors were they arise.
+    ///
+    /// The underlying data structures may still get leaked if an error does occur.
+    </span><span class="kw">pub fn </span>close(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
+        <span class="self">self</span>.<span class="number">0</span>.close()
     }
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">imp::Library</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Library</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">lib</span>: <span class="ident">imp::Library</span>) -&gt; <span class="ident">Library</span> {
-        <span class="ident">Library</span>(<span class="ident">lib</span>)
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>Library {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
+        <span class="self">self</span>.<span class="number">0</span>.fmt(f)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Library</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">imp::Library</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">lib</span>: <span class="ident">Library</span>) -&gt; <span class="ident">imp::Library</span> {
-        <span class="ident">lib</span>.<span class="number">0</span>
+<span class="kw">impl </span>From&lt;imp::Library&gt; <span class="kw">for </span>Library {
+    <span class="kw">fn </span>from(lib: imp::Library) -&gt; Library {
+        Library(lib)
     }
 }
 
-<span class="kw">unsafe</span> <span class="kw">impl</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">Library</span> {}
-<span class="kw">unsafe</span> <span class="kw">impl</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">Library</span> {}
-
-<span class="doccomment">/// Symbol from a library.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This type is a safeguard against using dynamically loaded symbols after a `Library` is</span>
-<span class="doccomment">/// unloaded. The primary method to create an instance of a `Symbol` is via [`Library::get`].</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The `Deref` trait implementation allows the use of `Symbol` as if it was a function or variable</span>
-<span class="doccomment">/// itself, without taking care to “extract” the function or variable manually most of the time.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// [`Library::get`]: Library::get</span>
-<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">libloading_docs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">unix</span>, <span class="ident">windows</span>))))]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Symbol</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span>: <span class="lifetime">&#39;lib</span><span class="op">&gt;</span> {
-    <span class="ident">inner</span>: <span class="ident">imp::Symbol</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
-    <span class="ident">pd</span>: <span class="ident">marker::PhantomData</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;lib</span> <span class="ident">T</span><span class="op">&gt;</span>,
+<span class="kw">impl </span>From&lt;Library&gt; <span class="kw">for </span>imp::Library {
+    <span class="kw">fn </span>from(lib: Library) -&gt; imp::Library {
+        lib.<span class="number">0
+    </span>}
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Symbol</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Extract the wrapped `os::platform::Symbol`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Using this function relinquishes all the lifetime guarantees. It is up to the developer to</span>
-    <span class="doccomment">/// ensure the resulting `Symbol` is not used past the lifetime of the `Library` this symbol</span>
-    <span class="doccomment">/// was loaded from.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```no_run</span>
-    <span class="doccomment">/// # use ::libloading::{Library, Symbol};</span>
-    <span class="doccomment">/// unsafe {</span>
-    <span class="doccomment">///     let lib = Library::new(&quot;/path/to/awesome.module&quot;).unwrap();</span>
-    <span class="doccomment">///     let symbol: Symbol&lt;*mut u32&gt; = lib.get(b&quot;symbol\0&quot;).unwrap();</span>
-    <span class="doccomment">///     let symbol = symbol.into_raw();</span>
-    <span class="doccomment">/// }</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">into_raw</span>(<span class="self">self</span>) -&gt; <span class="ident">imp::Symbol</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">inner</span>
+<span class="kw">unsafe impl </span>Send <span class="kw">for </span>Library {}
+<span class="kw">unsafe impl </span>Sync <span class="kw">for </span>Library {}
+
+<span class="doccomment">/// Symbol from a library.
+///
+/// This type is a safeguard against using dynamically loaded symbols after a `Library` is
+/// unloaded. The primary method to create an instance of a `Symbol` is via [`Library::get`].
+///
+/// The `Deref` trait implementation allows the use of `Symbol` as if it was a function or variable
+/// itself, without taking care to “extract” the function or variable manually most of the time.
+///
+/// [`Library::get`]: Library::get
+</span><span class="attribute">#[cfg_attr(libloading_docs, doc(cfg(any(unix, windows))))]
+</span><span class="kw">pub struct </span>Symbol&lt;<span class="lifetime">&#39;lib</span>, T: <span class="lifetime">&#39;lib</span>&gt; {
+    inner: imp::Symbol&lt;T&gt;,
+    pd: marker::PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;lib </span>T&gt;,
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;lib</span>, T&gt; Symbol&lt;<span class="lifetime">&#39;lib</span>, T&gt; {
+    <span class="doccomment">/// Extract the wrapped `os::platform::Symbol`.
+    ///
+    /// # Safety
+    ///
+    /// Using this function relinquishes all the lifetime guarantees. It is up to the developer to
+    /// ensure the resulting `Symbol` is not used past the lifetime of the `Library` this symbol
+    /// was loaded from.
+    ///
+    /// # Examples
+    ///
+    /// ```no_run
+    /// # use ::libloading::{Library, Symbol};
+    /// unsafe {
+    ///     let lib = Library::new(&quot;/path/to/awesome.module&quot;).unwrap();
+    ///     let symbol: Symbol&lt;*mut u32&gt; = lib.get(b&quot;symbol\0&quot;).unwrap();
+    ///     let symbol = symbol.into_raw();
+    /// }
+    /// ```
+    </span><span class="kw">pub unsafe fn </span>into_raw(<span class="self">self</span>) -&gt; imp::Symbol&lt;T&gt; {
+        <span class="self">self</span>.inner
     }
 
-    <span class="doccomment">/// Wrap the `os::platform::Symbol` into this safe wrapper.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Note that, in order to create association between the symbol and the library this symbol</span>
-    <span class="doccomment">/// came from, this function requires a reference to the library.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The `library` reference must be exactly the library `sym` was loaded from.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```no_run</span>
-    <span class="doccomment">/// # use ::libloading::{Library, Symbol};</span>
-    <span class="doccomment">/// unsafe {</span>
-    <span class="doccomment">///     let lib = Library::new(&quot;/path/to/awesome.module&quot;).unwrap();</span>
-    <span class="doccomment">///     let symbol: Symbol&lt;*mut u32&gt; = lib.get(b&quot;symbol\0&quot;).unwrap();</span>
-    <span class="doccomment">///     let symbol = symbol.into_raw();</span>
-    <span class="doccomment">///     let symbol = Symbol::from_raw(symbol, &amp;lib);</span>
-    <span class="doccomment">/// }</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">from_raw</span><span class="op">&lt;</span><span class="ident">L</span><span class="op">&gt;</span>(<span class="ident">sym</span>: <span class="ident">imp::Symbol</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>, <span class="ident">library</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;lib</span> <span class="ident">L</span>) -&gt; <span class="ident">Symbol</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">library</span>; <span class="comment">// ignore here for documentation purposes.</span>
-        <span class="ident">Symbol</span> {
-            <span class="ident">inner</span>: <span class="ident">sym</span>,
-            <span class="ident">pd</span>: <span class="ident">marker::PhantomData</span>,
+    <span class="doccomment">/// Wrap the `os::platform::Symbol` into this safe wrapper.
+    ///
+    /// Note that, in order to create association between the symbol and the library this symbol
+    /// came from, this function requires a reference to the library.
+    ///
+    /// # Safety
+    ///
+    /// The `library` reference must be exactly the library `sym` was loaded from.
+    ///
+    /// # Examples
+    ///
+    /// ```no_run
+    /// # use ::libloading::{Library, Symbol};
+    /// unsafe {
+    ///     let lib = Library::new(&quot;/path/to/awesome.module&quot;).unwrap();
+    ///     let symbol: Symbol&lt;*mut u32&gt; = lib.get(b&quot;symbol\0&quot;).unwrap();
+    ///     let symbol = symbol.into_raw();
+    ///     let symbol = Symbol::from_raw(symbol, &amp;lib);
+    /// }
+    /// ```
+    </span><span class="kw">pub unsafe fn </span>from_raw&lt;L&gt;(sym: imp::Symbol&lt;T&gt;, library: <span class="kw-2">&amp;</span><span class="lifetime">&#39;lib </span>L) -&gt; Symbol&lt;<span class="lifetime">&#39;lib</span>, T&gt; {
+        <span class="kw">let _ </span>= library; <span class="comment">// ignore here for documentation purposes.
+        </span>Symbol {
+            inner: sym,
+            pd: marker::PhantomData,
         }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Symbol</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Lift Option out of the symbol.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```no_run</span>
-    <span class="doccomment">/// # use ::libloading::{Library, Symbol};</span>
-    <span class="doccomment">/// unsafe {</span>
-    <span class="doccomment">///     let lib = Library::new(&quot;/path/to/awesome.module&quot;).unwrap();</span>
-    <span class="doccomment">///     let symbol: Symbol&lt;Option&lt;*mut u32&gt;&gt; = lib.get(b&quot;symbol\0&quot;).unwrap();</span>
-    <span class="doccomment">///     let symbol: Symbol&lt;*mut u32&gt; = symbol.lift_option().expect(&quot;static is not null&quot;);</span>
-    <span class="doccomment">/// }</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lift_option</span>(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Symbol</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">lift_option</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">is</span><span class="op">|</span> <span class="ident">Symbol</span> {
-            <span class="ident">inner</span>: <span class="ident">is</span>,
-            <span class="ident">pd</span>: <span class="ident">marker::PhantomData</span>,
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;lib</span>, T&gt; Symbol&lt;<span class="lifetime">&#39;lib</span>, <span class="prelude-ty">Option</span>&lt;T&gt;&gt; {
+    <span class="doccomment">/// Lift Option out of the symbol.
+    ///
+    /// # Examples
+    ///
+    /// ```no_run
+    /// # use ::libloading::{Library, Symbol};
+    /// unsafe {
+    ///     let lib = Library::new(&quot;/path/to/awesome.module&quot;).unwrap();
+    ///     let symbol: Symbol&lt;Option&lt;*mut u32&gt;&gt; = lib.get(b&quot;symbol\0&quot;).unwrap();
+    ///     let symbol: Symbol&lt;*mut u32&gt; = symbol.lift_option().expect(&quot;static is not null&quot;);
+    /// }
+    /// ```
+    </span><span class="kw">pub fn </span>lift_option(<span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Symbol&lt;<span class="lifetime">&#39;lib</span>, T&gt;&gt; {
+        <span class="self">self</span>.inner.lift_option().map(|is| Symbol {
+            inner: is,
+            pd: marker::PhantomData,
         })
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">Symbol</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Symbol</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="ident">Symbol</span> {
-            <span class="ident">inner</span>: <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">clone</span>(),
-            <span class="ident">pd</span>: <span class="ident">marker::PhantomData</span>,
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;lib</span>, T&gt; Clone <span class="kw">for </span>Symbol&lt;<span class="lifetime">&#39;lib</span>, T&gt; {
+    <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Symbol&lt;<span class="lifetime">&#39;lib</span>, T&gt; {
+        Symbol {
+            inner: <span class="self">self</span>.inner.clone(),
+            pd: marker::PhantomData,
         }
     }
 }
 
-<span class="comment">// FIXME: implement FnOnce for callable stuff instead.</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">ops::Deref</span> <span class="kw">for</span> <span class="ident">Symbol</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> <span class="ident">T</span>;
-    <span class="kw">fn</span> <span class="ident">deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">T</span> {
-        <span class="ident">ops::Deref::deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">inner</span>)
+<span class="comment">// FIXME: implement FnOnce for callable stuff instead.
+</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;lib</span>, T&gt; ops::Deref <span class="kw">for </span>Symbol&lt;<span class="lifetime">&#39;lib</span>, T&gt; {
+    <span class="kw">type </span>Target = T;
+    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>T {
+        ops::Deref::deref(<span class="kw-2">&amp;</span><span class="self">self</span>.inner)
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span><span class="op">&gt;</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">Symbol</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">fmt</span>(<span class="ident">f</span>)
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;lib</span>, T&gt; fmt::Debug <span class="kw">for </span>Symbol&lt;<span class="lifetime">&#39;lib</span>, T&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
+        <span class="self">self</span>.inner.fmt(f)
     }
 }
 
-<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span>: <span class="ident">Send</span><span class="op">&gt;</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">Symbol</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span><span class="op">&gt;</span> {}
-<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span>: <span class="ident">Sync</span><span class="op">&gt;</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">Symbol</span><span class="op">&lt;</span><span class="lifetime">&#39;lib</span>, <span class="ident">T</span><span class="op">&gt;</span> {}
+<span class="kw">unsafe impl</span>&lt;<span class="lifetime">&#39;lib</span>, T: Send&gt; Send <span class="kw">for </span>Symbol&lt;<span class="lifetime">&#39;lib</span>, T&gt; {}
+<span class="kw">unsafe impl</span>&lt;<span class="lifetime">&#39;lib</span>, T: Sync&gt; Sync <span class="kw">for </span>Symbol&lt;<span class="lifetime">&#39;lib</span>, T&gt; {}
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="libloading" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="libloading" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

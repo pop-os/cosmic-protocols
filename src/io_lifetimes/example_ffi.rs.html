@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.0-rc1/src/example_ffi.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>example_ffi.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../io_lifetimes/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../io_lifetimes/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../io_lifetimes/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.0-rc1/src/example_ffi.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>example_ffi.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../io_lifetimes/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../io_lifetimes/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../io_lifetimes/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -73,80 +73,80 @@
 <span id="73">73</span>
 <span id="74">74</span>
 <span id="75">75</span>
-</pre><pre class="rust"><code><span class="doccomment">//! This is just a sample of what FFI using this crate can look like.</span>
+</pre><pre class="rust"><code><span class="doccomment">//! This is just a sample of what FFI using this crate can look like.
 
-<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">rustc_attrs</span>), <span class="ident">allow</span>(<span class="ident">unused_imports</span>))]</span>
-<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
+</span><span class="attribute">#![cfg_attr(not(rustc_attrs), allow(unused_imports))]
+#![allow(missing_docs)]
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">unix</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;wasi&quot;</span>))]</span>
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">BorrowedFd</span>, <span class="ident">OwnedFd</span>};
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">BorrowedHandle</span>, <span class="ident">HandleOrInvalid</span>};
+#[cfg(any(unix, target_os = <span class="string">&quot;wasi&quot;</span>))]
+</span><span class="kw">use crate</span>::{BorrowedFd, OwnedFd};
+<span class="attribute">#[cfg(windows)]
+</span><span class="kw">use crate</span>::{BorrowedHandle, HandleOrInvalid};
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">unix</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;wasi&quot;</span>))]</span>
-<span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">c_char</span>, <span class="ident">c_int</span>, <span class="ident">c_void</span>, <span class="ident">size_t</span>, <span class="ident">ssize_t</span>};
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
-<span class="kw">use</span> {
-    <span class="ident">core::ffi::c_void</span>,
-    <span class="ident">windows_sys::core::PCWSTR</span>,
-    <span class="ident">windows_sys::Win32::Foundation::BOOL</span>,
-    <span class="ident">windows_sys::Win32::Security::SECURITY_ATTRIBUTES</span>,
-    <span class="ident">windows_sys::Win32::Storage::FileSystem</span>::{
-        <span class="ident">FILE_ACCESS_FLAGS</span>, <span class="ident">FILE_CREATION_DISPOSITION</span>, <span class="ident">FILE_FLAGS_AND_ATTRIBUTES</span>, <span class="ident">FILE_SHARE_MODE</span>,
+<span class="attribute">#[cfg(any(unix, target_os = <span class="string">&quot;wasi&quot;</span>))]
+</span><span class="kw">use </span>libc::{c_char, c_int, c_void, size_t, ssize_t};
+<span class="attribute">#[cfg(windows)]
+</span><span class="kw">use </span>{
+    core::ffi::c_void,
+    windows_sys::core::PCWSTR,
+    windows_sys::Win32::Foundation::BOOL,
+    windows_sys::Win32::Security::SECURITY_ATTRIBUTES,
+    windows_sys::Win32::Storage::FileSystem::{
+        FILE_ACCESS_FLAGS, FILE_CREATION_DISPOSITION, FILE_FLAGS_AND_ATTRIBUTES, FILE_SHARE_MODE,
     },
-    <span class="ident">windows_sys::Win32::System::IO::OVERLAPPED</span>,
+    windows_sys::Win32::System::IO::OVERLAPPED,
 };
 
-<span class="comment">// Declare a few FFI functions ourselves, to show off the FFI ergonomics.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">rustc_attrs</span>, <span class="ident">any</span>(<span class="ident">unix</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;wasi&quot;</span>)))]</span>
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">open</span>(<span class="ident">pathname</span>: <span class="kw-2">*const</span> <span class="ident">c_char</span>, <span class="ident">flags</span>: <span class="ident">c_int</span>, ...) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">OwnedFd</span><span class="op">&gt;</span>;
+<span class="comment">// Declare a few FFI functions ourselves, to show off the FFI ergonomics.
+</span><span class="attribute">#[cfg(all(rustc_attrs, any(unix, target_os = <span class="string">&quot;wasi&quot;</span>)))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="kw">pub fn </span>open(pathname: <span class="kw-2">*const </span>c_char, flags: c_int, ...) -&gt; <span class="prelude-ty">Option</span>&lt;OwnedFd&gt;;
 }
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">unix</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;wasi&quot;</span>))]</span>
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read</span>(<span class="ident">fd</span>: <span class="ident">BorrowedFd</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">ptr</span>: <span class="kw-2">*mut</span> <span class="ident">c_void</span>, <span class="ident">size</span>: <span class="ident">size_t</span>) -&gt; <span class="ident">ssize_t</span>;
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write</span>(<span class="ident">fd</span>: <span class="ident">BorrowedFd</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>, <span class="ident">ptr</span>: <span class="kw-2">*const</span> <span class="ident">c_void</span>, <span class="ident">size</span>: <span class="ident">size_t</span>) -&gt; <span class="ident">ssize_t</span>;
+<span class="attribute">#[cfg(any(unix, target_os = <span class="string">&quot;wasi&quot;</span>))]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
+    <span class="kw">pub fn </span>read(fd: BorrowedFd&lt;<span class="lifetime">&#39;_</span>&gt;, ptr: <span class="kw-2">*mut </span>c_void, size: size_t) -&gt; ssize_t;
+    <span class="kw">pub fn </span>write(fd: BorrowedFd&lt;<span class="lifetime">&#39;_</span>&gt;, ptr: <span class="kw-2">*const </span>c_void, size: size_t) -&gt; ssize_t;
 }
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">unix</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;wasi&quot;</span>))]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">libc</span>::{<span class="ident">O_CLOEXEC</span>, <span class="ident">O_CREAT</span>, <span class="ident">O_RDONLY</span>, <span class="ident">O_RDWR</span>, <span class="ident">O_TRUNC</span>, <span class="ident">O_WRONLY</span>};
+<span class="attribute">#[cfg(any(unix, target_os = <span class="string">&quot;wasi&quot;</span>))]
+</span><span class="kw">pub use </span>libc::{O_CLOEXEC, O_CREAT, O_RDONLY, O_RDWR, O_TRUNC, O_WRONLY};
 
-<span class="comment">// The Windows analogs of the above. Note the use of [`HandleOrInvalid`] as</span>
-<span class="comment">// the return type for `CreateFileW`, since that function is defined to return</span>
-<span class="comment">// [`INVALID_HANDLE_VALUE`] on error instead of null.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
-<span class="kw">extern</span> <span class="string">&quot;system&quot;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">CreateFileW</span>(
-        <span class="ident">lpfilename</span>: <span class="ident">PCWSTR</span>,
-        <span class="ident">dwdesiredaccess</span>: <span class="ident">FILE_ACCESS_FLAGS</span>,
-        <span class="ident">dwsharemode</span>: <span class="ident">FILE_SHARE_MODE</span>,
-        <span class="ident">lpsecurityattributes</span>: <span class="kw-2">*const</span> <span class="ident">SECURITY_ATTRIBUTES</span>,
-        <span class="ident">dwcreationdisposition</span>: <span class="ident">FILE_CREATION_DISPOSITION</span>,
-        <span class="ident">dwflagsandattributes</span>: <span class="ident">FILE_FLAGS_AND_ATTRIBUTES</span>,
-        <span class="ident">htemplatefile</span>: <span class="ident">HANDLE</span>,
-    ) -&gt; <span class="ident">HandleOrInvalid</span>;
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">ReadFile</span>(
-        <span class="ident">hfile</span>: <span class="ident">BorrowedHandle</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-        <span class="ident">lpbuffer</span>: <span class="kw-2">*mut</span> <span class="ident">c_void</span>,
-        <span class="ident">nnumberofbytestoread</span>: <span class="ident">u32</span>,
-        <span class="ident">lpnumberofbytesread</span>: <span class="kw-2">*mut</span> <span class="ident">u32</span>,
-        <span class="ident">lpoverlapped</span>: <span class="kw-2">*mut</span> <span class="ident">OVERLAPPED</span>,
-    ) -&gt; <span class="ident">BOOL</span>;
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">WriteFile</span>(
-        <span class="ident">hfile</span>: <span class="ident">BorrowedHandle</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
-        <span class="ident">lpbuffer</span>: <span class="kw-2">*const</span> <span class="ident">c_void</span>,
-        <span class="ident">nnumberofbytestowrite</span>: <span class="ident">u32</span>,
-        <span class="ident">lpnumberofbyteswritten</span>: <span class="kw-2">*mut</span> <span class="ident">u32</span>,
-        <span class="ident">lpoverlapped</span>: <span class="kw-2">*mut</span> <span class="ident">OVERLAPPED</span>,
-    ) -&gt; <span class="ident">BOOL</span>;
+<span class="comment">// The Windows analogs of the above. Note the use of [`HandleOrInvalid`] as
+// the return type for `CreateFileW`, since that function is defined to return
+// [`INVALID_HANDLE_VALUE`] on error instead of null.
+</span><span class="attribute">#[cfg(windows)]
+</span><span class="kw">extern </span><span class="string">&quot;system&quot; </span>{
+    <span class="kw">pub fn </span>CreateFileW(
+        lpfilename: PCWSTR,
+        dwdesiredaccess: FILE_ACCESS_FLAGS,
+        dwsharemode: FILE_SHARE_MODE,
+        lpsecurityattributes: <span class="kw-2">*const </span>SECURITY_ATTRIBUTES,
+        dwcreationdisposition: FILE_CREATION_DISPOSITION,
+        dwflagsandattributes: FILE_FLAGS_AND_ATTRIBUTES,
+        htemplatefile: HANDLE,
+    ) -&gt; HandleOrInvalid;
+    <span class="kw">pub fn </span>ReadFile(
+        hfile: BorrowedHandle&lt;<span class="lifetime">&#39;_</span>&gt;,
+        lpbuffer: <span class="kw-2">*mut </span>c_void,
+        nnumberofbytestoread: u32,
+        lpnumberofbytesread: <span class="kw-2">*mut </span>u32,
+        lpoverlapped: <span class="kw-2">*mut </span>OVERLAPPED,
+    ) -&gt; BOOL;
+    <span class="kw">pub fn </span>WriteFile(
+        hfile: BorrowedHandle&lt;<span class="lifetime">&#39;_</span>&gt;,
+        lpbuffer: <span class="kw-2">*const </span>c_void,
+        nnumberofbytestowrite: u32,
+        lpnumberofbyteswritten: <span class="kw-2">*mut </span>u32,
+        lpoverlapped: <span class="kw-2">*mut </span>OVERLAPPED,
+    ) -&gt; BOOL;
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> {
-    <span class="ident">windows_sys::Win32::Foundation::HANDLE</span>,
-    <span class="ident">windows_sys::Win32::Storage::FileSystem</span>::{
-        <span class="ident">CREATE_ALWAYS</span>, <span class="ident">CREATE_NEW</span>, <span class="ident">FILE_ATTRIBUTE_NORMAL</span>, <span class="ident">FILE_GENERIC_READ</span>, <span class="ident">FILE_GENERIC_WRITE</span>,
-        <span class="ident">OPEN_EXISTING</span>,
+<span class="attribute">#[cfg(windows)]
+</span><span class="kw">pub use </span>{
+    windows_sys::Win32::Foundation::HANDLE,
+    windows_sys::Win32::Storage::FileSystem::{
+        CREATE_ALWAYS, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, FILE_GENERIC_READ, FILE_GENERIC_WRITE,
+        OPEN_EXISTING,
     },
 };
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="io_lifetimes" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="io_lifetimes" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

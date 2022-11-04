@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-server-0.30.0-beta.10/src/global.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>global.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_server/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_server/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_server/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-server-0.30.0-beta.10/src/global.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>global.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_server/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_server/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_server/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -233,240 +233,240 @@
 <span id="233">233</span>
 <span id="234">234</span>
 <span id="235">235</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::sync::Arc</span>;
+</pre><pre class="rust"><code><span class="kw">use </span>std::sync::Arc;
 
-<span class="kw">use</span> <span class="ident">wayland_backend::server</span>::{
-    <span class="ident">ClientData</span>, <span class="ident">ClientId</span>, <span class="ident">GlobalHandler</span>, <span class="ident">GlobalId</span>, <span class="ident">Handle</span>, <span class="ident">ObjectData</span>, <span class="ident">ObjectId</span>,
+<span class="kw">use </span>wayland_backend::server::{
+    ClientData, ClientId, GlobalHandler, GlobalId, Handle, ObjectData, ObjectId,
 };
 
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">Client</span>, <span class="ident">DataInit</span>, <span class="ident">DisplayHandle</span>, <span class="ident">New</span>, <span class="ident">Resource</span>};
+<span class="kw">use crate</span>::{Client, DataInit, DisplayHandle, New, Resource};
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">GlobalData</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">D</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">data</span>: <span class="ident">U</span>,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">_types</span>: <span class="ident">std::marker::PhantomData</span><span class="op">&lt;</span>(<span class="ident">I</span>, <span class="ident">D</span>)<span class="op">&gt;</span>,
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>GlobalData&lt;I, U, D&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) data: U,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) _types: std::marker::PhantomData&lt;(I, D)&gt;,
 }
 
-<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">D</span>, <span class="ident">U</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">GlobalData</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">D</span><span class="op">&gt;</span> {}
-<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">D</span>, <span class="ident">U</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">GlobalData</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">D</span><span class="op">&gt;</span> {}
+<span class="kw">unsafe impl</span>&lt;I, D, U: Send + Sync&gt; Send <span class="kw">for </span>GlobalData&lt;I, U, D&gt; {}
+<span class="kw">unsafe impl</span>&lt;I, D, U: Send + Sync&gt; Sync <span class="kw">for </span>GlobalData&lt;I, U, D&gt; {}
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Resource</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>, <span class="ident">U</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>, <span class="ident">D</span>: <span class="ident">GlobalDispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>
-    <span class="ident">GlobalHandler</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">GlobalData</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span>, <span class="ident">D</span><span class="op">&gt;</span>
+<span class="kw">impl</span>&lt;I: Resource + <span class="lifetime">&#39;static</span>, U: Send + Sync + <span class="lifetime">&#39;static</span>, D: GlobalDispatch&lt;I, U&gt; + <span class="lifetime">&#39;static</span>&gt;
+    GlobalHandler&lt;D&gt; <span class="kw">for </span>GlobalData&lt;I, U, D&gt;
 {
-    <span class="kw">fn</span> <span class="ident">can_view</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">ClientId</span>, <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ClientData</span><span class="op">&gt;</span>, <span class="kw">_</span>: <span class="ident">GlobalId</span>) -&gt; <span class="ident">bool</span> {
-        <span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> <span class="ident">Client</span> { <span class="ident">id</span>, <span class="ident">data</span>: <span class="ident">data</span>.<span class="ident">clone</span>() };
-        <span class="op">&lt;</span><span class="ident">D</span> <span class="kw">as</span> <span class="ident">GlobalDispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::can_view</span>(<span class="ident">client</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data</span>)
+    <span class="kw">fn </span>can_view(<span class="kw-2">&amp;</span><span class="self">self</span>, id: ClientId, data: <span class="kw-2">&amp;</span>Arc&lt;<span class="kw">dyn </span>ClientData&gt;, <span class="kw">_</span>: GlobalId) -&gt; bool {
+        <span class="kw">let </span>client = Client { id, data: data.clone() };
+        &lt;D <span class="kw">as </span>GlobalDispatch&lt;I, U&gt;&gt;::can_view(client, <span class="kw-2">&amp;</span><span class="self">self</span>.data)
     }
 
-    <span class="kw">fn</span> <span class="ident">bind</span>(
-        <span class="self">self</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
-        <span class="ident">handle</span>: <span class="kw-2">&amp;</span><span class="ident">Handle</span>,
-        <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>,
-        <span class="ident">client_id</span>: <span class="ident">ClientId</span>,
-        <span class="kw">_</span>: <span class="ident">GlobalId</span>,
-        <span class="ident">object_id</span>: <span class="ident">ObjectId</span>,
-    ) -&gt; <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">handle</span> <span class="op">=</span> <span class="ident">DisplayHandle::from</span>(<span class="ident">handle</span>.<span class="ident">clone</span>());
-        <span class="kw">let</span> <span class="ident">client</span> <span class="op">=</span> <span class="ident">Client::from_id</span>(<span class="kw-2">&amp;</span><span class="ident">handle</span>, <span class="ident">client_id</span>).<span class="ident">expect</span>(<span class="string">&quot;Dead client in bind ?!&quot;</span>);
-        <span class="kw">let</span> <span class="ident">resource</span> <span class="op">=</span> <span class="op">&lt;</span><span class="ident">I</span> <span class="kw">as</span> <span class="ident">Resource</span><span class="op">&gt;</span><span class="ident">::from_id</span>(<span class="kw-2">&amp;</span><span class="ident">handle</span>, <span class="ident">object_id</span>)
-            .<span class="ident">expect</span>(<span class="string">&quot;Wrong object_id in GlobalHandler ?!&quot;</span>);
+    <span class="kw">fn </span>bind(
+        <span class="self">self</span>: Arc&lt;<span class="self">Self</span>&gt;,
+        handle: <span class="kw-2">&amp;</span>Handle,
+        data: <span class="kw-2">&amp;mut </span>D,
+        client_id: ClientId,
+        <span class="kw">_</span>: GlobalId,
+        object_id: ObjectId,
+    ) -&gt; Arc&lt;<span class="kw">dyn </span>ObjectData&lt;D&gt;&gt; {
+        <span class="kw">let </span>handle = DisplayHandle::from(handle.clone());
+        <span class="kw">let </span>client = Client::from_id(<span class="kw-2">&amp;</span>handle, client_id).expect(<span class="string">&quot;Dead client in bind ?!&quot;</span>);
+        <span class="kw">let </span>resource = &lt;I <span class="kw">as </span>Resource&gt;::from_id(<span class="kw-2">&amp;</span>handle, object_id)
+            .expect(<span class="string">&quot;Wrong object_id in GlobalHandler ?!&quot;</span>);
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_data</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>new_data = <span class="prelude-val">None</span>;
 
-        <span class="op">&lt;</span><span class="ident">D</span> <span class="kw">as</span> <span class="ident">GlobalDispatch</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::bind</span>(
-            <span class="ident">data</span>,
-            <span class="kw-2">&amp;</span><span class="ident">handle</span>,
-            <span class="kw-2">&amp;</span><span class="ident">client</span>,
-            <span class="ident">New::wrap</span>(<span class="ident">resource</span>),
-            <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data</span>,
-            <span class="kw-2">&amp;mut</span> <span class="ident">DataInit</span> { <span class="ident">store</span>: <span class="kw-2">&amp;mut</span> <span class="ident">new_data</span> },
+        &lt;D <span class="kw">as </span>GlobalDispatch&lt;I, U&gt;&gt;::bind(
+            data,
+            <span class="kw-2">&amp;</span>handle,
+            <span class="kw-2">&amp;</span>client,
+            New::wrap(resource),
+            <span class="kw-2">&amp;</span><span class="self">self</span>.data,
+            <span class="kw-2">&amp;mut </span>DataInit { store: <span class="kw-2">&amp;mut </span>new_data },
         );
 
-        <span class="kw">match</span> <span class="ident">new_data</span> {
-            <span class="prelude-val">Some</span>(<span class="ident">data</span>) =&gt; <span class="ident">data</span>,
-            <span class="prelude-val">None</span> =&gt; <span class="macro">panic!</span>(
+        <span class="kw">match </span>new_data {
+            <span class="prelude-val">Some</span>(data) =&gt; data,
+            <span class="prelude-val">None </span>=&gt; <span class="macro">panic!</span>(
                 <span class="string">&quot;Bind callback for interface {} did not init new instance.&quot;</span>,
-                <span class="ident">I::interface</span>().<span class="ident">name</span>
+                I::interface().name
             ),
         }
     }
 }
 
-<span class="doccomment">/// A trait which provides an implementation for handling advertisement of a global to clients with some type</span>
-<span class="doccomment">/// of associated user data.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Its behavior is similar to the [`Dispatch`](crate::Dispatch) trait.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">GlobalDispatch</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Resource</span>, <span class="ident">GlobalData</span>, <span class="ident">State</span> <span class="op">=</span> <span class="self">Self</span><span class="op">&gt;</span>: <span class="ident">Sized</span> {
-    <span class="doccomment">/// Called when a client has bound this global.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The return value of this function should contain user data to associate the object created by the</span>
-    <span class="doccomment">/// client.</span>
-    <span class="kw">fn</span> <span class="ident">bind</span>(
-        <span class="ident">state</span>: <span class="kw-2">&amp;mut</span> <span class="ident">State</span>,
-        <span class="ident">handle</span>: <span class="kw-2">&amp;</span><span class="ident">DisplayHandle</span>,
-        <span class="ident">client</span>: <span class="kw-2">&amp;</span><span class="ident">Client</span>,
-        <span class="ident">resource</span>: <span class="ident">New</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>,
-        <span class="ident">global_data</span>: <span class="kw-2">&amp;</span><span class="ident">GlobalData</span>,
-        <span class="ident">data_init</span>: <span class="kw-2">&amp;mut</span> <span class="ident">DataInit</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">State</span><span class="op">&gt;</span>,
+<span class="doccomment">/// A trait which provides an implementation for handling advertisement of a global to clients with some type
+/// of associated user data.
+///
+/// Its behavior is similar to the [`Dispatch`](crate::Dispatch) trait.
+</span><span class="kw">pub trait </span>GlobalDispatch&lt;I: Resource, GlobalData, State = <span class="self">Self</span>&gt;: Sized {
+    <span class="doccomment">/// Called when a client has bound this global.
+    ///
+    /// The return value of this function should contain user data to associate the object created by the
+    /// client.
+    </span><span class="kw">fn </span>bind(
+        state: <span class="kw-2">&amp;mut </span>State,
+        handle: <span class="kw-2">&amp;</span>DisplayHandle,
+        client: <span class="kw-2">&amp;</span>Client,
+        resource: New&lt;I&gt;,
+        global_data: <span class="kw-2">&amp;</span>GlobalData,
+        data_init: <span class="kw-2">&amp;mut </span>DataInit&lt;<span class="lifetime">&#39;_</span>, State&gt;,
     );
 
-    <span class="doccomment">/// Checks if the global should be advertised to some client.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The implementation of this function determines whether a client may see and bind some global. If this</span>
-    <span class="doccomment">/// function returns false, the client will not be told the global exists and attempts to bind the global</span>
-    <span class="doccomment">/// will raise a protocol error.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// One use of this function is implementing privileged protocols such as XWayland keyboard grabbing</span>
-    <span class="doccomment">/// which must only be used by XWayland.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The default implementation allows all clients to see the global.</span>
-    <span class="kw">fn</span> <span class="ident">can_view</span>(<span class="ident">_client</span>: <span class="ident">Client</span>, <span class="ident">_global_data</span>: <span class="kw-2">&amp;</span><span class="ident">GlobalData</span>) -&gt; <span class="ident">bool</span> {
-        <span class="bool-val">true</span>
-    }
+    <span class="doccomment">/// Checks if the global should be advertised to some client.
+    ///
+    /// The implementation of this function determines whether a client may see and bind some global. If this
+    /// function returns false, the client will not be told the global exists and attempts to bind the global
+    /// will raise a protocol error.
+    ///
+    /// One use of this function is implementing privileged protocols such as XWayland keyboard grabbing
+    /// which must only be used by XWayland.
+    ///
+    /// The default implementation allows all clients to see the global.
+    </span><span class="kw">fn </span>can_view(_client: Client, _global_data: <span class="kw-2">&amp;</span>GlobalData) -&gt; bool {
+        <span class="bool-val">true
+    </span>}
 }
 
 <span class="comment">/*
  * Dispatch delegation helpers
- */</span>
+ */
 
-<span class="doccomment">/// A helper macro which delegates a set of [`GlobalDispatch`] implementations for a resource to some other type which</span>
-<span class="doccomment">/// provdes a generic [`GlobalDispatch`] implementation.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Its usage is similar to the [`delegate_dispatch!`](crate::delegate_dispatch) macro.</span>
-<span class="attribute">#[<span class="ident">macro_export</span>]</span>
-<span class="macro">macro_rules!</span> <span class="ident">delegate_global_dispatch</span> {
-    ($(@<span class="op">&lt;</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">lt</span>:<span class="ident">tt</span> $( : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">clt</span>:<span class="ident">tt</span> $(<span class="op">+</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dlt</span>:<span class="ident">tt</span> )<span class="op">*</span> )<span class="question-mark">?</span> ),<span class="op">+</span> <span class="op">&gt;</span>)<span class="question-mark">?</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_from</span>:<span class="ident">ty</span> : [<span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>: <span class="ident">ty</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span>: <span class="ident">ty</span>] =&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_to</span>: <span class="ident">ty</span>) =&gt; {
-        <span class="kw">impl</span>$(<span class="op">&lt;</span> $( <span class="macro-nonterminal">$</span><span class="macro-nonterminal">lt</span> $( : <span class="macro-nonterminal">$</span><span class="macro-nonterminal">clt</span> $(<span class="op">+</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dlt</span> )<span class="op">*</span> )<span class="question-mark">?</span> ),<span class="op">+</span> <span class="op">&gt;</span>)<span class="question-mark">?</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::GlobalDispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_from</span> {
-            <span class="kw">fn</span> <span class="ident">bind</span>(
-                <span class="ident">state</span>: <span class="kw-2">&amp;mut</span> <span class="self">Self</span>,
-                <span class="ident">dhandle</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::DisplayHandle</span>,
-                <span class="ident">client</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Client</span>,
-                <span class="ident">resource</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::New</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span><span class="op">&gt;</span>,
-                <span class="ident">global_data</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span>,
-                <span class="ident">data_init</span>: <span class="kw-2">&amp;mut</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::DataInit</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="self">Self</span><span class="op">&gt;</span>,
+</span><span class="doccomment">/// A helper macro which delegates a set of [`GlobalDispatch`] implementations for a resource to some other type which
+/// provdes a generic [`GlobalDispatch`] implementation.
+///
+/// Its usage is similar to the [`delegate_dispatch!`](crate::delegate_dispatch) macro.
+</span><span class="attribute">#[macro_export]
+</span><span class="macro">macro_rules! </span>delegate_global_dispatch {
+    ($(@&lt; $( <span class="macro-nonterminal">$lt</span>:tt $( : <span class="macro-nonterminal">$clt</span>:tt $(+ <span class="macro-nonterminal">$dlt</span>:tt )* )<span class="question-mark">? </span>),+ &gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$dispatch_from</span>:ty : [<span class="macro-nonterminal">$interface</span>: ty: <span class="macro-nonterminal">$udata</span>: ty] =&gt; <span class="macro-nonterminal">$dispatch_to</span>: ty) =&gt; {
+        <span class="kw">impl</span>$(&lt; $( <span class="macro-nonterminal">$lt </span>$( : <span class="macro-nonterminal">$clt </span>$(+ <span class="macro-nonterminal">$dlt </span>)* )<span class="question-mark">? </span>),+ &gt;)<span class="question-mark">? </span><span class="macro-nonterminal">$crate::GlobalDispatch</span>&lt;<span class="macro-nonterminal">$interface</span>, <span class="macro-nonterminal">$udata</span>&gt; <span class="kw">for </span><span class="macro-nonterminal">$dispatch_from </span>{
+            <span class="kw">fn </span>bind(
+                state: <span class="kw-2">&amp;mut </span><span class="self">Self</span>,
+                dhandle: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::DisplayHandle</span>,
+                client: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$crate::Client</span>,
+                resource: <span class="macro-nonterminal">$crate::New</span>&lt;<span class="macro-nonterminal">$interface</span>&gt;,
+                global_data: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$udata</span>,
+                data_init: <span class="kw-2">&amp;mut </span><span class="macro-nonterminal">$crate::DataInit</span>&lt;<span class="lifetime">&#39;_</span>, <span class="self">Self</span>&gt;,
             ) {
-                <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_to</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::GlobalDispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span>, <span class="self">Self</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::bind</span>(<span class="ident">state</span>, <span class="ident">dhandle</span>, <span class="ident">client</span>, <span class="ident">resource</span>, <span class="ident">global_data</span>, <span class="ident">data_init</span>)
+                &lt;<span class="macro-nonterminal">$dispatch_to </span><span class="kw">as </span><span class="macro-nonterminal">$crate::GlobalDispatch</span>&lt;<span class="macro-nonterminal">$interface</span>, <span class="macro-nonterminal">$udata</span>, <span class="self">Self</span>&gt;&gt;::bind(state, dhandle, client, resource, global_data, data_init)
             }
 
-            <span class="kw">fn</span> <span class="ident">can_view</span>(<span class="ident">client</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Client</span>, <span class="ident">global_data</span>: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span>) -&gt; <span class="ident">bool</span> {
-                <span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">dispatch_to</span> <span class="kw">as</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::GlobalDispatch</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">interface</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">udata</span>, <span class="self">Self</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="ident">::can_view</span>(<span class="ident">client</span>, <span class="ident">global_data</span>)
+            <span class="kw">fn </span>can_view(client: <span class="macro-nonterminal">$crate::Client</span>, global_data: <span class="kw-2">&amp;</span><span class="macro-nonterminal">$udata</span>) -&gt; bool {
+                &lt;<span class="macro-nonterminal">$dispatch_to </span><span class="kw">as </span><span class="macro-nonterminal">$crate::GlobalDispatch</span>&lt;<span class="macro-nonterminal">$interface</span>, <span class="macro-nonterminal">$udata</span>, <span class="self">Self</span>&gt;&gt;::can_view(client, global_data)
             }
         }
     };
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">smoke_test_dispatch_global_dispatch</span>() {
-        <span class="kw">use</span> <span class="kw">crate</span>::{
-            <span class="ident">delegate_dispatch</span>, <span class="ident">protocol::wl_output</span>, <span class="ident">Client</span>, <span class="ident">DataInit</span>, <span class="ident">Dispatch</span>, <span class="ident">DisplayHandle</span>,
-            <span class="ident">GlobalDispatch</span>, <span class="ident">New</span>,
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>smoke_test_dispatch_global_dispatch() {
+        <span class="kw">use crate</span>::{
+            delegate_dispatch, protocol::wl_output, Client, DataInit, Dispatch, DisplayHandle,
+            GlobalDispatch, New,
         };
 
-        <span class="kw">struct</span> <span class="ident">DelegateToMe</span>;
+        <span class="kw">struct </span>DelegateToMe;
 
-        <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">wl_output::WlOutput</span>, (), <span class="ident">D</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DelegateToMe</span>
-        <span class="kw">where</span>
-            <span class="ident">D</span>: <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">wl_output::WlOutput</span>, ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">AsMut</span><span class="op">&lt;</span><span class="ident">DelegateToMe</span><span class="op">&gt;</span>,
+        <span class="kw">impl</span>&lt;D&gt; Dispatch&lt;wl_output::WlOutput, (), D&gt; <span class="kw">for </span>DelegateToMe
+        <span class="kw">where
+            </span>D: Dispatch&lt;wl_output::WlOutput, ()&gt; + AsMut&lt;DelegateToMe&gt;,
         {
-            <span class="kw">fn</span> <span class="ident">request</span>(
-                <span class="ident">_state</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>,
-                <span class="ident">_client</span>: <span class="kw-2">&amp;</span><span class="ident">Client</span>,
-                <span class="ident">_resource</span>: <span class="kw-2">&amp;</span><span class="ident">wl_output::WlOutput</span>,
-                <span class="ident">_request</span>: <span class="ident">wl_output::Request</span>,
-                <span class="ident">_data</span>: <span class="kw-2">&amp;</span>(),
-                <span class="ident">_dhandle</span>: <span class="kw-2">&amp;</span><span class="ident">DisplayHandle</span>,
-                <span class="ident">_data_init</span>: <span class="kw-2">&amp;mut</span> <span class="ident">DataInit</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">D</span><span class="op">&gt;</span>,
+            <span class="kw">fn </span>request(
+                _state: <span class="kw-2">&amp;mut </span>D,
+                _client: <span class="kw-2">&amp;</span>Client,
+                _resource: <span class="kw-2">&amp;</span>wl_output::WlOutput,
+                _request: wl_output::Request,
+                _data: <span class="kw-2">&amp;</span>(),
+                _dhandle: <span class="kw-2">&amp;</span>DisplayHandle,
+                _data_init: <span class="kw-2">&amp;mut </span>DataInit&lt;<span class="lifetime">&#39;_</span>, D&gt;,
             ) {
             }
         }
-        <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> <span class="ident">GlobalDispatch</span><span class="op">&lt;</span><span class="ident">wl_output::WlOutput</span>, (), <span class="ident">D</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DelegateToMe</span>
-        <span class="kw">where</span>
-            <span class="ident">D</span>: <span class="ident">GlobalDispatch</span><span class="op">&lt;</span><span class="ident">wl_output::WlOutput</span>, ()<span class="op">&gt;</span>,
-            <span class="ident">D</span>: <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">wl_output::WlOutput</span>, ()<span class="op">&gt;</span>,
-            <span class="ident">D</span>: <span class="ident">AsMut</span><span class="op">&lt;</span><span class="ident">DelegateToMe</span><span class="op">&gt;</span>,
+        <span class="kw">impl</span>&lt;D&gt; GlobalDispatch&lt;wl_output::WlOutput, (), D&gt; <span class="kw">for </span>DelegateToMe
+        <span class="kw">where
+            </span>D: GlobalDispatch&lt;wl_output::WlOutput, ()&gt;,
+            D: Dispatch&lt;wl_output::WlOutput, ()&gt;,
+            D: AsMut&lt;DelegateToMe&gt;,
         {
-            <span class="kw">fn</span> <span class="ident">bind</span>(
-                <span class="ident">_state</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>,
-                <span class="ident">_handle</span>: <span class="kw-2">&amp;</span><span class="ident">DisplayHandle</span>,
-                <span class="ident">_client</span>: <span class="kw-2">&amp;</span><span class="ident">Client</span>,
-                <span class="ident">_resource</span>: <span class="ident">New</span><span class="op">&lt;</span><span class="ident">wl_output::WlOutput</span><span class="op">&gt;</span>,
-                <span class="ident">_global_data</span>: <span class="kw-2">&amp;</span>(),
-                <span class="ident">_data_init</span>: <span class="kw-2">&amp;mut</span> <span class="ident">DataInit</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">D</span><span class="op">&gt;</span>,
+            <span class="kw">fn </span>bind(
+                _state: <span class="kw-2">&amp;mut </span>D,
+                _handle: <span class="kw-2">&amp;</span>DisplayHandle,
+                _client: <span class="kw-2">&amp;</span>Client,
+                _resource: New&lt;wl_output::WlOutput&gt;,
+                _global_data: <span class="kw-2">&amp;</span>(),
+                _data_init: <span class="kw-2">&amp;mut </span>DataInit&lt;<span class="lifetime">&#39;_</span>, D&gt;,
             ) {
             }
         }
 
-        <span class="kw">struct</span> <span class="ident">ExampleApp</span> {
-            <span class="ident">delegate</span>: <span class="ident">DelegateToMe</span>,
+        <span class="kw">struct </span>ExampleApp {
+            delegate: DelegateToMe,
         }
 
-        <span class="macro">delegate_dispatch!</span>(<span class="ident">ExampleApp</span>: [<span class="ident">wl_output::WlOutput</span>: ()] =&gt; <span class="ident">DelegateToMe</span>);
-        <span class="macro">delegate_global_dispatch!</span>(<span class="ident">ExampleApp</span>: [<span class="ident">wl_output::WlOutput</span>: ()] =&gt; <span class="ident">DelegateToMe</span>);
+        <span class="macro">delegate_dispatch!</span>(ExampleApp: [wl_output::WlOutput: ()] =&gt; DelegateToMe);
+        <span class="macro">delegate_global_dispatch!</span>(ExampleApp: [wl_output::WlOutput: ()] =&gt; DelegateToMe);
 
-        <span class="kw">impl</span> <span class="ident">AsMut</span><span class="op">&lt;</span><span class="ident">DelegateToMe</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ExampleApp</span> {
-            <span class="kw">fn</span> <span class="ident">as_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">DelegateToMe</span> {
-                <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">delegate</span>
+        <span class="kw">impl </span>AsMut&lt;DelegateToMe&gt; <span class="kw">for </span>ExampleApp {
+            <span class="kw">fn </span>as_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>DelegateToMe {
+                <span class="kw-2">&amp;mut </span><span class="self">self</span>.delegate
             }
         }
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">smoke_test_dispatch_global_dispatch_generics</span>() {
-        <span class="kw">use</span> <span class="kw">crate</span>::{
-            <span class="ident">delegate_dispatch</span>, <span class="ident">protocol::wl_output</span>, <span class="ident">Client</span>, <span class="ident">DataInit</span>, <span class="ident">Dispatch</span>, <span class="ident">DisplayHandle</span>,
-            <span class="ident">GlobalDispatch</span>, <span class="ident">New</span>,
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>smoke_test_dispatch_global_dispatch_generics() {
+        <span class="kw">use crate</span>::{
+            delegate_dispatch, protocol::wl_output, Client, DataInit, Dispatch, DisplayHandle,
+            GlobalDispatch, New,
         };
 
-        <span class="kw">struct</span> <span class="ident">DelegateToMe</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>(<span class="ident">A</span>);
+        <span class="kw">struct </span>DelegateToMe&lt;A&gt;(A);
 
-        <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">D</span><span class="op">&gt;</span> <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">wl_output::WlOutput</span>, (), <span class="ident">D</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DelegateToMe</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>
-        <span class="kw">where</span>
-            <span class="ident">A</span>: <span class="lifetime">&#39;static</span>,
-            <span class="ident">D</span>: <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">wl_output::WlOutput</span>, ()<span class="op">&gt;</span> <span class="op">+</span> <span class="ident">AsMut</span><span class="op">&lt;</span><span class="ident">DelegateToMe</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="kw">impl</span>&lt;A, D&gt; Dispatch&lt;wl_output::WlOutput, (), D&gt; <span class="kw">for </span>DelegateToMe&lt;A&gt;
+        <span class="kw">where
+            </span>A: <span class="lifetime">&#39;static</span>,
+            D: Dispatch&lt;wl_output::WlOutput, ()&gt; + AsMut&lt;DelegateToMe&lt;A&gt;&gt;,
         {
-            <span class="kw">fn</span> <span class="ident">request</span>(
-                <span class="ident">_state</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>,
-                <span class="ident">_client</span>: <span class="kw-2">&amp;</span><span class="ident">Client</span>,
-                <span class="ident">_resource</span>: <span class="kw-2">&amp;</span><span class="ident">wl_output::WlOutput</span>,
-                <span class="ident">_request</span>: <span class="ident">wl_output::Request</span>,
-                <span class="ident">_data</span>: <span class="kw-2">&amp;</span>(),
-                <span class="ident">_dhandle</span>: <span class="kw-2">&amp;</span><span class="ident">DisplayHandle</span>,
-                <span class="ident">_data_init</span>: <span class="kw-2">&amp;mut</span> <span class="ident">DataInit</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">D</span><span class="op">&gt;</span>,
+            <span class="kw">fn </span>request(
+                _state: <span class="kw-2">&amp;mut </span>D,
+                _client: <span class="kw-2">&amp;</span>Client,
+                _resource: <span class="kw-2">&amp;</span>wl_output::WlOutput,
+                _request: wl_output::Request,
+                _data: <span class="kw-2">&amp;</span>(),
+                _dhandle: <span class="kw-2">&amp;</span>DisplayHandle,
+                _data_init: <span class="kw-2">&amp;mut </span>DataInit&lt;<span class="lifetime">&#39;_</span>, D&gt;,
             ) {
             }
         }
-        <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span>, <span class="ident">D</span><span class="op">&gt;</span> <span class="ident">GlobalDispatch</span><span class="op">&lt;</span><span class="ident">wl_output::WlOutput</span>, (), <span class="ident">D</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">DelegateToMe</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>
-        <span class="kw">where</span>
-            <span class="ident">A</span>: <span class="lifetime">&#39;static</span>,
-            <span class="ident">D</span>: <span class="ident">GlobalDispatch</span><span class="op">&lt;</span><span class="ident">wl_output::WlOutput</span>, ()<span class="op">&gt;</span>,
-            <span class="ident">D</span>: <span class="ident">Dispatch</span><span class="op">&lt;</span><span class="ident">wl_output::WlOutput</span>, ()<span class="op">&gt;</span>,
-            <span class="ident">D</span>: <span class="ident">AsMut</span><span class="op">&lt;</span><span class="ident">DelegateToMe</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+        <span class="kw">impl</span>&lt;A, D&gt; GlobalDispatch&lt;wl_output::WlOutput, (), D&gt; <span class="kw">for </span>DelegateToMe&lt;A&gt;
+        <span class="kw">where
+            </span>A: <span class="lifetime">&#39;static</span>,
+            D: GlobalDispatch&lt;wl_output::WlOutput, ()&gt;,
+            D: Dispatch&lt;wl_output::WlOutput, ()&gt;,
+            D: AsMut&lt;DelegateToMe&lt;A&gt;&gt;,
         {
-            <span class="kw">fn</span> <span class="ident">bind</span>(
-                <span class="ident">_state</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>,
-                <span class="ident">_handle</span>: <span class="kw-2">&amp;</span><span class="ident">DisplayHandle</span>,
-                <span class="ident">_client</span>: <span class="kw-2">&amp;</span><span class="ident">Client</span>,
-                <span class="ident">_resource</span>: <span class="ident">New</span><span class="op">&lt;</span><span class="ident">wl_output::WlOutput</span><span class="op">&gt;</span>,
-                <span class="ident">_global_data</span>: <span class="kw-2">&amp;</span>(),
-                <span class="ident">_data_init</span>: <span class="kw-2">&amp;mut</span> <span class="ident">DataInit</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">D</span><span class="op">&gt;</span>,
+            <span class="kw">fn </span>bind(
+                _state: <span class="kw-2">&amp;mut </span>D,
+                _handle: <span class="kw-2">&amp;</span>DisplayHandle,
+                _client: <span class="kw-2">&amp;</span>Client,
+                _resource: New&lt;wl_output::WlOutput&gt;,
+                _global_data: <span class="kw-2">&amp;</span>(),
+                _data_init: <span class="kw-2">&amp;mut </span>DataInit&lt;<span class="lifetime">&#39;_</span>, D&gt;,
             ) {
             }
         }
 
-        <span class="kw">struct</span> <span class="ident">ExampleApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> {
-            <span class="ident">delegate</span>: <span class="ident">DelegateToMe</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>,
+        <span class="kw">struct </span>ExampleApp&lt;A&gt; {
+            delegate: DelegateToMe&lt;A&gt;,
         }
 
-        <span class="macro">delegate_dispatch!</span>(@<span class="op">&lt;</span><span class="ident">A</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span> <span class="ident">ExampleApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>: [<span class="ident">wl_output::WlOutput</span>: ()] =&gt; <span class="ident">DelegateToMe</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>);
-        <span class="macro">delegate_global_dispatch!</span>(@<span class="op">&lt;</span><span class="ident">A</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span> <span class="ident">ExampleApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>: [<span class="ident">wl_output::WlOutput</span>: ()] =&gt; <span class="ident">DelegateToMe</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span>);
+        <span class="macro">delegate_dispatch!</span>(@&lt;A: <span class="lifetime">&#39;static</span>&gt; ExampleApp&lt;A&gt;: [wl_output::WlOutput: ()] =&gt; DelegateToMe&lt;A&gt;);
+        <span class="macro">delegate_global_dispatch!</span>(@&lt;A: <span class="lifetime">&#39;static</span>&gt; ExampleApp&lt;A&gt;: [wl_output::WlOutput: ()] =&gt; DelegateToMe&lt;A&gt;);
 
-        <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> <span class="ident">AsMut</span><span class="op">&lt;</span><span class="ident">DelegateToMe</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ExampleApp</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> {
-            <span class="kw">fn</span> <span class="ident">as_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">DelegateToMe</span><span class="op">&lt;</span><span class="ident">A</span><span class="op">&gt;</span> {
-                <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">delegate</span>
+        <span class="kw">impl</span>&lt;A&gt; AsMut&lt;DelegateToMe&lt;A&gt;&gt; <span class="kw">for </span>ExampleApp&lt;A&gt; {
+            <span class="kw">fn </span>as_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>DelegateToMe&lt;A&gt; {
+                <span class="kw-2">&amp;mut </span><span class="self">self</span>.delegate
             }
         }
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_server" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_server" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.10/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_backend/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.10/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_backend/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -107,114 +107,114 @@
 <span id="107">107</span>
 <span id="108">108</span>
 <span id="109">109</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Backend API for wayland crates</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! This crate provide low-level APIs for interacting with the Wayland protocol,</span>
-<span class="doccomment">//! both client-side and server-side.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Two possible backends are provided by this crate: the system backend ([`sys`] module)</span>
-<span class="doccomment">//! which relies on the system-provided wayland libraries, and the rust backend ([`rs`] module)</span>
-<span class="doccomment">//! which is an alternative rust implementation of the protocol. The rust backend is always</span>
-<span class="doccomment">//! available, and the system backend is controlled by the `client_system` and `server_system`</span>
-<span class="doccomment">//! cargo features. The `dlopen` cargo feature ensures that the system wayland</span>
-<span class="doccomment">//! libraries are loaded dynamically at runtime, so that your executable does not link them and</span>
-<span class="doccomment">//! can gracefully handle their absence (for example by falling back to X11).</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Additionally the default backends are reexported as toplevel `client` and `server` modules</span>
-<span class="doccomment">//! in this crate. For both client and server, the default backend is the system one if the</span>
-<span class="doccomment">//! associated cargo feature is enabled, and the rust one otherwise.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Using these reexports is the recommended way to use the crate:</span>
-<span class="doccomment">//! - If you don&#39;t need the `*_system` features, an other crate enabling them will not impact your code in</span>
-<span class="doccomment">//!   any way as both backends have the same API (the system backend only has more methods)</span>
-<span class="doccomment">//! - If your code needs to do FFI, you just need to directly depend on `wayland-backend` with the</span>
-<span class="doccomment">//!   appropriate `*_system` feature enabled, and all the other crates in your dependency tree will</span>
-<span class="doccomment">//!   automatically use the `sys` backend.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Both the `wayland-client` and `wayland-server` crates follow this principle, so everything will &quot;Just</span>
-<span class="doccomment">//! Work&quot; when using them.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Logging</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! This crate can generate some runtime error message (notably when a protocol error occurs). By default</span>
-<span class="doccomment">//! those messages are printed to stderr. If you activate the `log` cargo feature, they will instead be</span>
-<span class="doccomment">//! piped through the `log` crate.</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Backend API for wayland crates
+//!
+//! This crate provide low-level APIs for interacting with the Wayland protocol,
+//! both client-side and server-side.
+//!
+//! Two possible backends are provided by this crate: the system backend ([`sys`] module)
+//! which relies on the system-provided wayland libraries, and the rust backend ([`rs`] module)
+//! which is an alternative rust implementation of the protocol. The rust backend is always
+//! available, and the system backend is controlled by the `client_system` and `server_system`
+//! cargo features. The `dlopen` cargo feature ensures that the system wayland
+//! libraries are loaded dynamically at runtime, so that your executable does not link them and
+//! can gracefully handle their absence (for example by falling back to X11).
+//!
+//! Additionally the default backends are reexported as toplevel `client` and `server` modules
+//! in this crate. For both client and server, the default backend is the system one if the
+//! associated cargo feature is enabled, and the rust one otherwise.
+//!
+//! Using these reexports is the recommended way to use the crate:
+//! - If you don&#39;t need the `*_system` features, an other crate enabling them will not impact your code in
+//!   any way as both backends have the same API (the system backend only has more methods)
+//! - If your code needs to do FFI, you just need to directly depend on `wayland-backend` with the
+//!   appropriate `*_system` feature enabled, and all the other crates in your dependency tree will
+//!   automatically use the `sys` backend.
+//!
+//! Both the `wayland-client` and `wayland-server` crates follow this principle, so everything will &quot;Just
+//! Work&quot; when using them.
+//!
+//! ## Logging
+//!
+//! This crate can generate some runtime error message (notably when a protocol error occurs). By default
+//! those messages are printed to stderr. If you activate the `log` cargo feature, they will instead be
+//! piped through the `log` crate.
 
-<span class="attribute">#![<span class="ident">forbid</span>(<span class="ident">improper_ctypes</span>, <span class="ident">unsafe_op_in_unsafe_fn</span>)]</span>
-<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">missing_docs</span>, <span class="ident">missing_debug_implementations</span>)]</span>
-<span class="comment">// The api modules are imported two times each, this is not accidental</span>
-<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::duplicate_mod</span>)]</span>
-<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">feature</span>(<span class="ident">no_coverage</span>))]</span>
-<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">feature</span>(<span class="ident">doc_cfg</span>))]</span>
+</span><span class="attribute">#![forbid(improper_ctypes, unsafe_op_in_unsafe_fn)]
+#![warn(missing_docs, missing_debug_implementations)]
+</span><span class="comment">// The api modules are imported two times each, this is not accidental
+</span><span class="attribute">#![allow(clippy::duplicate_mod)]
+#![cfg_attr(coverage, feature(no_coverage))]
+#![cfg_attr(docsrs, feature(doc_cfg))]
 
-<span class="kw">pub</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">io_lifetimes</span>;
-<span class="kw">pub</span> <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">smallvec</span>;
+</span><span class="kw">pub extern crate </span>io_lifetimes;
+<span class="kw">pub extern crate </span>smallvec;
 
-<span class="doccomment">/// Helper macro for quickly making a [`Message`](crate::protocol::Message)</span>
-<span class="attribute">#[<span class="ident">macro_export</span>]</span>
-<span class="macro">macro_rules!</span> <span class="ident">message</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">sender_id</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">opcode</span>: <span class="ident">expr</span>, [$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">args</span>: <span class="ident">expr</span>),<span class="op">*</span> $(,)<span class="question-mark">?</span>] $(,)<span class="question-mark">?</span>) =&gt; {
-        <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::protocol::Message</span> {
-            <span class="ident">sender_id</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">sender_id</span>,
-            <span class="ident">opcode</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">opcode</span>,
-            <span class="ident">args</span>: <span class="macro-nonterminal">$</span><span class="macro">crate::smallvec::smallvec!</span>[$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">args</span>),<span class="kw-2">*</span>],
+<span class="doccomment">/// Helper macro for quickly making a [`Message`](crate::protocol::Message)
+</span><span class="attribute">#[macro_export]
+</span><span class="macro">macro_rules! </span>message {
+    (<span class="macro-nonterminal">$sender_id</span>: expr, <span class="macro-nonterminal">$opcode</span>: expr, [$(<span class="macro-nonterminal">$args</span>: expr),* $(,)<span class="question-mark">?</span>] $(,)<span class="question-mark">?</span>) =&gt; {
+        <span class="macro-nonterminal">$crate::protocol::Message </span>{
+            sender_id: <span class="macro-nonterminal">$sender_id</span>,
+            opcode: <span class="macro-nonterminal">$opcode</span>,
+            args: <span class="macro-nonterminal">$</span><span class="macro">crate::smallvec::smallvec!</span>[$(<span class="macro-nonterminal">$args</span>),<span class="kw-2">*</span>],
         }
     }
 }
 
-<span class="comment">// internal imports for dispatching logging depending on the `log` feature</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;log&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
-<span class="kw">use</span> <span class="ident">log</span>::{<span class="ident">debug</span> <span class="kw">as</span> <span class="ident">log_debug</span>, <span class="ident">error</span> <span class="kw">as</span> <span class="ident">log_error</span>, <span class="ident">info</span> <span class="kw">as</span> <span class="ident">log_info</span>, <span class="ident">warn</span> <span class="kw">as</span> <span class="ident">log_warn</span>};
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;log&quot;</span>))]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
-<span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">eprintln</span> <span class="kw">as</span> <span class="ident">log_error</span>, <span class="ident">eprintln</span> <span class="kw">as</span> <span class="ident">log_warn</span>, <span class="ident">eprintln</span> <span class="kw">as</span> <span class="ident">log_info</span>, <span class="ident">eprintln</span> <span class="kw">as</span> <span class="ident">log_debug</span>,
+<span class="comment">// internal imports for dispatching logging depending on the `log` feature
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;log&quot;</span>)]
+#[allow(unused_imports)]
+</span><span class="kw">use </span>log::{debug <span class="kw">as </span>log_debug, error <span class="kw">as </span>log_error, info <span class="kw">as </span>log_info, warn <span class="kw">as </span>log_warn};
+<span class="attribute">#[cfg(not(feature = <span class="string">&quot;log&quot;</span>))]
+#[allow(unused_imports)]
+</span><span class="kw">use </span>std::{
+    eprintln <span class="kw">as </span>log_error, eprintln <span class="kw">as </span>log_warn, eprintln <span class="kw">as </span>log_info, eprintln <span class="kw">as </span>log_debug,
 };
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">test</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;client_system&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;server_system&quot;</span>))]</span>
-<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">docsrs</span>, <span class="ident">doc</span>(<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;client_system&quot;</span>, <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;server_system&quot;</span>))))]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">sys</span>;
+<span class="attribute">#[cfg(any(test, feature = <span class="string">&quot;client_system&quot;</span>, feature = <span class="string">&quot;server_system&quot;</span>))]
+#[cfg_attr(docsrs, doc(cfg(any(feature = <span class="string">&quot;client_system&quot;</span>, feature = <span class="string">&quot;server_system&quot;</span>))))]
+</span><span class="kw">pub mod </span>sys;
 
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">rs</span>;
+<span class="kw">pub mod </span>rs;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;client_system&quot;</span>))]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rs::client</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;client_system&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">sys::client</span>;
+<span class="attribute">#[cfg(not(feature = <span class="string">&quot;client_system&quot;</span>))]
+</span><span class="kw">pub use </span>rs::client;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;client_system&quot;</span>)]
+</span><span class="kw">pub use </span>sys::client;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;server_system&quot;</span>))]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">rs::server</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;server_system&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">sys::server</span>;
+<span class="attribute">#[cfg(not(feature = <span class="string">&quot;server_system&quot;</span>))]
+</span><span class="kw">pub use </span>rs::server;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;server_system&quot;</span>)]
+</span><span class="kw">pub use </span>sys::server;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">test</span>;
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>test;
 
-<span class="kw">mod</span> <span class="ident">core_interfaces</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">protocol</span>;
-<span class="kw">mod</span> <span class="ident">types</span>;
+<span class="kw">mod </span>core_interfaces;
+<span class="kw">pub mod </span>protocol;
+<span class="kw">mod </span>types;
 
 <span class="comment">/*
  * These trampoline functions need to always be here because the build script cannot
  * conditionally build their C counterparts on whether the crate is tested or not...
  * They&#39;ll be optimized out when unused.
- */</span>
+ */
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;log&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">no_mangle</span>]</span>
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">wl_log_rust_logger_client</span>(<span class="ident">msg</span>: <span class="kw-2">*const</span> <span class="ident">std::os::raw::c_char</span>) {
-    <span class="kw">let</span> <span class="ident">cstr</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">std::ffi::CStr::from_ptr</span>(<span class="ident">msg</span>) };
-    <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="ident">cstr</span>.<span class="ident">to_string_lossy</span>();
-    <span class="macro">log::error!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">text</span>);
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;log&quot;</span>)]
+#[no_mangle]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>wl_log_rust_logger_client(msg: <span class="kw-2">*const </span>std::os::raw::c_char) {
+    <span class="kw">let </span>cstr = <span class="kw">unsafe </span>{ std::ffi::CStr::from_ptr(msg) };
+    <span class="kw">let </span>text = cstr.to_string_lossy();
+    <span class="macro">log::error!</span>(<span class="string">&quot;{}&quot;</span>, text);
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;log&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">no_mangle</span>]</span>
-<span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span> <span class="ident">wl_log_rust_logger_server</span>(<span class="ident">msg</span>: <span class="kw-2">*const</span> <span class="ident">std::os::raw::c_char</span>) {
-    <span class="kw">let</span> <span class="ident">cstr</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">std::ffi::CStr::from_ptr</span>(<span class="ident">msg</span>) };
-    <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="ident">cstr</span>.<span class="ident">to_string_lossy</span>();
-    <span class="macro">log::error!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">text</span>);
+<span class="attribute">#[cfg(feature = <span class="string">&quot;log&quot;</span>)]
+#[no_mangle]
+</span><span class="kw">extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn </span>wl_log_rust_logger_server(msg: <span class="kw-2">*const </span>std::os::raw::c_char) {
+    <span class="kw">let </span>cstr = <span class="kw">unsafe </span>{ std::ffi::CStr::from_ptr(msg) };
+    <span class="kw">let </span>text = cstr.to_string_lossy();
+    <span class="macro">log::error!</span>(<span class="string">&quot;{}&quot;</span>, text);
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_backend" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_backend" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

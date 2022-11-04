@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/dlib-0.5.0/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../dlib/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../dlib/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../dlib/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/dlib-0.5.0/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../dlib/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../dlib/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../dlib/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -384,391 +384,391 @@
 <span id="384">384</span>
 <span id="385">385</span>
 <span id="386">386</span>
-</pre><pre class="rust"><code><span class="doccomment">//! dlib is a small crate providing macros to make easy the use of external system libraries that</span>
-<span class="doccomment">//! can or cannot be optionally loaded at runtime, depending on whether a certain feature is enabled.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Usage</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! dlib defines the `external_library!` macro, which can be invoked in this way:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! external_library!(feature=&quot;dlopen-foo&quot;, Foo, &quot;foo&quot;,</span>
-<span class="doccomment">//!     statics:</span>
-<span class="doccomment">//!         me: c_int,</span>
-<span class="doccomment">//!         you: c_float,</span>
-<span class="doccomment">//!     functions:</span>
-<span class="doccomment">//!         fn foo() -&gt; c_int,</span>
-<span class="doccomment">//!         fn bar(c_int, c_float) -&gt; (),</span>
-<span class="doccomment">//!         fn baz(*const c_int) -&gt; c_int,</span>
-<span class="doccomment">//!     varargs:</span>
-<span class="doccomment">//!         fn blah(c_int, c_int ...) -&gt; *const c_void,</span>
-<span class="doccomment">//!         fn bleh(c_int ...) -&gt; (),</span>
-<span class="doccomment">//! );</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! As you can see, it is required to separate static values from functions and from function</span>
-<span class="doccomment">//! having variadic arguments. Each of these 3 categories is optional, but the ones used must appear</span>
-<span class="doccomment">//! in this order. Return types of the functions must all be explicit (hence `-&gt; ()` for void functions).</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! If the feature named by the `feature` argument (in this example, `dlopen-foo`) is absent on your crate,</span>
-<span class="doccomment">//! this macro will expand to an extern block defining each of the items, using the third argument</span>
-<span class="doccomment">//! of the macro as a link name:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! #[link(name = &quot;foo&quot;)]</span>
-<span class="doccomment">//! extern &quot;C&quot; {</span>
-<span class="doccomment">//!     pub static me: c_int;</span>
-<span class="doccomment">//!     pub static you: c_float;</span>
-<span class="doccomment">//!     pub fn foo() -&gt; c_int;</span>
-<span class="doccomment">//!     pub fn bar(_: c_int, _: c_float) -&gt; ();</span>
-<span class="doccomment">//!     pub fn baz(_: *const c_int) -&gt; c_int;</span>
-<span class="doccomment">//!     pub fn blah(_: c_int, _: c_int, ...) -&gt; *const c_void;</span>
-<span class="doccomment">//!     pub fn bleh(_: c_int, ...) -&gt; ();</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! If the feature named by the `feature` argument is present on your crate, it will expand to a</span>
-<span class="doccomment">//! `struct` named by the second argument of the macro, with one field for each of the symbols defined;</span>
-<span class="doccomment">//! and a method `open`, which tries to load the library from the name or path given as an argument.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! pub struct Foo {</span>
-<span class="doccomment">//!     pub me: &amp;&#39;static c_int,</span>
-<span class="doccomment">//!     pub you: &amp;&#39;static c_float,</span>
-<span class="doccomment">//!     pub foo: unsafe extern &quot;C&quot; fn() -&gt; c_int,</span>
-<span class="doccomment">//!     pub bar: unsafe extern &quot;C&quot; fn(c_int, c_float) -&gt; (),</span>
-<span class="doccomment">//!     pub baz: unsafe extern &quot;C&quot; fn(*const c_int) -&gt; c_int,</span>
-<span class="doccomment">//!     pub blah: unsafe extern &quot;C&quot; fn(c_int, c_int, ...) -&gt; *const c_void,</span>
-<span class="doccomment">//!     pub bleh: unsafe extern &quot;C&quot; fn(c_int, ...) -&gt; (),</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! impl Foo {</span>
-<span class="doccomment">//!     pub unsafe fn open(name: &amp;str) -&gt; Result&lt;Foo, DlError&gt; { /* ... */ }</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! This method returns `Ok(..)` if the loading was successful. It contains an instance of the defined struct</span>
-<span class="doccomment">//! with all of its fields pointing to the appropriate symbol.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! If the library specified by `name` could not be openened, it returns `Err(DlError::CantOpen(e))`, with</span>
-<span class="doccomment">//! `e` the error reported by `libloading` (see [LibLoadingError]);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! It will also fail on the first missing symbol, with `Err(DlError::MissingSymbol(symb))` where `symb`</span>
-<span class="doccomment">//! is a `&amp;str` containing the missing symbol name.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Note that this method is unsafe, as loading (and unloading on drop) an external C library can run arbitrary</span>
-<span class="doccomment">//! code. As such, you need to ensure that the specific library you want to load is safe to load in the context</span>
-<span class="doccomment">//! you want to load it.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Remaining generic in your crate</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! If you want your crate to remain generic over dlopen vs. linking, simply add a feature to your `Cargo.toml`:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```toml</span>
-<span class="doccomment">//! [dependencies]</span>
-<span class="doccomment">//! dlib = &quot;0.5&quot;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! [features]</span>
-<span class="doccomment">//! dlopen-foo = []</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Then give the name of that feature as the `feature` argument to dlib&#39;s macros:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! external_library!(feature=&quot;dlopen-foo&quot;, Foo, &quot;foo&quot;,</span>
-<span class="doccomment">//!     functions:</span>
-<span class="doccomment">//!         fn foo() -&gt; c_int,</span>
-<span class="doccomment">//! );</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! `dlib` provides helper macros to dispatch the access to foreign symbols:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! ffi_dispatch!(feature=&quot;dlopen-foo&quot;, Foo, function, arg1, arg2);</span>
-<span class="doccomment">//! ffi_dispatch_static!(feature=&quot;dlopen-foo&quot;, Foo, my_static_var);</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! These will expand to the appropriate value or function call depending on the presence or absence of the</span>
-<span class="doccomment">//! `dlopen-foo` feature on your crate.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! You must still ensure that the functions/statics or the wrapper struct `Foo` are in scope. For example,</span>
-<span class="doccomment">//! you could use the [`lazy_static`](https://crates.io/crates/lazy_static) crate to do the initialization,</span>
-<span class="doccomment">//! and store the wrapper struct in a static variable that you import wherever needed:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! #[cfg(feature = &quot;dlopen-foo&quot;)]</span>
-<span class="doccomment">//! lazy_static::lazy_static! {</span>
-<span class="doccomment">//!     pub static ref FOO_STATIC: Foo =</span>
-<span class="doccomment">//!         Foo::open(&quot;libfoo.so&quot;).ok().expect(&quot;could not find libfoo&quot;);</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Then, it can become as simple as putting this on top of all modules using the FFI:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust</span>
-<span class="doccomment">//! #[cfg(feature = &quot;dlopen-foo&quot;)]</span>
-<span class="doccomment">//! use ffi::FOO_STATIC;</span>
-<span class="doccomment">//! #[cfg(not(feature = &quot;dlopen-foo&quot;))]</span>
-<span class="doccomment">//! use ffi::*;</span>
-<span class="doccomment">//! ```</span>
-<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">missing_docs</span>)]</span>
+</pre><pre class="rust"><code><span class="doccomment">//! dlib is a small crate providing macros to make easy the use of external system libraries that
+//! can or cannot be optionally loaded at runtime, depending on whether a certain feature is enabled.
+//!
+//! ## Usage
+//!
+//! dlib defines the `external_library!` macro, which can be invoked in this way:
+//!
+//! ```rust
+//! external_library!(feature=&quot;dlopen-foo&quot;, Foo, &quot;foo&quot;,
+//!     statics:
+//!         me: c_int,
+//!         you: c_float,
+//!     functions:
+//!         fn foo() -&gt; c_int,
+//!         fn bar(c_int, c_float) -&gt; (),
+//!         fn baz(*const c_int) -&gt; c_int,
+//!     varargs:
+//!         fn blah(c_int, c_int ...) -&gt; *const c_void,
+//!         fn bleh(c_int ...) -&gt; (),
+//! );
+//! ```
+//!
+//! As you can see, it is required to separate static values from functions and from function
+//! having variadic arguments. Each of these 3 categories is optional, but the ones used must appear
+//! in this order. Return types of the functions must all be explicit (hence `-&gt; ()` for void functions).
+//!
+//! If the feature named by the `feature` argument (in this example, `dlopen-foo`) is absent on your crate,
+//! this macro will expand to an extern block defining each of the items, using the third argument
+//! of the macro as a link name:
+//!
+//! ```rust
+//! #[link(name = &quot;foo&quot;)]
+//! extern &quot;C&quot; {
+//!     pub static me: c_int;
+//!     pub static you: c_float;
+//!     pub fn foo() -&gt; c_int;
+//!     pub fn bar(_: c_int, _: c_float) -&gt; ();
+//!     pub fn baz(_: *const c_int) -&gt; c_int;
+//!     pub fn blah(_: c_int, _: c_int, ...) -&gt; *const c_void;
+//!     pub fn bleh(_: c_int, ...) -&gt; ();
+//! }
+//!
+//! ```
+//!
+//! If the feature named by the `feature` argument is present on your crate, it will expand to a
+//! `struct` named by the second argument of the macro, with one field for each of the symbols defined;
+//! and a method `open`, which tries to load the library from the name or path given as an argument.
+//!
+//! ```rust
+//! pub struct Foo {
+//!     pub me: &amp;&#39;static c_int,
+//!     pub you: &amp;&#39;static c_float,
+//!     pub foo: unsafe extern &quot;C&quot; fn() -&gt; c_int,
+//!     pub bar: unsafe extern &quot;C&quot; fn(c_int, c_float) -&gt; (),
+//!     pub baz: unsafe extern &quot;C&quot; fn(*const c_int) -&gt; c_int,
+//!     pub blah: unsafe extern &quot;C&quot; fn(c_int, c_int, ...) -&gt; *const c_void,
+//!     pub bleh: unsafe extern &quot;C&quot; fn(c_int, ...) -&gt; (),
+//! }
+//!
+//!
+//! impl Foo {
+//!     pub unsafe fn open(name: &amp;str) -&gt; Result&lt;Foo, DlError&gt; { /* ... */ }
+//! }
+//! ```
+//!
+//! This method returns `Ok(..)` if the loading was successful. It contains an instance of the defined struct
+//! with all of its fields pointing to the appropriate symbol.
+//!
+//! If the library specified by `name` could not be openened, it returns `Err(DlError::CantOpen(e))`, with
+//! `e` the error reported by `libloading` (see [LibLoadingError]);
+//!
+//! It will also fail on the first missing symbol, with `Err(DlError::MissingSymbol(symb))` where `symb`
+//! is a `&amp;str` containing the missing symbol name.
+//!
+//! Note that this method is unsafe, as loading (and unloading on drop) an external C library can run arbitrary
+//! code. As such, you need to ensure that the specific library you want to load is safe to load in the context
+//! you want to load it.
+//!
+//! ## Remaining generic in your crate
+//!
+//! If you want your crate to remain generic over dlopen vs. linking, simply add a feature to your `Cargo.toml`:
+//!
+//! ```toml
+//! [dependencies]
+//! dlib = &quot;0.5&quot;
+//!
+//! [features]
+//! dlopen-foo = []
+//! ```
+//!
+//! Then give the name of that feature as the `feature` argument to dlib&#39;s macros:
+//!
+//! ```rust
+//! external_library!(feature=&quot;dlopen-foo&quot;, Foo, &quot;foo&quot;,
+//!     functions:
+//!         fn foo() -&gt; c_int,
+//! );
+//! ```
+//!
+//! `dlib` provides helper macros to dispatch the access to foreign symbols:
+//!
+//! ```rust
+//! ffi_dispatch!(feature=&quot;dlopen-foo&quot;, Foo, function, arg1, arg2);
+//! ffi_dispatch_static!(feature=&quot;dlopen-foo&quot;, Foo, my_static_var);
+//! ```
+//!
+//! These will expand to the appropriate value or function call depending on the presence or absence of the
+//! `dlopen-foo` feature on your crate.
+//!
+//! You must still ensure that the functions/statics or the wrapper struct `Foo` are in scope. For example,
+//! you could use the [`lazy_static`](https://crates.io/crates/lazy_static) crate to do the initialization,
+//! and store the wrapper struct in a static variable that you import wherever needed:
+//!
+//! ```rust
+//! #[cfg(feature = &quot;dlopen-foo&quot;)]
+//! lazy_static::lazy_static! {
+//!     pub static ref FOO_STATIC: Foo =
+//!         Foo::open(&quot;libfoo.so&quot;).ok().expect(&quot;could not find libfoo&quot;);
+//! }
+//! ```
+//!
+//! Then, it can become as simple as putting this on top of all modules using the FFI:
+//!
+//! ```rust
+//! #[cfg(feature = &quot;dlopen-foo&quot;)]
+//! use ffi::FOO_STATIC;
+//! #[cfg(not(feature = &quot;dlopen-foo&quot;))]
+//! use ffi::*;
+//! ```
+</span><span class="attribute">#![warn(missing_docs)]
 
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">libloading</span>;
+</span><span class="kw">extern crate </span>libloading;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">libloading::Error</span> <span class="kw">as</span> <span class="ident">LibLoadingError</span>;
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">libloading</span>::{<span class="ident">Library</span>, <span class="ident">Symbol</span>};
+<span class="kw">pub use </span>libloading::Error <span class="kw">as </span>LibLoadingError;
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">pub use </span>libloading::{Library, Symbol};
 
-<span class="doccomment">/// Macro for generically invoking a FFI function</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The expected arguments are, in order:</span>
-<span class="doccomment">/// - (Optional) The name of the cargo feature conditionning the usage of dlopen, in the form</span>
-<span class="doccomment">///   `feature=&quot;feature-name&quot;`. If ommited, the feature `&quot;dlopen&quot;` will be used.</span>
-<span class="doccomment">/// - A value of the handle generated by the macro [`external_library!`] when the</span>
-<span class="doccomment">///   dlopen-controlling feature is enabled</span>
-<span class="doccomment">/// - The name of the function to invoke</span>
-<span class="doccomment">/// - The arguments to be passed to the function</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The macro invocation evaluates to the return value of the FFI function.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// #### Example</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Assuming an FFI function of signature `fn(u32, u32) -&gt; u32`:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```rust,ignore</span>
-<span class="doccomment">/// let sum = unsafe { ffi_dispatch!(feature=&quot;dlopen&quot;, LIBRARY_HANDLE, sum, 2, 2) };</span>
-<span class="doccomment">/// ```</span>
-<span class="attribute">#[<span class="ident">macro_export</span>]</span>
-<span class="macro">macro_rules!</span> <span class="ident">ffi_dispatch</span>(
-    (<span class="ident">feature</span><span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">feature</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">handle</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>: <span class="ident">ident</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>: <span class="ident">expr</span>),<span class="kw-2">*</span>) =&gt; (
+<span class="doccomment">/// Macro for generically invoking a FFI function
+///
+/// The expected arguments are, in order:
+/// - (Optional) The name of the cargo feature conditionning the usage of dlopen, in the form
+///   `feature=&quot;feature-name&quot;`. If ommited, the feature `&quot;dlopen&quot;` will be used.
+/// - A value of the handle generated by the macro [`external_library!`] when the
+///   dlopen-controlling feature is enabled
+/// - The name of the function to invoke
+/// - The arguments to be passed to the function
+///
+/// The macro invocation evaluates to the return value of the FFI function.
+///
+/// #### Example
+///
+/// Assuming an FFI function of signature `fn(u32, u32) -&gt; u32`:
+///
+/// ```rust,ignore
+/// let sum = unsafe { ffi_dispatch!(feature=&quot;dlopen&quot;, LIBRARY_HANDLE, sum, 2, 2) };
+/// ```
+</span><span class="attribute">#[macro_export]
+</span><span class="macro">macro_rules! </span>ffi_dispatch(
+    (feature=<span class="macro-nonterminal">$feature</span>: expr, <span class="macro-nonterminal">$handle</span>: ident, <span class="macro-nonterminal">$func</span>: ident, $(<span class="macro-nonterminal">$arg</span>: expr),<span class="kw-2">*</span>) =&gt; (
         {
-            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">feature</span>)]</span>
-            <span class="kw">let</span> <span class="ident">ret</span> <span class="op">=</span> (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">handle</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>)($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>),<span class="kw-2">*</span>);
-            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">feature</span>))]</span>
-            <span class="kw">let</span> <span class="ident">ret</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>),<span class="kw-2">*</span>);
+            <span class="attribute">#[cfg(feature = <span class="macro-nonterminal">$feature</span>)]
+            </span><span class="kw">let </span>ret = (<span class="macro-nonterminal">$handle</span>.<span class="macro-nonterminal">$func</span>)($(<span class="macro-nonterminal">$arg</span>),<span class="kw-2">*</span>);
+            <span class="attribute">#[cfg(not(feature = <span class="macro-nonterminal">$feature</span>))]
+            </span><span class="kw">let </span>ret = <span class="macro-nonterminal">$func</span>($(<span class="macro-nonterminal">$arg</span>),<span class="kw-2">*</span>);
 
-            <span class="ident">ret</span>
+            ret
         }
     );
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">handle</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>: <span class="ident">ident</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>: <span class="ident">expr</span>),<span class="kw-2">*</span>) =&gt; (
-        <span class="comment">// NOTE: this &quot;dlopen&quot; refers to a feature on the crate *using* dlib</span>
-        <span class="macro-nonterminal">$</span><span class="macro">crate::ffi_dispatch!</span>(<span class="macro-nonterminal">feature</span><span class="op">=</span><span class="string">&quot;dlopen&quot;</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">handle</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">func</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">arg</span>),<span class="kw-2">*</span>)
+    (<span class="macro-nonterminal">$handle</span>: ident, <span class="macro-nonterminal">$func</span>: ident, $(<span class="macro-nonterminal">$arg</span>: expr),<span class="kw-2">*</span>) =&gt; (
+        <span class="comment">// NOTE: this &quot;dlopen&quot; refers to a feature on the crate *using* dlib
+        </span><span class="macro-nonterminal">$</span><span class="macro">crate::ffi_dispatch!</span>(<span class="macro-nonterminal">feature</span>=<span class="string">&quot;dlopen&quot;</span>, <span class="macro-nonterminal">$handle</span>, <span class="macro-nonterminal">$func</span>, $(<span class="macro-nonterminal">$arg</span>),<span class="kw-2">*</span>)
     );
 );
 
-<span class="doccomment">/// Macro for generically accessing a FFI static</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The expected arguments are, in order:</span>
-<span class="doccomment">/// - (Optional) The name of the cargo feature conditionning the usage of dlopen, in the form</span>
-<span class="doccomment">///   `feature=&quot;feature-name&quot;`. If ommited, the feature `&quot;dlopen&quot;` will be used.</span>
-<span class="doccomment">/// - A value of the handle generated by the macro [`external_library!`] when the</span>
-<span class="doccomment">///   dlopen-controlling feature is enabled</span>
-<span class="doccomment">/// - The name of the static</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The macro invocation evaluates to a `&amp;T` reference to the static</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// #### Example</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```rust,ignore</span>
-<span class="doccomment">/// let my_static = unsafe { ffi_dispatch!(feature=&quot;dlopen&quot;, LIBRARY_HANDLE, my_static) };</span>
-<span class="doccomment">/// ```</span>
-<span class="attribute">#[<span class="ident">macro_export</span>]</span>
-<span class="macro">macro_rules!</span> <span class="ident">ffi_dispatch_static</span>(
-    (<span class="ident">feature</span><span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">feature</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">handle</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>: <span class="ident">ident</span>) =&gt; (
+<span class="doccomment">/// Macro for generically accessing a FFI static
+///
+/// The expected arguments are, in order:
+/// - (Optional) The name of the cargo feature conditionning the usage of dlopen, in the form
+///   `feature=&quot;feature-name&quot;`. If ommited, the feature `&quot;dlopen&quot;` will be used.
+/// - A value of the handle generated by the macro [`external_library!`] when the
+///   dlopen-controlling feature is enabled
+/// - The name of the static
+///
+/// The macro invocation evaluates to a `&amp;T` reference to the static
+///
+/// #### Example
+///
+/// ```rust,ignore
+/// let my_static = unsafe { ffi_dispatch!(feature=&quot;dlopen&quot;, LIBRARY_HANDLE, my_static) };
+/// ```
+</span><span class="attribute">#[macro_export]
+</span><span class="macro">macro_rules! </span>ffi_dispatch_static(
+    (feature=<span class="macro-nonterminal">$feature</span>: expr, <span class="macro-nonterminal">$handle</span>: ident, <span class="macro-nonterminal">$name</span>: ident) =&gt; (
         {
-            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">feature</span>)]</span>
-            <span class="kw">let</span> <span class="ident">ret</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">handle</span>.<span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>;
-            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">feature</span>))]</span>
-            <span class="kw">let</span> <span class="ident">ret</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>;
+            <span class="attribute">#[cfg(feature = <span class="macro-nonterminal">$feature</span>)]
+            </span><span class="kw">let </span>ret = <span class="macro-nonterminal">$handle</span>.<span class="macro-nonterminal">$name</span>;
+            <span class="attribute">#[cfg(not(feature = <span class="macro-nonterminal">$feature</span>))]
+            </span><span class="kw">let </span>ret = <span class="kw-2">&amp;</span><span class="macro-nonterminal">$name</span>;
 
-            <span class="ident">ret</span>
+            ret
         }
     );
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">handle</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>: <span class="ident">ident</span>) =&gt; (
-        <span class="macro-nonterminal">$</span><span class="macro">crate::ffi_dispatch_static!</span>(<span class="macro-nonterminal">feature</span><span class="op">=</span><span class="string">&quot;dlopen&quot;</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">handle</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">name</span>)
+    (<span class="macro-nonterminal">$handle</span>:ident, <span class="macro-nonterminal">$name</span>: ident) =&gt; (
+        <span class="macro-nonterminal">$</span><span class="macro">crate::ffi_dispatch_static!</span>(<span class="macro-nonterminal">feature</span>=<span class="string">&quot;dlopen&quot;</span>, <span class="macro-nonterminal">$handle</span>, <span class="macro-nonterminal">$name</span>)
     );
 );
 
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="attribute">#[<span class="ident">macro_export</span>]</span>
-<span class="macro">macro_rules!</span> <span class="ident">link_external_library</span>(
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">link</span>: <span class="ident">expr</span>,
-        $(<span class="ident">statics</span>: $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">sname</span>: <span class="ident">ident</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">stype</span>: <span class="ident">ty</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-        $(<span class="ident">functions</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fname</span>: <span class="ident">ident</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">farg</span>: <span class="ident">ty</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fret</span>:<span class="ident">ty</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-        $(<span class="ident">varargs</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vname</span>: <span class="ident">ident</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vargs</span>: <span class="ident">ty</span>),<span class="op">+</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vret</span>: <span class="ident">ty</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
+<span class="attribute">#[doc(hidden)]
+#[macro_export]
+</span><span class="macro">macro_rules! </span>link_external_library(
+    (<span class="macro-nonterminal">$link</span>: expr,
+        $(statics: $(<span class="macro-nonterminal">$sname</span>: ident: <span class="macro-nonterminal">$stype</span>: ty),+,)|*
+        $(functions: $(<span class="kw">fn </span><span class="macro-nonterminal">$fname</span>: ident($(<span class="macro-nonterminal">$farg</span>: ty),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$fret</span>:ty),+,)|*
+        $(varargs: $(<span class="kw">fn </span><span class="macro-nonterminal">$vname</span>: ident($(<span class="macro-nonterminal">$vargs</span>: ty),+) -&gt; <span class="macro-nonterminal">$vret</span>: ty),+,)|*
     ) =&gt; (
-        <span class="attribute">#[<span class="ident">link</span>(<span class="ident">name</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link</span>)]</span>
-        <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> {
+        <span class="attribute">#[link(name = <span class="macro-nonterminal">$link</span>)]
+        </span><span class="kw">extern </span><span class="string">&quot;C&quot; </span>{
             $($(
-                <span class="kw">pub</span> <span class="kw">static</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">sname</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">stype</span>;
-            )<span class="op">+</span>)<span class="op">*</span>
+                <span class="kw">pub static </span><span class="macro-nonterminal">$sname</span>: <span class="macro-nonterminal">$stype</span>;
+            )+)*
             $($(
-                <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fname</span>($(<span class="kw">_</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">farg</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fret</span>;
-            )<span class="op">+</span>)<span class="op">*</span>
+                <span class="kw">pub fn </span><span class="macro-nonterminal">$fname</span>($(<span class="kw">_</span>: <span class="macro-nonterminal">$farg</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$fret</span>;
+            )+)*
             $($(
-                <span class="kw">pub</span> <span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vname</span>($(<span class="kw">_</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vargs</span>),<span class="op">+</span> , ...) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vret</span>;
-            )<span class="op">+</span>)<span class="op">*</span>
+                <span class="kw">pub fn </span><span class="macro-nonterminal">$vname</span>($(<span class="kw">_</span>: <span class="macro-nonterminal">$vargs</span>),+ , ...) -&gt; <span class="macro-nonterminal">$vret</span>;
+            )+)*
         }
     );
 );
 
-<span class="doccomment">/// An error generated when failing to load a library</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DlError</span> {
-    <span class="doccomment">/// The requested library would not be opened</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Includes the error reported by `libloading` when trying to</span>
-    <span class="doccomment">/// open the library.</span>
-    <span class="ident">CantOpen</span>(<span class="ident">LibLoadingError</span>),
-    <span class="doccomment">/// Some required symbol was missing in the library</span>
-    <span class="ident">MissingSymbol</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>),
+<span class="doccomment">/// An error generated when failing to load a library
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub enum </span>DlError {
+    <span class="doccomment">/// The requested library would not be opened
+    ///
+    /// Includes the error reported by `libloading` when trying to
+    /// open the library.
+    </span>CantOpen(LibLoadingError),
+    <span class="doccomment">/// Some required symbol was missing in the library
+    </span>MissingSymbol(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str),
 }
 
-<span class="kw">impl</span> <span class="ident">std::error::Error</span> <span class="kw">for</span> <span class="ident">DlError</span> {
-    <span class="kw">fn</span> <span class="ident">source</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span>(<span class="ident">dyn</span> <span class="ident">std::error::Error</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>)<span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">DlError::CantOpen</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) =&gt; <span class="prelude-val">Some</span>(<span class="ident">e</span>),
-            <span class="ident">DlError::MissingSymbol</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
+<span class="kw">impl </span>std::error::Error <span class="kw">for </span>DlError {
+    <span class="kw">fn </span>source(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>(<span class="kw">dyn </span>std::error::Error + <span class="lifetime">&#39;static</span>)&gt; {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            DlError::CantOpen(<span class="kw-2">ref </span>e) =&gt; <span class="prelude-val">Some</span>(e),
+            DlError::MissingSymbol(<span class="kw">_</span>) =&gt; <span class="prelude-val">None</span>,
         }
     }
 }
 
-<span class="kw">impl</span> <span class="ident">std::fmt::Display</span> <span class="kw">for</span> <span class="ident">DlError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span>) -&gt; <span class="ident">std::fmt::Result</span> {
-        <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
-            <span class="ident">DlError::CantOpen</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;Could not open the requested library: {}&quot;</span>, <span class="ident">e</span>),
-            <span class="ident">DlError::MissingSymbol</span>(<span class="ident">s</span>) =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;The resquested symbol was missing: {}&quot;</span>, <span class="ident">s</span>),
+<span class="kw">impl </span>std::fmt::Display <span class="kw">for </span>DlError {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter) -&gt; std::fmt::Result {
+        <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
+            DlError::CantOpen(<span class="kw-2">ref </span>e) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;Could not open the requested library: {}&quot;</span>, e),
+            DlError::MissingSymbol(s) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;The resquested symbol was missing: {}&quot;</span>, s),
         }
     }
 }
 
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="attribute">#[<span class="ident">macro_export</span>]</span>
-<span class="macro">macro_rules!</span> <span class="ident">dlopen_external_library</span>(
-    (<span class="ident">__struct</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">structname</span>: <span class="ident">ident</span>,
-        $(<span class="ident">statics</span>: $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">sname</span>: <span class="ident">ident</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">stype</span>: <span class="ident">ty</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-        $(<span class="ident">functions</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fname</span>: <span class="ident">ident</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">farg</span>: <span class="ident">ty</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fret</span>:<span class="ident">ty</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-        $(<span class="ident">varargs</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vname</span>: <span class="ident">ident</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vargs</span>: <span class="ident">ty</span>),<span class="op">+</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vret</span>: <span class="ident">ty</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
+<span class="attribute">#[doc(hidden)]
+#[macro_export]
+</span><span class="macro">macro_rules! </span>dlopen_external_library(
+    (__struct, <span class="macro-nonterminal">$structname</span>: ident,
+        $(statics: $(<span class="macro-nonterminal">$sname</span>: ident: <span class="macro-nonterminal">$stype</span>: ty),+,)|*
+        $(functions: $(<span class="kw">fn </span><span class="macro-nonterminal">$fname</span>: ident($(<span class="macro-nonterminal">$farg</span>: ty),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$fret</span>:ty),+,)|*
+        $(varargs: $(<span class="kw">fn </span><span class="macro-nonterminal">$vname</span>: ident($(<span class="macro-nonterminal">$vargs</span>: ty),+) -&gt; <span class="macro-nonterminal">$vret</span>: ty),+,)|*
     ) =&gt; (
-        <span class="kw">pub</span> <span class="kw">struct</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">structname</span> {
-            <span class="ident">__lib</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Library</span>,
+        <span class="kw">pub struct </span><span class="macro-nonterminal">$structname </span>{
+            __lib: <span class="macro-nonterminal">$crate::Library</span>,
             $($(
-                <span class="kw">pub</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">sname</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Symbol</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">stype</span><span class="op">&gt;</span>,
-            )<span class="op">+</span>)<span class="op">*</span>
+                <span class="kw">pub </span><span class="macro-nonterminal">$sname</span>: <span class="macro-nonterminal">$crate::Symbol</span>&lt;<span class="lifetime">&#39;static</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span><span class="macro-nonterminal">$stype</span>&gt;,
+            )+)*
             $($(
-                <span class="kw">pub</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fname</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Symbol</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">farg</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fret</span><span class="op">&gt;</span>,
-            )<span class="op">+</span>)<span class="op">*</span>
+                <span class="kw">pub </span><span class="macro-nonterminal">$fname</span>: <span class="macro-nonterminal">$crate::Symbol</span>&lt;<span class="lifetime">&#39;static</span>, <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>($(<span class="macro-nonterminal">$farg</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$fret</span>&gt;,
+            )+)*
             $($(
-                <span class="kw">pub</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vname</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Symbol</span><span class="op">&lt;</span><span class="lifetime">&#39;static</span>, <span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vargs</span>),<span class="op">+</span> , ...) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vret</span><span class="op">&gt;</span>,
-            )<span class="op">+</span>)<span class="op">*</span>
+                <span class="kw">pub </span><span class="macro-nonterminal">$vname</span>: <span class="macro-nonterminal">$crate::Symbol</span>&lt;<span class="lifetime">&#39;static</span>, <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>($(<span class="macro-nonterminal">$vargs</span>),+ , ...) -&gt; <span class="macro-nonterminal">$vret</span>&gt;,
+            )+)*
         }
     );
-    (<span class="ident">__impl</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">structname</span>: <span class="ident">ident</span>,
-        $(<span class="ident">statics</span>: $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">sname</span>: <span class="ident">ident</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">stype</span>: <span class="ident">ty</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-        $(<span class="ident">functions</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fname</span>: <span class="ident">ident</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">farg</span>: <span class="ident">ty</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fret</span>:<span class="ident">ty</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-        $(<span class="ident">varargs</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vname</span>: <span class="ident">ident</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vargs</span>: <span class="ident">ty</span>),<span class="op">+</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vret</span>: <span class="ident">ty</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
+    (__impl, <span class="macro-nonterminal">$structname</span>: ident,
+        $(statics: $(<span class="macro-nonterminal">$sname</span>: ident: <span class="macro-nonterminal">$stype</span>: ty),+,)|*
+        $(functions: $(<span class="kw">fn </span><span class="macro-nonterminal">$fname</span>: ident($(<span class="macro-nonterminal">$farg</span>: ty),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$fret</span>:ty),+,)|*
+        $(varargs: $(<span class="kw">fn </span><span class="macro-nonterminal">$vname</span>: ident($(<span class="macro-nonterminal">$vargs</span>: ty),+) -&gt; <span class="macro-nonterminal">$vret</span>: ty),+,)|*
     ) =&gt; (
-    <span class="kw">impl</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">structname</span> {
-        <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">open</span>(<span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">structname</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::DlError</span><span class="op">&gt;</span> {
-            <span class="comment">// we use it to ensure the &#39;static lifetime</span>
-            <span class="kw">use</span> <span class="ident">std::mem::transmute</span>;
-            <span class="kw">let</span> <span class="ident">lib</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::Library::new</span>(<span class="ident">name</span>).<span class="ident">map_err</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::DlError::CantOpen</span>)<span class="question-mark">?</span>;
-            <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">structname</span> {
-                $($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">sname</span>: {
-                    <span class="kw">let</span> <span class="ident">s_name</span> <span class="op">=</span> <span class="macro">concat!</span>(<span class="macro">stringify!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">sname</span>), <span class="string">&quot;\0&quot;</span>);
-                    <span class="ident">transmute</span>(<span class="kw">match</span> <span class="ident">lib</span>.<span class="ident">get</span>::<span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">stype</span><span class="op">&gt;</span>(<span class="ident">s_name</span>.<span class="ident">as_bytes</span>()) {
-                        <span class="prelude-val">Ok</span>(<span class="ident">s</span>) =&gt; <span class="ident">s</span>,
-                        <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::DlError::MissingSymbol</span>(<span class="ident">s_name</span>))
+    <span class="kw">impl </span><span class="macro-nonterminal">$structname </span>{
+        <span class="kw">pub unsafe fn </span>open(name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="macro-nonterminal">$structname</span>, <span class="macro-nonterminal">$crate::DlError</span>&gt; {
+            <span class="comment">// we use it to ensure the &#39;static lifetime
+            </span><span class="kw">use </span>std::mem::transmute;
+            <span class="kw">let </span>lib = <span class="macro-nonterminal">$crate::Library::new</span>(name).map_err(<span class="macro-nonterminal">$crate::DlError::CantOpen</span>)<span class="question-mark">?</span>;
+            <span class="kw">let </span>s = <span class="macro-nonterminal">$structname </span>{
+                $($(<span class="macro-nonterminal">$sname</span>: {
+                    <span class="kw">let </span>s_name = <span class="macro">concat!</span>(<span class="macro">stringify!</span>(<span class="macro-nonterminal">$sname</span>), <span class="string">&quot;\0&quot;</span>);
+                    transmute(<span class="kw">match </span>lib.get::&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span><span class="macro-nonterminal">$stype</span>&gt;(s_name.as_bytes()) {
+                        <span class="prelude-val">Ok</span>(s) =&gt; s,
+                        <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro-nonterminal">$crate::DlError::MissingSymbol</span>(s_name))
                     })
                 },
-                )<span class="op">+</span>)<span class="op">*</span>
-                $($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">fname</span>: {
-                    <span class="kw">let</span> <span class="ident">s_name</span> <span class="op">=</span> <span class="macro">concat!</span>(<span class="macro">stringify!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">fname</span>), <span class="string">&quot;\0&quot;</span>);
-                    <span class="ident">transmute</span>(<span class="kw">match</span> <span class="ident">lib</span>.<span class="ident">get</span>::<span class="op">&lt;</span><span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">farg</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fret</span><span class="op">&gt;</span>(<span class="ident">s_name</span>.<span class="ident">as_bytes</span>()) {
-                        <span class="prelude-val">Ok</span>(<span class="ident">s</span>) =&gt; <span class="ident">s</span>,
-                        <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::DlError::MissingSymbol</span>(<span class="ident">s_name</span>))
+                )+)*
+                $($(<span class="macro-nonterminal">$fname</span>: {
+                    <span class="kw">let </span>s_name = <span class="macro">concat!</span>(<span class="macro">stringify!</span>(<span class="macro-nonterminal">$fname</span>), <span class="string">&quot;\0&quot;</span>);
+                    transmute(<span class="kw">match </span>lib.get::&lt;<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>($(<span class="macro-nonterminal">$farg</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$fret</span>&gt;(s_name.as_bytes()) {
+                        <span class="prelude-val">Ok</span>(s) =&gt; s,
+                        <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro-nonterminal">$crate::DlError::MissingSymbol</span>(s_name))
                     })
                 },
-                )<span class="op">+</span>)<span class="op">*</span>
-                $($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vname</span>: {
-                    <span class="kw">let</span> <span class="ident">s_name</span> <span class="op">=</span> <span class="macro">concat!</span>(<span class="macro">stringify!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vname</span>), <span class="string">&quot;\0&quot;</span>);
-                    <span class="ident">transmute</span>(<span class="kw">match</span> <span class="ident">lib</span>.<span class="ident">get</span>::<span class="op">&lt;</span><span class="kw">unsafe</span> <span class="kw">extern</span> <span class="string">&quot;C&quot;</span> <span class="kw">fn</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vargs</span>),<span class="op">+</span> , ...) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vret</span><span class="op">&gt;</span>(<span class="ident">s_name</span>.<span class="ident">as_bytes</span>()) {
-                        <span class="prelude-val">Ok</span>(<span class="ident">s</span>) =&gt; <span class="ident">s</span>,
-                        <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">crate::DlError::MissingSymbol</span>(<span class="ident">s_name</span>))
+                )+)*
+                $($(<span class="macro-nonterminal">$vname</span>: {
+                    <span class="kw">let </span>s_name = <span class="macro">concat!</span>(<span class="macro">stringify!</span>(<span class="macro-nonterminal">$vname</span>), <span class="string">&quot;\0&quot;</span>);
+                    transmute(<span class="kw">match </span>lib.get::&lt;<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>($(<span class="macro-nonterminal">$vargs</span>),+ , ...) -&gt; <span class="macro-nonterminal">$vret</span>&gt;(s_name.as_bytes()) {
+                        <span class="prelude-val">Ok</span>(s) =&gt; s,
+                        <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro-nonterminal">$crate::DlError::MissingSymbol</span>(s_name))
                     })
                 },
-                )<span class="op">+</span>)<span class="op">*</span>
-                <span class="ident">__lib</span>: <span class="ident">lib</span>
+                )+)*
+                __lib: lib
             };
-            <span class="prelude-val">Ok</span>(<span class="ident">s</span>)
+            <span class="prelude-val">Ok</span>(s)
         }
     }
     );
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">structname</span>: <span class="ident">ident</span>,
-        $(<span class="ident">statics</span>: $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">sname</span>: <span class="ident">ident</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">stype</span>: <span class="ident">ty</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-        $(<span class="ident">functions</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fname</span>: <span class="ident">ident</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">farg</span>: <span class="ident">ty</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fret</span>:<span class="ident">ty</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-        $(<span class="ident">varargs</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vname</span>: <span class="ident">ident</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vargs</span>: <span class="ident">ty</span>),<span class="op">+</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vret</span>: <span class="ident">ty</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
+    (<span class="macro-nonterminal">$structname</span>: ident,
+        $(statics: $(<span class="macro-nonterminal">$sname</span>: ident: <span class="macro-nonterminal">$stype</span>: ty),+,)|*
+        $(functions: $(<span class="kw">fn </span><span class="macro-nonterminal">$fname</span>: ident($(<span class="macro-nonterminal">$farg</span>: ty),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$fret</span>:ty),+,)|*
+        $(varargs: $(<span class="kw">fn </span><span class="macro-nonterminal">$vname</span>: ident($(<span class="macro-nonterminal">$vargs</span>: ty),+) -&gt; <span class="macro-nonterminal">$vret</span>: ty),+,)|*
     ) =&gt; (
         <span class="macro-nonterminal">$</span><span class="macro">crate::dlopen_external_library!</span>(<span class="macro-nonterminal">__struct</span>,
-            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">structname</span>, $(<span class="ident">statics</span>: $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">sname</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">stype</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-            $(<span class="ident">functions</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fname</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">farg</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fret</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-            $(<span class="ident">varargs</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vname</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vargs</span>),<span class="op">+</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vret</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
+            <span class="macro-nonterminal">$structname</span>, $(statics: $(<span class="macro-nonterminal">$sname</span>: <span class="macro-nonterminal">$stype</span>),+,)|*
+            $(functions: $(<span class="kw">fn </span><span class="macro-nonterminal">$fname</span>($(<span class="macro-nonterminal">$farg</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$fret</span>),+,)|*
+            $(varargs: $(<span class="kw">fn </span><span class="macro-nonterminal">$vname</span>($(<span class="macro-nonterminal">$vargs</span>),+) -&gt; <span class="macro-nonterminal">$vret</span>),+,)|*
         );
         <span class="macro-nonterminal">$</span><span class="macro">crate::dlopen_external_library!</span>(<span class="macro-nonterminal">__impl</span>,
-            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">structname</span>, $(<span class="ident">statics</span>: $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">sname</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">stype</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-            $(<span class="ident">functions</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fname</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">farg</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fret</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-            $(<span class="ident">varargs</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vname</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vargs</span>),<span class="op">+</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vret</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
+            <span class="macro-nonterminal">$structname</span>, $(statics: $(<span class="macro-nonterminal">$sname</span>: <span class="macro-nonterminal">$stype</span>),+,)|*
+            $(functions: $(<span class="kw">fn </span><span class="macro-nonterminal">$fname</span>($(<span class="macro-nonterminal">$farg</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$fret</span>),+,)|*
+            $(varargs: $(<span class="kw">fn </span><span class="macro-nonterminal">$vname</span>($(<span class="macro-nonterminal">$vargs</span>),+) -&gt; <span class="macro-nonterminal">$vret</span>),+,)|*
         );
-        <span class="kw">unsafe</span> <span class="kw">impl</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">structname</span> { }
+        <span class="kw">unsafe impl </span>Sync <span class="kw">for </span><span class="macro-nonterminal">$structname </span>{ }
     );
 );
 
-<span class="doccomment">/// Main macro of this library, used to generate the the FFI bindings.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The expected arguments are, in order:</span>
-<span class="doccomment">/// - (Optional) The name of the cargo feature conditionning the usage of dlopen, in the form</span>
-<span class="doccomment">///   `feature=&quot;feature-name&quot;`. If ommited, the feature `&quot;dlopen&quot;` will be used.</span>
-<span class="doccomment">/// - The name of the struct that will be generated when the dlopen-controlling feature is</span>
-<span class="doccomment">///   enabled</span>
-<span class="doccomment">/// - The link name of the target library</span>
-<span class="doccomment">/// - The desctription of the statics, functions, and vararg functions that should be linked</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// See crate-level documentation for a detailed example of use.</span>
-<span class="attribute">#[<span class="ident">macro_export</span>]</span>
-<span class="macro">macro_rules!</span> <span class="ident">external_library</span>(
-    (<span class="ident">feature</span><span class="op">=</span><span class="macro-nonterminal">$</span><span class="macro-nonterminal">feature</span>: <span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">structname</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link</span>: <span class="ident">expr</span>,
-        $(<span class="ident">statics</span>: $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">sname</span>: <span class="ident">ident</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">stype</span>: <span class="ident">ty</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-        $(<span class="ident">functions</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fname</span>: <span class="ident">ident</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">farg</span>: <span class="ident">ty</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fret</span>:<span class="ident">ty</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-        $(<span class="ident">varargs</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vname</span>: <span class="ident">ident</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vargs</span>: <span class="ident">ty</span>),<span class="op">+</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vret</span>: <span class="ident">ty</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
+<span class="doccomment">/// Main macro of this library, used to generate the the FFI bindings.
+///
+/// The expected arguments are, in order:
+/// - (Optional) The name of the cargo feature conditionning the usage of dlopen, in the form
+///   `feature=&quot;feature-name&quot;`. If ommited, the feature `&quot;dlopen&quot;` will be used.
+/// - The name of the struct that will be generated when the dlopen-controlling feature is
+///   enabled
+/// - The link name of the target library
+/// - The desctription of the statics, functions, and vararg functions that should be linked
+///
+/// See crate-level documentation for a detailed example of use.
+</span><span class="attribute">#[macro_export]
+</span><span class="macro">macro_rules! </span>external_library(
+    (feature=<span class="macro-nonterminal">$feature</span>: expr, <span class="macro-nonterminal">$structname</span>: ident, <span class="macro-nonterminal">$link</span>: expr,
+        $(statics: $(<span class="macro-nonterminal">$sname</span>: ident: <span class="macro-nonterminal">$stype</span>: ty),+,)|*
+        $(functions: $(<span class="kw">fn </span><span class="macro-nonterminal">$fname</span>: ident($(<span class="macro-nonterminal">$farg</span>: ty),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$fret</span>:ty),+,)|*
+        $(varargs: $(<span class="kw">fn </span><span class="macro-nonterminal">$vname</span>: ident($(<span class="macro-nonterminal">$vargs</span>: ty),+) -&gt; <span class="macro-nonterminal">$vret</span>: ty),+,)|*
     ) =&gt; (
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">feature</span>)]</span>
-        <span class="macro-nonterminal">$</span><span class="macro">crate::dlopen_external_library!</span>(
-            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">structname</span>, $(<span class="ident">statics</span>: $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">sname</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">stype</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-            $(<span class="ident">functions</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fname</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">farg</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fret</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-            $(<span class="ident">varargs</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vname</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vargs</span>),<span class="op">+</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vret</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
+        <span class="attribute">#[cfg(feature = <span class="macro-nonterminal">$feature</span>)]
+        </span><span class="macro-nonterminal">$</span><span class="macro">crate::dlopen_external_library!</span>(
+            <span class="macro-nonterminal">$structname</span>, $(statics: $(<span class="macro-nonterminal">$sname</span>: <span class="macro-nonterminal">$stype</span>),+,)|*
+            $(functions: $(<span class="kw">fn </span><span class="macro-nonterminal">$fname</span>($(<span class="macro-nonterminal">$farg</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$fret</span>),+,)|*
+            $(varargs: $(<span class="kw">fn </span><span class="macro-nonterminal">$vname</span>($(<span class="macro-nonterminal">$vargs</span>),+) -&gt; <span class="macro-nonterminal">$vret</span>),+,)|*
         );
 
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">feature</span>))]</span>
-        <span class="macro-nonterminal">$</span><span class="macro">crate::link_external_library!</span>(
-            <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link</span>, $(<span class="ident">statics</span>: $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">sname</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">stype</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-            $(<span class="ident">functions</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fname</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">farg</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fret</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-            $(<span class="ident">varargs</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vname</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vargs</span>),<span class="op">+</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vret</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
+        <span class="attribute">#[cfg(not(feature = <span class="macro-nonterminal">$feature</span>))]
+        </span><span class="macro-nonterminal">$</span><span class="macro">crate::link_external_library!</span>(
+            <span class="macro-nonterminal">$link</span>, $(statics: $(<span class="macro-nonterminal">$sname</span>: <span class="macro-nonterminal">$stype</span>),+,)|*
+            $(functions: $(<span class="kw">fn </span><span class="macro-nonterminal">$fname</span>($(<span class="macro-nonterminal">$farg</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$fret</span>),+,)|*
+            $(varargs: $(<span class="kw">fn </span><span class="macro-nonterminal">$vname</span>($(<span class="macro-nonterminal">$vargs</span>),+) -&gt; <span class="macro-nonterminal">$vret</span>),+,)|*
         );
     );
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">structname</span>: <span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link</span>: <span class="ident">expr</span>,
-        $(<span class="ident">statics</span>: $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">sname</span>: <span class="ident">ident</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">stype</span>: <span class="ident">ty</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-        $(<span class="ident">functions</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fname</span>: <span class="ident">ident</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">farg</span>: <span class="ident">ty</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fret</span>:<span class="ident">ty</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-        $(<span class="ident">varargs</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vname</span>: <span class="ident">ident</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vargs</span>: <span class="ident">ty</span>),<span class="op">+</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vret</span>: <span class="ident">ty</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
+    (<span class="macro-nonterminal">$structname</span>: ident, <span class="macro-nonterminal">$link</span>: expr,
+        $(statics: $(<span class="macro-nonterminal">$sname</span>: ident: <span class="macro-nonterminal">$stype</span>: ty),+,)|*
+        $(functions: $(<span class="kw">fn </span><span class="macro-nonterminal">$fname</span>: ident($(<span class="macro-nonterminal">$farg</span>: ty),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$fret</span>:ty),+,)|*
+        $(varargs: $(<span class="kw">fn </span><span class="macro-nonterminal">$vname</span>: ident($(<span class="macro-nonterminal">$vargs</span>: ty),+) -&gt; <span class="macro-nonterminal">$vret</span>: ty),+,)|*
     ) =&gt; (
         <span class="macro-nonterminal">$</span><span class="macro">crate::external_library!</span>(
-            <span class="macro-nonterminal">feature</span><span class="op">=</span><span class="string">&quot;dlopen&quot;</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">structname</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">link</span>,
-            $(<span class="ident">statics</span>: $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">sname</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">stype</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-            $(<span class="ident">functions</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fname</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">farg</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">fret</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
-            $(<span class="ident">varargs</span>: $(<span class="kw">fn</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vname</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">vargs</span>),<span class="op">+</span>) -&gt; <span class="macro-nonterminal">$</span><span class="macro-nonterminal">vret</span>),<span class="op">+</span>,)<span class="op">|</span><span class="op">*</span>
+            <span class="macro-nonterminal">feature</span>=<span class="string">&quot;dlopen&quot;</span>, <span class="macro-nonterminal">$structname</span>, <span class="macro-nonterminal">$link</span>,
+            $(statics: $(<span class="macro-nonterminal">$sname</span>: <span class="macro-nonterminal">$stype</span>),+,)|*
+            $(functions: $(<span class="kw">fn </span><span class="macro-nonterminal">$fname</span>($(<span class="macro-nonterminal">$farg</span>),<span class="kw-2">*</span>) -&gt; <span class="macro-nonterminal">$fret</span>),+,)|*
+            $(varargs: $(<span class="kw">fn </span><span class="macro-nonterminal">$vname</span>($(<span class="macro-nonterminal">$vargs</span>),+) -&gt; <span class="macro-nonterminal">$vret</span>),+,)|*
         );
     );
 );
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="dlib" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="dlib" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

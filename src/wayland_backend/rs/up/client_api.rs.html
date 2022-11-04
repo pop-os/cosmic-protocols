@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.10/src/rs/../client_api.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>client_api.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../wayland_backend/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.10/src/rs/../client_api.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>client_api.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../normalize.css"><link rel="stylesheet" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../dark.css" disabled><link rel="stylesheet" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../wayland_backend/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -361,368 +361,368 @@
 <span id="361">361</span>
 <span id="362">362</span>
 <span id="363">363</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">any::Any</span>,
-    <span class="ident">fmt</span>,
-    <span class="ident">os::unix</span>::{<span class="ident">io::RawFd</span>, <span class="ident">net::UnixStream</span>},
-    <span class="ident">sync::Arc</span>,
+</pre><pre class="rust"><code><span class="kw">use </span>std::{
+    any::Any,
+    fmt,
+    os::unix::{io::RawFd, net::UnixStream},
+    sync::Arc,
 };
 
-<span class="kw">use</span> <span class="ident">io_lifetimes</span>::{<span class="ident">BorrowedFd</span>, <span class="ident">OwnedFd</span>};
+<span class="kw">use </span>io_lifetimes::{BorrowedFd, OwnedFd};
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::protocol</span>::{<span class="ident">Interface</span>, <span class="ident">Message</span>, <span class="ident">ObjectInfo</span>};
+<span class="kw">use </span><span class="kw">crate</span>::protocol::{Interface, Message, ObjectInfo};
 
-<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::client_impl</span>;
+<span class="kw">use </span><span class="kw">super</span>::client_impl;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::types::client</span>::{<span class="ident">InvalidId</span>, <span class="ident">NoWaylandLib</span>, <span class="ident">WaylandError</span>};
+<span class="kw">pub use </span><span class="kw">crate</span>::types::client::{InvalidId, NoWaylandLib, WaylandError};
 
-<span class="doccomment">/// A trait representing your data associated to an object</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// You will only be given access to it as a `&amp;` reference, so you</span>
-<span class="doccomment">/// need to handle interior mutability by yourself.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The methods of this trait will be invoked internally every time a</span>
-<span class="doccomment">/// new object is created to initialize its data.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ObjectData</span>: <span class="ident">downcast_rs::DowncastSync</span> {
-    <span class="doccomment">/// Dispatch an event for the associated object</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If the event has a `NewId` argument, the callback must return the object data</span>
-    <span class="doccomment">/// for the newly created object</span>
-    <span class="kw">fn</span> <span class="ident">event</span>(
-        <span class="self">self</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
-        <span class="ident">backend</span>: <span class="kw-2">&amp;</span><span class="ident">Backend</span>,
-        <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+<span class="doccomment">/// A trait representing your data associated to an object
+///
+/// You will only be given access to it as a `&amp;` reference, so you
+/// need to handle interior mutability by yourself.
+///
+/// The methods of this trait will be invoked internally every time a
+/// new object is created to initialize its data.
+</span><span class="kw">pub trait </span>ObjectData: downcast_rs::DowncastSync {
+    <span class="doccomment">/// Dispatch an event for the associated object
+    ///
+    /// If the event has a `NewId` argument, the callback must return the object data
+    /// for the newly created object
+    </span><span class="kw">fn </span>event(
+        <span class="self">self</span>: Arc&lt;<span class="self">Self</span>&gt;,
+        backend: <span class="kw-2">&amp;</span>Backend,
+        msg: Message&lt;ObjectId, OwnedFd&gt;,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;Arc&lt;<span class="kw">dyn </span>ObjectData&gt;&gt;;
 
-    <span class="doccomment">/// Notification that the object has been destroyed and is no longer active</span>
-    <span class="kw">fn</span> <span class="ident">destroyed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">object_id</span>: <span class="ident">ObjectId</span>);
+    <span class="doccomment">/// Notification that the object has been destroyed and is no longer active
+    </span><span class="kw">fn </span>destroyed(<span class="kw-2">&amp;</span><span class="self">self</span>, object_id: ObjectId);
 
-    <span class="doccomment">/// Helper for forwarding a Debug implementation of your `ObjectData` type</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// By default will just print `ObjectData { ... }`</span>
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">debug</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
-        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;ObjectData&quot;</span>).<span class="ident">finish_non_exhaustive</span>()
+    <span class="doccomment">/// Helper for forwarding a Debug implementation of your `ObjectData` type
+    ///
+    /// By default will just print `ObjectData { ... }`
+    </span><span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>debug(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
+        f.debug_struct(<span class="string">&quot;ObjectData&quot;</span>).finish_non_exhaustive()
     }
 
-    <span class="doccomment">/// Helper for accessing user data</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This function is used to back the `Proxy::data` function in `wayland_client`.  By default,</span>
-    <span class="doccomment">/// it returns `self` (via Downcast), but this may be overridden to allow downcasting user data</span>
-    <span class="doccomment">/// without needing to have access to the full type.</span>
-    <span class="kw">fn</span> <span class="ident">data_as_any</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">Any</span> {
-        <span class="self">self</span>.<span class="ident">as_any</span>()
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">std::fmt::Debug</span> <span class="kw">for</span> <span class="kw">dyn</span> <span class="ident">ObjectData</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
-        <span class="self">self</span>.<span class="ident">debug</span>(<span class="ident">f</span>)
+    <span class="doccomment">/// Helper for accessing user data
+    ///
+    /// This function is used to back the `Proxy::data` function in `wayland_client`.  By default,
+    /// it returns `self` (via Downcast), but this may be overridden to allow downcasting user data
+    /// without needing to have access to the full type.
+    </span><span class="kw">fn </span>data_as_any(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw">dyn </span>Any {
+        <span class="self">self</span>.as_any()
     }
 }
 
-<span class="macro">downcast_rs::impl_downcast!</span>(<span class="ident">sync</span> <span class="ident">ObjectData</span>);
-
-<span class="doccomment">/// An ID representing a Wayland object</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// The backend internally tracks which IDs are still valid, invalidates them when the protocol object they</span>
-<span class="doccomment">/// represent is destroyed. As such even though the Wayland protocol reuses IDs, you can confidently compare</span>
-<span class="doccomment">/// two `ObjectId` for equality, they will only compare as equal if they both represent the same protocol</span>
-<span class="doccomment">/// object.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Hash</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ObjectId</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">id</span>: <span class="ident">client_impl::InnerObjectId</span>,
-}
-
-<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">ObjectId</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">fmt</span>(<span class="ident">f</span>)
+<span class="kw">impl </span>std::fmt::Debug <span class="kw">for dyn </span>ObjectData {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
+        <span class="self">self</span>.debug(f)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">ObjectId</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">fmt</span>(<span class="ident">f</span>)
+<span class="macro">downcast_rs::impl_downcast!</span>(sync ObjectData);
+
+<span class="doccomment">/// An ID representing a Wayland object
+///
+/// The backend internally tracks which IDs are still valid, invalidates them when the protocol object they
+/// represent is destroyed. As such even though the Wayland protocol reuses IDs, you can confidently compare
+/// two `ObjectId` for equality, they will only compare as equal if they both represent the same protocol
+/// object.
+</span><span class="attribute">#[derive(Clone, PartialEq, Eq, Hash)]
+</span><span class="kw">pub struct </span>ObjectId {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) id: client_impl::InnerObjectId,
+}
+
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>ObjectId {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    #[inline]
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="self">self</span>.id.fmt(f)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">ObjectId</span> {
-    <span class="doccomment">/// Check if this is a null ID</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note:** This is not the same as checking if the ID is still valid, which cannot be done without the</span>
-    <span class="doccomment">/// [`Backend`]. A null ID is the ID equivalent of a null pointer: it never has been valid and never will</span>
-    <span class="doccomment">/// be.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_null</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">is_null</span>()
-    }
-
-    <span class="doccomment">/// Create a null object ID</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This object ID is always invalid, and should be used as placeholder in requests that create objects,</span>
-    <span class="doccomment">/// or for request with an optional `Object` argument.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See [`Backend::send_request`](Backend::send_request) for details.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">null</span>() -&gt; <span class="ident">ObjectId</span> {
-        <span class="ident">client_impl::InnerBackend::null_id</span>()
-    }
-
-    <span class="doccomment">/// Interface of the represented object</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">interface</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span> {
-        <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">interface</span>()
-    }
-
-    <span class="doccomment">/// Return the protocol-level numerical ID of this object</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Protocol IDs are reused after object destruction, so this should not be used as a unique identifier,</span>
-    <span class="doccomment">/// instead use the `ObjectId` directly, it implements `Clone`, `PartialEq`, `Eq` and `Hash`.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">protocol_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> {
-        <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">protocol_id</span>()
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>ObjectId {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    #[inline]
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="self">self</span>.id.fmt(f)
     }
 }
 
-<span class="doccomment">/// A Wayland client backend</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This type hosts all the interface for interacting with the wayland protocol. It can be</span>
-<span class="doccomment">/// cloned, all clones refer to the same underlying connection.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Backend</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">backend</span>: <span class="ident">client_impl::InnerBackend</span>,
-}
+<span class="kw">impl </span>ObjectId {
+    <span class="doccomment">/// Check if this is a null ID
+    ///
+    /// **Note:** This is not the same as checking if the ID is still valid, which cannot be done without the
+    /// [`Backend`]. A null ID is the ID equivalent of a null pointer: it never has been valid and never will
+    /// be.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>is_null(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.id.is_null()
+    }
 
-<span class="doccomment">/// A weak handle to a [`Backend`]</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This handle behaves similarly to [`Weak`](std::sync::Weak), and can be used to keep access to</span>
-<span class="doccomment">/// the backend without actually preventing it from being dropped.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WeakBackend</span> {
-    <span class="ident">inner</span>: <span class="ident">client_impl::WeakInnerBackend</span>,
-}
+    <span class="doccomment">/// Create a null object ID
+    ///
+    /// This object ID is always invalid, and should be used as placeholder in requests that create objects,
+    /// or for request with an optional `Object` argument.
+    ///
+    /// See [`Backend::send_request`](Backend::send_request) for details.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>null() -&gt; ObjectId {
+        client_impl::InnerBackend::null_id()
+    }
 
-<span class="kw">impl</span> <span class="ident">WeakBackend</span> {
-    <span class="doccomment">/// Try to upgrade this weak handle to a [`Backend`]</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns `None` if the associated backend was already dropped.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">upgrade</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Backend</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">upgrade</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">backend</span><span class="op">|</span> <span class="ident">Backend</span> { <span class="ident">backend</span> })
+    <span class="doccomment">/// Interface of the represented object
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>interface(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface {
+        <span class="self">self</span>.id.interface()
+    }
+
+    <span class="doccomment">/// Return the protocol-level numerical ID of this object
+    ///
+    /// Protocol IDs are reused after object destruction, so this should not be used as a unique identifier,
+    /// instead use the `ObjectId` directly, it implements `Clone`, `PartialEq`, `Eq` and `Hash`.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>protocol_id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+        <span class="self">self</span>.id.protocol_id()
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Backend</span> {
-    <span class="doccomment">/// Try to initialize a Wayland backend on the provided unix stream</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The provided stream should correspond to an already established unix connection with</span>
-    <span class="doccomment">/// the Wayland server.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method can only fail on the `sys` backend if the `dlopen` cargo feature was enabled</span>
-    <span class="doccomment">/// and the system wayland library could not be found.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">connect</span>(<span class="ident">stream</span>: <span class="ident">UnixStream</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">NoWaylandLib</span><span class="op">&gt;</span> {
-        <span class="ident">client_impl::InnerBackend::connect</span>(<span class="ident">stream</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">backend</span><span class="op">|</span> <span class="self">Self</span> { <span class="ident">backend</span> })
+<span class="doccomment">/// A Wayland client backend
+///
+/// This type hosts all the interface for interacting with the wayland protocol. It can be
+/// cloned, all clones refer to the same underlying connection.
+</span><span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>Backend {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) backend: client_impl::InnerBackend,
+}
+
+<span class="doccomment">/// A weak handle to a [`Backend`]
+///
+/// This handle behaves similarly to [`Weak`](std::sync::Weak), and can be used to keep access to
+/// the backend without actually preventing it from being dropped.
+</span><span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>WeakBackend {
+    inner: client_impl::WeakInnerBackend,
+}
+
+<span class="kw">impl </span>WeakBackend {
+    <span class="doccomment">/// Try to upgrade this weak handle to a [`Backend`]
+    ///
+    /// Returns `None` if the associated backend was already dropped.
+    </span><span class="kw">pub fn </span>upgrade(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Backend&gt; {
+        <span class="self">self</span>.inner.upgrade().map(|backend| Backend { backend })
+    }
+}
+
+<span class="kw">impl </span>Backend {
+    <span class="doccomment">/// Try to initialize a Wayland backend on the provided unix stream
+    ///
+    /// The provided stream should correspond to an already established unix connection with
+    /// the Wayland server.
+    ///
+    /// This method can only fail on the `sys` backend if the `dlopen` cargo feature was enabled
+    /// and the system wayland library could not be found.
+    </span><span class="kw">pub fn </span>connect(stream: UnixStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, NoWaylandLib&gt; {
+        client_impl::InnerBackend::connect(stream).map(|backend| <span class="self">Self </span>{ backend })
     }
 
-    <span class="doccomment">/// Get a [`WeakBackend`] from this backend</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">downgrade</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">WeakBackend</span> {
-        <span class="ident">WeakBackend</span> { <span class="ident">inner</span>: <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">downgrade</span>() }
+    <span class="doccomment">/// Get a [`WeakBackend`] from this backend
+    </span><span class="kw">pub fn </span>downgrade(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; WeakBackend {
+        WeakBackend { inner: <span class="self">self</span>.backend.downgrade() }
     }
 
-    <span class="doccomment">/// Flush all pending outgoing requests to the server</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Most errors on this method mean that the Wayland connection is no longer valid, the only</span>
-    <span class="doccomment">/// exception being an IO `WouldBlock` error. In that case it means that you should try flushing again</span>
-    <span class="doccomment">/// later.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// You can however expect this method returning `WouldBlock` to be very rare: it can only occur if</span>
-    <span class="doccomment">/// either your client sent a lot of big messages at once, or the server is very laggy.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">WaylandError</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">flush</span>()
+    <span class="doccomment">/// Flush all pending outgoing requests to the server
+    ///
+    /// Most errors on this method mean that the Wayland connection is no longer valid, the only
+    /// exception being an IO `WouldBlock` error. In that case it means that you should try flushing again
+    /// later.
+    ///
+    /// You can however expect this method returning `WouldBlock` to be very rare: it can only occur if
+    /// either your client sent a lot of big messages at once, or the server is very laggy.
+    </span><span class="kw">pub fn </span>flush(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), WaylandError&gt; {
+        <span class="self">self</span>.backend.flush()
     }
 
-    <span class="doccomment">/// Get the object ID for the `wl_display`</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">display_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">ObjectId</span> {
-        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">display_id</span>()
+    <span class="doccomment">/// Get the object ID for the `wl_display`
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>display_id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ObjectId {
+        <span class="self">self</span>.backend.display_id()
     }
 
-    <span class="doccomment">/// Get the last error that occurred on this backend</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If this returns [`Some`], your Wayland connection is already dead.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">last_error</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">WaylandError</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">last_error</span>()
+    <span class="doccomment">/// Get the last error that occurred on this backend
+    ///
+    /// If this returns [`Some`], your Wayland connection is already dead.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>last_error(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;WaylandError&gt; {
+        <span class="self">self</span>.backend.last_error()
     }
 
-    <span class="doccomment">/// Get the detailed protocol information about a wayland object</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns an error if the provided object ID is no longer valid.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">ObjectId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ObjectInfo</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">info</span>(<span class="ident">id</span>)
+    <span class="doccomment">/// Get the detailed protocol information about a wayland object
+    ///
+    /// Returns an error if the provided object ID is no longer valid.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>info(<span class="kw-2">&amp;</span><span class="self">self</span>, id: ObjectId) -&gt; <span class="prelude-ty">Result</span>&lt;ObjectInfo, InvalidId&gt; {
+        <span class="self">self</span>.backend.info(id)
     }
 
-    <span class="doccomment">/// Sends a request to the server</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns an error if the sender ID of the provided message is no longer valid.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Panic:**</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Several checks against the protocol specification are done, and this method will panic if they do</span>
-    <span class="doccomment">/// not pass:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// - the message opcode must be valid for the sender interface</span>
-    <span class="doccomment">/// - the argument list must match the prototype for the message associated with this opcode</span>
-    <span class="doccomment">/// - if the method creates a new object, a [`ObjectId::null()`](ObjectId::null) must be given</span>
-    <span class="doccomment">///   in the argument list at the appropriate place, and a `child_spec` (interface and version)</span>
-    <span class="doccomment">///   can be provided. If one is provided, it&#39;ll be checked against the protocol spec. If the</span>
-    <span class="doccomment">///   protocol specification does not define the interface of the created object (notable example</span>
-    <span class="doccomment">///   is `wl_registry.bind`), the `child_spec` must be provided.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_request</span>(
+    <span class="doccomment">/// Sends a request to the server
+    ///
+    /// Returns an error if the sender ID of the provided message is no longer valid.
+    ///
+    /// **Panic:**
+    ///
+    /// Several checks against the protocol specification are done, and this method will panic if they do
+    /// not pass:
+    ///
+    /// - the message opcode must be valid for the sender interface
+    /// - the argument list must match the prototype for the message associated with this opcode
+    /// - if the method creates a new object, a [`ObjectId::null()`](ObjectId::null) must be given
+    ///   in the argument list at the appropriate place, and a `child_spec` (interface and version)
+    ///   can be provided. If one is provided, it&#39;ll be checked against the protocol spec. If the
+    ///   protocol specification does not define the interface of the created object (notable example
+    ///   is `wl_registry.bind`), the `child_spec` must be provided.
+    </span><span class="kw">pub fn </span>send_request(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">RawFd</span><span class="op">&gt;</span>,
-        <span class="ident">data</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-        <span class="ident">child_spec</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">send_request</span>(<span class="ident">msg</span>, <span class="ident">data</span>, <span class="ident">child_spec</span>)
+        msg: Message&lt;ObjectId, RawFd&gt;,
+        data: <span class="prelude-ty">Option</span>&lt;Arc&lt;<span class="kw">dyn </span>ObjectData&gt;&gt;,
+        child_spec: <span class="prelude-ty">Option</span>&lt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface, u32)&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;ObjectId, InvalidId&gt; {
+        <span class="self">self</span>.backend.send_request(msg, data, child_spec)
     }
 
-    <span class="doccomment">/// Access the object data associated with a given object ID</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns an error if the object ID is not longer valid or if it corresponds to a Wayland</span>
-    <span class="doccomment">/// object that is not managed by this backend (when multiple libraries share the same Wayland</span>
-    <span class="doccomment">/// socket via `libwayland` if using the system backend).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">ObjectId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">get_data</span>(<span class="ident">id</span>)
+    <span class="doccomment">/// Access the object data associated with a given object ID
+    ///
+    /// Returns an error if the object ID is not longer valid or if it corresponds to a Wayland
+    /// object that is not managed by this backend (when multiple libraries share the same Wayland
+    /// socket via `libwayland` if using the system backend).
+    </span><span class="kw">pub fn </span>get_data(<span class="kw-2">&amp;</span><span class="self">self</span>, id: ObjectId) -&gt; <span class="prelude-ty">Result</span>&lt;Arc&lt;<span class="kw">dyn </span>ObjectData&gt;, InvalidId&gt; {
+        <span class="self">self</span>.backend.get_data(id)
     }
 
-    <span class="doccomment">/// Set the object data associated with a given object ID</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns an error if the object ID is not longer valid or if it corresponds to a Wayland</span>
-    <span class="doccomment">/// object that is not managed by this backend (when multiple libraries share the same Wayland</span>
-    <span class="doccomment">/// socket via `libwayland` if using the system backend).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">ObjectId</span>, <span class="ident">data</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">set_data</span>(<span class="ident">id</span>, <span class="ident">data</span>)
+    <span class="doccomment">/// Set the object data associated with a given object ID
+    ///
+    /// Returns an error if the object ID is not longer valid or if it corresponds to a Wayland
+    /// object that is not managed by this backend (when multiple libraries share the same Wayland
+    /// socket via `libwayland` if using the system backend).
+    </span><span class="kw">pub fn </span>set_data(<span class="kw-2">&amp;</span><span class="self">self</span>, id: ObjectId, data: Arc&lt;<span class="kw">dyn </span>ObjectData&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), InvalidId&gt; {
+        <span class="self">self</span>.backend.set_data(id, data)
     }
 
-    <span class="doccomment">/// Create a new reading guard</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This is the first step for actually reading events from the Wayland socket. See</span>
-    <span class="doccomment">/// [`ReadEventsGuard`] for how to use it.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This call will not block, but event callbacks may be invoked in the process</span>
-    <span class="doccomment">/// of preparing the guard.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If it returns an error, you Wayland connection is already dead.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">prepare_read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ReadEventsGuard</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
-        <span class="ident">client_impl::InnerReadEventsGuard::try_new</span>(<span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">clone</span>())
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">guard</span><span class="op">|</span> <span class="ident">ReadEventsGuard</span> { <span class="ident">guard</span> })
+    <span class="doccomment">/// Create a new reading guard
+    ///
+    /// This is the first step for actually reading events from the Wayland socket. See
+    /// [`ReadEventsGuard`] for how to use it.
+    ///
+    /// This call will not block, but event callbacks may be invoked in the process
+    /// of preparing the guard.
+    ///
+    /// If it returns an error, you Wayland connection is already dead.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>prepare_read(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;ReadEventsGuard, WaylandError&gt; {
+        client_impl::InnerReadEventsGuard::try_new(<span class="self">self</span>.backend.clone())
+            .map(|guard| ReadEventsGuard { guard })
     }
 
-    <span class="doccomment">/// Dispatches the inner queue of this backend if necessary</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This function is only relevant when using the system backend that was created from an external</span>
-    <span class="doccomment">/// display. In this case, it is possible that some other part of the program already takes care</span>
-    <span class="doccomment">/// of reading the wayland socket and you should not touch it, and thus you cannot use</span>
-    <span class="doccomment">/// [`prepare_read()`](Backend::prepare_read). In this situation, this method will ensure that this</span>
-    <span class="doccomment">/// [`Backend`] still correctly processes its messages.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// When using the rust backend, or when using the system backend where you own the connection, this</span>
-    <span class="doccomment">/// function will do nothing. It is thus safe to unconditionnaly invoke it at some point in your library</span>
-    <span class="doccomment">/// code to ensure you support all use cases, for example.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns the number of messages that were dispatched to their `ObjectData` callbacks.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch_inner_queue</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">dispatch_inner_queue</span>()
-    }
-}
-
-<span class="doccomment">/// Guard for synchronizing event reading across multiple threads</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// If multiple threads need to read events from the Wayland socket concurrently,</span>
-<span class="doccomment">/// it is necessary to synchronize their access. Failing to do so may cause some of the</span>
-<span class="doccomment">/// threads to not be notified of new events, and sleep much longer than appropriate.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This guard is provided to ensure the proper synchronization is done. The guard is created using</span>
-<span class="doccomment">/// the [`Backend::prepare_read()`](Backend::prepare_read) method. And the event reading is</span>
-<span class="doccomment">/// triggered by consuming the guard using the [`read()`](ReadEventsGuard::read) method, synchronizing</span>
-<span class="doccomment">/// with other threads as necessary so that only one of the threads will actually perform the socket read.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// If you plan to poll the Wayland socket for readiness, the file descriptor can be retrieved via</span>
-<span class="doccomment">/// the [`connection_fd`](ReadEventsGuard::connection_fd) method. Note that for the synchronization to</span>
-<span class="doccomment">/// correctly occur, you must *always* create the `ReadEventsGuard` *before* polling the socket.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Dropping the guard is valid and will cancel the prepared read.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ReadEventsGuard</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">guard</span>: <span class="ident">client_impl::InnerReadEventsGuard</span>,
-}
-
-<span class="kw">impl</span> <span class="ident">ReadEventsGuard</span> {
-    <span class="doccomment">/// Access the Wayland socket FD for polling</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">connection_fd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">BorrowedFd</span> {
-        <span class="self">self</span>.<span class="ident">guard</span>.<span class="ident">connection_fd</span>()
-    }
-
-    <span class="doccomment">/// Attempt to read events from the Wayland socket</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If multiple threads have a live reading guard, this method will block until all of them</span>
-    <span class="doccomment">/// are either dropped or have their `read()` method invoked, at which point one of the threads</span>
-    <span class="doccomment">/// will read events from the socket and invoke the callbacks for the received events. All</span>
-    <span class="doccomment">/// threads will then resume their execution.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This returns the number of dispatched events, or `0` if an other thread handled the dispatching.</span>
-    <span class="doccomment">/// If no events are available to read from the socket, this returns a `WouldBlock` IO error.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read</span>(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">guard</span>.<span class="ident">read</span>()
+    <span class="doccomment">/// Dispatches the inner queue of this backend if necessary
+    ///
+    /// This function is only relevant when using the system backend that was created from an external
+    /// display. In this case, it is possible that some other part of the program already takes care
+    /// of reading the wayland socket and you should not touch it, and thus you cannot use
+    /// [`prepare_read()`](Backend::prepare_read). In this situation, this method will ensure that this
+    /// [`Backend`] still correctly processes its messages.
+    ///
+    /// When using the rust backend, or when using the system backend where you own the connection, this
+    /// function will do nothing. It is thus safe to unconditionnaly invoke it at some point in your library
+    /// code to ensure you support all use cases, for example.
+    ///
+    /// Returns the number of messages that were dispatched to their `ObjectData` callbacks.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>dispatch_inner_queue(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;usize, WaylandError&gt; {
+        <span class="self">self</span>.backend.dispatch_inner_queue()
     }
 }
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">DumbObjectData</span>;
 
-<span class="kw">impl</span> <span class="ident">ObjectData</span> <span class="kw">for</span> <span class="ident">DumbObjectData</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">event</span>(
-        <span class="self">self</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
-        <span class="ident">_handle</span>: <span class="kw-2">&amp;</span><span class="ident">Backend</span>,
-        <span class="ident">_msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+<span class="doccomment">/// Guard for synchronizing event reading across multiple threads
+///
+/// If multiple threads need to read events from the Wayland socket concurrently,
+/// it is necessary to synchronize their access. Failing to do so may cause some of the
+/// threads to not be notified of new events, and sleep much longer than appropriate.
+///
+/// This guard is provided to ensure the proper synchronization is done. The guard is created using
+/// the [`Backend::prepare_read()`](Backend::prepare_read) method. And the event reading is
+/// triggered by consuming the guard using the [`read()`](ReadEventsGuard::read) method, synchronizing
+/// with other threads as necessary so that only one of the threads will actually perform the socket read.
+///
+/// If you plan to poll the Wayland socket for readiness, the file descriptor can be retrieved via
+/// the [`connection_fd`](ReadEventsGuard::connection_fd) method. Note that for the synchronization to
+/// correctly occur, you must *always* create the `ReadEventsGuard` *before* polling the socket.
+///
+/// Dropping the guard is valid and will cancel the prepared read.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>ReadEventsGuard {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) guard: client_impl::InnerReadEventsGuard,
+}
+
+<span class="kw">impl </span>ReadEventsGuard {
+    <span class="doccomment">/// Access the Wayland socket FD for polling
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>connection_fd(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BorrowedFd {
+        <span class="self">self</span>.guard.connection_fd()
+    }
+
+    <span class="doccomment">/// Attempt to read events from the Wayland socket
+    ///
+    /// If multiple threads have a live reading guard, this method will block until all of them
+    /// are either dropped or have their `read()` method invoked, at which point one of the threads
+    /// will read events from the socket and invoke the callbacks for the received events. All
+    /// threads will then resume their execution.
+    ///
+    /// This returns the number of dispatched events, or `0` if an other thread handled the dispatching.
+    /// If no events are available to read from the socket, this returns a `WouldBlock` IO error.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>read(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;usize, WaylandError&gt; {
+        <span class="self">self</span>.guard.read()
+    }
+}
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>DumbObjectData;
+
+<span class="kw">impl </span>ObjectData <span class="kw">for </span>DumbObjectData {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>event(
+        <span class="self">self</span>: Arc&lt;<span class="self">Self</span>&gt;,
+        _handle: <span class="kw-2">&amp;</span>Backend,
+        _msg: Message&lt;ObjectId, OwnedFd&gt;,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;Arc&lt;<span class="kw">dyn </span>ObjectData&gt;&gt; {
         <span class="macro">unreachable!</span>()
     }
 
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">destroyed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_object_id</span>: <span class="ident">ObjectId</span>) {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>destroyed(<span class="kw-2">&amp;</span><span class="self">self</span>, _object_id: ObjectId) {
         <span class="macro">unreachable!</span>()
     }
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">UninitObjectData</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>UninitObjectData;
 
-<span class="kw">impl</span> <span class="ident">ObjectData</span> <span class="kw">for</span> <span class="ident">UninitObjectData</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">event</span>(
-        <span class="self">self</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span>,
-        <span class="ident">_handle</span>: <span class="kw-2">&amp;</span><span class="ident">Backend</span>,
-        <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="macro">panic!</span>(<span class="string">&quot;Received a message on an uninitialized object: {:?}&quot;</span>, <span class="ident">msg</span>);
+<span class="kw">impl </span>ObjectData <span class="kw">for </span>UninitObjectData {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>event(
+        <span class="self">self</span>: Arc&lt;<span class="self">Self</span>&gt;,
+        _handle: <span class="kw-2">&amp;</span>Backend,
+        msg: Message&lt;ObjectId, OwnedFd&gt;,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;Arc&lt;<span class="kw">dyn </span>ObjectData&gt;&gt; {
+        <span class="macro">panic!</span>(<span class="string">&quot;Received a message on an uninitialized object: {:?}&quot;</span>, msg);
     }
 
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">destroyed</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_object_id</span>: <span class="ident">ObjectId</span>) {}
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>destroyed(<span class="kw-2">&amp;</span><span class="self">self</span>, _object_id: ObjectId) {}
 
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">debug</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::fmt::Result</span> {
-        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;UninitObjectData&quot;</span>).<span class="ident">finish</span>()
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>debug(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; std::fmt::Result {
+        f.debug_struct(<span class="string">&quot;UninitObjectData&quot;</span>).finish()
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="wayland_backend" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="wayland_backend" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

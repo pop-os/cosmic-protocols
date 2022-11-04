@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-server-0.30.0-beta.10/src/socket.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>socket.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_server/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_server/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_server/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-server-0.30.0-beta.10/src/socket.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>socket.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_server/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_server/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_server/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -170,177 +170,177 @@
 <span id="170">170</span>
 <span id="171">171</span>
 <span id="172">172</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">env</span>,
-    <span class="ident">ffi</span>::{<span class="ident">OsStr</span>, <span class="ident">OsString</span>},
-    <span class="ident">fs::File</span>,
-    <span class="ident">io</span>,
-    <span class="ident">os::unix</span>::{
-        <span class="ident">io</span>::{<span class="ident">AsRawFd</span>, <span class="ident">FromRawFd</span>, <span class="ident">RawFd</span>},
-        <span class="ident">net</span>::{<span class="ident">UnixListener</span>, <span class="ident">UnixStream</span>},
+</pre><pre class="rust"><code><span class="kw">use </span>std::{
+    env,
+    ffi::{OsStr, OsString},
+    fs::File,
+    io,
+    os::unix::{
+        io::{AsRawFd, FromRawFd, RawFd},
+        net::{UnixListener, UnixStream},
     },
-    <span class="ident">path::PathBuf</span>,
+    path::PathBuf,
 };
 
-<span class="kw">use</span> <span class="ident">nix</span>::{
-    <span class="ident">fcntl</span>::{<span class="ident">flock</span>, <span class="ident">open</span>, <span class="ident">FlockArg</span>, <span class="ident">OFlag</span>},
-    <span class="ident">sys::stat</span>::{<span class="ident">lstat</span>, <span class="ident">Mode</span>},
-    <span class="ident">unistd::unlink</span>,
+<span class="kw">use </span>nix::{
+    fcntl::{flock, open, FlockArg, OFlag},
+    sys::stat::{lstat, Mode},
+    unistd::unlink,
 };
 
-<span class="doccomment">/// An utility representing a unix socket on which your compositor is listening for new clients</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ListeningSocket</span> {
-    <span class="ident">listener</span>: <span class="ident">UnixListener</span>,
-    <span class="ident">_lock</span>: <span class="ident">File</span>,
-    <span class="ident">socket_path</span>: <span class="ident">PathBuf</span>,
-    <span class="ident">lock_path</span>: <span class="ident">PathBuf</span>,
-    <span class="ident">socket_name</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">OsString</span><span class="op">&gt;</span>,
+<span class="doccomment">/// An utility representing a unix socket on which your compositor is listening for new clients
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>ListeningSocket {
+    listener: UnixListener,
+    _lock: File,
+    socket_path: PathBuf,
+    lock_path: PathBuf,
+    socket_name: <span class="prelude-ty">Option</span>&lt;OsString&gt;,
 }
 
-<span class="kw">impl</span> <span class="ident">ListeningSocket</span> {
-    <span class="doccomment">/// Attempt to bind a listening socket with given name</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method will acquire an associate lockfile. The socket will be created in the</span>
-    <span class="doccomment">/// directory pointed to by the `XDG_RUNTIME_DIR` environment variable.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bind</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">OsStr</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">socket_name</span>: <span class="ident">S</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">BindError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">runtime_dir</span>: <span class="ident">PathBuf</span> <span class="op">=</span>
-            <span class="ident">env::var</span>(<span class="string">&quot;XDG_RUNTIME_DIR&quot;</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">BindError::RuntimeDirNotSet</span>)<span class="question-mark">?</span>.<span class="ident">into</span>();
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">runtime_dir</span>.<span class="ident">is_absolute</span>() {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindError::RuntimeDirNotSet</span>);
+<span class="kw">impl </span>ListeningSocket {
+    <span class="doccomment">/// Attempt to bind a listening socket with given name
+    ///
+    /// This method will acquire an associate lockfile. The socket will be created in the
+    /// directory pointed to by the `XDG_RUNTIME_DIR` environment variable.
+    </span><span class="kw">pub fn </span>bind&lt;S: AsRef&lt;OsStr&gt;&gt;(socket_name: S) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, BindError&gt; {
+        <span class="kw">let </span>runtime_dir: PathBuf =
+            env::var(<span class="string">&quot;XDG_RUNTIME_DIR&quot;</span>).map_err(|<span class="kw">_</span>| BindError::RuntimeDirNotSet)<span class="question-mark">?</span>.into();
+        <span class="kw">if </span>!runtime_dir.is_absolute() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(BindError::RuntimeDirNotSet);
         }
-        <span class="kw">let</span> <span class="ident">socket_path</span> <span class="op">=</span> <span class="ident">runtime_dir</span>.<span class="ident">join</span>(<span class="ident">socket_name</span>.<span class="ident">as_ref</span>());
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">socket</span> <span class="op">=</span> <span class="ident"><span class="self">Self</span>::bind_absolute</span>(<span class="ident">socket_path</span>)<span class="question-mark">?</span>;
-        <span class="ident">socket</span>.<span class="ident">socket_name</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">socket_name</span>.<span class="ident">as_ref</span>().<span class="ident">into</span>());
-        <span class="prelude-val">Ok</span>(<span class="ident">socket</span>)
+        <span class="kw">let </span>socket_path = runtime_dir.join(socket_name.as_ref());
+        <span class="kw">let </span><span class="kw-2">mut </span>socket = <span class="self">Self</span>::bind_absolute(socket_path)<span class="question-mark">?</span>;
+        socket.socket_name = <span class="prelude-val">Some</span>(socket_name.as_ref().into());
+        <span class="prelude-val">Ok</span>(socket)
     }
 
-    <span class="doccomment">/// Attempt to bind a listening socket from a sequence of names</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method will repeatedly try to bind sockets in teh form `{basename}-{n}` for values of `n`</span>
-    <span class="doccomment">/// yielded from the provided range and returns the first one that succeeds.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method will acquire an associate lockfile. The socket will be created in the</span>
-    <span class="doccomment">/// directory pointed to by the `XDG_RUNTIME_DIR` environment variable.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bind_auto</span>(
-        <span class="ident">basename</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>,
-        <span class="ident">range</span>: <span class="kw">impl</span> <span class="ident">IntoIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">usize</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">BindError</span><span class="op">&gt;</span> {
-        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="ident">range</span> {
-            <span class="comment">// early return on any error except AlreadyInUse</span>
-            <span class="kw">match</span> <span class="ident"><span class="self">Self</span>::bind</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}-{}&quot;</span>, <span class="ident">basename</span>, <span class="ident">i</span>)) {
-                <span class="prelude-val">Ok</span>(<span class="ident">socket</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">socket</span>),
-                <span class="prelude-val">Err</span>(<span class="ident">BindError::RuntimeDirNotSet</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindError::RuntimeDirNotSet</span>),
-                <span class="prelude-val">Err</span>(<span class="ident">BindError::PermissionDenied</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindError::PermissionDenied</span>),
-                <span class="prelude-val">Err</span>(<span class="ident">BindError::Io</span>(<span class="ident">e</span>)) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindError::Io</span>(<span class="ident">e</span>)),
-                <span class="prelude-val">Err</span>(<span class="ident">BindError::AlreadyInUse</span>) =&gt; {}
+    <span class="doccomment">/// Attempt to bind a listening socket from a sequence of names
+    ///
+    /// This method will repeatedly try to bind sockets in teh form `{basename}-{n}` for values of `n`
+    /// yielded from the provided range and returns the first one that succeeds.
+    ///
+    /// This method will acquire an associate lockfile. The socket will be created in the
+    /// directory pointed to by the `XDG_RUNTIME_DIR` environment variable.
+    </span><span class="kw">pub fn </span>bind_auto(
+        basename: <span class="kw-2">&amp;</span>str,
+        range: <span class="kw">impl </span>IntoIterator&lt;Item = usize&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, BindError&gt; {
+        <span class="kw">for </span>i <span class="kw">in </span>range {
+            <span class="comment">// early return on any error except AlreadyInUse
+            </span><span class="kw">match </span><span class="self">Self</span>::bind(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}-{}&quot;</span>, basename, i)) {
+                <span class="prelude-val">Ok</span>(socket) =&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(socket),
+                <span class="prelude-val">Err</span>(BindError::RuntimeDirNotSet) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(BindError::RuntimeDirNotSet),
+                <span class="prelude-val">Err</span>(BindError::PermissionDenied) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(BindError::PermissionDenied),
+                <span class="prelude-val">Err</span>(BindError::Io(e)) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(BindError::Io(e)),
+                <span class="prelude-val">Err</span>(BindError::AlreadyInUse) =&gt; {}
             }
         }
-        <span class="prelude-val">Err</span>(<span class="ident">BindError::AlreadyInUse</span>)
+        <span class="prelude-val">Err</span>(BindError::AlreadyInUse)
     }
 
-    <span class="doccomment">/// Attempt to bind a listening socket with given name</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The socket will be created at the specified path, and this method will acquire an associatet lockfile</span>
-    <span class="doccomment">/// alongside it.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">bind_absolute</span>(<span class="ident">socket_path</span>: <span class="ident">PathBuf</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">BindError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">lock_path</span> <span class="op">=</span> <span class="ident">socket_path</span>.<span class="ident">with_extension</span>(<span class="string">&quot;lock&quot;</span>);
+    <span class="doccomment">/// Attempt to bind a listening socket with given name
+    ///
+    /// The socket will be created at the specified path, and this method will acquire an associatet lockfile
+    /// alongside it.
+    </span><span class="kw">pub fn </span>bind_absolute(socket_path: PathBuf) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, BindError&gt; {
+        <span class="kw">let </span>lock_path = socket_path.with_extension(<span class="string">&quot;lock&quot;</span>);
 
-        <span class="comment">// open the lockfile</span>
-        <span class="kw">let</span> <span class="ident">lock_fd</span> <span class="op">=</span> <span class="ident">open</span>(
-            <span class="kw-2">&amp;</span><span class="ident">lock_path</span>,
-            <span class="ident">OFlag::O_CREAT</span> <span class="op">|</span> <span class="ident">OFlag::O_CLOEXEC</span> <span class="op">|</span> <span class="ident">OFlag::O_RDWR</span>,
-            <span class="ident">Mode::S_IRUSR</span> <span class="op">|</span> <span class="ident">Mode::S_IWUSR</span> <span class="op">|</span> <span class="ident">Mode::S_IRGRP</span> <span class="op">|</span> <span class="ident">Mode::S_IWGRP</span>,
+        <span class="comment">// open the lockfile
+        </span><span class="kw">let </span>lock_fd = open(
+            <span class="kw-2">&amp;</span>lock_path,
+            OFlag::O_CREAT | OFlag::O_CLOEXEC | OFlag::O_RDWR,
+            Mode::S_IRUSR | Mode::S_IWUSR | Mode::S_IRGRP | Mode::S_IWGRP,
         )
-        .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">BindError::PermissionDenied</span>)<span class="question-mark">?</span>;
+        .map_err(|<span class="kw">_</span>| BindError::PermissionDenied)<span class="question-mark">?</span>;
 
-        <span class="comment">// SAFETY: We have just opened the file descriptor.</span>
-        <span class="kw">let</span> <span class="ident">_lock</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">File::from_raw_fd</span>(<span class="ident">lock_fd</span>) };
+        <span class="comment">// SAFETY: We have just opened the file descriptor.
+        </span><span class="kw">let </span>_lock = <span class="kw">unsafe </span>{ File::from_raw_fd(lock_fd) };
 
-        <span class="comment">// lock the lockfile</span>
-        <span class="kw">if</span> <span class="ident">flock</span>(<span class="ident">lock_fd</span>, <span class="ident">FlockArg::LockExclusiveNonblock</span>).<span class="ident">is_err</span>() {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindError::AlreadyInUse</span>);
+        <span class="comment">// lock the lockfile
+        </span><span class="kw">if </span>flock(lock_fd, FlockArg::LockExclusiveNonblock).is_err() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(BindError::AlreadyInUse);
         }
 
-        <span class="comment">// check if an old socket exists, and cleanup if relevant</span>
-        <span class="kw">match</span> <span class="ident">lstat</span>(<span class="kw-2">&amp;</span><span class="ident">socket_path</span>) {
-            <span class="prelude-val">Err</span>(<span class="ident">nix::Error::ENOENT</span>) =&gt; {
-                <span class="comment">// none exist, good</span>
-            }
+        <span class="comment">// check if an old socket exists, and cleanup if relevant
+        </span><span class="kw">match </span>lstat(<span class="kw-2">&amp;</span>socket_path) {
+            <span class="prelude-val">Err</span>(nix::Error::ENOENT) =&gt; {
+                <span class="comment">// none exist, good
+            </span>}
             <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; {
-                <span class="comment">// one exist, remove it</span>
-                <span class="ident">unlink</span>(<span class="kw-2">&amp;</span><span class="ident">socket_path</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">BindError::AlreadyInUse</span>)<span class="question-mark">?</span>;
+                <span class="comment">// one exist, remove it
+                </span>unlink(<span class="kw-2">&amp;</span>socket_path).map_err(|<span class="kw">_</span>| BindError::AlreadyInUse)<span class="question-mark">?</span>;
             }
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; {
-                <span class="comment">// some error stat-ing the socket?</span>
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">BindError::Io</span>(<span class="ident">e</span>.<span class="ident">into</span>()));
+            <span class="prelude-val">Err</span>(e) =&gt; {
+                <span class="comment">// some error stat-ing the socket?
+                </span><span class="kw">return </span><span class="prelude-val">Err</span>(BindError::Io(e.into()));
             }
         }
 
-        <span class="comment">// At this point everything is good to start listening on the socket</span>
-        <span class="kw">let</span> <span class="ident">listener</span> <span class="op">=</span> <span class="ident">UnixListener::bind</span>(<span class="kw-2">&amp;</span><span class="ident">socket_path</span>).<span class="ident">map_err</span>(<span class="ident">BindError::Io</span>)<span class="question-mark">?</span>;
+        <span class="comment">// At this point everything is good to start listening on the socket
+        </span><span class="kw">let </span>listener = UnixListener::bind(<span class="kw-2">&amp;</span>socket_path).map_err(BindError::Io)<span class="question-mark">?</span>;
 
-        <span class="ident">listener</span>.<span class="ident">set_nonblocking</span>(<span class="bool-val">true</span>).<span class="ident">map_err</span>(<span class="ident">BindError::Io</span>)<span class="question-mark">?</span>;
+        listener.set_nonblocking(<span class="bool-val">true</span>).map_err(BindError::Io)<span class="question-mark">?</span>;
 
-        <span class="prelude-val">Ok</span>(<span class="self">Self</span> { <span class="ident">listener</span>, <span class="ident">_lock</span>, <span class="ident">socket_path</span>, <span class="ident">lock_path</span>, <span class="ident">socket_name</span>: <span class="prelude-val">None</span> })
+        <span class="prelude-val">Ok</span>(<span class="self">Self </span>{ listener, _lock, socket_path, lock_path, socket_name: <span class="prelude-val">None </span>})
     }
 
-    <span class="doccomment">/// Try to accept a new connection to the listening socket</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method will never block, and return `Ok(None)` if no new connection is available.</span>
-    <span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;the client must be initialized by the display using `Display::insert_client` or else the client will hang forever&quot;</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">accept</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">io::Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">UnixStream</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">listener</span>.<span class="ident">accept</span>() {
-            <span class="prelude-val">Ok</span>((<span class="ident">stream</span>, <span class="kw">_</span>)) =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">stream</span>)),
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">io::ErrorKind::WouldBlock</span> =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+    <span class="doccomment">/// Try to accept a new connection to the listening socket
+    ///
+    /// This method will never block, and return `Ok(None)` if no new connection is available.
+    </span><span class="attribute">#[must_use = <span class="string">&quot;the client must be initialized by the display using `Display::insert_client` or else the client will hang forever&quot;</span>]
+    </span><span class="kw">pub fn </span>accept(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;<span class="prelude-ty">Option</span>&lt;UnixStream&gt;&gt; {
+        <span class="kw">match </span><span class="self">self</span>.listener.accept() {
+            <span class="prelude-val">Ok</span>((stream, <span class="kw">_</span>)) =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(stream)),
+            <span class="prelude-val">Err</span>(e) <span class="kw">if </span>e.kind() == io::ErrorKind::WouldBlock =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
+            <span class="prelude-val">Err</span>(e) =&gt; <span class="prelude-val">Err</span>(e),
         }
     }
 
-    <span class="doccomment">/// Returns the name of the listening socket.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Will only be [`Some`] if that socket was created with [`bind`](ListeningSocket::bind) or</span>
-    <span class="doccomment">/// [`bind_auto`](ListeningSocket::bind_auto).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">socket_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">OsStr</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">socket_name</span>.<span class="ident">as_deref</span>()
+    <span class="doccomment">/// Returns the name of the listening socket.
+    ///
+    /// Will only be [`Some`] if that socket was created with [`bind`](ListeningSocket::bind) or
+    /// [`bind_auto`](ListeningSocket::bind_auto).
+    </span><span class="kw">pub fn </span>socket_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>OsStr&gt; {
+        <span class="self">self</span>.socket_name.as_deref()
     }
 }
 
-<span class="kw">impl</span> <span class="ident">AsRawFd</span> <span class="kw">for</span> <span class="ident">ListeningSocket</span> {
-    <span class="doccomment">/// Returns a file descriptor that may be polled for readiness.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This file descriptor may be polled using apis such as epoll and kqueue to be told when a client has</span>
-    <span class="doccomment">/// found the socket and is trying to connect.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// When the polling system reports the file descriptor is ready, you can use [`ListeningSocket::accept`]</span>
-    <span class="doccomment">/// to get a stream to the new client.</span>
-    <span class="kw">fn</span> <span class="ident">as_raw_fd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">RawFd</span> {
-        <span class="self">self</span>.<span class="ident">listener</span>.<span class="ident">as_raw_fd</span>()
+<span class="kw">impl </span>AsRawFd <span class="kw">for </span>ListeningSocket {
+    <span class="doccomment">/// Returns a file descriptor that may be polled for readiness.
+    ///
+    /// This file descriptor may be polled using apis such as epoll and kqueue to be told when a client has
+    /// found the socket and is trying to connect.
+    ///
+    /// When the polling system reports the file descriptor is ready, you can use [`ListeningSocket::accept`]
+    /// to get a stream to the new client.
+    </span><span class="kw">fn </span>as_raw_fd(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; RawFd {
+        <span class="self">self</span>.listener.as_raw_fd()
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">ListeningSocket</span> {
-    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">unlink</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">socket_path</span>);
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">unlink</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">lock_path</span>);
+<span class="kw">impl </span>Drop <span class="kw">for </span>ListeningSocket {
+    <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="kw">let _ </span>= unlink(<span class="kw-2">&amp;</span><span class="self">self</span>.socket_path);
+        <span class="kw">let _ </span>= unlink(<span class="kw-2">&amp;</span><span class="self">self</span>.lock_path);
     }
 }
 
-<span class="doccomment">/// Error that can occur when trying to bind a [`ListeningSocket`]</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">thiserror::Error</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BindError</span> {
-    <span class="doccomment">/// The Environment variable `XDG_RUNTIME_DIR` is not set</span>
-    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;Environment variable XDG_RUNTIME_DIR is not set or invalid&quot;</span>)]</span>
-    <span class="ident">RuntimeDirNotSet</span>,
-    <span class="doccomment">/// The application was not able to create a file in `XDG_RUNTIME_DIR`</span>
-    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;Could not write to XDG_RUNTIME_DIR&quot;</span>)]</span>
-    <span class="ident">PermissionDenied</span>,
-    <span class="doccomment">/// The requested socket name is already in use</span>
-    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;Requested socket name is already in use&quot;</span>)]</span>
-    <span class="ident">AlreadyInUse</span>,
-    <span class="doccomment">/// Some other IO error occured</span>
-    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;I/O error: {0}&quot;</span>)]</span>
-    <span class="ident">Io</span>(<span class="attribute">#[<span class="ident">source</span>]</span> <span class="ident">io::Error</span>),
+<span class="doccomment">/// Error that can occur when trying to bind a [`ListeningSocket`]
+</span><span class="attribute">#[derive(Debug, thiserror::Error)]
+</span><span class="kw">pub enum </span>BindError {
+    <span class="doccomment">/// The Environment variable `XDG_RUNTIME_DIR` is not set
+    </span><span class="attribute">#[error(<span class="string">&quot;Environment variable XDG_RUNTIME_DIR is not set or invalid&quot;</span>)]
+    </span>RuntimeDirNotSet,
+    <span class="doccomment">/// The application was not able to create a file in `XDG_RUNTIME_DIR`
+    </span><span class="attribute">#[error(<span class="string">&quot;Could not write to XDG_RUNTIME_DIR&quot;</span>)]
+    </span>PermissionDenied,
+    <span class="doccomment">/// The requested socket name is already in use
+    </span><span class="attribute">#[error(<span class="string">&quot;Requested socket name is already in use&quot;</span>)]
+    </span>AlreadyInUse,
+    <span class="doccomment">/// Some other IO error occured
+    </span><span class="attribute">#[error(<span class="string">&quot;I/O error: {0}&quot;</span>)]
+    </span>Io(<span class="attribute">#[source] </span>io::Error),
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_server" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_server" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

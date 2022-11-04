@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-scanner-0.30.0-beta.10/src/server_gen.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>server_gen.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_scanner/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-scanner-0.30.0-beta.10/src/server_gen.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>server_gen.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_scanner/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -276,283 +276,283 @@
 <span id="276">276</span>
 <span id="277">277</span>
 <span id="278">278</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">proc_macro2</span>::{<span class="ident">Ident</span>, <span class="ident">Span</span>, <span class="ident">TokenStream</span>};
+</pre><pre class="rust"><code><span class="kw">use </span>proc_macro2::{Ident, Span, TokenStream};
 
-<span class="kw">use</span> <span class="ident">quote</span>::{<span class="ident">format_ident</span>, <span class="ident">quote</span>};
+<span class="kw">use </span>quote::{format_ident, quote};
 
-<span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">protocol</span>::{<span class="ident">Interface</span>, <span class="ident">Protocol</span>, <span class="ident">Type</span>},
-    <span class="ident">util</span>::{<span class="ident">description_to_doc_attr</span>, <span class="ident">dotted_to_relname</span>, <span class="ident">is_keyword</span>, <span class="ident">snake_to_camel</span>, <span class="ident">to_doc_attr</span>},
-    <span class="ident">Side</span>,
+<span class="kw">use crate</span>::{
+    protocol::{Interface, Protocol, Type},
+    util::{description_to_doc_attr, dotted_to_relname, is_keyword, snake_to_camel, to_doc_attr},
+    Side,
 };
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">generate_server_objects</span>(<span class="ident">protocol</span>: <span class="kw-2">&amp;</span><span class="ident">Protocol</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="ident">protocol</span>
-        .<span class="ident">interfaces</span>
-        .<span class="ident">iter</span>()
-        .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">iface</span><span class="op">|</span> <span class="ident">iface</span>.<span class="ident">name</span> <span class="op">!</span><span class="op">=</span> <span class="string">&quot;wl_display&quot;</span> <span class="op">&amp;&amp;</span> <span class="ident">iface</span>.<span class="ident">name</span> <span class="op">!</span><span class="op">=</span> <span class="string">&quot;wl_registry&quot;</span>)
-        .<span class="ident">map</span>(<span class="ident">generate_objects_for</span>)
-        .<span class="ident">collect</span>()
+<span class="kw">pub fn </span>generate_server_objects(protocol: <span class="kw-2">&amp;</span>Protocol) -&gt; TokenStream {
+    protocol
+        .interfaces
+        .iter()
+        .filter(|iface| iface.name != <span class="string">&quot;wl_display&quot; </span>&amp;&amp; iface.name != <span class="string">&quot;wl_registry&quot;</span>)
+        .map(generate_objects_for)
+        .collect()
 }
 
-<span class="kw">fn</span> <span class="ident">generate_objects_for</span>(<span class="ident">interface</span>: <span class="kw-2">&amp;</span><span class="ident">Interface</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="kw">let</span> <span class="ident">mod_name</span> <span class="op">=</span> <span class="ident">Ident::new</span>(<span class="kw-2">&amp;</span><span class="ident">interface</span>.<span class="ident">name</span>, <span class="ident">Span::call_site</span>());
-    <span class="kw">let</span> <span class="ident">mod_doc</span> <span class="op">=</span> <span class="ident">interface</span>.<span class="ident">description</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="ident">description_to_doc_attr</span>);
-    <span class="kw">let</span> <span class="ident">iface_name</span> <span class="op">=</span> <span class="ident">Ident::new</span>(<span class="kw-2">&amp;</span><span class="ident">snake_to_camel</span>(<span class="kw-2">&amp;</span><span class="ident">interface</span>.<span class="ident">name</span>), <span class="ident">Span::call_site</span>());
-    <span class="kw">let</span> <span class="ident">iface_const_name</span> <span class="op">=</span> <span class="macro">format_ident!</span>(<span class="string">&quot;{}_INTERFACE&quot;</span>, <span class="ident">interface</span>.<span class="ident">name</span>.<span class="ident">to_ascii_uppercase</span>());
+<span class="kw">fn </span>generate_objects_for(interface: <span class="kw-2">&amp;</span>Interface) -&gt; TokenStream {
+    <span class="kw">let </span>mod_name = Ident::new(<span class="kw-2">&amp;</span>interface.name, Span::call_site());
+    <span class="kw">let </span>mod_doc = interface.description.as_ref().map(description_to_doc_attr);
+    <span class="kw">let </span>iface_name = Ident::new(<span class="kw-2">&amp;</span>snake_to_camel(<span class="kw-2">&amp;</span>interface.name), Span::call_site());
+    <span class="kw">let </span>iface_const_name = <span class="macro">format_ident!</span>(<span class="string">&quot;{}_INTERFACE&quot;</span>, interface.name.to_ascii_uppercase());
 
-    <span class="kw">let</span> <span class="ident">enums</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::common::generate_enums_for</span>(<span class="ident">interface</span>);
-    <span class="kw">let</span> <span class="ident">msg_constants</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::common::gen_msg_constants</span>(<span class="kw-2">&amp;</span><span class="ident">interface</span>.<span class="ident">requests</span>, <span class="kw-2">&amp;</span><span class="ident">interface</span>.<span class="ident">events</span>);
+    <span class="kw">let </span>enums = <span class="kw">crate</span>::common::generate_enums_for(interface);
+    <span class="kw">let </span>msg_constants = <span class="kw">crate</span>::common::gen_msg_constants(<span class="kw-2">&amp;</span>interface.requests, <span class="kw-2">&amp;</span>interface.events);
 
-    <span class="kw">let</span> <span class="ident">requests</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::common::gen_message_enum</span>(
+    <span class="kw">let </span>requests = <span class="kw">crate</span>::common::gen_message_enum(
         <span class="kw-2">&amp;</span><span class="macro">format_ident!</span>(<span class="string">&quot;Request&quot;</span>),
-        <span class="ident">Side::Server</span>,
+        Side::Server,
         <span class="bool-val">true</span>,
-        <span class="kw-2">&amp;</span><span class="ident">interface</span>.<span class="ident">requests</span>,
+        <span class="kw-2">&amp;</span>interface.requests,
     );
-    <span class="kw">let</span> <span class="ident">events</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::common::gen_message_enum</span>(
+    <span class="kw">let </span>events = <span class="kw">crate</span>::common::gen_message_enum(
         <span class="kw-2">&amp;</span><span class="macro">format_ident!</span>(<span class="string">&quot;Event&quot;</span>),
-        <span class="ident">Side::Server</span>,
+        Side::Server,
         <span class="bool-val">false</span>,
-        <span class="kw-2">&amp;</span><span class="ident">interface</span>.<span class="ident">events</span>,
+        <span class="kw-2">&amp;</span>interface.events,
     );
 
-    <span class="kw">let</span> <span class="ident">parse_body</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::common::gen_parse_body</span>(<span class="ident">interface</span>, <span class="ident">Side::Server</span>);
-    <span class="kw">let</span> <span class="ident">write_body</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::common::gen_write_body</span>(<span class="ident">interface</span>, <span class="ident">Side::Server</span>);
-    <span class="kw">let</span> <span class="ident">methods</span> <span class="op">=</span> <span class="ident">gen_methods</span>(<span class="ident">interface</span>);
+    <span class="kw">let </span>parse_body = <span class="kw">crate</span>::common::gen_parse_body(interface, Side::Server);
+    <span class="kw">let </span>write_body = <span class="kw">crate</span>::common::gen_write_body(interface, Side::Server);
+    <span class="kw">let </span>methods = gen_methods(interface);
 
-    <span class="kw">let</span> <span class="ident">event_ref</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">interface</span>.<span class="ident">requests</span>.<span class="ident">is_empty</span>() {
-        <span class="string">&quot;This interface has no requests.&quot;</span>
-    } <span class="kw">else</span> {
-        <span class="string">&quot;See also the [Request] enum for this interface.&quot;</span>
+    <span class="kw">let </span>event_ref = <span class="kw">if </span>interface.requests.is_empty() {
+        <span class="string">&quot;This interface has no requests.&quot;
+    </span>} <span class="kw">else </span>{
+        <span class="string">&quot;See also the [Request] enum for this interface.&quot;
+    </span>};
+    <span class="kw">let </span>docs = <span class="kw">match </span><span class="kw-2">&amp;</span>interface.description {
+        <span class="prelude-val">Some</span>((short, long)) =&gt; <span class="macro">format!</span>(<span class="string">&quot;{}\n\n{}\n\n{}&quot;</span>, short, long, event_ref),
+        <span class="prelude-val">None </span>=&gt; <span class="macro">format!</span>(<span class="string">&quot;{}\n\n{}&quot;</span>, interface.name, event_ref),
     };
-    <span class="kw">let</span> <span class="ident">docs</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">interface</span>.<span class="ident">description</span> {
-        <span class="prelude-val">Some</span>((<span class="ident">short</span>, <span class="ident">long</span>)) =&gt; <span class="macro">format!</span>(<span class="string">&quot;{}\n\n{}\n\n{}&quot;</span>, <span class="ident">short</span>, <span class="ident">long</span>, <span class="ident">event_ref</span>),
-        <span class="prelude-val">None</span> =&gt; <span class="macro">format!</span>(<span class="string">&quot;{}\n\n{}&quot;</span>, <span class="ident">interface</span>.<span class="ident">name</span>, <span class="ident">event_ref</span>),
-    };
-    <span class="kw">let</span> <span class="ident">doc_attr</span> <span class="op">=</span> <span class="ident">to_doc_attr</span>(<span class="kw-2">&amp;</span><span class="ident">docs</span>);
+    <span class="kw">let </span>doc_attr = to_doc_attr(<span class="kw-2">&amp;</span>docs);
 
-    <span class="macro">quote!</span> {
-        #<span class="ident">mod_doc</span>
-        <span class="kw">pub</span> <span class="kw">mod</span> #<span class="ident">mod_name</span> {
-            <span class="kw">use</span> <span class="ident">std::sync::Arc</span>;
+    <span class="macro">quote! </span>{
+        #mod_doc
+        <span class="kw">pub mod </span>#mod_name {
+            <span class="kw">use </span>std::sync::Arc;
 
-            <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::wayland_server</span>::{
-                <span class="ident">backend</span>::{
-                    <span class="ident">smallvec</span>, <span class="ident">ObjectData</span>, <span class="ident">ObjectId</span>, <span class="ident">InvalidId</span>, <span class="ident">io_lifetimes</span>, <span class="ident">WeakHandle</span>,
-                    <span class="ident">protocol</span>::{<span class="ident">WEnum</span>, <span class="ident">Argument</span>, <span class="ident">Message</span>, <span class="ident">Interface</span>, <span class="ident">same_interface</span>}
+            <span class="kw">use </span><span class="kw">super</span>::wayland_server::{
+                backend::{
+                    smallvec, ObjectData, ObjectId, InvalidId, io_lifetimes, WeakHandle,
+                    protocol::{WEnum, Argument, Message, Interface, same_interface}
                 },
-                <span class="ident">Resource</span>, <span class="ident">Dispatch</span>, <span class="ident">DisplayHandle</span>, <span class="ident">DispatchError</span>, <span class="ident">ResourceData</span>, <span class="ident">New</span>, <span class="ident">Weak</span>,
+                Resource, Dispatch, DisplayHandle, DispatchError, ResourceData, New, Weak,
             };
 
-            #<span class="ident">enums</span>
-            #<span class="ident">msg_constants</span>
-            #<span class="ident">requests</span>
-            #<span class="ident">events</span>
+            #enums
+            #msg_constants
+            #requests
+            #events
 
-            #<span class="ident">doc_attr</span>
-            <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-            <span class="kw">pub</span> <span class="kw">struct</span> #<span class="ident">iface_name</span> {
-                <span class="ident">id</span>: <span class="ident">ObjectId</span>,
-                <span class="ident">version</span>: <span class="ident">u32</span>,
-                <span class="ident">data</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">std::any::Any</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-                <span class="ident">handle</span>: <span class="ident">WeakHandle</span>,
+            #doc_attr
+            <span class="attribute">#[derive(Debug, Clone)]
+            </span><span class="kw">pub struct </span>#iface_name {
+                id: ObjectId,
+                version: u32,
+                data: <span class="prelude-ty">Option</span>&lt;Arc&lt;<span class="kw">dyn </span>std::any::Any + Send + Sync + <span class="lifetime">&#39;static</span>&gt;&gt;,
+                handle: WeakHandle,
             }
 
-            <span class="kw">impl</span> <span class="ident">std::cmp::PartialEq</span> <span class="kw">for</span> #<span class="ident">iface_name</span> {
-                <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span>#<span class="ident">iface_name</span>) -&gt; <span class="ident">bool</span> {
-                    <span class="self">self</span>.<span class="ident">id</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">id</span>
-                }
-            }
-
-            <span class="kw">impl</span> <span class="ident">std::cmp::Eq</span> <span class="kw">for</span> #<span class="ident">iface_name</span> {}
-
-            <span class="kw">impl</span> <span class="ident">PartialEq</span><span class="op">&lt;</span><span class="ident">Weak</span><span class="op">&lt;</span>#<span class="ident">iface_name</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="kw">for</span> #<span class="ident">iface_name</span> {
-                <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">Weak</span><span class="op">&lt;</span>#<span class="ident">iface_name</span><span class="op">&gt;</span>) -&gt; <span class="ident">bool</span> {
-                    <span class="self">self</span>.<span class="ident">id</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">id</span>()
+            <span class="kw">impl </span>std::cmp::PartialEq <span class="kw">for </span>#iface_name {
+                <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>#iface_name) -&gt; bool {
+                    <span class="self">self</span>.id == other.id
                 }
             }
 
+            <span class="kw">impl </span>std::cmp::Eq <span class="kw">for </span>#iface_name {}
 
-            <span class="kw">impl</span> <span class="ident"><span class="kw">super</span>::wayland_server::Resource</span> <span class="kw">for</span> #<span class="ident">iface_name</span> {
-                <span class="kw">type</span> <span class="ident">Request</span> <span class="op">=</span> <span class="ident">Request</span>;
-                <span class="kw">type</span> <span class="ident">Event</span> <span class="op">=</span> <span class="ident">Event</span>;
+            <span class="kw">impl </span>PartialEq&lt;Weak&lt;#iface_name&gt;&gt; <span class="kw">for </span>#iface_name {
+                <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>Weak&lt;#iface_name&gt;) -&gt; bool {
+                    <span class="self">self</span>.id == other.id()
+                }
+            }
 
-                <span class="attribute">#[<span class="ident">inline</span>]</span>
-                <span class="kw">fn</span> <span class="ident">interface</span>() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span>{
-                    <span class="kw-2">&amp;</span><span class="kw">super</span>::#<span class="ident">iface_const_name</span>
+
+            <span class="kw">impl </span><span class="kw">super</span>::wayland_server::Resource <span class="kw">for </span>#iface_name {
+                <span class="kw">type </span>Request = Request;
+                <span class="kw">type </span>Event = Event;
+
+                <span class="attribute">#[inline]
+                </span><span class="kw">fn </span>interface() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface{
+                    <span class="kw-2">&amp;</span><span class="kw">super</span>::#iface_const_name
                 }
 
-                <span class="attribute">#[<span class="ident">inline</span>]</span>
-                <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">ObjectId</span> {
-                    <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">clone</span>()
+                <span class="attribute">#[inline]
+                </span><span class="kw">fn </span>id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ObjectId {
+                    <span class="self">self</span>.id.clone()
                 }
 
-                <span class="attribute">#[<span class="ident">inline</span>]</span>
-                <span class="kw">fn</span> <span class="ident">version</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> {
-                    <span class="self">self</span>.<span class="ident">version</span>
+                <span class="attribute">#[inline]
+                </span><span class="kw">fn </span>version(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+                    <span class="self">self</span>.version
                 }
 
-                <span class="attribute">#[<span class="ident">inline</span>]</span>
-                <span class="kw">fn</span> <span class="ident">data</span><span class="op">&lt;</span><span class="ident">U</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">U</span><span class="op">&gt;</span> {
-                    <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">as_ref</span>().<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">arc</span><span class="op">|</span> (<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">arc</span>).<span class="ident">downcast_ref</span>::<span class="op">&lt;</span><span class="ident">ResourceData</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">U</span><span class="op">&gt;</span><span class="op">&gt;</span>()).<span class="ident">map</span>(<span class="op">|</span><span class="ident">data</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="ident">data</span>.<span class="ident">udata</span>)
+                <span class="attribute">#[inline]
+                </span><span class="kw">fn </span>data&lt;U: <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>U&gt; {
+                    <span class="self">self</span>.data.as_ref().and_then(|arc| (<span class="kw-2">&amp;**</span>arc).downcast_ref::&lt;ResourceData&lt;<span class="self">Self</span>, U&gt;&gt;()).map(|data| <span class="kw-2">&amp;</span>data.udata)
                 }
 
-                <span class="attribute">#[<span class="ident">inline</span>]</span>
-                <span class="kw">fn</span> <span class="ident">object_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">std::any::Any</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-                    <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">as_ref</span>()
+                <span class="attribute">#[inline]
+                </span><span class="kw">fn </span>object_data(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Arc&lt;<span class="kw">dyn </span>std::any::Any + Send + Sync&gt;&gt; {
+                    <span class="self">self</span>.data.as_ref()
                 }
 
-                <span class="kw">fn</span> <span class="ident">handle</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">WeakHandle</span> {
-                    <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">handle</span>
+                <span class="kw">fn </span>handle(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>WeakHandle {
+                    <span class="kw-2">&amp;</span><span class="self">self</span>.handle
                 }
 
-                <span class="attribute">#[<span class="ident">inline</span>]</span>
-                <span class="kw">fn</span> <span class="ident">from_id</span>(<span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="ident">DisplayHandle</span>, <span class="ident">id</span>: <span class="ident">ObjectId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-                    <span class="kw">if</span> <span class="op">!</span><span class="ident">same_interface</span>(<span class="ident">id</span>.<span class="ident">interface</span>(), <span class="ident"><span class="self">Self</span>::interface</span>()) <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">id</span>.<span class="ident">is_null</span>(){
-                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">InvalidId</span>)
+                <span class="attribute">#[inline]
+                </span><span class="kw">fn </span>from_id(conn: <span class="kw-2">&amp;</span>DisplayHandle, id: ObjectId) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidId&gt; {
+                    <span class="kw">if </span>!same_interface(id.interface(), <span class="self">Self</span>::interface()) &amp;&amp; !id.is_null(){
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidId)
                     }
-                    <span class="kw">let</span> <span class="ident">version</span> <span class="op">=</span> <span class="ident">conn</span>.<span class="ident">object_info</span>(<span class="ident">id</span>.<span class="ident">clone</span>()).<span class="ident">map</span>(<span class="op">|</span><span class="ident">info</span><span class="op">|</span> <span class="ident">info</span>.<span class="ident">version</span>).<span class="ident">unwrap_or</span>(<span class="number">0</span>);
-                    <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">conn</span>.<span class="ident">get_object_data</span>(<span class="ident">id</span>.<span class="ident">clone</span>()).<span class="ident">ok</span>();
-                    <span class="prelude-val">Ok</span>(#<span class="ident">iface_name</span> { <span class="ident">id</span>, <span class="ident">data</span>, <span class="ident">version</span>, <span class="ident">handle</span>: <span class="ident">conn</span>.<span class="ident">backend_handle</span>().<span class="ident">downgrade</span>() })
+                    <span class="kw">let </span>version = conn.object_info(id.clone()).map(|info| info.version).unwrap_or(<span class="number">0</span>);
+                    <span class="kw">let </span>data = conn.get_object_data(id.clone()).ok();
+                    <span class="prelude-val">Ok</span>(#iface_name { id, data, version, handle: conn.backend_handle().downgrade() })
                 }
 
-                <span class="kw">fn</span> <span class="ident">send_event</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">evt</span>: <span class="ident"><span class="self">Self</span>::Event</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-                    <span class="kw">let</span> <span class="ident">handle</span> <span class="op">=</span> <span class="ident">DisplayHandle::from</span>(<span class="self">self</span>.<span class="ident">handle</span>.<span class="ident">upgrade</span>().<span class="ident">ok_or</span>(<span class="ident">InvalidId</span>)<span class="question-mark">?</span>);
-                    <span class="ident">handle</span>.<span class="ident">send_event</span>(<span class="self">self</span>, <span class="ident">evt</span>)
+                <span class="kw">fn </span>send_event(<span class="kw-2">&amp;</span><span class="self">self</span>, evt: <span class="self">Self</span>::Event) -&gt; <span class="prelude-ty">Result</span>&lt;(), InvalidId&gt; {
+                    <span class="kw">let </span>handle = DisplayHandle::from(<span class="self">self</span>.handle.upgrade().ok_or(InvalidId)<span class="question-mark">?</span>);
+                    handle.send_event(<span class="self">self</span>, evt)
                 }
 
-                <span class="kw">fn</span> <span class="ident">parse_request</span>(<span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="ident">DisplayHandle</span>, <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">io_lifetimes::OwnedFd</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="self">Self</span>, <span class="ident"><span class="self">Self</span>::Request</span>), <span class="ident">DispatchError</span><span class="op">&gt;</span> {
-                    #<span class="ident">parse_body</span>
+                <span class="kw">fn </span>parse_request(conn: <span class="kw-2">&amp;</span>DisplayHandle, msg: Message&lt;ObjectId, io_lifetimes::OwnedFd&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(<span class="self">Self</span>, <span class="self">Self</span>::Request), DispatchError&gt; {
+                    #parse_body
                 }
 
-                <span class="kw">fn</span> <span class="ident">write_event</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="ident">DisplayHandle</span>, <span class="ident">msg</span>: <span class="ident"><span class="self">Self</span>::Event</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">std::os::unix::io::RawFd</span><span class="op">&gt;</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-                    #<span class="ident">write_body</span>
+                <span class="kw">fn </span>write_event(<span class="kw-2">&amp;</span><span class="self">self</span>, conn: <span class="kw-2">&amp;</span>DisplayHandle, msg: <span class="self">Self</span>::Event) -&gt; <span class="prelude-ty">Result</span>&lt;Message&lt;ObjectId, std::os::unix::io::RawFd&gt;, InvalidId&gt; {
+                    #write_body
                 }
 
-                <span class="kw">fn</span> <span class="ident">__set_object_data</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">odata</span>: <span class="ident">std::sync::Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">std::any::Any</span> <span class="op">+</span> <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>) {
-                    <span class="self">self</span>.<span class="ident">data</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">odata</span>);
+                <span class="kw">fn </span>__set_object_data(<span class="kw-2">&amp;mut </span><span class="self">self</span>, odata: std::sync::Arc&lt;<span class="kw">dyn </span>std::any::Any + Send + Sync + <span class="lifetime">&#39;static</span>&gt;) {
+                    <span class="self">self</span>.data = <span class="prelude-val">Some</span>(odata);
                 }
             }
 
-            <span class="kw">impl</span> #<span class="ident">iface_name</span> {
-                #<span class="ident">methods</span>
+            <span class="kw">impl </span>#iface_name {
+                #methods
             }
         }
     }
 }
 
-<span class="kw">fn</span> <span class="ident">gen_methods</span>(<span class="ident">interface</span>: <span class="kw-2">&amp;</span><span class="ident">Interface</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="ident">interface</span>
-        .<span class="ident">events</span>
-        .<span class="ident">iter</span>()
-        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">request</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="ident">method_name</span> <span class="op">=</span> <span class="macro">format_ident!</span>(
+<span class="kw">fn </span>gen_methods(interface: <span class="kw-2">&amp;</span>Interface) -&gt; TokenStream {
+    interface
+        .events
+        .iter()
+        .map(|request| {
+            <span class="kw">let </span>method_name = <span class="macro">format_ident!</span>(
                 <span class="string">&quot;{}{}&quot;</span>,
-                <span class="kw">if</span> <span class="ident">is_keyword</span>(<span class="kw-2">&amp;</span><span class="ident">request</span>.<span class="ident">name</span>) { <span class="string">&quot;_&quot;</span> } <span class="kw">else</span> { <span class="string">&quot;&quot;</span> },
-                <span class="ident">request</span>.<span class="ident">name</span>
+                <span class="kw">if </span>is_keyword(<span class="kw-2">&amp;</span>request.name) { <span class="string">&quot;_&quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>},
+                request.name
             );
-            <span class="kw">let</span> <span class="ident">enum_variant</span> <span class="op">=</span> <span class="ident">Ident::new</span>(<span class="kw-2">&amp;</span><span class="ident">snake_to_camel</span>(<span class="kw-2">&amp;</span><span class="ident">request</span>.<span class="ident">name</span>), <span class="ident">Span::call_site</span>());
+            <span class="kw">let </span>enum_variant = Ident::new(<span class="kw-2">&amp;</span>snake_to_camel(<span class="kw-2">&amp;</span>request.name), Span::call_site());
 
-            <span class="kw">let</span> <span class="ident">fn_args</span> <span class="op">=</span> <span class="ident">request</span>.<span class="ident">args</span>.<span class="ident">iter</span>().<span class="ident">flat_map</span>(<span class="op">|</span><span class="ident">arg</span><span class="op">|</span> {
-                <span class="kw">let</span> <span class="ident">arg_name</span> <span class="op">=</span>
-                    <span class="macro">format_ident!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="kw">if</span> <span class="ident">is_keyword</span>(<span class="kw-2">&amp;</span><span class="ident">arg</span>.<span class="ident">name</span>) { <span class="string">&quot;_&quot;</span> } <span class="kw">else</span> { <span class="string">&quot;&quot;</span> }, <span class="ident">arg</span>.<span class="ident">name</span>);
+            <span class="kw">let </span>fn_args = request.args.iter().flat_map(|arg| {
+                <span class="kw">let </span>arg_name =
+                    <span class="macro">format_ident!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="kw">if </span>is_keyword(<span class="kw-2">&amp;</span>arg.name) { <span class="string">&quot;_&quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>}, arg.name);
 
-                <span class="kw">let</span> <span class="ident">arg_type</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">enu</span>) <span class="op">=</span> <span class="ident">arg</span>.<span class="ident">enum_</span> {
-                    <span class="kw">let</span> <span class="ident">enum_type</span> <span class="op">=</span> <span class="ident">dotted_to_relname</span>(<span class="ident">enu</span>);
-                    <span class="macro">quote!</span> { #<span class="ident">enum_type</span> }
-                } <span class="kw">else</span> {
-                    <span class="kw">match</span> <span class="ident">arg</span>.<span class="ident">typ</span> {
-                        <span class="ident">Type::Uint</span> =&gt; <span class="macro">quote!</span> { <span class="ident">u32</span> },
-                        <span class="ident">Type::Int</span> =&gt; <span class="macro">quote!</span> { <span class="ident">i32</span> },
-                        <span class="ident">Type::Fixed</span> =&gt; <span class="macro">quote!</span> { <span class="ident">f64</span> },
-                        <span class="ident">Type::String</span> =&gt; {
-                            <span class="kw">if</span> <span class="ident">arg</span>.<span class="ident">allow_null</span> {
-                                <span class="macro">quote!</span> { <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> }
-                            } <span class="kw">else</span> {
-                                <span class="macro">quote!</span> { <span class="ident">String</span> }
+                <span class="kw">let </span>arg_type = <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>enu) = arg.enum_ {
+                    <span class="kw">let </span>enum_type = dotted_to_relname(enu);
+                    <span class="macro">quote! </span>{ #enum_type }
+                } <span class="kw">else </span>{
+                    <span class="kw">match </span>arg.typ {
+                        Type::Uint =&gt; <span class="macro">quote! </span>{ u32 },
+                        Type::Int =&gt; <span class="macro">quote! </span>{ i32 },
+                        Type::Fixed =&gt; <span class="macro">quote! </span>{ f64 },
+                        Type::String =&gt; {
+                            <span class="kw">if </span>arg.allow_null {
+                                <span class="macro">quote! </span>{ <span class="prelude-ty">Option</span>&lt;String&gt; }
+                            } <span class="kw">else </span>{
+                                <span class="macro">quote! </span>{ String }
                             }
                         }
-                        <span class="ident">Type::Array</span> =&gt; {
-                            <span class="kw">if</span> <span class="ident">arg</span>.<span class="ident">allow_null</span> {
-                                <span class="macro">quote!</span> { <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> }
-                            } <span class="kw">else</span> {
-                                <span class="macro">quote!</span> { <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> }
+                        Type::Array =&gt; {
+                            <span class="kw">if </span>arg.allow_null {
+                                <span class="macro">quote! </span>{ <span class="prelude-ty">Option</span>&lt;Vec&lt;u8&gt;&gt; }
+                            } <span class="kw">else </span>{
+                                <span class="macro">quote! </span>{ Vec&lt;u8&gt; }
                             }
                         }
-                        <span class="ident">Type::Fd</span> =&gt; <span class="macro">quote!</span> { <span class="ident">::std::os::unix::io::RawFd</span> },
-                        <span class="ident">Type::Object</span> <span class="op">|</span> <span class="ident">Type::NewId</span> =&gt; {
-                            <span class="kw">let</span> <span class="ident">iface</span> <span class="op">=</span> <span class="ident">arg</span>.<span class="ident">interface</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>();
-                            <span class="kw">let</span> <span class="ident">iface_mod</span> <span class="op">=</span> <span class="ident">Ident::new</span>(<span class="ident">iface</span>, <span class="ident">Span::call_site</span>());
-                            <span class="kw">let</span> <span class="ident">iface_type</span> <span class="op">=</span> <span class="ident">Ident::new</span>(<span class="kw-2">&amp;</span><span class="ident">snake_to_camel</span>(<span class="ident">iface</span>), <span class="ident">Span::call_site</span>());
-                            <span class="kw">if</span> <span class="ident">arg</span>.<span class="ident">allow_null</span> {
-                                <span class="macro">quote!</span> { <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw">super</span>::#<span class="ident">iface_mod</span>::#<span class="ident">iface_type</span><span class="op">&gt;</span> }
-                            } <span class="kw">else</span> {
-                                <span class="macro">quote!</span> { <span class="kw-2">&amp;</span><span class="kw">super</span>::#<span class="ident">iface_mod</span>::#<span class="ident">iface_type</span> }
+                        Type::Fd =&gt; <span class="macro">quote! </span>{ ::std::os::unix::io::RawFd },
+                        Type::Object | Type::NewId =&gt; {
+                            <span class="kw">let </span>iface = arg.interface.as_ref().unwrap();
+                            <span class="kw">let </span>iface_mod = Ident::new(iface, Span::call_site());
+                            <span class="kw">let </span>iface_type = Ident::new(<span class="kw-2">&amp;</span>snake_to_camel(iface), Span::call_site());
+                            <span class="kw">if </span>arg.allow_null {
+                                <span class="macro">quote! </span>{ <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">super</span>::#iface_mod::#iface_type&gt; }
+                            } <span class="kw">else </span>{
+                                <span class="macro">quote! </span>{ <span class="kw-2">&amp;</span><span class="kw">super</span>::#iface_mod::#iface_type }
                             }
                         }
-                        <span class="ident">Type::Destructor</span> =&gt; <span class="macro">panic!</span>(<span class="string">&quot;An argument cannot have type \&quot;destructor\&quot;.&quot;</span>),
+                        Type::Destructor =&gt; <span class="macro">panic!</span>(<span class="string">&quot;An argument cannot have type \&quot;destructor\&quot;.&quot;</span>),
                     }
                 };
 
-                <span class="prelude-val">Some</span>(<span class="macro">quote!</span> {
-                    #<span class="ident">arg_name</span>: #<span class="ident">arg_type</span>
+                <span class="prelude-val">Some</span>(<span class="macro">quote! </span>{
+                    #arg_name: #arg_type
                 })
             });
 
-            <span class="kw">let</span> <span class="ident">enum_args</span> <span class="op">=</span> <span class="ident">request</span>.<span class="ident">args</span>.<span class="ident">iter</span>().<span class="ident">flat_map</span>(<span class="op">|</span><span class="ident">arg</span><span class="op">|</span> {
-                <span class="kw">let</span> <span class="ident">arg_name</span> <span class="op">=</span>
-                    <span class="macro">format_ident!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="kw">if</span> <span class="ident">is_keyword</span>(<span class="kw-2">&amp;</span><span class="ident">arg</span>.<span class="ident">name</span>) { <span class="string">&quot;_&quot;</span> } <span class="kw">else</span> { <span class="string">&quot;&quot;</span> }, <span class="ident">arg</span>.<span class="ident">name</span>);
-                <span class="kw">if</span> <span class="ident">arg</span>.<span class="ident">enum_</span>.<span class="ident">is_some</span>() {
-                    <span class="prelude-val">Some</span>(<span class="macro">quote!</span> { #<span class="ident">arg_name</span>: <span class="ident">WEnum::Value</span>(#<span class="ident">arg_name</span>) })
-                } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">arg</span>.<span class="ident">typ</span> <span class="op">==</span> <span class="ident">Type::Object</span> <span class="op">|</span><span class="op">|</span> <span class="ident">arg</span>.<span class="ident">typ</span> <span class="op">==</span> <span class="ident">Type::NewId</span> {
-                    <span class="kw">if</span> <span class="ident">arg</span>.<span class="ident">allow_null</span> {
-                        <span class="prelude-val">Some</span>(<span class="macro">quote!</span> { #<span class="ident">arg_name</span>: #<span class="ident">arg_name</span>.<span class="ident">cloned</span>() })
-                    } <span class="kw">else</span> {
-                        <span class="prelude-val">Some</span>(<span class="macro">quote!</span> { #<span class="ident">arg_name</span>: #<span class="ident">arg_name</span>.<span class="ident">clone</span>() })
+            <span class="kw">let </span>enum_args = request.args.iter().flat_map(|arg| {
+                <span class="kw">let </span>arg_name =
+                    <span class="macro">format_ident!</span>(<span class="string">&quot;{}{}&quot;</span>, <span class="kw">if </span>is_keyword(<span class="kw-2">&amp;</span>arg.name) { <span class="string">&quot;_&quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;&quot; </span>}, arg.name);
+                <span class="kw">if </span>arg.enum_.is_some() {
+                    <span class="prelude-val">Some</span>(<span class="macro">quote! </span>{ #arg_name: WEnum::Value(#arg_name) })
+                } <span class="kw">else if </span>arg.typ == Type::Object || arg.typ == Type::NewId {
+                    <span class="kw">if </span>arg.allow_null {
+                        <span class="prelude-val">Some</span>(<span class="macro">quote! </span>{ #arg_name: #arg_name.cloned() })
+                    } <span class="kw">else </span>{
+                        <span class="prelude-val">Some</span>(<span class="macro">quote! </span>{ #arg_name: #arg_name.clone() })
                     }
-                } <span class="kw">else</span> {
-                    <span class="prelude-val">Some</span>(<span class="macro">quote!</span> { #<span class="ident">arg_name</span> })
+                } <span class="kw">else </span>{
+                    <span class="prelude-val">Some</span>(<span class="macro">quote! </span>{ #arg_name })
                 }
             });
 
-            <span class="kw">let</span> <span class="ident">doc_attr</span> <span class="op">=</span> <span class="ident">request</span>.<span class="ident">description</span>.<span class="ident">as_ref</span>().<span class="ident">map</span>(<span class="ident">description_to_doc_attr</span>);
+            <span class="kw">let </span>doc_attr = request.description.as_ref().map(description_to_doc_attr);
 
-            <span class="macro">quote!</span> {
-                #<span class="ident">doc_attr</span>
-                <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::too_many_arguments</span>)]</span>
-                <span class="kw">pub</span> <span class="kw">fn</span> #<span class="ident">method_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, #(#<span class="ident">fn_args</span>),<span class="kw-2">*</span>) {
-                    <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">send_event</span>(
-                        <span class="ident">Event</span>::#<span class="ident">enum_variant</span> {
-                            #(#<span class="ident">enum_args</span>),<span class="op">*</span>
+            <span class="macro">quote! </span>{
+                #doc_attr
+                <span class="attribute">#[allow(clippy::too_many_arguments)]
+                </span><span class="kw">pub fn </span>#method_name(<span class="kw-2">&amp;</span><span class="self">self</span>, #(#fn_args),<span class="kw-2">*</span>) {
+                    <span class="kw">let _ </span>= <span class="self">self</span>.send_event(
+                        Event::#enum_variant {
+                            #(#enum_args),*
                         }
                     );
                 }
             }
         })
-        .<span class="ident">collect</span>()
+        .collect()
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">server_gen</span>() {
-        <span class="kw">let</span> <span class="ident">protocol_file</span> <span class="op">=</span>
-            <span class="ident">std::fs::File::open</span>(<span class="string">&quot;./tests/scanner_assets/test-protocol.xml&quot;</span>).<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">protocol_parsed</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::parse::parse</span>(<span class="ident">protocol_file</span>);
-        <span class="kw">let</span> <span class="ident">generated</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident"><span class="kw">super</span>::generate_server_objects</span>(<span class="kw-2">&amp;</span><span class="ident">protocol_parsed</span>).<span class="ident">to_string</span>();
-        <span class="kw">let</span> <span class="ident">generated</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::format_rust_code</span>(<span class="kw-2">&amp;</span><span class="ident">generated</span>);
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>server_gen() {
+        <span class="kw">let </span>protocol_file =
+            std::fs::File::open(<span class="string">&quot;./tests/scanner_assets/test-protocol.xml&quot;</span>).unwrap();
+        <span class="kw">let </span>protocol_parsed = <span class="kw">crate</span>::parse::parse(protocol_file);
+        <span class="kw">let </span>generated: String = <span class="kw">super</span>::generate_server_objects(<span class="kw-2">&amp;</span>protocol_parsed).to_string();
+        <span class="kw">let </span>generated = <span class="kw">crate</span>::format_rust_code(<span class="kw-2">&amp;</span>generated);
 
-        <span class="kw">let</span> <span class="ident">reference</span> <span class="op">=</span>
-            <span class="ident">std::fs::read_to_string</span>(<span class="string">&quot;./tests/scanner_assets/test-server-code.rs&quot;</span>).<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">reference</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::format_rust_code</span>(<span class="kw-2">&amp;</span><span class="ident">reference</span>);
+        <span class="kw">let </span>reference =
+            std::fs::read_to_string(<span class="string">&quot;./tests/scanner_assets/test-server-code.rs&quot;</span>).unwrap();
+        <span class="kw">let </span>reference = <span class="kw">crate</span>::format_rust_code(<span class="kw-2">&amp;</span>reference);
 
-        <span class="kw">if</span> <span class="ident">reference</span> <span class="op">!</span><span class="op">=</span> <span class="ident">generated</span> {
-            <span class="kw">let</span> <span class="ident">diff</span> <span class="op">=</span> <span class="ident">similar::TextDiff::from_lines</span>(<span class="kw-2">&amp;</span><span class="ident">reference</span>, <span class="kw-2">&amp;</span><span class="ident">generated</span>);
-            <span class="macro">print!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">diff</span>.<span class="ident">unified_diff</span>().<span class="ident">context_radius</span>(<span class="number">10</span>).<span class="ident">header</span>(<span class="string">&quot;reference&quot;</span>, <span class="string">&quot;generated&quot;</span>));
+        <span class="kw">if </span>reference != generated {
+            <span class="kw">let </span>diff = similar::TextDiff::from_lines(<span class="kw-2">&amp;</span>reference, <span class="kw-2">&amp;</span>generated);
+            <span class="macro">print!</span>(<span class="string">&quot;{}&quot;</span>, diff.unified_diff().context_radius(<span class="number">10</span>).header(<span class="string">&quot;reference&quot;</span>, <span class="string">&quot;generated&quot;</span>));
             <span class="macro">panic!</span>(<span class="string">&quot;Generated does not match reference!&quot;</span>)
         }
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_scanner" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_scanner" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

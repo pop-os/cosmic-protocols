@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-scanner-0.30.0-beta.10/src/c_interfaces.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>c_interfaces.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_scanner/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-scanner-0.30.0-beta.10/src/c_interfaces.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>c_interfaces.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_scanner/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -172,179 +172,179 @@
 <span id="172">172</span>
 <span id="173">173</span>
 <span id="174">174</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::cmp</span>;
-<span class="kw">use</span> <span class="ident">std::iter::repeat</span>;
+</pre><pre class="rust"><code><span class="kw">use </span>std::cmp;
+<span class="kw">use </span>std::iter::repeat;
 
-<span class="kw">use</span> <span class="ident">proc_macro2</span>::{<span class="ident">Literal</span>, <span class="ident">TokenStream</span>};
-<span class="kw">use</span> <span class="ident">quote</span>::{<span class="ident">format_ident</span>, <span class="ident">quote</span>};
+<span class="kw">use </span>proc_macro2::{Literal, TokenStream};
+<span class="kw">use </span>quote::{format_ident, quote};
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::protocol</span>::{<span class="ident">Interface</span>, <span class="ident">Message</span>, <span class="ident">Protocol</span>, <span class="ident">Type</span>};
+<span class="kw">use </span><span class="kw">crate</span>::protocol::{Interface, Message, Protocol, Type};
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">generate_interfaces_prefix</span>(<span class="ident">protocol</span>: <span class="kw-2">&amp;</span><span class="ident">Protocol</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="kw">let</span> <span class="ident">longest_nulls</span> <span class="op">=</span> <span class="ident">protocol</span>.<span class="ident">interfaces</span>.<span class="ident">iter</span>().<span class="ident">fold</span>(<span class="number">0</span>, <span class="op">|</span><span class="ident">max</span>, <span class="ident">interface</span><span class="op">|</span> {
-        <span class="kw">let</span> <span class="ident">request_longest_null</span> <span class="op">=</span> <span class="ident">interface</span>.<span class="ident">requests</span>.<span class="ident">iter</span>().<span class="ident">fold</span>(<span class="number">0</span>, <span class="op">|</span><span class="ident">max</span>, <span class="ident">request</span><span class="op">|</span> {
-            <span class="kw">if</span> <span class="ident">request</span>.<span class="ident">all_null</span>() {
-                <span class="ident">cmp::max</span>(<span class="ident">request</span>.<span class="ident">args</span>.<span class="ident">len</span>(), <span class="ident">max</span>)
-            } <span class="kw">else</span> {
-                <span class="ident">max</span>
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>generate_interfaces_prefix(protocol: <span class="kw-2">&amp;</span>Protocol) -&gt; TokenStream {
+    <span class="kw">let </span>longest_nulls = protocol.interfaces.iter().fold(<span class="number">0</span>, |max, interface| {
+        <span class="kw">let </span>request_longest_null = interface.requests.iter().fold(<span class="number">0</span>, |max, request| {
+            <span class="kw">if </span>request.all_null() {
+                cmp::max(request.args.len(), max)
+            } <span class="kw">else </span>{
+                max
             }
         });
-        <span class="kw">let</span> <span class="ident">events_longest_null</span> <span class="op">=</span> <span class="ident">interface</span>.<span class="ident">events</span>.<span class="ident">iter</span>().<span class="ident">fold</span>(<span class="number">0</span>, <span class="op">|</span><span class="ident">max</span>, <span class="ident">event</span><span class="op">|</span> {
-            <span class="kw">if</span> <span class="ident">event</span>.<span class="ident">all_null</span>() {
-                <span class="ident">cmp::max</span>(<span class="ident">event</span>.<span class="ident">args</span>.<span class="ident">len</span>(), <span class="ident">max</span>)
-            } <span class="kw">else</span> {
-                <span class="ident">max</span>
+        <span class="kw">let </span>events_longest_null = interface.events.iter().fold(<span class="number">0</span>, |max, event| {
+            <span class="kw">if </span>event.all_null() {
+                cmp::max(event.args.len(), max)
+            } <span class="kw">else </span>{
+                max
             }
         });
-        <span class="ident">cmp::max</span>(<span class="ident">max</span>, <span class="ident">cmp::max</span>(<span class="ident">request_longest_null</span>, <span class="ident">events_longest_null</span>))
+        cmp::max(max, cmp::max(request_longest_null, events_longest_null))
     });
 
-    <span class="kw">let</span> <span class="ident">types_null_len</span> <span class="op">=</span> <span class="ident">Literal::usize_unsuffixed</span>(<span class="ident">longest_nulls</span>);
+    <span class="kw">let </span>types_null_len = Literal::usize_unsuffixed(longest_nulls);
 
-    <span class="kw">let</span> <span class="ident">nulls</span> <span class="op">=</span> <span class="ident">repeat</span>(<span class="macro">quote!</span> { <span class="ident">NULLPTR</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">wayland_backend::protocol::wl_interface</span> })
-        .<span class="ident">take</span>(<span class="ident">longest_nulls</span>);
+    <span class="kw">let </span>nulls = repeat(<span class="macro">quote! </span>{ NULLPTR <span class="kw">as </span><span class="kw-2">*const </span>wayland_backend::protocol::wl_interface })
+        .take(longest_nulls);
 
-    <span class="macro">quote!</span> {
-        <span class="kw">const</span> <span class="ident">NULLPTR</span>: <span class="kw-2">*const</span> <span class="ident">std::os::raw::c_void</span> <span class="op">=</span> <span class="number">0</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">std::os::raw::c_void</span>;
-        <span class="kw">static</span> <span class="kw-2">mut</span> <span class="ident">types_null</span>: [<span class="kw-2">*const</span> <span class="ident">wayland_backend::protocol::wl_interface</span>; #<span class="ident">types_null_len</span>] <span class="op">=</span> [
-            #(#<span class="ident">nulls</span>,)<span class="op">*</span>
+    <span class="macro">quote! </span>{
+        <span class="kw">const </span>NULLPTR: <span class="kw-2">*const </span>std::os::raw::c_void = <span class="number">0 </span><span class="kw">as </span><span class="kw-2">*const </span>std::os::raw::c_void;
+        <span class="kw">static </span><span class="kw-2">mut </span>types_null: [<span class="kw-2">*const </span>wayland_backend::protocol::wl_interface; #types_null_len] = [
+            #(#nulls,)*
         ];
     }
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">generate_interface</span>(<span class="ident">interface</span>: <span class="kw-2">&amp;</span><span class="ident">Interface</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="kw">let</span> <span class="ident">requests</span> <span class="op">=</span> <span class="ident">gen_messages</span>(<span class="ident">interface</span>, <span class="kw-2">&amp;</span><span class="ident">interface</span>.<span class="ident">requests</span>, <span class="string">&quot;requests&quot;</span>);
-    <span class="kw">let</span> <span class="ident">events</span> <span class="op">=</span> <span class="ident">gen_messages</span>(<span class="ident">interface</span>, <span class="kw-2">&amp;</span><span class="ident">interface</span>.<span class="ident">events</span>, <span class="string">&quot;events&quot;</span>);
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>generate_interface(interface: <span class="kw-2">&amp;</span>Interface) -&gt; TokenStream {
+    <span class="kw">let </span>requests = gen_messages(interface, <span class="kw-2">&amp;</span>interface.requests, <span class="string">&quot;requests&quot;</span>);
+    <span class="kw">let </span>events = gen_messages(interface, <span class="kw-2">&amp;</span>interface.events, <span class="string">&quot;events&quot;</span>);
 
-    <span class="kw">let</span> <span class="ident">interface_ident</span> <span class="op">=</span> <span class="macro">format_ident!</span>(<span class="string">&quot;{}_interface&quot;</span>, <span class="ident">interface</span>.<span class="ident">name</span>);
-    <span class="kw">let</span> <span class="ident">name_value</span> <span class="op">=</span> <span class="ident">null_terminated_byte_string_literal</span>(<span class="kw-2">&amp;</span><span class="ident">interface</span>.<span class="ident">name</span>);
-    <span class="kw">let</span> <span class="ident">version_value</span> <span class="op">=</span> <span class="ident">Literal::i32_unsuffixed</span>(<span class="ident">interface</span>.<span class="ident">version</span> <span class="kw">as</span> <span class="ident">i32</span>);
-    <span class="kw">let</span> <span class="ident">request_count_value</span> <span class="op">=</span> <span class="ident">Literal::i32_unsuffixed</span>(<span class="ident">interface</span>.<span class="ident">requests</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">i32</span>);
-    <span class="kw">let</span> <span class="ident">requests_value</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">interface</span>.<span class="ident">requests</span>.<span class="ident">is_empty</span>() {
-        <span class="macro">quote!</span> { <span class="ident">NULLPTR</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">wayland_backend::protocol::wl_message</span> }
-    } <span class="kw">else</span> {
-        <span class="kw">let</span> <span class="ident">requests_ident</span> <span class="op">=</span> <span class="macro">format_ident!</span>(<span class="string">&quot;{}_requests&quot;</span>, <span class="ident">interface</span>.<span class="ident">name</span>);
-        <span class="macro">quote!</span> { <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>#<span class="ident">requests_ident</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span> } }
+    <span class="kw">let </span>interface_ident = <span class="macro">format_ident!</span>(<span class="string">&quot;{}_interface&quot;</span>, interface.name);
+    <span class="kw">let </span>name_value = null_terminated_byte_string_literal(<span class="kw-2">&amp;</span>interface.name);
+    <span class="kw">let </span>version_value = Literal::i32_unsuffixed(interface.version <span class="kw">as </span>i32);
+    <span class="kw">let </span>request_count_value = Literal::i32_unsuffixed(interface.requests.len() <span class="kw">as </span>i32);
+    <span class="kw">let </span>requests_value = <span class="kw">if </span>interface.requests.is_empty() {
+        <span class="macro">quote! </span>{ NULLPTR <span class="kw">as </span><span class="kw-2">*const </span>wayland_backend::protocol::wl_message }
+    } <span class="kw">else </span>{
+        <span class="kw">let </span>requests_ident = <span class="macro">format_ident!</span>(<span class="string">&quot;{}_requests&quot;</span>, interface.name);
+        <span class="macro">quote! </span>{ <span class="kw">unsafe </span>{ <span class="kw-2">&amp;</span>#requests_ident <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ </span>} }
     };
-    <span class="kw">let</span> <span class="ident">event_count_value</span> <span class="op">=</span> <span class="ident">Literal::i32_unsuffixed</span>(<span class="ident">interface</span>.<span class="ident">events</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">i32</span>);
-    <span class="kw">let</span> <span class="ident">events_value</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">interface</span>.<span class="ident">events</span>.<span class="ident">is_empty</span>() {
-        <span class="macro">quote!</span> { <span class="ident">NULLPTR</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">wayland_backend::protocol::wl_message</span> }
-    } <span class="kw">else</span> {
-        <span class="kw">let</span> <span class="ident">events_ident</span> <span class="op">=</span> <span class="macro">format_ident!</span>(<span class="string">&quot;{}_events&quot;</span>, <span class="ident">interface</span>.<span class="ident">name</span>);
-        <span class="macro">quote!</span> { <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>#<span class="ident">events_ident</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span> } }
+    <span class="kw">let </span>event_count_value = Literal::i32_unsuffixed(interface.events.len() <span class="kw">as </span>i32);
+    <span class="kw">let </span>events_value = <span class="kw">if </span>interface.events.is_empty() {
+        <span class="macro">quote! </span>{ NULLPTR <span class="kw">as </span><span class="kw-2">*const </span>wayland_backend::protocol::wl_message }
+    } <span class="kw">else </span>{
+        <span class="kw">let </span>events_ident = <span class="macro">format_ident!</span>(<span class="string">&quot;{}_events&quot;</span>, interface.name);
+        <span class="macro">quote! </span>{ <span class="kw">unsafe </span>{ <span class="kw-2">&amp;</span>#events_ident <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ </span>} }
     };
 
-    <span class="macro">quote!</span> {
-        #<span class="ident">requests</span>
-        #<span class="ident">events</span>
+    <span class="macro">quote! </span>{
+        #requests
+        #events
 
-        <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">mut</span> #<span class="ident">interface_ident</span>: <span class="ident">wayland_backend::protocol::wl_interface</span> <span class="op">=</span> <span class="ident">wayland_backend::protocol::wl_interface</span> {
-            <span class="ident">name</span>: #<span class="ident">name_value</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">u8</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">std::os::raw::c_char</span>,
-            <span class="ident">version</span>: #<span class="ident">version_value</span>,
-            <span class="ident">request_count</span>: #<span class="ident">request_count_value</span>,
-            <span class="ident">requests</span>: #<span class="ident">requests_value</span>,
-            <span class="ident">event_count</span>: #<span class="ident">event_count_value</span>,
-            <span class="ident">events</span>: #<span class="ident">events_value</span>,
+        <span class="kw">pub static </span><span class="kw-2">mut </span>#interface_ident: wayland_backend::protocol::wl_interface = wayland_backend::protocol::wl_interface {
+            name: #name_value <span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>std::os::raw::c_char,
+            version: #version_value,
+            request_count: #request_count_value,
+            requests: #requests_value,
+            event_count: #event_count_value,
+            events: #events_value,
         };
     }
 }
 
-<span class="kw">fn</span> <span class="ident">gen_messages</span>(<span class="ident">interface</span>: <span class="kw-2">&amp;</span><span class="ident">Interface</span>, <span class="ident">messages</span>: <span class="kw-2">&amp;</span>[<span class="ident">Message</span>], <span class="ident">which</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="kw">if</span> <span class="ident">messages</span>.<span class="ident">is_empty</span>() {
-        <span class="kw">return</span> <span class="ident">TokenStream::new</span>();
+<span class="kw">fn </span>gen_messages(interface: <span class="kw-2">&amp;</span>Interface, messages: <span class="kw-2">&amp;</span>[Message], which: <span class="kw-2">&amp;</span>str) -&gt; TokenStream {
+    <span class="kw">if </span>messages.is_empty() {
+        <span class="kw">return </span>TokenStream::new();
     }
 
-    <span class="kw">let</span> <span class="ident">types_arrays</span> <span class="op">=</span> <span class="ident">messages</span>.<span class="ident">iter</span>().<span class="ident">filter_map</span>(<span class="op">|</span><span class="ident">msg</span><span class="op">|</span> {
-        <span class="kw">if</span> <span class="ident">msg</span>.<span class="ident">all_null</span>() {
-            <span class="prelude-val">None</span>
-        } <span class="kw">else</span> {
-            <span class="kw">let</span> <span class="ident">array_ident</span> <span class="op">=</span> <span class="macro">format_ident!</span>(<span class="string">&quot;{}_{}_{}_types&quot;</span>, <span class="ident">interface</span>.<span class="ident">name</span>, <span class="ident">which</span>, <span class="ident">msg</span>.<span class="ident">name</span>);
-            <span class="kw">let</span> <span class="ident">array_len</span> <span class="op">=</span> <span class="ident">Literal::usize_unsuffixed</span>(<span class="ident">msg</span>.<span class="ident">args</span>.<span class="ident">len</span>());
-            <span class="kw">let</span> <span class="ident">array_values</span> <span class="op">=</span> <span class="ident">msg</span>.<span class="ident">args</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">arg</span><span class="op">|</span> <span class="kw">match</span> (<span class="ident">arg</span>.<span class="ident">typ</span>, <span class="kw-2">&amp;</span><span class="ident">arg</span>.<span class="ident">interface</span>) {
-                (<span class="ident">Type::Object</span>, <span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">inter</span>)) <span class="op">|</span> (<span class="ident">Type::NewId</span>, <span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">inter</span>)) =&gt; {
-                    <span class="kw">let</span> <span class="ident">interface_ident</span> <span class="op">=</span><span class="macro">format_ident!</span>(<span class="string">&quot;{}_interface&quot;</span>, <span class="ident">inter</span>);
-                    <span class="macro">quote!</span> { <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>#<span class="ident">interface_ident</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">wayland_backend::protocol::wl_interface</span> } }
+    <span class="kw">let </span>types_arrays = messages.iter().filter_map(|msg| {
+        <span class="kw">if </span>msg.all_null() {
+            <span class="prelude-val">None
+        </span>} <span class="kw">else </span>{
+            <span class="kw">let </span>array_ident = <span class="macro">format_ident!</span>(<span class="string">&quot;{}_{}_{}_types&quot;</span>, interface.name, which, msg.name);
+            <span class="kw">let </span>array_len = Literal::usize_unsuffixed(msg.args.len());
+            <span class="kw">let </span>array_values = msg.args.iter().map(|arg| <span class="kw">match </span>(arg.typ, <span class="kw-2">&amp;</span>arg.interface) {
+                (Type::Object, <span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>inter)) | (Type::NewId, <span class="kw-2">&amp;</span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>inter)) =&gt; {
+                    <span class="kw">let </span>interface_ident =<span class="macro">format_ident!</span>(<span class="string">&quot;{}_interface&quot;</span>, inter);
+                    <span class="macro">quote! </span>{ <span class="kw">unsafe </span>{ <span class="kw-2">&amp;</span>#interface_ident <span class="kw">as </span><span class="kw-2">*const </span>wayland_backend::protocol::wl_interface } }
                 }
-                <span class="kw">_</span> =&gt; <span class="macro">quote!</span> { <span class="ident">NULLPTR</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">wayland_backend::protocol::wl_interface</span> },
+                <span class="kw">_ </span>=&gt; <span class="macro">quote! </span>{ NULLPTR <span class="kw">as </span><span class="kw-2">*const </span>wayland_backend::protocol::wl_interface },
             });
 
-            <span class="prelude-val">Some</span>(<span class="macro">quote!</span> {
-                <span class="kw">static</span> <span class="kw-2">mut</span> #<span class="ident">array_ident</span>: [<span class="kw-2">*const</span> <span class="ident">wayland_backend::protocol::wl_interface</span>; #<span class="ident">array_len</span>] <span class="op">=</span> [
-                    #(#<span class="ident">array_values</span>,)<span class="op">*</span>
+            <span class="prelude-val">Some</span>(<span class="macro">quote! </span>{
+                <span class="kw">static </span><span class="kw-2">mut </span>#array_ident: [<span class="kw-2">*const </span>wayland_backend::protocol::wl_interface; #array_len] = [
+                    #(#array_values,)*
                 ];
             })
         }
     });
 
-    <span class="kw">let</span> <span class="ident">message_array_ident</span> <span class="op">=</span> <span class="macro">format_ident!</span>(<span class="string">&quot;{}_{}&quot;</span>, <span class="ident">interface</span>.<span class="ident">name</span>, <span class="ident">which</span>);
-    <span class="kw">let</span> <span class="ident">message_array_len</span> <span class="op">=</span> <span class="ident">Literal::usize_unsuffixed</span>(<span class="ident">messages</span>.<span class="ident">len</span>());
-    <span class="kw">let</span> <span class="ident">message_array_values</span> <span class="op">=</span> <span class="ident">messages</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">msg</span><span class="op">|</span> {
-        <span class="kw">let</span> <span class="ident">name_value</span> <span class="op">=</span> <span class="ident">null_terminated_byte_string_literal</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">name</span>);
-        <span class="kw">let</span> <span class="ident">signature_value</span> <span class="op">=</span> <span class="ident">Literal::byte_string</span>(<span class="kw-2">&amp;</span><span class="ident">message_signature</span>(<span class="ident">msg</span>));
+    <span class="kw">let </span>message_array_ident = <span class="macro">format_ident!</span>(<span class="string">&quot;{}_{}&quot;</span>, interface.name, which);
+    <span class="kw">let </span>message_array_len = Literal::usize_unsuffixed(messages.len());
+    <span class="kw">let </span>message_array_values = messages.iter().map(|msg| {
+        <span class="kw">let </span>name_value = null_terminated_byte_string_literal(<span class="kw-2">&amp;</span>msg.name);
+        <span class="kw">let </span>signature_value = Literal::byte_string(<span class="kw-2">&amp;</span>message_signature(msg));
 
-        <span class="kw">let</span> <span class="ident">types_ident</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">msg</span>.<span class="ident">all_null</span>() {
+        <span class="kw">let </span>types_ident = <span class="kw">if </span>msg.all_null() {
             <span class="macro">format_ident!</span>(<span class="string">&quot;types_null&quot;</span>)
-        } <span class="kw">else</span> {
-            <span class="macro">format_ident!</span>(<span class="string">&quot;{}_{}_{}_types&quot;</span>, <span class="ident">interface</span>.<span class="ident">name</span>, <span class="ident">which</span>, <span class="ident">msg</span>.<span class="ident">name</span>)
+        } <span class="kw">else </span>{
+            <span class="macro">format_ident!</span>(<span class="string">&quot;{}_{}_{}_types&quot;</span>, interface.name, which, msg.name)
         };
 
-        <span class="macro">quote!</span> {
-            <span class="ident">wayland_backend::protocol::wl_message</span> {
-                <span class="ident">name</span>: #<span class="ident">name_value</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">u8</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">std::os::raw::c_char</span>,
-                <span class="ident">signature</span>: #<span class="ident">signature_value</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">u8</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">std::os::raw::c_char</span>,
-                <span class="ident">types</span>: <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span>#<span class="ident">types_ident</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="kw">_</span> },
+        <span class="macro">quote! </span>{
+            wayland_backend::protocol::wl_message {
+                name: #name_value <span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>std::os::raw::c_char,
+                signature: #signature_value <span class="kw">as </span><span class="kw-2">*const </span>u8 <span class="kw">as </span><span class="kw-2">*const </span>std::os::raw::c_char,
+                types: <span class="kw">unsafe </span>{ <span class="kw-2">&amp;</span>#types_ident <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ </span>},
             }
         }
     });
 
-    <span class="macro">quote!</span> {
-        #(#<span class="ident">types_arrays</span>)<span class="op">*</span>
+    <span class="macro">quote! </span>{
+        #(#types_arrays)*
 
-        <span class="kw">pub</span> <span class="kw">static</span> <span class="kw-2">mut</span> #<span class="ident">message_array_ident</span>: [<span class="ident">wayland_backend::protocol::wl_message</span>; #<span class="ident">message_array_len</span>] <span class="op">=</span> [
-            #(#<span class="ident">message_array_values</span>,)<span class="op">*</span>
+        <span class="kw">pub static </span><span class="kw-2">mut </span>#message_array_ident: [wayland_backend::protocol::wl_message; #message_array_len] = [
+            #(#message_array_values,)*
         ];
     }
 }
 
-<span class="kw">fn</span> <span class="ident">message_signature</span>(<span class="ident">msg</span>: <span class="kw-2">&amp;</span><span class="ident">Message</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
+<span class="kw">fn </span>message_signature(msg: <span class="kw-2">&amp;</span>Message) -&gt; Vec&lt;u8&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>res = Vec::new();
 
-    <span class="kw">if</span> <span class="ident">msg</span>.<span class="ident">since</span> <span class="op">&gt;</span> <span class="number">1</span> {
-        <span class="ident">res</span>.<span class="ident">extend_from_slice</span>(<span class="ident">msg</span>.<span class="ident">since</span>.<span class="ident">to_string</span>().<span class="ident">as_bytes</span>());
+    <span class="kw">if </span>msg.since &gt; <span class="number">1 </span>{
+        res.extend_from_slice(msg.since.to_string().as_bytes());
     }
 
-    <span class="kw">for</span> <span class="ident">arg</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="ident">msg</span>.<span class="ident">args</span> {
-        <span class="kw">if</span> <span class="ident">arg</span>.<span class="ident">typ</span>.<span class="ident">nullable</span>() <span class="op">&amp;&amp;</span> <span class="ident">arg</span>.<span class="ident">allow_null</span> {
-            <span class="ident">res</span>.<span class="ident">push</span>(<span class="string">b&#39;?&#39;</span>);
+    <span class="kw">for </span>arg <span class="kw">in </span><span class="kw-2">&amp;</span>msg.args {
+        <span class="kw">if </span>arg.typ.nullable() &amp;&amp; arg.allow_null {
+            res.push(<span class="string">b&#39;?&#39;</span>);
         }
-        <span class="kw">match</span> <span class="ident">arg</span>.<span class="ident">typ</span> {
-            <span class="ident">Type::NewId</span> =&gt; {
-                <span class="kw">if</span> <span class="ident">arg</span>.<span class="ident">interface</span>.<span class="ident">is_none</span>() {
-                    <span class="ident">res</span>.<span class="ident">extend_from_slice</span>(<span class="string">b&quot;su&quot;</span>);
+        <span class="kw">match </span>arg.typ {
+            Type::NewId =&gt; {
+                <span class="kw">if </span>arg.interface.is_none() {
+                    res.extend_from_slice(<span class="string">b&quot;su&quot;</span>);
                 }
-                <span class="ident">res</span>.<span class="ident">push</span>(<span class="string">b&#39;n&#39;</span>);
+                res.push(<span class="string">b&#39;n&#39;</span>);
             }
-            <span class="ident">Type::Uint</span> =&gt; <span class="ident">res</span>.<span class="ident">push</span>(<span class="string">b&#39;u&#39;</span>),
-            <span class="ident">Type::Fixed</span> =&gt; <span class="ident">res</span>.<span class="ident">push</span>(<span class="string">b&#39;f&#39;</span>),
-            <span class="ident">Type::String</span> =&gt; <span class="ident">res</span>.<span class="ident">push</span>(<span class="string">b&#39;s&#39;</span>),
-            <span class="ident">Type::Object</span> =&gt; <span class="ident">res</span>.<span class="ident">push</span>(<span class="string">b&#39;o&#39;</span>),
-            <span class="ident">Type::Array</span> =&gt; <span class="ident">res</span>.<span class="ident">push</span>(<span class="string">b&#39;a&#39;</span>),
-            <span class="ident">Type::Fd</span> =&gt; <span class="ident">res</span>.<span class="ident">push</span>(<span class="string">b&#39;h&#39;</span>),
-            <span class="ident">Type::Int</span> =&gt; <span class="ident">res</span>.<span class="ident">push</span>(<span class="string">b&#39;i&#39;</span>),
-            <span class="kw">_</span> =&gt; {}
+            Type::Uint =&gt; res.push(<span class="string">b&#39;u&#39;</span>),
+            Type::Fixed =&gt; res.push(<span class="string">b&#39;f&#39;</span>),
+            Type::String =&gt; res.push(<span class="string">b&#39;s&#39;</span>),
+            Type::Object =&gt; res.push(<span class="string">b&#39;o&#39;</span>),
+            Type::Array =&gt; res.push(<span class="string">b&#39;a&#39;</span>),
+            Type::Fd =&gt; res.push(<span class="string">b&#39;h&#39;</span>),
+            Type::Int =&gt; res.push(<span class="string">b&#39;i&#39;</span>),
+            <span class="kw">_ </span>=&gt; {}
         }
     }
 
-    <span class="ident">res</span>.<span class="ident">push</span>(<span class="number">0</span>);
-    <span class="ident">res</span>
+    res.push(<span class="number">0</span>);
+    res
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">null_terminated_byte_string_literal</span>(<span class="ident">string</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">Literal</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">val</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="ident">string</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="number">1</span>);
-    <span class="ident">val</span>.<span class="ident">extend_from_slice</span>(<span class="ident">string</span>.<span class="ident">as_bytes</span>());
-    <span class="ident">val</span>.<span class="ident">push</span>(<span class="number">0</span>);
+<span class="kw">pub fn </span>null_terminated_byte_string_literal(string: <span class="kw-2">&amp;</span>str) -&gt; Literal {
+    <span class="kw">let </span><span class="kw-2">mut </span>val = Vec::with_capacity(string.len() + <span class="number">1</span>);
+    val.extend_from_slice(string.as_bytes());
+    val.push(<span class="number">0</span>);
 
-    <span class="ident">Literal::byte_string</span>(<span class="kw-2">&amp;</span><span class="ident">val</span>)
+    Literal::byte_string(<span class="kw-2">&amp;</span>val)
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_scanner" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_scanner" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

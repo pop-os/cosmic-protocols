@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.10/src/types/server.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>server.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../wayland_backend/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.10/src/types/server.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>server.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../wayland_backend/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -72,79 +72,79 @@
 <span id="72">72</span>
 <span id="73">73</span>
 <span id="74">74</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::protocol::Interface</span>;
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::protocol::Interface;
 
-<span class="doccomment">/// Description of a global advertised to some clients.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">GlobalInfo</span> {
-    <span class="doccomment">/// The interface of the global.</span>
-    <span class="kw">pub</span> <span class="ident">interface</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span>,
-    <span class="doccomment">/// The version of the global that is advertised to clients.</span>
-    <span class="kw">pub</span> <span class="ident">version</span>: <span class="ident">u32</span>,
-    <span class="doccomment">/// Whether the global is disabled.</span>
-    <span class="kw">pub</span> <span class="ident">disabled</span>: <span class="ident">bool</span>,
+<span class="doccomment">/// Description of a global advertised to some clients.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>GlobalInfo {
+    <span class="doccomment">/// The interface of the global.
+    </span><span class="kw">pub </span>interface: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface,
+    <span class="doccomment">/// The version of the global that is advertised to clients.
+    </span><span class="kw">pub </span>version: u32,
+    <span class="doccomment">/// Whether the global is disabled.
+    </span><span class="kw">pub </span>disabled: bool,
 }
 
-<span class="doccomment">/// An error type representing the failure to initialize a backend</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">InitError</span> {
-    <span class="doccomment">/// The wayland system library could not be loaded</span>
-    <span class="ident">NoWaylandLib</span>,
-    <span class="doccomment">/// Initialized failed due to an underlying I/O error</span>
-    <span class="ident">Io</span>(<span class="ident">std::io::Error</span>),
+<span class="doccomment">/// An error type representing the failure to initialize a backend
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub enum </span>InitError {
+    <span class="doccomment">/// The wayland system library could not be loaded
+    </span>NoWaylandLib,
+    <span class="doccomment">/// Initialized failed due to an underlying I/O error
+    </span>Io(std::io::Error),
 }
 
-<span class="kw">impl</span> <span class="ident">std::error::Error</span> <span class="kw">for</span> <span class="ident">InitError</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">cause</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">std::error::Error</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">InitError::Io</span>(<span class="kw-2">ref</span> <span class="ident">err</span>) =&gt; <span class="prelude-val">Some</span>(<span class="ident">err</span>),
-            <span class="ident">InitError::NoWaylandLib</span> =&gt; <span class="prelude-val">None</span>,
+<span class="kw">impl </span>std::error::Error <span class="kw">for </span>InitError {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>cause(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="kw">dyn </span>std::error::Error&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            InitError::Io(<span class="kw-2">ref </span>err) =&gt; <span class="prelude-val">Some</span>(err),
+            InitError::NoWaylandLib =&gt; <span class="prelude-val">None</span>,
         }
     }
 }
 
-<span class="kw">impl</span> <span class="ident">std::fmt::Display</span> <span class="kw">for</span> <span class="ident">InitError</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">::std::fmt::Formatter</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">::std::fmt::Error</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">InitError::Io</span>(<span class="kw-2">ref</span> <span class="ident">err</span>) =&gt; <span class="ident">std::fmt::Display::fmt</span>(<span class="ident">err</span>, <span class="ident">f</span>),
-            <span class="ident">InitError::NoWaylandLib</span> =&gt; <span class="ident">f</span>.<span class="ident">write_str</span>(<span class="string">&quot;could not load libwayland-server.so&quot;</span>),
+<span class="kw">impl </span>std::fmt::Display <span class="kw">for </span>InitError {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>::std::fmt::Formatter) -&gt; <span class="prelude-ty">Result</span>&lt;(), ::std::fmt::Error&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            InitError::Io(<span class="kw-2">ref </span>err) =&gt; std::fmt::Display::fmt(err, f),
+            InitError::NoWaylandLib =&gt; f.write_str(<span class="string">&quot;could not load libwayland-server.so&quot;</span>),
         }
     }
 }
 
-<span class="doccomment">/// An error generated when trying to act on an invalid `ObjectId`.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InvalidId</span>;
+<span class="doccomment">/// An error generated when trying to act on an invalid `ObjectId`.
+</span><span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>InvalidId;
 
-<span class="kw">impl</span> <span class="ident">std::error::Error</span> <span class="kw">for</span> <span class="ident">InvalidId</span> {}
+<span class="kw">impl </span>std::error::Error <span class="kw">for </span>InvalidId {}
 
-<span class="kw">impl</span> <span class="ident">std::fmt::Display</span> <span class="kw">for</span> <span class="ident">InvalidId</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">::std::fmt::Formatter</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">::std::fmt::Error</span><span class="op">&gt;</span> {
-        <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;Invalid Id&quot;</span>)
+<span class="kw">impl </span>std::fmt::Display <span class="kw">for </span>InvalidId {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>::std::fmt::Formatter) -&gt; <span class="prelude-ty">Result</span>&lt;(), ::std::fmt::Error&gt; {
+        <span class="macro">write!</span>(f, <span class="string">&quot;Invalid Id&quot;</span>)
     }
 }
 
-<span class="doccomment">/// Describes why a client has been disconnected from the server.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DisconnectReason</span> {
-    <span class="doccomment">/// The connection has been closed by the server or client.</span>
-    <span class="ident">ConnectionClosed</span>,
-    <span class="doccomment">/// The server has sent the client a protocol error, terminating the connection.</span>
-    <span class="ident">ProtocolError</span>(<span class="ident"><span class="kw">crate</span>::protocol::ProtocolError</span>),
+<span class="doccomment">/// Describes why a client has been disconnected from the server.
+</span><span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub enum </span>DisconnectReason {
+    <span class="doccomment">/// The connection has been closed by the server or client.
+    </span>ConnectionClosed,
+    <span class="doccomment">/// The server has sent the client a protocol error, terminating the connection.
+    </span>ProtocolError(<span class="kw">crate</span>::protocol::ProtocolError),
 }
 
-<span class="doccomment">/// Holds the client credentials</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Credentials</span> {
-    <span class="doccomment">/// pid of the client</span>
-    <span class="kw">pub</span> <span class="ident">pid</span>: <span class="ident">nix::libc::pid_t</span>,
-    <span class="doccomment">/// uid of the client</span>
-    <span class="kw">pub</span> <span class="ident">uid</span>: <span class="ident">nix::libc::uid_t</span>,
-    <span class="doccomment">/// gid of the client</span>
-    <span class="kw">pub</span> <span class="ident">gid</span>: <span class="ident">nix::libc::gid_t</span>,
+<span class="doccomment">/// Holds the client credentials
+</span><span class="attribute">#[derive(Debug, Clone, Copy)]
+</span><span class="kw">pub struct </span>Credentials {
+    <span class="doccomment">/// pid of the client
+    </span><span class="kw">pub </span>pid: nix::libc::pid_t,
+    <span class="doccomment">/// uid of the client
+    </span><span class="kw">pub </span>uid: nix::libc::uid_t,
+    <span class="doccomment">/// gid of the client
+    </span><span class="kw">pub </span>gid: nix::libc::gid_t,
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="wayland_backend" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="wayland_backend" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

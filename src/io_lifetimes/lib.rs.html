@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.0-rc1/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../io_lifetimes/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../io_lifetimes/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../io_lifetimes/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/io-lifetimes-1.0.0-rc1/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../io_lifetimes/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../io_lifetimes/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../io_lifetimes/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -183,190 +183,190 @@
 <span id="183">183</span>
 <span id="184">184</span>
 <span id="185">185</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Experimental new types and traits to replace the `Raw` family of types and</span>
-<span class="doccomment">//! traits.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! This API has much conceptual similarity with the `Raw` API, but introduces</span>
-<span class="doccomment">//! explicit concepts of ownership and borrowing:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! | `Raw` API  | This experimental API    |</span>
-<span class="doccomment">//! | ---------- | ------------------------ |</span>
-<span class="doccomment">//! | `Raw*`     | `Borrowed*` and `Owned*` |</span>
-<span class="doccomment">//! | `AsRaw*`   | `As*`                    |</span>
-<span class="doccomment">//! | `IntoRaw*` | `Into*`                  |</span>
-<span class="doccomment">//! | `FromRaw*` | `From*`                  |</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! This gives it several advantages:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!  - Less `unsafe` in user code!</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!  - Easier to understand ownership.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!  - It avoids the inconsistency where `AsRawFd` and `IntoRawFd` return</span>
-<span class="doccomment">//!    `RawFd` values that users ought to be able to trust, but aren&#39;t unsafe,</span>
-<span class="doccomment">//!    so it&#39;s possible to fail to uphold this trust in purely safe Rust.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!  - It enables a number of safe and portable convenience features, such as</span>
-<span class="doccomment">//!    [safe typed views] and [from+into conversions].</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! [safe typed views]: AsFilelike::as_filelike_view</span>
-<span class="doccomment">//! [from+into conversions]: FromFilelike::from_into_filelike</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Experimental new types and traits to replace the `Raw` family of types and
+//! traits.
+//!
+//! This API has much conceptual similarity with the `Raw` API, but introduces
+//! explicit concepts of ownership and borrowing:
+//!
+//! | `Raw` API  | This experimental API    |
+//! | ---------- | ------------------------ |
+//! | `Raw*`     | `Borrowed*` and `Owned*` |
+//! | `AsRaw*`   | `As*`                    |
+//! | `IntoRaw*` | `Into*`                  |
+//! | `FromRaw*` | `From*`                  |
+//!
+//! This gives it several advantages:
+//!
+//!  - Less `unsafe` in user code!
+//!
+//!  - Easier to understand ownership.
+//!
+//!  - It avoids the inconsistency where `AsRawFd` and `IntoRawFd` return
+//!    `RawFd` values that users ought to be able to trust, but aren&#39;t unsafe,
+//!    so it&#39;s possible to fail to uphold this trust in purely safe Rust.
+//!
+//!  - It enables a number of safe and portable convenience features, such as
+//!    [safe typed views] and [from+into conversions].
+//!
+//! [safe typed views]: AsFilelike::as_filelike_view
+//! [from+into conversions]: FromFilelike::from_into_filelike
 
-<span class="attribute">#![<span class="ident">deny</span>(<span class="ident">missing_docs</span>)]</span>
-<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">rustc_attrs</span>, <span class="ident">feature</span>(<span class="ident">rustc_attrs</span>))]</span>
+</span><span class="attribute">#![deny(missing_docs)]
+#![cfg_attr(rustc_attrs, feature(rustc_attrs))]
 
-<span class="kw">mod</span> <span class="ident">portability</span>;
-<span class="kw">mod</span> <span class="ident">traits</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">io_lifetimes_use_std</span>))]</span>
-<span class="kw">mod</span> <span class="ident">types</span>;
+</span><span class="kw">mod </span>portability;
+<span class="kw">mod </span>traits;
+<span class="attribute">#[cfg(not(io_lifetimes_use_std))]
+</span><span class="kw">mod </span>types;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">io_lifetimes_use_std</span>))]</span>
-<span class="kw">mod</span> <span class="ident">impls_std</span>;
-<span class="kw">mod</span> <span class="ident">impls_std_views</span>;
+<span class="attribute">#[cfg(not(io_lifetimes_use_std))]
+</span><span class="kw">mod </span>impls_std;
+<span class="kw">mod </span>impls_std_views;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">io_lifetimes_use_std</span>))]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">unix</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;wasi&quot;</span>))]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">traits::AsFd</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">io_lifetimes_use_std</span>))]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">traits</span>::{<span class="ident">AsHandle</span>, <span class="ident">AsSocket</span>};
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">unix</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;wasi&quot;</span>))]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">traits</span>::{<span class="ident">FromFd</span>, <span class="ident">IntoFd</span>};
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">traits</span>::{<span class="ident">FromHandle</span>, <span class="ident">FromSocket</span>, <span class="ident">IntoHandle</span>, <span class="ident">IntoSocket</span>};
+<span class="attribute">#[cfg(not(io_lifetimes_use_std))]
+#[cfg(any(unix, target_os = <span class="string">&quot;wasi&quot;</span>))]
+</span><span class="kw">pub use </span>traits::AsFd;
+<span class="attribute">#[cfg(not(io_lifetimes_use_std))]
+#[cfg(windows)]
+</span><span class="kw">pub use </span>traits::{AsHandle, AsSocket};
+<span class="attribute">#[cfg(any(unix, target_os = <span class="string">&quot;wasi&quot;</span>))]
+#[allow(deprecated)]
+</span><span class="kw">pub use </span>traits::{FromFd, IntoFd};
+<span class="attribute">#[cfg(windows)]
+#[allow(deprecated)]
+</span><span class="kw">pub use </span>traits::{FromHandle, FromSocket, IntoHandle, IntoSocket};
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">io_lifetimes_use_std</span>))]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">unix</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;wasi&quot;</span>))]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">types</span>::{<span class="ident">BorrowedFd</span>, <span class="ident">OwnedFd</span>};
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">io_lifetimes_use_std</span>))]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">types</span>::{
-    <span class="ident">BorrowedHandle</span>, <span class="ident">BorrowedSocket</span>, <span class="ident">HandleOrInvalid</span>, <span class="ident">InvalidHandleError</span>, <span class="ident">NullHandleError</span>,
-    <span class="ident">OwnedHandle</span>, <span class="ident">OwnedSocket</span>,
+<span class="attribute">#[cfg(not(io_lifetimes_use_std))]
+#[cfg(any(unix, target_os = <span class="string">&quot;wasi&quot;</span>))]
+</span><span class="kw">pub use </span>types::{BorrowedFd, OwnedFd};
+<span class="attribute">#[cfg(not(io_lifetimes_use_std))]
+#[cfg(windows)]
+</span><span class="kw">pub use </span>types::{
+    BorrowedHandle, BorrowedSocket, HandleOrInvalid, InvalidHandleError, NullHandleError,
+    OwnedHandle, OwnedSocket,
 };
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">io_lifetimes_use_std</span>)]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">unix</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std::os::unix::io</span>::{<span class="ident">AsFd</span>, <span class="ident">BorrowedFd</span>, <span class="ident">OwnedFd</span>};
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">io_lifetimes_use_std</span>)]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;wasi&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std::os::wasi::io</span>::{<span class="ident">AsFd</span>, <span class="ident">BorrowedFd</span>, <span class="ident">OwnedFd</span>};
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">io_lifetimes_use_std</span>)]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">std::os::windows::io</span>::{
-    <span class="ident">AsHandle</span>, <span class="ident">AsSocket</span>, <span class="ident">BorrowedHandle</span>, <span class="ident">BorrowedSocket</span>, <span class="ident">HandleOrInvalid</span>, <span class="ident">InvalidHandleError</span>,
-    <span class="ident">NullHandleError</span>, <span class="ident">OwnedHandle</span>, <span class="ident">OwnedSocket</span>,
+<span class="attribute">#[cfg(io_lifetimes_use_std)]
+#[cfg(unix)]
+</span><span class="kw">pub use </span>std::os::unix::io::{AsFd, BorrowedFd, OwnedFd};
+<span class="attribute">#[cfg(io_lifetimes_use_std)]
+#[cfg(target_os = <span class="string">&quot;wasi&quot;</span>)]
+</span><span class="kw">pub use </span>std::os::wasi::io::{AsFd, BorrowedFd, OwnedFd};
+<span class="attribute">#[cfg(io_lifetimes_use_std)]
+#[cfg(windows)]
+</span><span class="kw">pub use </span>std::os::windows::io::{
+    AsHandle, AsSocket, BorrowedHandle, BorrowedSocket, HandleOrInvalid, InvalidHandleError,
+    NullHandleError, OwnedHandle, OwnedSocket,
 };
 
-<span class="comment">// io-lifetimes defined `FromFd`/`IntoFd` traits instead of just using</span>
-<span class="comment">// `From`/`Into` because that allowed it to implement them for foreign types,</span>
-<span class="comment">// including std types like File and TcpStream, and popular third-party types.</span>
-<span class="comment">//</span>
-<span class="comment">// std just uses `From`/`Into`, because it defines those traits itself so it</span>
-<span class="comment">// can implement them for std types itself, and std won&#39;t be implementing them</span>
-<span class="comment">// for third-party types. However, this means that until `OwnedFd` et al are</span>
-<span class="comment">// stabilized, there will be no impls for third-party traits.</span>
-<span class="comment">//</span>
-<span class="comment">// So we define `FromFd`/`IntoFd` traits, and implement them in terms of</span>
-<span class="comment">// `From`/`Into`,</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">io_lifetimes_use_std</span>)]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">unix</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;wasi&quot;</span>))]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">OwnedFd</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">FromFd</span> <span class="kw">for</span> <span class="ident">T</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">from_fd</span>(<span class="ident">owned_fd</span>: <span class="ident">OwnedFd</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">owned_fd</span>.<span class="ident">into</span>()
+<span class="comment">// io-lifetimes defined `FromFd`/`IntoFd` traits instead of just using
+// `From`/`Into` because that allowed it to implement them for foreign types,
+// including std types like File and TcpStream, and popular third-party types.
+//
+// std just uses `From`/`Into`, because it defines those traits itself so it
+// can implement them for std types itself, and std won&#39;t be implementing them
+// for third-party types. However, this means that until `OwnedFd` et al are
+// stabilized, there will be no impls for third-party traits.
+//
+// So we define `FromFd`/`IntoFd` traits, and implement them in terms of
+// `From`/`Into`,
+</span><span class="attribute">#[cfg(io_lifetimes_use_std)]
+#[cfg(any(unix, target_os = <span class="string">&quot;wasi&quot;</span>))]
+#[allow(deprecated)]
+</span><span class="kw">impl</span>&lt;T: From&lt;OwnedFd&gt;&gt; FromFd <span class="kw">for </span>T {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>from_fd(owned_fd: OwnedFd) -&gt; <span class="self">Self </span>{
+        owned_fd.into()
     }
 }
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">io_lifetimes_use_std</span>)]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">unix</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;wasi&quot;</span>))]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">IntoFd</span> <span class="kw">for</span> <span class="ident">T</span>
-<span class="kw">where</span>
-    <span class="ident">OwnedFd</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+<span class="attribute">#[cfg(io_lifetimes_use_std)]
+#[cfg(any(unix, target_os = <span class="string">&quot;wasi&quot;</span>))]
+#[allow(deprecated)]
+</span><span class="kw">impl</span>&lt;T&gt; IntoFd <span class="kw">for </span>T
+<span class="kw">where
+    </span>OwnedFd: From&lt;T&gt;,
 {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">into_fd</span>(<span class="self">self</span>) -&gt; <span class="ident">OwnedFd</span> {
-        <span class="self">self</span>.<span class="ident">into</span>()
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>into_fd(<span class="self">self</span>) -&gt; OwnedFd {
+        <span class="self">self</span>.into()
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">io_lifetimes_use_std</span>)]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">OwnedHandle</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">FromHandle</span> <span class="kw">for</span> <span class="ident">T</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">from_handle</span>(<span class="ident">owned_handle</span>: <span class="ident">OwnedHandle</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">owned_handle</span>.<span class="ident">into</span>()
+<span class="attribute">#[cfg(io_lifetimes_use_std)]
+#[cfg(windows)]
+#[allow(deprecated)]
+</span><span class="kw">impl</span>&lt;T: From&lt;OwnedHandle&gt;&gt; FromHandle <span class="kw">for </span>T {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>from_handle(owned_handle: OwnedHandle) -&gt; <span class="self">Self </span>{
+        owned_handle.into()
     }
 }
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">io_lifetimes_use_std</span>)]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">IntoHandle</span> <span class="kw">for</span> <span class="ident">T</span>
-<span class="kw">where</span>
-    <span class="ident">OwnedHandle</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+<span class="attribute">#[cfg(io_lifetimes_use_std)]
+#[cfg(windows)]
+#[allow(deprecated)]
+</span><span class="kw">impl</span>&lt;T&gt; IntoHandle <span class="kw">for </span>T
+<span class="kw">where
+    </span>OwnedHandle: From&lt;T&gt;,
 {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">into_handle</span>(<span class="self">self</span>) -&gt; <span class="ident">OwnedHandle</span> {
-        <span class="self">self</span>.<span class="ident">into</span>()
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>into_handle(<span class="self">self</span>) -&gt; OwnedHandle {
+        <span class="self">self</span>.into()
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">io_lifetimes_use_std</span>)]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">OwnedSocket</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">FromSocket</span> <span class="kw">for</span> <span class="ident">T</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">from_socket</span>(<span class="ident">owned_socket</span>: <span class="ident">OwnedSocket</span>) -&gt; <span class="self">Self</span> {
-        <span class="ident">owned_socket</span>.<span class="ident">into</span>()
+<span class="attribute">#[cfg(io_lifetimes_use_std)]
+#[cfg(windows)]
+#[allow(deprecated)]
+</span><span class="kw">impl</span>&lt;T: From&lt;OwnedSocket&gt;&gt; FromSocket <span class="kw">for </span>T {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>from_socket(owned_socket: OwnedSocket) -&gt; <span class="self">Self </span>{
+        owned_socket.into()
     }
 }
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">io_lifetimes_use_std</span>)]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">windows</span>)]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">deprecated</span>)]</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">IntoSocket</span> <span class="kw">for</span> <span class="ident">T</span>
-<span class="kw">where</span>
-    <span class="ident">OwnedSocket</span>: <span class="ident">From</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+<span class="attribute">#[cfg(io_lifetimes_use_std)]
+#[cfg(windows)]
+#[allow(deprecated)]
+</span><span class="kw">impl</span>&lt;T&gt; IntoSocket <span class="kw">for </span>T
+<span class="kw">where
+    </span>OwnedSocket: From&lt;T&gt;,
 {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">into_socket</span>(<span class="self">self</span>) -&gt; <span class="ident">OwnedSocket</span> {
-        <span class="self">self</span>.<span class="ident">into</span>()
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>into_socket(<span class="self">self</span>) -&gt; OwnedSocket {
+        <span class="self">self</span>.into()
     }
 }
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">portability</span>::{
-    <span class="ident">AsFilelike</span>, <span class="ident">AsSocketlike</span>, <span class="ident">BorrowedFilelike</span>, <span class="ident">BorrowedSocketlike</span>, <span class="ident">FromFilelike</span>, <span class="ident">FromSocketlike</span>,
-    <span class="ident">IntoFilelike</span>, <span class="ident">IntoSocketlike</span>, <span class="ident">OwnedFilelike</span>, <span class="ident">OwnedSocketlike</span>,
+<span class="kw">pub use </span>portability::{
+    AsFilelike, AsSocketlike, BorrowedFilelike, BorrowedSocketlike, FromFilelike, FromSocketlike,
+    IntoFilelike, IntoSocketlike, OwnedFilelike, OwnedSocketlike,
 };
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;close&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">example_ffi</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">raw</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">views</span>;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;close&quot;</span>)]
+</span><span class="kw">pub mod </span>example_ffi;
+<span class="kw">pub mod </span>raw;
+<span class="kw">pub mod </span>views;
 
-<span class="comment">// Ideally, we&#39;d want crates to implement our traits themselves. But for now,</span>
-<span class="comment">// while we&#39;re prototyping, we provide a few impls on foreign types.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">io_lifetimes_use_std</span>))]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;async-std&quot;</span>)]</span>
-<span class="kw">mod</span> <span class="ident">impls_async_std</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">io_lifetimes_use_std</span>))]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;fs-err&quot;</span>)]</span>
-<span class="kw">mod</span> <span class="ident">impls_fs_err</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">io_lifetimes_use_std</span>))]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mio&quot;</span>)]</span>
-<span class="kw">mod</span> <span class="ident">impls_mio</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;wasi&quot;</span>))]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">io_lifetimes_use_std</span>))]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;os_pipe&quot;</span>)]</span>
-<span class="kw">mod</span> <span class="ident">impls_os_pipe</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">io_lifetimes_use_std</span>))]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;socket2&quot;</span>)]</span>
-<span class="kw">mod</span> <span class="ident">impls_socket2</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">io_lifetimes_use_std</span>))]</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tokio&quot;</span>)]</span>
-<span class="kw">mod</span> <span class="ident">impls_tokio</span>;
+<span class="comment">// Ideally, we&#39;d want crates to implement our traits themselves. But for now,
+// while we&#39;re prototyping, we provide a few impls on foreign types.
+</span><span class="attribute">#[cfg(not(io_lifetimes_use_std))]
+#[cfg(feature = <span class="string">&quot;async-std&quot;</span>)]
+</span><span class="kw">mod </span>impls_async_std;
+<span class="attribute">#[cfg(not(io_lifetimes_use_std))]
+#[cfg(feature = <span class="string">&quot;fs-err&quot;</span>)]
+</span><span class="kw">mod </span>impls_fs_err;
+<span class="attribute">#[cfg(not(io_lifetimes_use_std))]
+#[cfg(feature = <span class="string">&quot;mio&quot;</span>)]
+</span><span class="kw">mod </span>impls_mio;
+<span class="attribute">#[cfg(not(target_os = <span class="string">&quot;wasi&quot;</span>))]
+#[cfg(not(io_lifetimes_use_std))]
+#[cfg(feature = <span class="string">&quot;os_pipe&quot;</span>)]
+</span><span class="kw">mod </span>impls_os_pipe;
+<span class="attribute">#[cfg(not(io_lifetimes_use_std))]
+#[cfg(feature = <span class="string">&quot;socket2&quot;</span>)]
+</span><span class="kw">mod </span>impls_socket2;
+<span class="attribute">#[cfg(not(io_lifetimes_use_std))]
+#[cfg(feature = <span class="string">&quot;tokio&quot;</span>)]
+</span><span class="kw">mod </span>impls_tokio;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="io_lifetimes" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="io_lifetimes" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

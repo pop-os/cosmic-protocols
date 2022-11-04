@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.10/src/rs/client_impl/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../wayland_backend/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.10/src/rs/client_impl/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../normalize.css"><link rel="stylesheet" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../dark.css" disabled><link rel="stylesheet" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../wayland_backend/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -813,820 +813,820 @@
 <span id="813">813</span>
 <span id="814">814</span>
 <span id="815">815</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Client-side rust implementation of a Wayland protocol backend</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Client-side rust implementation of a Wayland protocol backend
 
-<span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">fmt</span>,
-    <span class="ident">os::unix</span>::{
-        <span class="ident">io</span>::{<span class="ident">AsRawFd</span>, <span class="ident">RawFd</span>},
-        <span class="ident">net::UnixStream</span>,
+</span><span class="kw">use </span>std::{
+    fmt,
+    os::unix::{
+        io::{AsRawFd, RawFd},
+        net::UnixStream,
     },
-    <span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Condvar</span>, <span class="ident">Mutex</span>, <span class="ident">MutexGuard</span>, <span class="ident">Weak</span>},
+    sync::{Arc, Condvar, Mutex, MutexGuard, Weak},
 };
 
-<span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">core_interfaces::WL_DISPLAY_INTERFACE</span>,
-    <span class="ident">protocol</span>::{
-        <span class="ident">check_for_signature</span>, <span class="ident">same_interface</span>, <span class="ident">same_interface_or_anonymous</span>, <span class="ident">AllowNull</span>, <span class="ident">Argument</span>,
-        <span class="ident">ArgumentType</span>, <span class="ident">Interface</span>, <span class="ident">Message</span>, <span class="ident">ObjectInfo</span>, <span class="ident">ProtocolError</span>, <span class="ident">ANONYMOUS_INTERFACE</span>,
-        <span class="ident">INLINE_ARGS</span>,
+<span class="kw">use crate</span>::{
+    core_interfaces::WL_DISPLAY_INTERFACE,
+    protocol::{
+        check_for_signature, same_interface, same_interface_or_anonymous, AllowNull, Argument,
+        ArgumentType, Interface, Message, ObjectInfo, ProtocolError, ANONYMOUS_INTERFACE,
+        INLINE_ARGS,
     },
 };
-<span class="kw">use</span> <span class="ident">io_lifetimes</span>::{<span class="ident">BorrowedFd</span>, <span class="ident">OwnedFd</span>};
-<span class="kw">use</span> <span class="ident">smallvec::SmallVec</span>;
+<span class="kw">use </span>io_lifetimes::{BorrowedFd, OwnedFd};
+<span class="kw">use </span>smallvec::SmallVec;
 
-<span class="kw">use</span> <span class="kw">super</span>::{
-    <span class="ident">client</span>::<span class="kw-2">*</span>,
-    <span class="ident">map</span>::{<span class="ident">Object</span>, <span class="ident">ObjectMap</span>, <span class="ident">SERVER_ID_LIMIT</span>},
-    <span class="ident">socket</span>::{<span class="ident">BufferedSocket</span>, <span class="ident">Socket</span>},
-    <span class="ident">wire::MessageParseError</span>,
+<span class="kw">use super</span>::{
+    client::<span class="kw-2">*</span>,
+    map::{Object, ObjectMap, SERVER_ID_LIMIT},
+    socket::{BufferedSocket, Socket},
+    wire::MessageParseError,
 };
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::types::client</span>::{<span class="ident">InvalidId</span>, <span class="ident">NoWaylandLib</span>, <span class="ident">WaylandError</span>};
+<span class="kw">pub use </span><span class="kw">crate</span>::types::client::{InvalidId, NoWaylandLib, WaylandError};
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-<span class="kw">struct</span> <span class="ident">Data</span> {
-    <span class="ident">client_destroyed</span>: <span class="ident">bool</span>,
-    <span class="ident">server_destroyed</span>: <span class="ident">bool</span>,
-    <span class="ident">user_data</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>,
-    <span class="ident">serial</span>: <span class="ident">u32</span>,
+<span class="attribute">#[derive(Debug, Clone)]
+</span><span class="kw">struct </span>Data {
+    client_destroyed: bool,
+    server_destroyed: bool,
+    user_data: Arc&lt;<span class="kw">dyn </span>ObjectData&gt;,
+    serial: u32,
 }
 
-<span class="doccomment">/// An ID representing a Wayland object</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InnerObjectId</span> {
-    <span class="ident">serial</span>: <span class="ident">u32</span>,
-    <span class="ident">id</span>: <span class="ident">u32</span>,
-    <span class="ident">interface</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span>,
+<span class="doccomment">/// An ID representing a Wayland object
+</span><span class="attribute">#[derive(Clone)]
+</span><span class="kw">pub struct </span>InnerObjectId {
+    serial: u32,
+    id: u32,
+    interface: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface,
 }
 
-<span class="kw">impl</span> <span class="ident">std::cmp::PartialEq</span> <span class="kw">for</span> <span class="ident">InnerObjectId</span> {
-    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">id</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">id</span>
-            <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">serial</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">serial</span>
-            <span class="op">&amp;&amp;</span> <span class="ident">same_interface</span>(<span class="self">self</span>.<span class="ident">interface</span>, <span class="ident">other</span>.<span class="ident">interface</span>)
+<span class="kw">impl </span>std::cmp::PartialEq <span class="kw">for </span>InnerObjectId {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
+        <span class="self">self</span>.id == other.id
+            &amp;&amp; <span class="self">self</span>.serial == other.serial
+            &amp;&amp; same_interface(<span class="self">self</span>.interface, other.interface)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">std::cmp::Eq</span> <span class="kw">for</span> <span class="ident">InnerObjectId</span> {}
+<span class="kw">impl </span>std::cmp::Eq <span class="kw">for </span>InnerObjectId {}
 
-<span class="kw">impl</span> <span class="ident">std::hash::Hash</span> <span class="kw">for</span> <span class="ident">InnerObjectId</span> {
-    <span class="kw">fn</span> <span class="ident">hash</span><span class="op">&lt;</span><span class="ident">H</span>: <span class="ident">std::hash::Hasher</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">state</span>: <span class="kw-2">&amp;mut</span> <span class="ident">H</span>) {
-        <span class="self">self</span>.<span class="ident">serial</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
-        <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
+<span class="kw">impl </span>std::hash::Hash <span class="kw">for </span>InnerObjectId {
+    <span class="kw">fn </span>hash&lt;H: std::hash::Hasher&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: <span class="kw-2">&amp;mut </span>H) {
+        <span class="self">self</span>.serial.hash(state);
+        <span class="self">self</span>.id.hash(state);
     }
 }
 
-<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">InnerObjectId</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{}@{}&quot;</span>, <span class="self">self</span>.<span class="ident">interface</span>.<span class="ident">name</span>, <span class="self">self</span>.<span class="ident">id</span>)
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>InnerObjectId {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">&quot;{}@{}&quot;</span>, <span class="self">self</span>.interface.name, <span class="self">self</span>.id)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">InnerObjectId</span> {
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">no_coverage</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;ObjectId({}, {})&quot;</span>, <span class="self">self</span>, <span class="self">self</span>.<span class="ident">serial</span>)
+<span class="kw">impl </span>fmt::Debug <span class="kw">for </span>InnerObjectId {
+    <span class="attribute">#[cfg_attr(coverage, no_coverage)]
+    </span><span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="macro">write!</span>(f, <span class="string">&quot;ObjectId({}, {})&quot;</span>, <span class="self">self</span>, <span class="self">self</span>.serial)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">InnerObjectId</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_null</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">id</span> <span class="op">==</span> <span class="number">0</span>
+<span class="kw">impl </span>InnerObjectId {
+    <span class="kw">pub fn </span>is_null(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.id == <span class="number">0
+    </span>}
+
+    <span class="kw">pub fn </span>interface(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface {
+        <span class="self">self</span>.interface
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">interface</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span> {
-        <span class="self">self</span>.<span class="ident">interface</span>
-    }
-
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">protocol_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> {
-        <span class="self">self</span>.<span class="ident">id</span>
-    }
-}
-
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">struct</span> <span class="ident">ProtocolState</span> {
-    <span class="ident">socket</span>: <span class="ident">BufferedSocket</span>,
-    <span class="ident">map</span>: <span class="ident">ObjectMap</span><span class="op">&lt;</span><span class="ident">Data</span><span class="op">&gt;</span>,
-    <span class="ident">last_error</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">WaylandError</span><span class="op">&gt;</span>,
-    <span class="ident">last_serial</span>: <span class="ident">u32</span>,
-    <span class="ident">debug</span>: <span class="ident">bool</span>,
-}
-
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">struct</span> <span class="ident">ReadingState</span> {
-    <span class="ident">prepared_reads</span>: <span class="ident">usize</span>,
-    <span class="ident">read_condvar</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Condvar</span><span class="op">&gt;</span>,
-    <span class="ident">read_serial</span>: <span class="ident">usize</span>,
-}
-
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ConnectionState</span> {
-    <span class="ident">protocol</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">ProtocolState</span><span class="op">&gt;</span>,
-    <span class="ident">read</span>: <span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">ReadingState</span><span class="op">&gt;</span>,
-}
-
-<span class="kw">impl</span> <span class="ident">ConnectionState</span> {
-    <span class="kw">fn</span> <span class="ident">lock_protocol</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">MutexGuard</span><span class="op">&lt;</span><span class="ident">ProtocolState</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">protocol</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>()
-    }
-
-    <span class="kw">fn</span> <span class="ident">lock_read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">MutexGuard</span><span class="op">&lt;</span><span class="ident">ReadingState</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">read</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>()
+    <span class="kw">pub fn </span>protocol_id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+        <span class="self">self</span>.id
     }
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InnerBackend</span> {
-    <span class="ident">state</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">ConnectionState</span><span class="op">&gt;</span>,
+<span class="attribute">#[derive(Debug)]
+</span><span class="kw">struct </span>ProtocolState {
+    socket: BufferedSocket,
+    map: ObjectMap&lt;Data&gt;,
+    last_error: <span class="prelude-ty">Option</span>&lt;WaylandError&gt;,
+    last_serial: u32,
+    debug: bool,
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">WeakInnerBackend</span> {
-    <span class="ident">state</span>: <span class="ident">Weak</span><span class="op">&lt;</span><span class="ident">ConnectionState</span><span class="op">&gt;</span>,
+<span class="attribute">#[derive(Debug)]
+</span><span class="kw">struct </span>ReadingState {
+    prepared_reads: usize,
+    read_condvar: Arc&lt;Condvar&gt;,
+    read_serial: usize,
 }
 
-<span class="kw">impl</span> <span class="ident">WeakInnerBackend</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">upgrade</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">InnerBackend</span><span class="op">&gt;</span> {
-        <span class="ident">Weak::upgrade</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">state</span><span class="op">|</span> <span class="ident">InnerBackend</span> { <span class="ident">state</span> })
+<span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>ConnectionState {
+    protocol: Mutex&lt;ProtocolState&gt;,
+    read: Mutex&lt;ReadingState&gt;,
+}
+
+<span class="kw">impl </span>ConnectionState {
+    <span class="kw">fn </span>lock_protocol(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; MutexGuard&lt;ProtocolState&gt; {
+        <span class="self">self</span>.protocol.lock().unwrap()
+    }
+
+    <span class="kw">fn </span>lock_read(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; MutexGuard&lt;ReadingState&gt; {
+        <span class="self">self</span>.read.lock().unwrap()
     }
 }
 
-<span class="kw">impl</span> <span class="ident">InnerBackend</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">downgrade</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">WeakInnerBackend</span> {
-        <span class="ident">WeakInnerBackend</span> { <span class="ident">state</span>: <span class="ident">Arc::downgrade</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">state</span>) }
+<span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>InnerBackend {
+    state: Arc&lt;ConnectionState&gt;,
+}
+
+<span class="attribute">#[derive(Clone, Debug)]
+</span><span class="kw">pub struct </span>WeakInnerBackend {
+    state: Weak&lt;ConnectionState&gt;,
+}
+
+<span class="kw">impl </span>WeakInnerBackend {
+    <span class="kw">pub fn </span>upgrade(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;InnerBackend&gt; {
+        Weak::upgrade(<span class="kw-2">&amp;</span><span class="self">self</span>.state).map(|state| InnerBackend { state })
+    }
+}
+
+<span class="kw">impl </span>InnerBackend {
+    <span class="kw">pub fn </span>downgrade(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; WeakInnerBackend {
+        WeakInnerBackend { state: Arc::downgrade(<span class="kw-2">&amp;</span><span class="self">self</span>.state) }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">connect</span>(<span class="ident">stream</span>: <span class="ident">UnixStream</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">NoWaylandLib</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">socket</span> <span class="op">=</span> <span class="ident">BufferedSocket::new</span>(<span class="ident">Socket::from</span>(<span class="ident">stream</span>));
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">map</span> <span class="op">=</span> <span class="ident">ObjectMap::new</span>();
-        <span class="ident">map</span>.<span class="ident">insert_at</span>(
+    <span class="kw">pub fn </span>connect(stream: UnixStream) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, NoWaylandLib&gt; {
+        <span class="kw">let </span>socket = BufferedSocket::new(Socket::from(stream));
+        <span class="kw">let </span><span class="kw-2">mut </span>map = ObjectMap::new();
+        map.insert_at(
             <span class="number">1</span>,
-            <span class="ident">Object</span> {
-                <span class="ident">interface</span>: <span class="kw-2">&amp;</span><span class="ident">WL_DISPLAY_INTERFACE</span>,
-                <span class="ident">version</span>: <span class="number">1</span>,
-                <span class="ident">data</span>: <span class="ident">Data</span> {
-                    <span class="ident">client_destroyed</span>: <span class="bool-val">false</span>,
-                    <span class="ident">server_destroyed</span>: <span class="bool-val">false</span>,
-                    <span class="ident">user_data</span>: <span class="ident">Arc::new</span>(<span class="ident">DumbObjectData</span>),
-                    <span class="ident">serial</span>: <span class="number">0</span>,
+            Object {
+                interface: <span class="kw-2">&amp;</span>WL_DISPLAY_INTERFACE,
+                version: <span class="number">1</span>,
+                data: Data {
+                    client_destroyed: <span class="bool-val">false</span>,
+                    server_destroyed: <span class="bool-val">false</span>,
+                    user_data: Arc::new(DumbObjectData),
+                    serial: <span class="number">0</span>,
                 },
             },
         )
-        .<span class="ident">unwrap</span>();
+        .unwrap();
 
-        <span class="kw">let</span> <span class="ident">debug</span> <span class="op">=</span>
-            <span class="macro">matches!</span>(<span class="ident">std::env::var_os</span>(<span class="string">&quot;WAYLAND_DEBUG&quot;</span>), <span class="prelude-val">Some</span>(<span class="ident">str</span>) <span class="kw">if</span> <span class="ident">str</span> <span class="op">==</span> <span class="string">&quot;1&quot;</span> <span class="op">|</span><span class="op">|</span> <span class="ident">str</span> <span class="op">==</span> <span class="string">&quot;client&quot;</span>);
+        <span class="kw">let </span>debug =
+            <span class="macro">matches!</span>(std::env::var_os(<span class="string">&quot;WAYLAND_DEBUG&quot;</span>), <span class="prelude-val">Some</span>(str) <span class="kw">if </span>str == <span class="string">&quot;1&quot; </span>|| str == <span class="string">&quot;client&quot;</span>);
 
-        <span class="prelude-val">Ok</span>(<span class="self">Self</span> {
-            <span class="ident">state</span>: <span class="ident">Arc::new</span>(<span class="ident">ConnectionState</span> {
-                <span class="ident">protocol</span>: <span class="ident">Mutex::new</span>(<span class="ident">ProtocolState</span> {
-                    <span class="ident">socket</span>,
-                    <span class="ident">map</span>,
-                    <span class="ident">last_error</span>: <span class="prelude-val">None</span>,
-                    <span class="ident">last_serial</span>: <span class="number">0</span>,
-                    <span class="ident">debug</span>,
+        <span class="prelude-val">Ok</span>(<span class="self">Self </span>{
+            state: Arc::new(ConnectionState {
+                protocol: Mutex::new(ProtocolState {
+                    socket,
+                    map,
+                    last_error: <span class="prelude-val">None</span>,
+                    last_serial: <span class="number">0</span>,
+                    debug,
                 }),
-                <span class="ident">read</span>: <span class="ident">Mutex::new</span>(<span class="ident">ReadingState</span> {
-                    <span class="ident">prepared_reads</span>: <span class="number">0</span>,
-                    <span class="ident">read_condvar</span>: <span class="ident">Arc::new</span>(<span class="ident">Condvar::new</span>()),
-                    <span class="ident">read_serial</span>: <span class="number">0</span>,
+                read: Mutex::new(ReadingState {
+                    prepared_reads: <span class="number">0</span>,
+                    read_condvar: Arc::new(Condvar::new()),
+                    read_serial: <span class="number">0</span>,
                 }),
             }),
         })
     }
 
-    <span class="doccomment">/// Flush all pending outgoing requests to the server</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">WaylandError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">guard</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">lock_protocol</span>();
-        <span class="ident">guard</span>.<span class="ident">no_last_error</span>()<span class="question-mark">?</span>;
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="ident">guard</span>.<span class="ident">socket</span>.<span class="ident">flush</span>() {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">guard</span>.<span class="ident">store_if_not_wouldblock_and_return_error</span>(<span class="ident">e</span>));
+    <span class="doccomment">/// Flush all pending outgoing requests to the server
+    </span><span class="kw">pub fn </span>flush(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), WaylandError&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>guard = <span class="self">self</span>.state.lock_protocol();
+        guard.no_last_error()<span class="question-mark">?</span>;
+        <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = guard.socket.flush() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(guard.store_if_not_wouldblock_and_return_error(e));
         }
         <span class="prelude-val">Ok</span>(())
     }
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InnerReadEventsGuard</span> {
-    <span class="ident">state</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">ConnectionState</span><span class="op">&gt;</span>,
-    <span class="ident">done</span>: <span class="ident">bool</span>,
+<span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>InnerReadEventsGuard {
+    state: Arc&lt;ConnectionState&gt;,
+    done: bool,
 }
 
-<span class="kw">impl</span> <span class="ident">InnerReadEventsGuard</span> {
-    <span class="doccomment">/// Create a new reading guard</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This call will not block, but event callbacks may be invoked in the process</span>
-    <span class="doccomment">/// of preparing the guard.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">try_new</span>(<span class="ident">backend</span>: <span class="ident">InnerBackend</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
-        <span class="ident">backend</span>.<span class="ident">state</span>.<span class="ident">lock_read</span>().<span class="ident">prepared_reads</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-        <span class="prelude-val">Ok</span>(<span class="self">Self</span> { <span class="ident">state</span>: <span class="ident">backend</span>.<span class="ident">state</span>, <span class="ident">done</span>: <span class="bool-val">false</span> })
+<span class="kw">impl </span>InnerReadEventsGuard {
+    <span class="doccomment">/// Create a new reading guard
+    ///
+    /// This call will not block, but event callbacks may be invoked in the process
+    /// of preparing the guard.
+    </span><span class="kw">pub fn </span>try_new(backend: InnerBackend) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, WaylandError&gt; {
+        backend.state.lock_read().prepared_reads += <span class="number">1</span>;
+        <span class="prelude-val">Ok</span>(<span class="self">Self </span>{ state: backend.state, done: <span class="bool-val">false </span>})
     }
 
-    <span class="doccomment">/// Access the Wayland socket FD for polling</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">connection_fd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">BorrowedFd</span> {
-        <span class="kw">let</span> <span class="ident">raw_fd</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">lock_protocol</span>().<span class="ident">socket</span>.<span class="ident">as_raw_fd</span>();
-        <span class="comment">// This allows the lifetime of the BorrowedFd to be tied to &amp;self rather than the lock guard,</span>
-        <span class="comment">// which is the real safety concern</span>
-        <span class="kw">unsafe</span> { <span class="ident">BorrowedFd::borrow_raw</span>(<span class="ident">raw_fd</span>) }
+    <span class="doccomment">/// Access the Wayland socket FD for polling
+    </span><span class="kw">pub fn </span>connection_fd(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BorrowedFd {
+        <span class="kw">let </span>raw_fd = <span class="self">self</span>.state.lock_protocol().socket.as_raw_fd();
+        <span class="comment">// This allows the lifetime of the BorrowedFd to be tied to &amp;self rather than the lock guard,
+        // which is the real safety concern
+        </span><span class="kw">unsafe </span>{ BorrowedFd::borrow_raw(raw_fd) }
     }
 
-    <span class="doccomment">/// Attempt to read events from the Wayland socket</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// If multiple threads have a live reading guard, this method will block until all of them</span>
-    <span class="doccomment">/// are either dropped or have their `read()` method invoked, at which point on of the threads</span>
-    <span class="doccomment">/// will read events from the socket and invoke the callbacks for the received events. All</span>
-    <span class="doccomment">/// threads will then resume their execution.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This returns the number of dispatched events, or `0` if an other thread handled the dispatching.</span>
-    <span class="doccomment">/// If no events are available to read from the socket, this returns a `WouldBlock` IO error.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">guard</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">lock_read</span>();
-        <span class="ident">guard</span>.<span class="ident">prepared_reads</span> <span class="op">-</span><span class="op">=</span> <span class="number">1</span>;
-        <span class="self">self</span>.<span class="ident">done</span> <span class="op">=</span> <span class="bool-val">true</span>;
-        <span class="kw">if</span> <span class="ident">guard</span>.<span class="ident">prepared_reads</span> <span class="op">==</span> <span class="number">0</span> {
-            <span class="comment">// We should be the one reading</span>
-            <span class="kw">let</span> <span class="ident">ret</span> <span class="op">=</span> <span class="ident">dispatch_events</span>(<span class="self">self</span>.<span class="ident">state</span>.<span class="ident">clone</span>());
-            <span class="comment">// wake up other threads</span>
-            <span class="ident">guard</span>.<span class="ident">read_serial</span> <span class="op">=</span> <span class="ident">guard</span>.<span class="ident">read_serial</span>.<span class="ident">wrapping_add</span>(<span class="number">1</span>);
-            <span class="ident">guard</span>.<span class="ident">read_condvar</span>.<span class="ident">notify_all</span>();
-            <span class="comment">// forward the return value</span>
-            <span class="ident">ret</span>
-        } <span class="kw">else</span> {
-            <span class="comment">// We should wait for an other thread to read (or cancel)</span>
-            <span class="kw">let</span> <span class="ident">serial</span> <span class="op">=</span> <span class="ident">guard</span>.<span class="ident">read_serial</span>;
-            <span class="kw">let</span> <span class="ident">condvar</span> <span class="op">=</span> <span class="ident">guard</span>.<span class="ident">read_condvar</span>.<span class="ident">clone</span>();
-            <span class="kw">let</span> <span class="ident">_guard</span> <span class="op">=</span>
-                <span class="ident">condvar</span>.<span class="ident">wait_while</span>(<span class="ident">guard</span>, <span class="op">|</span><span class="ident">backend</span><span class="op">|</span> <span class="ident">serial</span> <span class="op">==</span> <span class="ident">backend</span>.<span class="ident">read_serial</span>).<span class="ident">unwrap</span>();
-            <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">lock_protocol</span>().<span class="ident">no_last_error</span>()<span class="question-mark">?</span>;
+    <span class="doccomment">/// Attempt to read events from the Wayland socket
+    ///
+    /// If multiple threads have a live reading guard, this method will block until all of them
+    /// are either dropped or have their `read()` method invoked, at which point on of the threads
+    /// will read events from the socket and invoke the callbacks for the received events. All
+    /// threads will then resume their execution.
+    ///
+    /// This returns the number of dispatched events, or `0` if an other thread handled the dispatching.
+    /// If no events are available to read from the socket, this returns a `WouldBlock` IO error.
+    </span><span class="kw">pub fn </span>read(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;usize, WaylandError&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>guard = <span class="self">self</span>.state.lock_read();
+        guard.prepared_reads -= <span class="number">1</span>;
+        <span class="self">self</span>.done = <span class="bool-val">true</span>;
+        <span class="kw">if </span>guard.prepared_reads == <span class="number">0 </span>{
+            <span class="comment">// We should be the one reading
+            </span><span class="kw">let </span>ret = dispatch_events(<span class="self">self</span>.state.clone());
+            <span class="comment">// wake up other threads
+            </span>guard.read_serial = guard.read_serial.wrapping_add(<span class="number">1</span>);
+            guard.read_condvar.notify_all();
+            <span class="comment">// forward the return value
+            </span>ret
+        } <span class="kw">else </span>{
+            <span class="comment">// We should wait for an other thread to read (or cancel)
+            </span><span class="kw">let </span>serial = guard.read_serial;
+            <span class="kw">let </span>condvar = guard.read_condvar.clone();
+            <span class="kw">let </span>_guard =
+                condvar.wait_while(guard, |backend| serial == backend.read_serial).unwrap();
+            <span class="self">self</span>.state.lock_protocol().no_last_error()<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(<span class="number">0</span>)
         }
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">InnerReadEventsGuard</span> {
-    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
-        <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">done</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">guard</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">lock_read</span>();
-            <span class="ident">guard</span>.<span class="ident">prepared_reads</span> <span class="op">-</span><span class="op">=</span> <span class="number">1</span>;
-            <span class="kw">if</span> <span class="ident">guard</span>.<span class="ident">prepared_reads</span> <span class="op">==</span> <span class="number">0</span> {
-                <span class="comment">// Cancel the read</span>
-                <span class="ident">guard</span>.<span class="ident">read_serial</span> <span class="op">=</span> <span class="ident">guard</span>.<span class="ident">read_serial</span>.<span class="ident">wrapping_add</span>(<span class="number">1</span>);
-                <span class="ident">guard</span>.<span class="ident">read_condvar</span>.<span class="ident">notify_all</span>();
+<span class="kw">impl </span>Drop <span class="kw">for </span>InnerReadEventsGuard {
+    <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="kw">if </span>!<span class="self">self</span>.done {
+            <span class="kw">let </span><span class="kw-2">mut </span>guard = <span class="self">self</span>.state.lock_read();
+            guard.prepared_reads -= <span class="number">1</span>;
+            <span class="kw">if </span>guard.prepared_reads == <span class="number">0 </span>{
+                <span class="comment">// Cancel the read
+                </span>guard.read_serial = guard.read_serial.wrapping_add(<span class="number">1</span>);
+                guard.read_condvar.notify_all();
             }
         }
     }
 }
 
-<span class="kw">impl</span> <span class="ident">InnerBackend</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">display_id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">ObjectId</span> {
-        <span class="ident">ObjectId</span> { <span class="ident">id</span>: <span class="ident">InnerObjectId</span> { <span class="ident">serial</span>: <span class="number">0</span>, <span class="ident">id</span>: <span class="number">1</span>, <span class="ident">interface</span>: <span class="kw-2">&amp;</span><span class="ident">WL_DISPLAY_INTERFACE</span> } }
+<span class="kw">impl </span>InnerBackend {
+    <span class="kw">pub fn </span>display_id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ObjectId {
+        ObjectId { id: InnerObjectId { serial: <span class="number">0</span>, id: <span class="number">1</span>, interface: <span class="kw-2">&amp;</span>WL_DISPLAY_INTERFACE } }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">last_error</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">WaylandError</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">lock_protocol</span>().<span class="ident">last_error</span>.<span class="ident">clone</span>()
+    <span class="kw">pub fn </span>last_error(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;WaylandError&gt; {
+        <span class="self">self</span>.state.lock_protocol().last_error.clone()
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">info</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">ObjectId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ObjectInfo</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">object</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">lock_protocol</span>().<span class="ident">get_object</span>(<span class="ident">id</span>.<span class="ident">id</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
-        <span class="kw">if</span> <span class="ident">object</span>.<span class="ident">data</span>.<span class="ident">client_destroyed</span> {
-            <span class="prelude-val">Err</span>(<span class="ident">InvalidId</span>)
-        } <span class="kw">else</span> {
-            <span class="prelude-val">Ok</span>(<span class="ident">ObjectInfo</span> { <span class="ident">id</span>: <span class="ident">id</span>.<span class="ident">id</span>.<span class="ident">id</span>, <span class="ident">interface</span>: <span class="ident">object</span>.<span class="ident">interface</span>, <span class="ident">version</span>: <span class="ident">object</span>.<span class="ident">version</span> })
+    <span class="kw">pub fn </span>info(<span class="kw-2">&amp;</span><span class="self">self</span>, id: ObjectId) -&gt; <span class="prelude-ty">Result</span>&lt;ObjectInfo, InvalidId&gt; {
+        <span class="kw">let </span>object = <span class="self">self</span>.state.lock_protocol().get_object(id.id.clone())<span class="question-mark">?</span>;
+        <span class="kw">if </span>object.data.client_destroyed {
+            <span class="prelude-val">Err</span>(InvalidId)
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Ok</span>(ObjectInfo { id: id.id.id, interface: object.interface, version: object.version })
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">null_id</span>() -&gt; <span class="ident">ObjectId</span> {
-        <span class="ident">ObjectId</span> { <span class="ident">id</span>: <span class="ident">InnerObjectId</span> { <span class="ident">serial</span>: <span class="number">0</span>, <span class="ident">id</span>: <span class="number">0</span>, <span class="ident">interface</span>: <span class="kw-2">&amp;</span><span class="ident">ANONYMOUS_INTERFACE</span> } }
+    <span class="kw">pub fn </span>null_id() -&gt; ObjectId {
+        ObjectId { id: InnerObjectId { serial: <span class="number">0</span>, id: <span class="number">0</span>, interface: <span class="kw-2">&amp;</span>ANONYMOUS_INTERFACE } }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">send_request</span>(
+    <span class="kw">pub fn </span>send_request(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">Message</span> { <span class="ident">sender_id</span>: <span class="ident">ObjectId</span> { <span class="ident">id</span> }, <span class="ident">opcode</span>, <span class="ident">args</span> }: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">RawFd</span><span class="op">&gt;</span>,
-        <span class="ident">data</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-        <span class="ident">child_spec</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">guard</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">lock_protocol</span>();
-        <span class="kw">let</span> <span class="ident">object</span> <span class="op">=</span> <span class="ident">guard</span>.<span class="ident">get_object</span>(<span class="ident">id</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
-        <span class="kw">if</span> <span class="ident">object</span>.<span class="ident">data</span>.<span class="ident">client_destroyed</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">InvalidId</span>);
+        Message { sender_id: ObjectId { id }, opcode, args }: Message&lt;ObjectId, RawFd&gt;,
+        data: <span class="prelude-ty">Option</span>&lt;Arc&lt;<span class="kw">dyn </span>ObjectData&gt;&gt;,
+        child_spec: <span class="prelude-ty">Option</span>&lt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface, u32)&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;ObjectId, InvalidId&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>guard = <span class="self">self</span>.state.lock_protocol();
+        <span class="kw">let </span>object = guard.get_object(id.clone())<span class="question-mark">?</span>;
+        <span class="kw">if </span>object.data.client_destroyed {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidId);
         }
 
-        <span class="kw">let</span> <span class="ident">message_desc</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">object</span>.<span class="ident">interface</span>.<span class="ident">requests</span>.<span class="ident">get</span>(<span class="ident">opcode</span> <span class="kw">as</span> <span class="ident">usize</span>) {
-            <span class="prelude-val">Some</span>(<span class="ident">msg</span>) =&gt; <span class="ident">msg</span>,
-            <span class="prelude-val">None</span> =&gt; {
-                <span class="macro">panic!</span>(<span class="string">&quot;Unknown opcode {} for object {}@{}.&quot;</span>, <span class="ident">opcode</span>, <span class="ident">object</span>.<span class="ident">interface</span>.<span class="ident">name</span>, <span class="ident">id</span>.<span class="ident">id</span>);
+        <span class="kw">let </span>message_desc = <span class="kw">match </span>object.interface.requests.get(opcode <span class="kw">as </span>usize) {
+            <span class="prelude-val">Some</span>(msg) =&gt; msg,
+            <span class="prelude-val">None </span>=&gt; {
+                <span class="macro">panic!</span>(<span class="string">&quot;Unknown opcode {} for object {}@{}.&quot;</span>, opcode, object.interface.name, id.id);
             }
         };
 
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">check_for_signature</span>(<span class="ident">message_desc</span>.<span class="ident">signature</span>, <span class="kw-2">&amp;</span><span class="ident">args</span>) {
+        <span class="kw">if </span>!check_for_signature(message_desc.signature, <span class="kw-2">&amp;</span>args) {
             <span class="macro">panic!</span>(
                 <span class="string">&quot;Unexpected signature for request {}@{}.{}: expected {:?}, got {:?}.&quot;</span>,
-                <span class="ident">object</span>.<span class="ident">interface</span>.<span class="ident">name</span>, <span class="ident">id</span>.<span class="ident">id</span>, <span class="ident">message_desc</span>.<span class="ident">name</span>, <span class="ident">message_desc</span>.<span class="ident">signature</span>, <span class="ident">args</span>
+                object.interface.name, id.id, message_desc.name, message_desc.signature, args
             );
         }
 
-        <span class="comment">// Prepare the child object</span>
-        <span class="kw">let</span> <span class="ident">child_spec</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">message_desc</span>
-            .<span class="ident">signature</span>
-            .<span class="ident">iter</span>()
-            .<span class="ident">any</span>(<span class="op">|</span><span class="ident">arg</span><span class="op">|</span> <span class="macro">matches!</span>(<span class="ident">arg</span>, <span class="ident">ArgumentType::NewId</span>))
+        <span class="comment">// Prepare the child object
+        </span><span class="kw">let </span>child_spec = <span class="kw">if </span>message_desc
+            .signature
+            .iter()
+            .any(|arg| <span class="macro">matches!</span>(arg, ArgumentType::NewId))
         {
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">iface</span>, <span class="ident">version</span>)) <span class="op">=</span> <span class="ident">child_spec</span> {
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">child_interface</span>) <span class="op">=</span> <span class="ident">message_desc</span>.<span class="ident">child_interface</span> {
-                    <span class="kw">if</span> <span class="op">!</span><span class="ident">same_interface</span>(<span class="ident">child_interface</span>, <span class="ident">iface</span>) {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>((iface, version)) = child_spec {
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(child_interface) = message_desc.child_interface {
+                    <span class="kw">if </span>!same_interface(child_interface, iface) {
                         <span class="macro">panic!</span>(
                             <span class="string">&quot;Error when sending request {}@{}.{}: expected interface {} but got {}&quot;</span>,
-                            <span class="ident">object</span>.<span class="ident">interface</span>.<span class="ident">name</span>,
-                            <span class="ident">id</span>.<span class="ident">id</span>,
-                            <span class="ident">message_desc</span>.<span class="ident">name</span>,
-                            <span class="ident">child_interface</span>.<span class="ident">name</span>,
-                            <span class="ident">iface</span>.<span class="ident">name</span>
+                            object.interface.name,
+                            id.id,
+                            message_desc.name,
+                            child_interface.name,
+                            iface.name
                         );
                     }
-                    <span class="kw">if</span> <span class="ident">version</span> <span class="op">!</span><span class="op">=</span> <span class="ident">object</span>.<span class="ident">version</span> {
+                    <span class="kw">if </span>version != object.version {
                         <span class="macro">panic!</span>(
                             <span class="string">&quot;Error when sending request {}@{}.{}: expected version {} but got {}&quot;</span>,
-                            <span class="ident">object</span>.<span class="ident">interface</span>.<span class="ident">name</span>,
-                            <span class="ident">id</span>.<span class="ident">id</span>,
-                            <span class="ident">message_desc</span>.<span class="ident">name</span>,
-                            <span class="ident">object</span>.<span class="ident">version</span>,
-                            <span class="ident">version</span>
+                            object.interface.name,
+                            id.id,
+                            message_desc.name,
+                            object.version,
+                            version
                         );
                     }
                 }
-                <span class="prelude-val">Some</span>((<span class="ident">iface</span>, <span class="ident">version</span>))
-            } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">child_interface</span>) <span class="op">=</span> <span class="ident">message_desc</span>.<span class="ident">child_interface</span> {
-                <span class="prelude-val">Some</span>((<span class="ident">child_interface</span>, <span class="ident">object</span>.<span class="ident">version</span>))
-            } <span class="kw">else</span> {
+                <span class="prelude-val">Some</span>((iface, version))
+            } <span class="kw">else if let </span><span class="prelude-val">Some</span>(child_interface) = message_desc.child_interface {
+                <span class="prelude-val">Some</span>((child_interface, object.version))
+            } <span class="kw">else </span>{
                 <span class="macro">panic!</span>(
                     <span class="string">&quot;Error when sending request {}@{}.{}: target interface must be specified for a generic constructor.&quot;</span>,
-                    <span class="ident">object</span>.<span class="ident">interface</span>.<span class="ident">name</span>,
-                    <span class="ident">id</span>.<span class="ident">id</span>,
-                    <span class="ident">message_desc</span>.<span class="ident">name</span>
+                    object.interface.name,
+                    id.id,
+                    message_desc.name
                 );
             }
-        } <span class="kw">else</span> {
-            <span class="prelude-val">None</span>
-        };
+        } <span class="kw">else </span>{
+            <span class="prelude-val">None
+        </span>};
 
-        <span class="kw">let</span> <span class="ident">child</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">child_interface</span>, <span class="ident">child_version</span>)) <span class="op">=</span> <span class="ident">child_spec</span> {
-            <span class="kw">let</span> <span class="ident">child_serial</span> <span class="op">=</span> <span class="ident">guard</span>.<span class="ident">next_serial</span>();
+        <span class="kw">let </span>child = <span class="kw">if let </span><span class="prelude-val">Some</span>((child_interface, child_version)) = child_spec {
+            <span class="kw">let </span>child_serial = guard.next_serial();
 
-            <span class="kw">let</span> <span class="ident">child</span> <span class="op">=</span> <span class="ident">Object</span> {
-                <span class="ident">interface</span>: <span class="ident">child_interface</span>,
-                <span class="ident">version</span>: <span class="ident">child_version</span>,
-                <span class="ident">data</span>: <span class="ident">Data</span> {
-                    <span class="ident">client_destroyed</span>: <span class="bool-val">false</span>,
-                    <span class="ident">server_destroyed</span>: <span class="bool-val">false</span>,
-                    <span class="ident">user_data</span>: <span class="ident">Arc::new</span>(<span class="ident">DumbObjectData</span>),
-                    <span class="ident">serial</span>: <span class="ident">child_serial</span>,
+            <span class="kw">let </span>child = Object {
+                interface: child_interface,
+                version: child_version,
+                data: Data {
+                    client_destroyed: <span class="bool-val">false</span>,
+                    server_destroyed: <span class="bool-val">false</span>,
+                    user_data: Arc::new(DumbObjectData),
+                    serial: child_serial,
                 },
             };
 
-            <span class="kw">let</span> <span class="ident">child_id</span> <span class="op">=</span> <span class="ident">guard</span>.<span class="ident">map</span>.<span class="ident">client_insert_new</span>(<span class="ident">child</span>);
+            <span class="kw">let </span>child_id = guard.map.client_insert_new(child);
 
-            <span class="ident">guard</span>
-                .<span class="ident">map</span>
-                .<span class="ident">with</span>(<span class="ident">child_id</span>, <span class="op">|</span><span class="ident">obj</span><span class="op">|</span> {
-                    <span class="ident">obj</span>.<span class="ident">data</span>.<span class="ident">user_data</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">expect</span>(
+            guard
+                .map
+                .with(child_id, |obj| {
+                    obj.data.user_data = data.expect(
                         <span class="string">&quot;Sending a request creating an object without providing an object data.&quot;</span>,
                     );
                 })
-                .<span class="ident">unwrap</span>();
-            <span class="prelude-val">Some</span>((<span class="ident">child_id</span>, <span class="ident">child_serial</span>, <span class="ident">child_interface</span>))
-        } <span class="kw">else</span> {
-            <span class="prelude-val">None</span>
-        };
+                .unwrap();
+            <span class="prelude-val">Some</span>((child_id, child_serial, child_interface))
+        } <span class="kw">else </span>{
+            <span class="prelude-val">None
+        </span>};
 
-        <span class="comment">// Prepare the message in a debug-compatible way</span>
-        <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">args</span>.<span class="ident">into_iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">arg</span><span class="op">|</span> {
-            <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Argument::NewId</span>(<span class="ident">ObjectId</span> { <span class="ident">id</span>: <span class="ident">p</span> }) <span class="op">=</span> <span class="ident">arg</span> {
-                <span class="kw">if</span> <span class="op">!</span><span class="ident">p</span>.<span class="ident">id</span> <span class="op">==</span> <span class="number">0</span> {
-                    <span class="macro">panic!</span>(<span class="string">&quot;The newid provided when sending request {}@{}.{} is not a placeholder.&quot;</span>, <span class="ident">object</span>.<span class="ident">interface</span>.<span class="ident">name</span>, <span class="ident">id</span>.<span class="ident">id</span>, <span class="ident">message_desc</span>.<span class="ident">name</span>);
+        <span class="comment">// Prepare the message in a debug-compatible way
+        </span><span class="kw">let </span>args = args.into_iter().map(|arg| {
+            <span class="kw">if let </span>Argument::NewId(ObjectId { id: p }) = arg {
+                <span class="kw">if </span>!p.id == <span class="number">0 </span>{
+                    <span class="macro">panic!</span>(<span class="string">&quot;The newid provided when sending request {}@{}.{} is not a placeholder.&quot;</span>, object.interface.name, id.id, message_desc.name);
                 }
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">child_id</span>, <span class="ident">child_serial</span>, <span class="ident">child_interface</span>)) <span class="op">=</span> <span class="ident">child</span> {
-                    <span class="ident">Argument::NewId</span>(<span class="ident">ObjectId</span> { <span class="ident">id</span>: <span class="ident">InnerObjectId</span> { <span class="ident">id</span>: <span class="ident">child_id</span>, <span class="ident">serial</span>: <span class="ident">child_serial</span>, <span class="ident">interface</span>: <span class="ident">child_interface</span>}})
-                } <span class="kw">else</span> {
+                <span class="kw">if let </span><span class="prelude-val">Some</span>((child_id, child_serial, child_interface)) = child {
+                    Argument::NewId(ObjectId { id: InnerObjectId { id: child_id, serial: child_serial, interface: child_interface}})
+                } <span class="kw">else </span>{
                     <span class="macro">unreachable!</span>();
                 }
-            } <span class="kw">else</span> {
-                <span class="ident">arg</span>
+            } <span class="kw">else </span>{
+                arg
             }
-        }).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">SmallVec</span><span class="op">&lt;</span>[<span class="kw">_</span>; <span class="ident">INLINE_ARGS</span>]<span class="op">&gt;</span><span class="op">&gt;</span>();
+        }).collect::&lt;SmallVec&lt;[<span class="kw">_</span>; INLINE_ARGS]&gt;&gt;();
 
-        <span class="kw">if</span> <span class="ident">guard</span>.<span class="ident">debug</span> {
-            <span class="ident"><span class="kw">super</span>::debug::print_send_message</span>(
-                <span class="ident">object</span>.<span class="ident">interface</span>.<span class="ident">name</span>,
-                <span class="ident">id</span>.<span class="ident">id</span>,
-                <span class="ident">message_desc</span>.<span class="ident">name</span>,
-                <span class="kw-2">&amp;</span><span class="ident">args</span>,
+        <span class="kw">if </span>guard.debug {
+            <span class="kw">super</span>::debug::print_send_message(
+                object.interface.name,
+                id.id,
+                message_desc.name,
+                <span class="kw-2">&amp;</span>args,
             );
         }
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;log&quot;</span>)]</span>
-        <span class="macro">crate::log_debug!</span>(
+        <span class="attribute">#[cfg(feature = <span class="string">&quot;log&quot;</span>)]
+        </span><span class="macro">crate::log_debug!</span>(
             <span class="string">&quot;Sending {}.{} ({})&quot;</span>,
-            <span class="ident">id</span>,
-            <span class="ident">message_desc</span>.<span class="ident">name</span>,
-            <span class="ident"><span class="kw">super</span>::debug::DisplaySlice</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>)
+            id,
+            message_desc.name,
+            <span class="kw">super</span>::debug::DisplaySlice(<span class="kw-2">&amp;</span>args)
         );
 
-        <span class="comment">// Send the message</span>
+        <span class="comment">// Send the message
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">msg_args</span> <span class="op">=</span> <span class="ident">SmallVec::with_capacity</span>(<span class="ident">args</span>.<span class="ident">len</span>());
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">arg_interfaces</span> <span class="op">=</span> <span class="ident">message_desc</span>.<span class="ident">arg_interfaces</span>.<span class="ident">iter</span>();
-        <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">arg</span>) <span class="kw">in</span> <span class="ident">args</span>.<span class="ident">into_iter</span>().<span class="ident">enumerate</span>() {
-            <span class="ident">msg_args</span>.<span class="ident">push</span>(<span class="kw">match</span> <span class="ident">arg</span> {
-                <span class="ident">Argument::Array</span>(<span class="ident">a</span>) =&gt; <span class="ident">Argument::Array</span>(<span class="ident">a</span>),
-                <span class="ident">Argument::Int</span>(<span class="ident">i</span>) =&gt; <span class="ident">Argument::Int</span>(<span class="ident">i</span>),
-                <span class="ident">Argument::Uint</span>(<span class="ident">u</span>) =&gt; <span class="ident">Argument::Uint</span>(<span class="ident">u</span>),
-                <span class="ident">Argument::Str</span>(<span class="ident">s</span>) =&gt; <span class="ident">Argument::Str</span>(<span class="ident">s</span>),
-                <span class="ident">Argument::Fixed</span>(<span class="ident">f</span>) =&gt; <span class="ident">Argument::Fixed</span>(<span class="ident">f</span>),
-                <span class="ident">Argument::NewId</span>(<span class="ident">nid</span>) =&gt; <span class="ident">Argument::NewId</span>(<span class="ident">nid</span>.<span class="ident">id</span>.<span class="ident">id</span>),
-                <span class="ident">Argument::Fd</span>(<span class="ident">f</span>) =&gt; <span class="ident">Argument::Fd</span>(<span class="ident">f</span>),
-                <span class="ident">Argument::Object</span>(<span class="ident">o</span>) =&gt; {
-                    <span class="kw">let</span> <span class="ident">next_interface</span> <span class="op">=</span> <span class="ident">arg_interfaces</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>();
-                    <span class="kw">if</span> <span class="ident">o</span>.<span class="ident">id</span>.<span class="ident">id</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-                        <span class="kw">let</span> <span class="ident">arg_object</span> <span class="op">=</span> <span class="ident">guard</span>.<span class="ident">get_object</span>(<span class="ident">o</span>.<span class="ident">id</span>.<span class="ident">clone</span>())<span class="question-mark">?</span>;
-                        <span class="kw">if</span> <span class="op">!</span><span class="ident">same_interface_or_anonymous</span>(<span class="ident">next_interface</span>, <span class="ident">arg_object</span>.<span class="ident">interface</span>) {
-                            <span class="macro">panic!</span>(<span class="string">&quot;Request {}@{}.{} expects an argument of interface {} but {} was provided instead.&quot;</span>, <span class="ident">object</span>.<span class="ident">interface</span>.<span class="ident">name</span>, <span class="ident">id</span>.<span class="ident">id</span>, <span class="ident">message_desc</span>.<span class="ident">name</span>, <span class="ident">next_interface</span>.<span class="ident">name</span>, <span class="ident">arg_object</span>.<span class="ident">interface</span>.<span class="ident">name</span>);
+        </span><span class="kw">let </span><span class="kw-2">mut </span>msg_args = SmallVec::with_capacity(args.len());
+        <span class="kw">let </span><span class="kw-2">mut </span>arg_interfaces = message_desc.arg_interfaces.iter();
+        <span class="kw">for </span>(i, arg) <span class="kw">in </span>args.into_iter().enumerate() {
+            msg_args.push(<span class="kw">match </span>arg {
+                Argument::Array(a) =&gt; Argument::Array(a),
+                Argument::Int(i) =&gt; Argument::Int(i),
+                Argument::Uint(u) =&gt; Argument::Uint(u),
+                Argument::Str(s) =&gt; Argument::Str(s),
+                Argument::Fixed(f) =&gt; Argument::Fixed(f),
+                Argument::NewId(nid) =&gt; Argument::NewId(nid.id.id),
+                Argument::Fd(f) =&gt; Argument::Fd(f),
+                Argument::Object(o) =&gt; {
+                    <span class="kw">let </span>next_interface = arg_interfaces.next().unwrap();
+                    <span class="kw">if </span>o.id.id != <span class="number">0 </span>{
+                        <span class="kw">let </span>arg_object = guard.get_object(o.id.clone())<span class="question-mark">?</span>;
+                        <span class="kw">if </span>!same_interface_or_anonymous(next_interface, arg_object.interface) {
+                            <span class="macro">panic!</span>(<span class="string">&quot;Request {}@{}.{} expects an argument of interface {} but {} was provided instead.&quot;</span>, object.interface.name, id.id, message_desc.name, next_interface.name, arg_object.interface.name);
                         }
-                    } <span class="kw">else</span> <span class="kw">if</span> <span class="op">!</span><span class="macro">matches!</span>(<span class="ident">message_desc</span>.<span class="ident">signature</span>[<span class="ident">i</span>], <span class="ident">ArgumentType::Object</span>(<span class="ident">AllowNull::Yes</span>)) {
-                        <span class="macro">panic!</span>(<span class="string">&quot;Request {}@{}.{} expects an non-null object argument.&quot;</span>, <span class="ident">object</span>.<span class="ident">interface</span>.<span class="ident">name</span>, <span class="ident">id</span>.<span class="ident">id</span>, <span class="ident">message_desc</span>.<span class="ident">name</span>);
+                    } <span class="kw">else if </span>!<span class="macro">matches!</span>(message_desc.signature[i], ArgumentType::Object(AllowNull::Yes)) {
+                        <span class="macro">panic!</span>(<span class="string">&quot;Request {}@{}.{} expects an non-null object argument.&quot;</span>, object.interface.name, id.id, message_desc.name);
                     }
-                    <span class="ident">Argument::Object</span>(<span class="ident">o</span>.<span class="ident">id</span>.<span class="ident">id</span>)
+                    Argument::Object(o.id.id)
                 }
             });
         }
 
-        <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">Message</span> { <span class="ident">sender_id</span>: <span class="ident">id</span>.<span class="ident">id</span>, <span class="ident">opcode</span>, <span class="ident">args</span>: <span class="ident">msg_args</span> };
+        <span class="kw">let </span>msg = Message { sender_id: id.id, opcode, args: msg_args };
 
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span> <span class="ident">guard</span>.<span class="ident">socket</span>.<span class="ident">write_message</span>(<span class="kw-2">&amp;</span><span class="ident">msg</span>) {
-            <span class="ident">guard</span>.<span class="ident">last_error</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">WaylandError::Io</span>(<span class="ident">err</span>));
+        <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = guard.socket.write_message(<span class="kw-2">&amp;</span>msg) {
+            guard.last_error = <span class="prelude-val">Some</span>(WaylandError::Io(err));
         }
 
-        <span class="comment">// Handle destruction if relevant</span>
-        <span class="kw">if</span> <span class="ident">message_desc</span>.<span class="ident">is_destructor</span> {
-            <span class="ident">guard</span>
-                .<span class="ident">map</span>
-                .<span class="ident">with</span>(<span class="ident">id</span>.<span class="ident">id</span>, <span class="op">|</span><span class="ident">obj</span><span class="op">|</span> {
-                    <span class="ident">obj</span>.<span class="ident">data</span>.<span class="ident">client_destroyed</span> <span class="op">=</span> <span class="bool-val">true</span>;
+        <span class="comment">// Handle destruction if relevant
+        </span><span class="kw">if </span>message_desc.is_destructor {
+            guard
+                .map
+                .with(id.id, |obj| {
+                    obj.data.client_destroyed = <span class="bool-val">true</span>;
                 })
-                .<span class="ident">unwrap</span>();
-            <span class="ident">object</span>.<span class="ident">data</span>.<span class="ident">user_data</span>.<span class="ident">destroyed</span>(<span class="ident">ObjectId</span> { <span class="ident">id</span> });
+                .unwrap();
+            object.data.user_data.destroyed(ObjectId { id });
         }
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">child_id</span>, <span class="ident">child_serial</span>, <span class="ident">child_interface</span>)) <span class="op">=</span> <span class="ident">child</span> {
-            <span class="prelude-val">Ok</span>(<span class="ident">ObjectId</span> {
-                <span class="ident">id</span>: <span class="ident">InnerObjectId</span> {
-                    <span class="ident">id</span>: <span class="ident">child_id</span>,
-                    <span class="ident">serial</span>: <span class="ident">child_serial</span>,
-                    <span class="ident">interface</span>: <span class="ident">child_interface</span>,
+        <span class="kw">if let </span><span class="prelude-val">Some</span>((child_id, child_serial, child_interface)) = child {
+            <span class="prelude-val">Ok</span>(ObjectId {
+                id: InnerObjectId {
+                    id: child_id,
+                    serial: child_serial,
+                    interface: child_interface,
                 },
             })
-        } <span class="kw">else</span> {
-            <span class="prelude-val">Ok</span>(<span class="ident"><span class="self">Self</span>::null_id</span>())
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Ok</span>(<span class="self">Self</span>::null_id())
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">ObjectId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">object</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">lock_protocol</span>().<span class="ident">get_object</span>(<span class="ident">id</span>.<span class="ident">id</span>)<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(<span class="ident">object</span>.<span class="ident">data</span>.<span class="ident">user_data</span>)
+    <span class="kw">pub fn </span>get_data(<span class="kw-2">&amp;</span><span class="self">self</span>, id: ObjectId) -&gt; <span class="prelude-ty">Result</span>&lt;Arc&lt;<span class="kw">dyn </span>ObjectData&gt;, InvalidId&gt; {
+        <span class="kw">let </span>object = <span class="self">self</span>.state.lock_protocol().get_object(id.id)<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(object.data.user_data)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">ObjectId</span>, <span class="ident">data</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">state</span>
-            .<span class="ident">lock_protocol</span>()
-            .<span class="ident">map</span>
-            .<span class="ident">with</span>(<span class="ident">id</span>.<span class="ident">id</span>.<span class="ident">id</span>, <span class="kw">move</span> <span class="op">|</span><span class="ident">objdata</span><span class="op">|</span> {
-                <span class="kw">if</span> <span class="ident">objdata</span>.<span class="ident">data</span>.<span class="ident">serial</span> <span class="op">!</span><span class="op">=</span> <span class="ident">id</span>.<span class="ident">id</span>.<span class="ident">serial</span> {
-                    <span class="prelude-val">Err</span>(<span class="ident">InvalidId</span>)
-                } <span class="kw">else</span> {
-                    <span class="ident">objdata</span>.<span class="ident">data</span>.<span class="ident">user_data</span> <span class="op">=</span> <span class="ident">data</span>;
+    <span class="kw">pub fn </span>set_data(<span class="kw-2">&amp;</span><span class="self">self</span>, id: ObjectId, data: Arc&lt;<span class="kw">dyn </span>ObjectData&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), InvalidId&gt; {
+        <span class="self">self</span>.state
+            .lock_protocol()
+            .map
+            .with(id.id.id, <span class="kw">move </span>|objdata| {
+                <span class="kw">if </span>objdata.data.serial != id.id.serial {
+                    <span class="prelude-val">Err</span>(InvalidId)
+                } <span class="kw">else </span>{
+                    objdata.data.user_data = data;
                     <span class="prelude-val">Ok</span>(())
                 }
             })
-            .<span class="ident">unwrap_or</span>(<span class="prelude-val">Err</span>(<span class="ident">InvalidId</span>))
+            .unwrap_or(<span class="prelude-val">Err</span>(InvalidId))
     }
 
-    <span class="comment">// Nothing to do here, we don&#39;t have an inner queue</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch_inner_queue</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
+    <span class="comment">// Nothing to do here, we don&#39;t have an inner queue
+    </span><span class="kw">pub fn </span>dispatch_inner_queue(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;usize, WaylandError&gt; {
         <span class="prelude-val">Ok</span>(<span class="number">0</span>)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">ProtocolState</span> {
-    <span class="kw">fn</span> <span class="ident">next_serial</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">u32</span> {
-        <span class="self">self</span>.<span class="ident">last_serial</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">last_serial</span>.<span class="ident">wrapping_add</span>(<span class="number">1</span>);
-        <span class="self">self</span>.<span class="ident">last_serial</span>
+<span class="kw">impl </span>ProtocolState {
+    <span class="kw">fn </span>next_serial(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; u32 {
+        <span class="self">self</span>.last_serial = <span class="self">self</span>.last_serial.wrapping_add(<span class="number">1</span>);
+        <span class="self">self</span>.last_serial
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">no_last_error</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">WaylandError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">err</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">last_error</span> {
-            <span class="prelude-val">Err</span>(<span class="ident">err</span>.<span class="ident">clone</span>())
-        } <span class="kw">else</span> {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>no_last_error(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), WaylandError&gt; {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>err) = <span class="self">self</span>.last_error {
+            <span class="prelude-val">Err</span>(err.clone())
+        } <span class="kw">else </span>{
             <span class="prelude-val">Ok</span>(())
         }
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">store_and_return_error</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">err</span>: <span class="kw">impl</span> <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">WaylandError</span><span class="op">&gt;</span>) -&gt; <span class="ident">WaylandError</span> {
-        <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">err</span>.<span class="ident">into</span>();
-        <span class="macro">crate::log_error!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">err</span>);
-        <span class="self">self</span>.<span class="ident">last_error</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">err</span>.<span class="ident">clone</span>());
-        <span class="ident">err</span>
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>store_and_return_error(<span class="kw-2">&amp;mut </span><span class="self">self</span>, err: <span class="kw">impl </span>Into&lt;WaylandError&gt;) -&gt; WaylandError {
+        <span class="kw">let </span>err = err.into();
+        <span class="macro">crate::log_error!</span>(<span class="string">&quot;{}&quot;</span>, err);
+        <span class="self">self</span>.last_error = <span class="prelude-val">Some</span>(err.clone());
+        err
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">store_if_not_wouldblock_and_return_error</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">e</span>: <span class="ident">std::io::Error</span>) -&gt; <span class="ident">WaylandError</span> {
-        <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">std::io::ErrorKind::WouldBlock</span> {
-            <span class="self">self</span>.<span class="ident">store_and_return_error</span>(<span class="ident">e</span>)
-        } <span class="kw">else</span> {
-            <span class="ident">e</span>.<span class="ident">into</span>()
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>store_if_not_wouldblock_and_return_error(<span class="kw-2">&amp;mut </span><span class="self">self</span>, e: std::io::Error) -&gt; WaylandError {
+        <span class="kw">if </span>e.kind() != std::io::ErrorKind::WouldBlock {
+            <span class="self">self</span>.store_and_return_error(e)
+        } <span class="kw">else </span>{
+            e.into()
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">get_object</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">id</span>: <span class="ident">InnerObjectId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Object</span><span class="op">&lt;</span><span class="ident">Data</span><span class="op">&gt;</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">object</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">map</span>.<span class="ident">find</span>(<span class="ident">id</span>.<span class="ident">id</span>).<span class="ident">ok_or</span>(<span class="ident">InvalidId</span>)<span class="question-mark">?</span>;
-        <span class="kw">if</span> <span class="ident">object</span>.<span class="ident">data</span>.<span class="ident">serial</span> <span class="op">!</span><span class="op">=</span> <span class="ident">id</span>.<span class="ident">serial</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">InvalidId</span>);
+    <span class="kw">fn </span>get_object(<span class="kw-2">&amp;</span><span class="self">self</span>, id: InnerObjectId) -&gt; <span class="prelude-ty">Result</span>&lt;Object&lt;Data&gt;, InvalidId&gt; {
+        <span class="kw">let </span>object = <span class="self">self</span>.map.find(id.id).ok_or(InvalidId)<span class="question-mark">?</span>;
+        <span class="kw">if </span>object.data.serial != id.serial {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(InvalidId);
         }
-        <span class="prelude-val">Ok</span>(<span class="ident">object</span>)
+        <span class="prelude-val">Ok</span>(object)
     }
 
-    <span class="kw">fn</span> <span class="ident">handle_display_event</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">message</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">u32</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">WaylandError</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">debug</span> {
-            <span class="ident"><span class="kw">super</span>::debug::print_dispatched_message</span>(
+    <span class="kw">fn </span>handle_display_event(<span class="kw-2">&amp;mut </span><span class="self">self</span>, message: Message&lt;u32, OwnedFd&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), WaylandError&gt; {
+        <span class="kw">if </span><span class="self">self</span>.debug {
+            <span class="kw">super</span>::debug::print_dispatched_message(
                 <span class="string">&quot;wl_display&quot;</span>,
-                <span class="ident">message</span>.<span class="ident">sender_id</span>,
-                <span class="kw">if</span> <span class="ident">message</span>.<span class="ident">opcode</span> <span class="op">==</span> <span class="number">0</span> { <span class="string">&quot;error&quot;</span> } <span class="kw">else</span> { <span class="string">&quot;delete_id&quot;</span> },
-                <span class="kw-2">&amp;</span><span class="ident">message</span>.<span class="ident">args</span>,
+                message.sender_id,
+                <span class="kw">if </span>message.opcode == <span class="number">0 </span>{ <span class="string">&quot;error&quot; </span>} <span class="kw">else </span>{ <span class="string">&quot;delete_id&quot; </span>},
+                <span class="kw-2">&amp;</span>message.args,
             );
         }
-        <span class="kw">match</span> <span class="ident">message</span>.<span class="ident">opcode</span> {
-            <span class="number">0</span> =&gt; {
-                <span class="comment">// wl_display.error</span>
-                <span class="kw">if</span> <span class="kw">let</span> [<span class="ident">Argument::Object</span>(<span class="ident">obj</span>), <span class="ident">Argument::Uint</span>(<span class="ident">code</span>), <span class="ident">Argument::Str</span>(<span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">message</span>))] <span class="op">=</span>
-                    <span class="ident">message</span>.<span class="ident">args</span>[..]
+        <span class="kw">match </span>message.opcode {
+            <span class="number">0 </span>=&gt; {
+                <span class="comment">// wl_display.error
+                </span><span class="kw">if let </span>[Argument::Object(obj), Argument::Uint(code), Argument::Str(<span class="prelude-val">Some</span>(<span class="kw-2">ref </span>message))] =
+                    message.args[..]
                 {
-                    <span class="kw">let</span> <span class="ident">object</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">map</span>.<span class="ident">find</span>(<span class="ident">obj</span>);
-                    <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">WaylandError::Protocol</span>(<span class="ident">ProtocolError</span> {
-                        <span class="ident">code</span>,
-                        <span class="ident">object_id</span>: <span class="ident">obj</span>,
-                        <span class="ident">object_interface</span>: <span class="ident">object</span>
-                            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">obj</span><span class="op">|</span> <span class="ident">obj</span>.<span class="ident">interface</span>.<span class="ident">name</span>)
-                            .<span class="ident">unwrap_or</span>(<span class="string">&quot;&lt;unknown&gt;&quot;</span>)
-                            .<span class="ident">into</span>(),
-                        <span class="ident">message</span>: <span class="ident">message</span>.<span class="ident">to_string_lossy</span>().<span class="ident">into</span>(),
+                    <span class="kw">let </span>object = <span class="self">self</span>.map.find(obj);
+                    <span class="kw">let </span>err = WaylandError::Protocol(ProtocolError {
+                        code,
+                        object_id: obj,
+                        object_interface: object
+                            .map(|obj| obj.interface.name)
+                            .unwrap_or(<span class="string">&quot;&lt;unknown&gt;&quot;</span>)
+                            .into(),
+                        message: message.to_string_lossy().into(),
                     });
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="self">self</span>.<span class="ident">store_and_return_error</span>(<span class="ident">err</span>));
-                } <span class="kw">else</span> {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="self">self</span>.store_and_return_error(err));
+                } <span class="kw">else </span>{
                     <span class="macro">unreachable!</span>()
                 }
             }
-            <span class="number">1</span> =&gt; {
-                <span class="comment">// wl_display.delete_id</span>
-                <span class="kw">if</span> <span class="kw">let</span> [<span class="ident">Argument::Uint</span>(<span class="ident">id</span>)] <span class="op">=</span> <span class="ident">message</span>.<span class="ident">args</span>[..] {
-                    <span class="kw">let</span> <span class="ident">client_destroyed</span> <span class="op">=</span> <span class="self">self</span>
-                        .<span class="ident">map</span>
-                        .<span class="ident">with</span>(<span class="ident">id</span>, <span class="op">|</span><span class="ident">obj</span><span class="op">|</span> {
-                            <span class="ident">obj</span>.<span class="ident">data</span>.<span class="ident">server_destroyed</span> <span class="op">=</span> <span class="bool-val">true</span>;
-                            <span class="ident">obj</span>.<span class="ident">data</span>.<span class="ident">client_destroyed</span>
+            <span class="number">1 </span>=&gt; {
+                <span class="comment">// wl_display.delete_id
+                </span><span class="kw">if let </span>[Argument::Uint(id)] = message.args[..] {
+                    <span class="kw">let </span>client_destroyed = <span class="self">self
+                        </span>.map
+                        .with(id, |obj| {
+                            obj.data.server_destroyed = <span class="bool-val">true</span>;
+                            obj.data.client_destroyed
                         })
-                        .<span class="ident">unwrap_or</span>(<span class="bool-val">false</span>);
-                    <span class="kw">if</span> <span class="ident">client_destroyed</span> {
-                        <span class="self">self</span>.<span class="ident">map</span>.<span class="ident">remove</span>(<span class="ident">id</span>);
+                        .unwrap_or(<span class="bool-val">false</span>);
+                    <span class="kw">if </span>client_destroyed {
+                        <span class="self">self</span>.map.remove(id);
                     }
-                } <span class="kw">else</span> {
+                } <span class="kw">else </span>{
                     <span class="macro">unreachable!</span>()
                 }
             }
-            <span class="kw">_</span> =&gt; <span class="macro">unreachable!</span>(),
+            <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(),
         }
         <span class="prelude-val">Ok</span>(())
     }
 }
 
-<span class="kw">fn</span> <span class="ident">dispatch_events</span>(<span class="ident">state</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">ConnectionState</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span>, <span class="ident">WaylandError</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">backend</span> <span class="op">=</span> <span class="ident">Backend</span> { <span class="ident">backend</span>: <span class="ident">InnerBackend</span> { <span class="ident">state</span> } };
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">guard</span> <span class="op">=</span> <span class="ident">backend</span>.<span class="ident">backend</span>.<span class="ident">state</span>.<span class="ident">lock_protocol</span>();
-    <span class="ident">guard</span>.<span class="ident">no_last_error</span>()<span class="question-mark">?</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dispatched</span> <span class="op">=</span> <span class="number">0</span>;
-    <span class="kw">loop</span> {
-        <span class="comment">// Attempt to read a message</span>
-        <span class="kw">let</span> <span class="ident">ProtocolState</span> { <span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">socket</span>, <span class="kw-2">ref</span> <span class="ident">map</span>, .. } <span class="op">=</span> <span class="kw-2">*</span><span class="ident">guard</span>;
-        <span class="kw">let</span> <span class="ident">message</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">socket</span>.<span class="ident">read_one_message</span>(<span class="op">|</span><span class="ident">id</span>, <span class="ident">opcode</span><span class="op">|</span> {
-            <span class="ident">map</span>.<span class="ident">find</span>(<span class="ident">id</span>)
-                .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">o</span><span class="op">|</span> <span class="ident">o</span>.<span class="ident">interface</span>.<span class="ident">events</span>.<span class="ident">get</span>(<span class="ident">opcode</span> <span class="kw">as</span> <span class="ident">usize</span>))
-                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">desc</span><span class="op">|</span> <span class="ident">desc</span>.<span class="ident">signature</span>)
+<span class="kw">fn </span>dispatch_events(state: Arc&lt;ConnectionState&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;usize, WaylandError&gt; {
+    <span class="kw">let </span>backend = Backend { backend: InnerBackend { state } };
+    <span class="kw">let </span><span class="kw-2">mut </span>guard = backend.backend.state.lock_protocol();
+    guard.no_last_error()<span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>dispatched = <span class="number">0</span>;
+    <span class="kw">loop </span>{
+        <span class="comment">// Attempt to read a message
+        </span><span class="kw">let </span>ProtocolState { <span class="kw-2">ref mut </span>socket, <span class="kw-2">ref </span>map, .. } = <span class="kw-2">*</span>guard;
+        <span class="kw">let </span>message = <span class="kw">match </span>socket.read_one_message(|id, opcode| {
+            map.find(id)
+                .and_then(|o| o.interface.events.get(opcode <span class="kw">as </span>usize))
+                .map(|desc| desc.signature)
         }) {
-            <span class="prelude-val">Ok</span>(<span class="ident">msg</span>) =&gt; <span class="ident">msg</span>,
-            <span class="prelude-val">Err</span>(<span class="ident">MessageParseError::MissingData</span>) <span class="op">|</span> <span class="prelude-val">Err</span>(<span class="ident">MessageParseError::MissingFD</span>) =&gt; {
-                <span class="comment">// need to read more data</span>
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span> <span class="ident">guard</span>.<span class="ident">socket</span>.<span class="ident">fill_incoming_buffers</span>() {
-                    <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">std::io::ErrorKind::WouldBlock</span> {
-                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">guard</span>.<span class="ident">store_and_return_error</span>(<span class="ident">e</span>));
-                    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">dispatched</span> <span class="op">==</span> <span class="number">0</span> {
-                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>.<span class="ident">into</span>());
-                    } <span class="kw">else</span> {
+            <span class="prelude-val">Ok</span>(msg) =&gt; msg,
+            <span class="prelude-val">Err</span>(MessageParseError::MissingData) | <span class="prelude-val">Err</span>(MessageParseError::MissingFD) =&gt; {
+                <span class="comment">// need to read more data
+                </span><span class="kw">if let </span><span class="prelude-val">Err</span>(e) = guard.socket.fill_incoming_buffers() {
+                    <span class="kw">if </span>e.kind() != std::io::ErrorKind::WouldBlock {
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(guard.store_and_return_error(e));
+                    } <span class="kw">else if </span>dispatched == <span class="number">0 </span>{
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(e.into());
+                    } <span class="kw">else </span>{
                         <span class="kw">break</span>;
                     }
                 }
                 <span class="kw">continue</span>;
             }
-            <span class="prelude-val">Err</span>(<span class="ident">MessageParseError::Malformed</span>) =&gt; {
-                <span class="comment">// malformed error, protocol error</span>
-                <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">WaylandError::Protocol</span>(<span class="ident">ProtocolError</span> {
-                    <span class="ident">code</span>: <span class="number">0</span>,
-                    <span class="ident">object_id</span>: <span class="number">0</span>,
-                    <span class="ident">object_interface</span>: <span class="string">&quot;&quot;</span>.<span class="ident">into</span>(),
-                    <span class="ident">message</span>: <span class="string">&quot;Malformed Wayland message.&quot;</span>.<span class="ident">into</span>(),
+            <span class="prelude-val">Err</span>(MessageParseError::Malformed) =&gt; {
+                <span class="comment">// malformed error, protocol error
+                </span><span class="kw">let </span>err = WaylandError::Protocol(ProtocolError {
+                    code: <span class="number">0</span>,
+                    object_id: <span class="number">0</span>,
+                    object_interface: <span class="string">&quot;&quot;</span>.into(),
+                    message: <span class="string">&quot;Malformed Wayland message.&quot;</span>.into(),
                 });
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">guard</span>.<span class="ident">store_and_return_error</span>(<span class="ident">err</span>));
+                <span class="kw">return </span><span class="prelude-val">Err</span>(guard.store_and_return_error(err));
             }
         };
 
-        <span class="comment">// We got a message, retrieve its associated object &amp; details</span>
-        <span class="comment">// These lookups must succeed otherwise we would not have been able to parse this message</span>
-        <span class="kw">let</span> <span class="ident">receiver</span> <span class="op">=</span> <span class="ident">guard</span>.<span class="ident">map</span>.<span class="ident">find</span>(<span class="ident">message</span>.<span class="ident">sender_id</span>).<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">message_desc</span> <span class="op">=</span> <span class="ident">receiver</span>.<span class="ident">interface</span>.<span class="ident">events</span>.<span class="ident">get</span>(<span class="ident">message</span>.<span class="ident">opcode</span> <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">unwrap</span>();
+        <span class="comment">// We got a message, retrieve its associated object &amp; details
+        // These lookups must succeed otherwise we would not have been able to parse this message
+        </span><span class="kw">let </span>receiver = guard.map.find(message.sender_id).unwrap();
+        <span class="kw">let </span>message_desc = receiver.interface.events.get(message.opcode <span class="kw">as </span>usize).unwrap();
 
-        <span class="comment">// Short-circuit display-associated events</span>
-        <span class="kw">if</span> <span class="ident">message</span>.<span class="ident">sender_id</span> <span class="op">==</span> <span class="number">1</span> {
-            <span class="ident">guard</span>.<span class="ident">handle_display_event</span>(<span class="ident">message</span>)<span class="question-mark">?</span>;
+        <span class="comment">// Short-circuit display-associated events
+        </span><span class="kw">if </span>message.sender_id == <span class="number">1 </span>{
+            guard.handle_display_event(message)<span class="question-mark">?</span>;
             <span class="kw">continue</span>;
         }
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">created_id</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>created_id = <span class="prelude-val">None</span>;
 
-        <span class="comment">// Convert the arguments and create the new object if applicable</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">args</span> <span class="op">=</span> <span class="ident">SmallVec::with_capacity</span>(<span class="ident">message</span>.<span class="ident">args</span>.<span class="ident">len</span>());
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">arg_interfaces</span> <span class="op">=</span> <span class="ident">message_desc</span>.<span class="ident">arg_interfaces</span>.<span class="ident">iter</span>();
-        <span class="kw">for</span> <span class="ident">arg</span> <span class="kw">in</span> <span class="ident">message</span>.<span class="ident">args</span>.<span class="ident">into_iter</span>() {
-            <span class="ident">args</span>.<span class="ident">push</span>(<span class="kw">match</span> <span class="ident">arg</span> {
-                <span class="ident">Argument::Array</span>(<span class="ident">a</span>) =&gt; <span class="ident">Argument::Array</span>(<span class="ident">a</span>),
-                <span class="ident">Argument::Int</span>(<span class="ident">i</span>) =&gt; <span class="ident">Argument::Int</span>(<span class="ident">i</span>),
-                <span class="ident">Argument::Uint</span>(<span class="ident">u</span>) =&gt; <span class="ident">Argument::Uint</span>(<span class="ident">u</span>),
-                <span class="ident">Argument::Str</span>(<span class="ident">s</span>) =&gt; <span class="ident">Argument::Str</span>(<span class="ident">s</span>),
-                <span class="ident">Argument::Fixed</span>(<span class="ident">f</span>) =&gt; <span class="ident">Argument::Fixed</span>(<span class="ident">f</span>),
-                <span class="ident">Argument::Fd</span>(<span class="ident">f</span>) =&gt; <span class="ident">Argument::Fd</span>(<span class="ident">f</span>),
-                <span class="ident">Argument::Object</span>(<span class="ident">o</span>) =&gt; {
-                    <span class="kw">if</span> <span class="ident">o</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-                        <span class="comment">// Lookup the object to make the appropriate Id</span>
-                        <span class="kw">let</span> <span class="ident">obj</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">guard</span>.<span class="ident">map</span>.<span class="ident">find</span>(<span class="ident">o</span>) {
-                            <span class="prelude-val">Some</span>(<span class="ident">o</span>) =&gt; <span class="ident">o</span>,
-                            <span class="prelude-val">None</span> =&gt; {
-                                <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">WaylandError::Protocol</span>(<span class="ident">ProtocolError</span> {
-                                    <span class="ident">code</span>: <span class="number">0</span>,
-                                    <span class="ident">object_id</span>: <span class="number">0</span>,
-                                    <span class="ident">object_interface</span>: <span class="string">&quot;&quot;</span>.<span class="ident">into</span>(),
-                                    <span class="ident">message</span>: <span class="macro">format!</span>(<span class="string">&quot;Unknown object {}.&quot;</span>, <span class="ident">o</span>),
+        <span class="comment">// Convert the arguments and create the new object if applicable
+        </span><span class="kw">let </span><span class="kw-2">mut </span>args = SmallVec::with_capacity(message.args.len());
+        <span class="kw">let </span><span class="kw-2">mut </span>arg_interfaces = message_desc.arg_interfaces.iter();
+        <span class="kw">for </span>arg <span class="kw">in </span>message.args.into_iter() {
+            args.push(<span class="kw">match </span>arg {
+                Argument::Array(a) =&gt; Argument::Array(a),
+                Argument::Int(i) =&gt; Argument::Int(i),
+                Argument::Uint(u) =&gt; Argument::Uint(u),
+                Argument::Str(s) =&gt; Argument::Str(s),
+                Argument::Fixed(f) =&gt; Argument::Fixed(f),
+                Argument::Fd(f) =&gt; Argument::Fd(f),
+                Argument::Object(o) =&gt; {
+                    <span class="kw">if </span>o != <span class="number">0 </span>{
+                        <span class="comment">// Lookup the object to make the appropriate Id
+                        </span><span class="kw">let </span>obj = <span class="kw">match </span>guard.map.find(o) {
+                            <span class="prelude-val">Some</span>(o) =&gt; o,
+                            <span class="prelude-val">None </span>=&gt; {
+                                <span class="kw">let </span>err = WaylandError::Protocol(ProtocolError {
+                                    code: <span class="number">0</span>,
+                                    object_id: <span class="number">0</span>,
+                                    object_interface: <span class="string">&quot;&quot;</span>.into(),
+                                    message: <span class="macro">format!</span>(<span class="string">&quot;Unknown object {}.&quot;</span>, o),
                                 });
-                                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">guard</span>.<span class="ident">store_and_return_error</span>(<span class="ident">err</span>));
+                                <span class="kw">return </span><span class="prelude-val">Err</span>(guard.store_and_return_error(err));
                             }
                         };
-                        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">next_interface</span>) <span class="op">=</span> <span class="ident">arg_interfaces</span>.<span class="ident">next</span>() {
-                            <span class="kw">if</span> <span class="op">!</span><span class="ident">same_interface_or_anonymous</span>(<span class="ident">next_interface</span>, <span class="ident">obj</span>.<span class="ident">interface</span>) {
-                                <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">WaylandError::Protocol</span>(<span class="ident">ProtocolError</span> {
-                                    <span class="ident">code</span>: <span class="number">0</span>,
-                                    <span class="ident">object_id</span>: <span class="number">0</span>,
-                                    <span class="ident">object_interface</span>: <span class="string">&quot;&quot;</span>.<span class="ident">into</span>(),
-                                    <span class="ident">message</span>: <span class="macro">format!</span>(
+                        <span class="kw">if let </span><span class="prelude-val">Some</span>(next_interface) = arg_interfaces.next() {
+                            <span class="kw">if </span>!same_interface_or_anonymous(next_interface, obj.interface) {
+                                <span class="kw">let </span>err = WaylandError::Protocol(ProtocolError {
+                                    code: <span class="number">0</span>,
+                                    object_id: <span class="number">0</span>,
+                                    object_interface: <span class="string">&quot;&quot;</span>.into(),
+                                    message: <span class="macro">format!</span>(
                                         <span class="string">&quot;Protocol error: server sent object {} for interface {}, but it has interface {}.&quot;</span>,
-                                        <span class="ident">o</span>, <span class="ident">next_interface</span>.<span class="ident">name</span>, <span class="ident">obj</span>.<span class="ident">interface</span>.<span class="ident">name</span>
+                                        o, next_interface.name, obj.interface.name
                                     ),
                                 });
-                                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">guard</span>.<span class="ident">store_and_return_error</span>(<span class="ident">err</span>));
+                                <span class="kw">return </span><span class="prelude-val">Err</span>(guard.store_and_return_error(err));
                             }
                         }
-                        <span class="ident">Argument::Object</span>(<span class="ident">ObjectId</span> { <span class="ident">id</span>: <span class="ident">InnerObjectId</span> { <span class="ident">id</span>: <span class="ident">o</span>, <span class="ident">serial</span>: <span class="ident">obj</span>.<span class="ident">data</span>.<span class="ident">serial</span>, <span class="ident">interface</span>: <span class="ident">obj</span>.<span class="ident">interface</span> }})
-                    } <span class="kw">else</span> {
-                        <span class="ident">Argument::Object</span>(<span class="ident">ObjectId</span> { <span class="ident">id</span>: <span class="ident">InnerObjectId</span> { <span class="ident">id</span>: <span class="number">0</span>, <span class="ident">serial</span>: <span class="number">0</span>, <span class="ident">interface</span>: <span class="kw-2">&amp;</span><span class="ident">ANONYMOUS_INTERFACE</span> }})
+                        Argument::Object(ObjectId { id: InnerObjectId { id: o, serial: obj.data.serial, interface: obj.interface }})
+                    } <span class="kw">else </span>{
+                        Argument::Object(ObjectId { id: InnerObjectId { id: <span class="number">0</span>, serial: <span class="number">0</span>, interface: <span class="kw-2">&amp;</span>ANONYMOUS_INTERFACE }})
                     }
                 }
-                <span class="ident">Argument::NewId</span>(<span class="ident">new_id</span>) =&gt; {
-                    <span class="comment">// An object should be created</span>
-                    <span class="kw">let</span> <span class="ident">child_interface</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">message_desc</span>.<span class="ident">child_interface</span> {
-                        <span class="prelude-val">Some</span>(<span class="ident">iface</span>) =&gt; <span class="ident">iface</span>,
-                        <span class="prelude-val">None</span> =&gt; <span class="macro">panic!</span>(<span class="string">&quot;Received event {}@{}.{} which creates an object without specifying its interface, this is unsupported.&quot;</span>, <span class="ident">receiver</span>.<span class="ident">interface</span>.<span class="ident">name</span>, <span class="ident">message</span>.<span class="ident">sender_id</span>, <span class="ident">message_desc</span>.<span class="ident">name</span>),
+                Argument::NewId(new_id) =&gt; {
+                    <span class="comment">// An object should be created
+                    </span><span class="kw">let </span>child_interface = <span class="kw">match </span>message_desc.child_interface {
+                        <span class="prelude-val">Some</span>(iface) =&gt; iface,
+                        <span class="prelude-val">None </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;Received event {}@{}.{} which creates an object without specifying its interface, this is unsupported.&quot;</span>, receiver.interface.name, message.sender_id, message_desc.name),
                     };
 
-                    <span class="kw">let</span> <span class="ident">child_udata</span> <span class="op">=</span> <span class="ident">Arc::new</span>(<span class="ident">UninitObjectData</span>);
+                    <span class="kw">let </span>child_udata = Arc::new(UninitObjectData);
 
-                    <span class="comment">// if this ID belonged to a now destroyed server object, we can replace it</span>
-                    <span class="kw">if</span> <span class="ident">new_id</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">SERVER_ID_LIMIT</span>
-                        <span class="op">&amp;&amp;</span> <span class="ident">guard</span>.<span class="ident">map</span>.<span class="ident">with</span>(<span class="ident">new_id</span>, <span class="op">|</span><span class="ident">obj</span><span class="op">|</span> <span class="ident">obj</span>.<span class="ident">data</span>.<span class="ident">client_destroyed</span>).<span class="ident">unwrap_or</span>(<span class="bool-val">false</span>)
+                    <span class="comment">// if this ID belonged to a now destroyed server object, we can replace it
+                    </span><span class="kw">if </span>new_id &gt;= SERVER_ID_LIMIT
+                        &amp;&amp; guard.map.with(new_id, |obj| obj.data.client_destroyed).unwrap_or(<span class="bool-val">false</span>)
                     {
-                        <span class="ident">guard</span>.<span class="ident">map</span>.<span class="ident">remove</span>(<span class="ident">new_id</span>);
+                        guard.map.remove(new_id);
                     }
 
-                    <span class="kw">let</span> <span class="ident">child_obj</span> <span class="op">=</span> <span class="ident">Object</span> {
-                        <span class="ident">interface</span>: <span class="ident">child_interface</span>,
-                        <span class="ident">version</span>: <span class="ident">receiver</span>.<span class="ident">version</span>,
-                        <span class="ident">data</span>: <span class="ident">Data</span> {
-                            <span class="ident">client_destroyed</span>: <span class="ident">receiver</span>.<span class="ident">data</span>.<span class="ident">client_destroyed</span>,
-                            <span class="ident">server_destroyed</span>: <span class="bool-val">false</span>,
-                            <span class="ident">user_data</span>: <span class="ident">child_udata</span>,
-                            <span class="ident">serial</span>: <span class="ident">guard</span>.<span class="ident">next_serial</span>(),
+                    <span class="kw">let </span>child_obj = Object {
+                        interface: child_interface,
+                        version: receiver.version,
+                        data: Data {
+                            client_destroyed: receiver.data.client_destroyed,
+                            server_destroyed: <span class="bool-val">false</span>,
+                            user_data: child_udata,
+                            serial: guard.next_serial(),
                         }
                     };
 
-                    <span class="kw">let</span> <span class="ident">child_id</span> <span class="op">=</span> <span class="ident">InnerObjectId</span> { <span class="ident">id</span>: <span class="ident">new_id</span>, <span class="ident">serial</span>: <span class="ident">child_obj</span>.<span class="ident">data</span>.<span class="ident">serial</span>, <span class="ident">interface</span>: <span class="ident">child_obj</span>.<span class="ident">interface</span> };
-                    <span class="ident">created_id</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">child_id</span>.<span class="ident">clone</span>());
+                    <span class="kw">let </span>child_id = InnerObjectId { id: new_id, serial: child_obj.data.serial, interface: child_obj.interface };
+                    created_id = <span class="prelude-val">Some</span>(child_id.clone());
 
-                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Err</span>(()) <span class="op">=</span> <span class="ident">guard</span>.<span class="ident">map</span>.<span class="ident">insert_at</span>(<span class="ident">new_id</span>, <span class="ident">child_obj</span>) {
-                        <span class="comment">// abort parsing, this is an unrecoverable error</span>
-                        <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">WaylandError::Protocol</span>(<span class="ident">ProtocolError</span> {
-                            <span class="ident">code</span>: <span class="number">0</span>,
-                            <span class="ident">object_id</span>: <span class="number">0</span>,
-                            <span class="ident">object_interface</span>: <span class="string">&quot;&quot;</span>.<span class="ident">into</span>(),
-                            <span class="ident">message</span>: <span class="macro">format!</span>(
+                    <span class="kw">if let </span><span class="prelude-val">Err</span>(()) = guard.map.insert_at(new_id, child_obj) {
+                        <span class="comment">// abort parsing, this is an unrecoverable error
+                        </span><span class="kw">let </span>err = WaylandError::Protocol(ProtocolError {
+                            code: <span class="number">0</span>,
+                            object_id: <span class="number">0</span>,
+                            object_interface: <span class="string">&quot;&quot;</span>.into(),
+                            message: <span class="macro">format!</span>(
                                 <span class="string">&quot;Protocol error: server tried to create \
                                 an object \&quot;{}\&quot; with invalid id {}.&quot;</span>,
-                                <span class="ident">child_interface</span>.<span class="ident">name</span>, <span class="ident">new_id</span>
+                                child_interface.name, new_id
                             ),
                         });
-                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">guard</span>.<span class="ident">store_and_return_error</span>(<span class="ident">err</span>));
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(guard.store_and_return_error(err));
                     }
 
-                    <span class="ident">Argument::NewId</span>(<span class="ident">ObjectId</span> { <span class="ident">id</span>: <span class="ident">child_id</span> })
+                    Argument::NewId(ObjectId { id: child_id })
                 }
             });
         }
 
-        <span class="kw">if</span> <span class="ident">guard</span>.<span class="ident">debug</span> {
-            <span class="ident"><span class="kw">super</span>::debug::print_dispatched_message</span>(
-                <span class="ident">receiver</span>.<span class="ident">interface</span>.<span class="ident">name</span>,
-                <span class="ident">message</span>.<span class="ident">sender_id</span>,
-                <span class="ident">message_desc</span>.<span class="ident">name</span>,
-                <span class="kw-2">&amp;</span><span class="ident">args</span>,
+        <span class="kw">if </span>guard.debug {
+            <span class="kw">super</span>::debug::print_dispatched_message(
+                receiver.interface.name,
+                message.sender_id,
+                message_desc.name,
+                <span class="kw-2">&amp;</span>args,
             );
         }
 
-        <span class="comment">// If this event is send to an already destroyed object (by the client), swallow it</span>
-        <span class="kw">if</span> <span class="ident">receiver</span>.<span class="ident">data</span>.<span class="ident">client_destroyed</span> {
+        <span class="comment">// If this event is send to an already destroyed object (by the client), swallow it
+        </span><span class="kw">if </span>receiver.data.client_destroyed {
             <span class="kw">continue</span>;
         }
 
-        <span class="comment">// Invoke the user callback</span>
-        <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="ident">InnerObjectId</span> {
-            <span class="ident">id</span>: <span class="ident">message</span>.<span class="ident">sender_id</span>,
-            <span class="ident">serial</span>: <span class="ident">receiver</span>.<span class="ident">data</span>.<span class="ident">serial</span>,
-            <span class="ident">interface</span>: <span class="ident">receiver</span>.<span class="ident">interface</span>,
+        <span class="comment">// Invoke the user callback
+        </span><span class="kw">let </span>id = InnerObjectId {
+            id: message.sender_id,
+            serial: receiver.data.serial,
+            interface: receiver.interface,
         };
 
-        <span class="comment">// unlock the mutex while we invoke the user callback</span>
-        <span class="ident">std::mem::drop</span>(<span class="ident">guard</span>);
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;log&quot;</span>)]</span>
-        <span class="macro">crate::log_debug!</span>(
+        <span class="comment">// unlock the mutex while we invoke the user callback
+        </span>std::mem::drop(guard);
+        <span class="attribute">#[cfg(feature = <span class="string">&quot;log&quot;</span>)]
+        </span><span class="macro">crate::log_debug!</span>(
             <span class="string">&quot;Dispatching {}.{} ({})&quot;</span>,
-            <span class="ident">id</span>,
-            <span class="ident">receiver</span>.<span class="ident">version</span>,
-            <span class="ident"><span class="kw">super</span>::debug::DisplaySlice</span>(<span class="kw-2">&amp;</span><span class="ident">args</span>)
+            id,
+            receiver.version,
+            <span class="kw">super</span>::debug::DisplaySlice(<span class="kw-2">&amp;</span>args)
         );
-        <span class="kw">let</span> <span class="ident">ret</span> <span class="op">=</span> <span class="ident">receiver</span>
-            .<span class="ident">data</span>
-            .<span class="ident">user_data</span>
-            .<span class="ident">clone</span>()
-            .<span class="ident">event</span>(<span class="kw-2">&amp;</span><span class="ident">backend</span>, <span class="ident">Message</span> { <span class="ident">sender_id</span>: <span class="ident">ObjectId</span> { <span class="ident">id</span> }, <span class="ident">opcode</span>: <span class="ident">message</span>.<span class="ident">opcode</span>, <span class="ident">args</span> });
-        <span class="comment">// lock it again to resume dispatching</span>
-        <span class="ident">guard</span> <span class="op">=</span> <span class="ident">backend</span>.<span class="ident">backend</span>.<span class="ident">state</span>.<span class="ident">lock_protocol</span>();
+        <span class="kw">let </span>ret = receiver
+            .data
+            .user_data
+            .clone()
+            .event(<span class="kw-2">&amp;</span>backend, Message { sender_id: ObjectId { id }, opcode: message.opcode, args });
+        <span class="comment">// lock it again to resume dispatching
+        </span>guard = backend.backend.state.lock_protocol();
 
-        <span class="comment">// If this event is a destructor, destroy the object</span>
-        <span class="kw">if</span> <span class="ident">message_desc</span>.<span class="ident">is_destructor</span> {
-            <span class="ident">guard</span>
-                .<span class="ident">map</span>
-                .<span class="ident">with</span>(<span class="ident">message</span>.<span class="ident">sender_id</span>, <span class="op">|</span><span class="ident">obj</span><span class="op">|</span> {
-                    <span class="ident">obj</span>.<span class="ident">data</span>.<span class="ident">server_destroyed</span> <span class="op">=</span> <span class="bool-val">true</span>;
-                    <span class="ident">obj</span>.<span class="ident">data</span>.<span class="ident">client_destroyed</span> <span class="op">=</span> <span class="bool-val">true</span>;
+        <span class="comment">// If this event is a destructor, destroy the object
+        </span><span class="kw">if </span>message_desc.is_destructor {
+            guard
+                .map
+                .with(message.sender_id, |obj| {
+                    obj.data.server_destroyed = <span class="bool-val">true</span>;
+                    obj.data.client_destroyed = <span class="bool-val">true</span>;
                 })
-                .<span class="ident">unwrap</span>();
-            <span class="ident">receiver</span>.<span class="ident">data</span>.<span class="ident">user_data</span>.<span class="ident">destroyed</span>(<span class="ident">ObjectId</span> {
-                <span class="ident">id</span>: <span class="ident">InnerObjectId</span> {
-                    <span class="ident">id</span>: <span class="ident">message</span>.<span class="ident">sender_id</span>,
-                    <span class="ident">serial</span>: <span class="ident">receiver</span>.<span class="ident">data</span>.<span class="ident">serial</span>,
-                    <span class="ident">interface</span>: <span class="ident">receiver</span>.<span class="ident">interface</span>,
+                .unwrap();
+            receiver.data.user_data.destroyed(ObjectId {
+                id: InnerObjectId {
+                    id: message.sender_id,
+                    serial: receiver.data.serial,
+                    interface: receiver.interface,
                 },
             });
         }
 
-        <span class="kw">match</span> (<span class="ident">created_id</span>, <span class="ident">ret</span>) {
-            (<span class="prelude-val">Some</span>(<span class="ident">child_id</span>), <span class="prelude-val">Some</span>(<span class="ident">child_data</span>)) =&gt; {
-                <span class="ident">guard</span>.<span class="ident">map</span>.<span class="ident">with</span>(<span class="ident">child_id</span>.<span class="ident">id</span>, <span class="op">|</span><span class="ident">obj</span><span class="op">|</span> <span class="ident">obj</span>.<span class="ident">data</span>.<span class="ident">user_data</span> <span class="op">=</span> <span class="ident">child_data</span>).<span class="ident">unwrap</span>();
+        <span class="kw">match </span>(created_id, ret) {
+            (<span class="prelude-val">Some</span>(child_id), <span class="prelude-val">Some</span>(child_data)) =&gt; {
+                guard.map.with(child_id.id, |obj| obj.data.user_data = child_data).unwrap();
             }
             (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; {}
-            (<span class="prelude-val">Some</span>(<span class="ident">child_id</span>), <span class="prelude-val">None</span>) =&gt; {
-                <span class="macro">panic!</span>(<span class="string">&quot;Callback creating object {} did not provide any object data.&quot;</span>, <span class="ident">child_id</span>);
+            (<span class="prelude-val">Some</span>(child_id), <span class="prelude-val">None</span>) =&gt; {
+                <span class="macro">panic!</span>(<span class="string">&quot;Callback creating object {} did not provide any object data.&quot;</span>, child_id);
             }
             (<span class="prelude-val">None</span>, <span class="prelude-val">Some</span>(<span class="kw">_</span>)) =&gt; {
                 <span class="macro">panic!</span>(<span class="string">&quot;An object data was returned from a callback not creating any object&quot;</span>);
             }
         }
 
-        <span class="ident">dispatched</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+        dispatched += <span class="number">1</span>;
     }
-    <span class="prelude-val">Ok</span>(<span class="ident">dispatched</span>)
+    <span class="prelude-val">Ok</span>(dispatched)
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="wayland_backend" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="wayland_backend" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

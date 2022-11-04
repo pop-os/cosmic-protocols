@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.10/src/rs/server_impl/common_poll.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>common_poll.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../wayland_backend/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-backend-0.1.0-beta.10/src/rs/server_impl/common_poll.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>common_poll.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../normalize.css"><link rel="stylesheet" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../dark.css" disabled><link rel="stylesheet" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../wayland_backend/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../wayland_backend/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -308,269 +308,269 @@
 <span id="308">308</span>
 <span id="309">309</span>
 <span id="310">310</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">os::unix::io</span>::{<span class="ident">AsRawFd</span>, <span class="ident">FromRawFd</span>},
-    <span class="ident">sync</span>::{<span class="ident">Arc</span>, <span class="ident">Mutex</span>},
+</pre><pre class="rust"><code><span class="kw">use </span>std::{
+    os::unix::io::{AsRawFd, FromRawFd},
+    sync::{Arc, Mutex},
 };
 
-<span class="kw">use</span> <span class="kw">super</span>::{
-    <span class="ident">handle::State</span>, <span class="ident">ClientId</span>, <span class="ident">Data</span>, <span class="ident">GlobalHandler</span>, <span class="ident">GlobalId</span>, <span class="ident">Handle</span>, <span class="ident">InnerClientId</span>, <span class="ident">InnerGlobalId</span>,
-    <span class="ident">InnerHandle</span>, <span class="ident">InnerObjectId</span>, <span class="ident">ObjectId</span>,
+<span class="kw">use super</span>::{
+    handle::State, ClientId, Data, GlobalHandler, GlobalId, Handle, InnerClientId, InnerGlobalId,
+    InnerHandle, InnerObjectId, ObjectId,
 };
-<span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">core_interfaces</span>::{<span class="ident">WL_DISPLAY_INTERFACE</span>, <span class="ident">WL_REGISTRY_INTERFACE</span>},
-    <span class="ident">protocol</span>::{<span class="ident">same_interface</span>, <span class="ident">Argument</span>, <span class="ident">Message</span>},
-    <span class="ident">rs::map::Object</span>,
-    <span class="ident">types::server::InitError</span>,
+<span class="kw">use crate</span>::{
+    core_interfaces::{WL_DISPLAY_INTERFACE, WL_REGISTRY_INTERFACE},
+    protocol::{same_interface, Argument, Message},
+    rs::map::Object,
+    types::server::InitError,
 };
 
-<span class="kw">use</span> <span class="ident">io_lifetimes</span>::{<span class="ident">BorrowedFd</span>, <span class="ident">OwnedFd</span>};
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;linux&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;android&quot;</span>))]</span>
-<span class="kw">use</span> <span class="ident">nix::sys::epoll</span>::<span class="kw-2">*</span>;
+<span class="kw">use </span>io_lifetimes::{BorrowedFd, OwnedFd};
+<span class="attribute">#[cfg(any(target_os = <span class="string">&quot;linux&quot;</span>, target_os = <span class="string">&quot;android&quot;</span>))]
+</span><span class="kw">use </span>nix::sys::epoll::<span class="kw-2">*</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
-    <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;dragonfly&quot;</span>,
-    <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;freebsd&quot;</span>,
-    <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;netbsd&quot;</span>,
-    <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;openbsd&quot;</span>
-))]</span>
-<span class="kw">use</span> <span class="ident">nix::sys::event</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">smallvec::SmallVec</span>;
+<span class="attribute">#[cfg(any(
+    target_os = <span class="string">&quot;dragonfly&quot;</span>,
+    target_os = <span class="string">&quot;freebsd&quot;</span>,
+    target_os = <span class="string">&quot;netbsd&quot;</span>,
+    target_os = <span class="string">&quot;openbsd&quot;
+</span>))]
+</span><span class="kw">use </span>nix::sys::event::<span class="kw-2">*</span>;
+<span class="kw">use </span>smallvec::SmallVec;
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">InnerBackend</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
-    <span class="ident">state</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="ident">Mutex</span><span class="op">&lt;</span><span class="ident">State</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+<span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>InnerBackend&lt;D: <span class="lifetime">&#39;static</span>&gt; {
+    state: Arc&lt;Mutex&lt;State&lt;D&gt;&gt;&gt;,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> <span class="ident">InnerBackend</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">InitError</span><span class="op">&gt;</span> {
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;linux&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;android&quot;</span>))]</span>
-        <span class="kw">let</span> <span class="ident">poll_fd</span> <span class="op">=</span> <span class="ident">epoll_create1</span>(<span class="ident">EpollCreateFlags::EPOLL_CLOEXEC</span>)
-            .<span class="ident">map_err</span>(<span class="ident">Into::into</span>)
-            .<span class="ident">map_err</span>(<span class="ident">InitError::Io</span>)<span class="question-mark">?</span>;
+<span class="kw">impl</span>&lt;D&gt; InnerBackend&lt;D&gt; {
+    <span class="kw">pub fn </span>new() -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InitError&gt; {
+        <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;linux&quot;</span>, target_os = <span class="string">&quot;android&quot;</span>))]
+        </span><span class="kw">let </span>poll_fd = epoll_create1(EpollCreateFlags::EPOLL_CLOEXEC)
+            .map_err(Into::into)
+            .map_err(InitError::Io)<span class="question-mark">?</span>;
 
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
-            <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;dragonfly&quot;</span>,
-            <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;freebsd&quot;</span>,
-            <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;netbsd&quot;</span>,
-            <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;openbsd&quot;</span>
-        ))]</span>
-        <span class="kw">let</span> <span class="ident">poll_fd</span> <span class="op">=</span> <span class="ident">kqueue</span>().<span class="ident">map_err</span>(<span class="ident">Into::into</span>).<span class="ident">map_err</span>(<span class="ident">InitError::Io</span>)<span class="question-mark">?</span>;
+        <span class="attribute">#[cfg(any(
+            target_os = <span class="string">&quot;dragonfly&quot;</span>,
+            target_os = <span class="string">&quot;freebsd&quot;</span>,
+            target_os = <span class="string">&quot;netbsd&quot;</span>,
+            target_os = <span class="string">&quot;openbsd&quot;
+        </span>))]
+        </span><span class="kw">let </span>poll_fd = kqueue().map_err(Into::into).map_err(InitError::Io)<span class="question-mark">?</span>;
 
-        <span class="prelude-val">Ok</span>(<span class="self">Self</span> {
-            <span class="ident">state</span>: <span class="ident">Arc::new</span>(<span class="ident">Mutex::new</span>(<span class="ident">State::new</span>(<span class="kw">unsafe</span> { <span class="ident">OwnedFd::from_raw_fd</span>(<span class="ident">poll_fd</span>) }))),
+        <span class="prelude-val">Ok</span>(<span class="self">Self </span>{
+            state: Arc::new(Mutex::new(State::new(<span class="kw">unsafe </span>{ OwnedFd::from_raw_fd(poll_fd) }))),
         })
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flush</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">client</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">ClientId</span><span class="op">&gt;</span>) -&gt; <span class="ident">std::io::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>().<span class="ident">flush</span>(<span class="ident">client</span>)
+    <span class="kw">pub fn </span>flush(<span class="kw-2">&amp;</span><span class="self">self</span>, client: <span class="prelude-ty">Option</span>&lt;ClientId&gt;) -&gt; std::io::Result&lt;()&gt; {
+        <span class="self">self</span>.state.lock().unwrap().flush(client)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">handle</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Handle</span> {
-        <span class="ident">Handle</span> { <span class="ident">handle</span>: <span class="ident">InnerHandle</span> { <span class="ident">state</span>: <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">clone</span>() <span class="kw">as</span> <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> } }
+    <span class="kw">pub fn </span>handle(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Handle {
+        Handle { handle: InnerHandle { state: <span class="self">self</span>.state.clone() <span class="kw">as </span>Arc&lt;<span class="kw">_</span>&gt; } }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">poll_fd</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">BorrowedFd</span> {
-        <span class="kw">let</span> <span class="ident">raw_fd</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>().<span class="ident">poll_fd</span>.<span class="ident">as_raw_fd</span>();
-        <span class="comment">// This allows the lifetime of the BorrowedFd to be tied to &amp;self rather than the lock guard,</span>
-        <span class="comment">// which is the real safety concern</span>
-        <span class="kw">unsafe</span> { <span class="ident">BorrowedFd::borrow_raw</span>(<span class="ident">raw_fd</span>) }
+    <span class="kw">pub fn </span>poll_fd(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BorrowedFd {
+        <span class="kw">let </span>raw_fd = <span class="self">self</span>.state.lock().unwrap().poll_fd.as_raw_fd();
+        <span class="comment">// This allows the lifetime of the BorrowedFd to be tied to &amp;self rather than the lock guard,
+        // which is the real safety concern
+        </span><span class="kw">unsafe </span>{ BorrowedFd::borrow_raw(raw_fd) }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch_client</span>(
+    <span class="kw">pub fn </span>dispatch_client(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>,
-        <span class="ident">client_id</span>: <span class="ident">InnerClientId</span>,
-    ) -&gt; <span class="ident">std::io::Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">ret</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">dispatch_events_for</span>(<span class="ident">data</span>, <span class="ident">client_id</span>);
-        <span class="kw">let</span> <span class="ident">cleanup</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>().<span class="ident">cleanup</span>();
-        <span class="ident">cleanup</span>(<span class="ident">data</span>);
-        <span class="ident">ret</span>
+        data: <span class="kw-2">&amp;mut </span>D,
+        client_id: InnerClientId,
+    ) -&gt; std::io::Result&lt;usize&gt; {
+        <span class="kw">let </span>ret = <span class="self">self</span>.dispatch_events_for(data, client_id);
+        <span class="kw">let </span>cleanup = <span class="self">self</span>.state.lock().unwrap().cleanup();
+        cleanup(data);
+        ret
     }
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;linux&quot;</span>, <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;android&quot;</span>))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch_all_clients</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>) -&gt; <span class="ident">std::io::Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">poll_fd</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">poll_fd</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dispatched</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">loop</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">events</span> <span class="op">=</span> [<span class="ident">EpollEvent::empty</span>(); <span class="number">32</span>];
-            <span class="kw">let</span> <span class="ident">nevents</span> <span class="op">=</span> <span class="ident">epoll_wait</span>(<span class="ident">poll_fd</span>.<span class="ident">as_raw_fd</span>(), <span class="kw-2">&amp;mut</span> <span class="ident">events</span>, <span class="number">0</span>)<span class="question-mark">?</span>;
+    <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;linux&quot;</span>, target_os = <span class="string">&quot;android&quot;</span>))]
+    </span><span class="kw">pub fn </span>dispatch_all_clients(<span class="kw-2">&amp;</span><span class="self">self</span>, data: <span class="kw-2">&amp;mut </span>D) -&gt; std::io::Result&lt;usize&gt; {
+        <span class="kw">let </span>poll_fd = <span class="self">self</span>.poll_fd();
+        <span class="kw">let </span><span class="kw-2">mut </span>dispatched = <span class="number">0</span>;
+        <span class="kw">loop </span>{
+            <span class="kw">let </span><span class="kw-2">mut </span>events = [EpollEvent::empty(); <span class="number">32</span>];
+            <span class="kw">let </span>nevents = epoll_wait(poll_fd.as_raw_fd(), <span class="kw-2">&amp;mut </span>events, <span class="number">0</span>)<span class="question-mark">?</span>;
 
-            <span class="kw">if</span> <span class="ident">nevents</span> <span class="op">==</span> <span class="number">0</span> {
+            <span class="kw">if </span>nevents == <span class="number">0 </span>{
                 <span class="kw">break</span>;
             }
 
-            <span class="kw">for</span> <span class="ident">event</span> <span class="kw">in</span> <span class="ident">events</span>.<span class="ident">iter</span>().<span class="ident">take</span>(<span class="ident">nevents</span>) {
-                <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="ident">InnerClientId::from_u64</span>(<span class="ident">event</span>.<span class="ident">data</span>());
-                <span class="comment">// remove the cb while we call it, to gracefully handle reentrancy</span>
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">count</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">dispatch_events_for</span>(<span class="ident">data</span>, <span class="ident">id</span>) {
-                    <span class="ident">dispatched</span> <span class="op">+</span><span class="op">=</span> <span class="ident">count</span>;
+            <span class="kw">for </span>event <span class="kw">in </span>events.iter().take(nevents) {
+                <span class="kw">let </span>id = InnerClientId::from_u64(event.data());
+                <span class="comment">// remove the cb while we call it, to gracefully handle reentrancy
+                </span><span class="kw">if let </span><span class="prelude-val">Ok</span>(count) = <span class="self">self</span>.dispatch_events_for(data, id) {
+                    dispatched += count;
                 }
             }
-            <span class="kw">let</span> <span class="ident">cleanup</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>().<span class="ident">cleanup</span>();
-            <span class="ident">cleanup</span>(<span class="ident">data</span>);
+            <span class="kw">let </span>cleanup = <span class="self">self</span>.state.lock().unwrap().cleanup();
+            cleanup(data);
         }
 
-        <span class="prelude-val">Ok</span>(<span class="ident">dispatched</span>)
+        <span class="prelude-val">Ok</span>(dispatched)
     }
 
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(
-        <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;dragonfly&quot;</span>,
-        <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;freebsd&quot;</span>,
-        <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;netbsd&quot;</span>,
-        <span class="ident">target_os</span> <span class="op">=</span> <span class="string">&quot;openbsd&quot;</span>
-    ))]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dispatch_all_clients</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>) -&gt; <span class="ident">std::io::Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">poll_fd</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">poll_fd</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dispatched</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">loop</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">events</span> <span class="op">=</span> [<span class="ident">KEvent::new</span>(
+    <span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;dragonfly&quot;</span>,
+        target_os = <span class="string">&quot;freebsd&quot;</span>,
+        target_os = <span class="string">&quot;netbsd&quot;</span>,
+        target_os = <span class="string">&quot;openbsd&quot;
+    </span>))]
+    </span><span class="kw">pub fn </span>dispatch_all_clients(<span class="kw-2">&amp;</span><span class="self">self</span>, data: <span class="kw-2">&amp;mut </span>D) -&gt; std::io::Result&lt;usize&gt; {
+        <span class="kw">let </span>poll_fd = <span class="self">self</span>.poll_fd();
+        <span class="kw">let </span><span class="kw-2">mut </span>dispatched = <span class="number">0</span>;
+        <span class="kw">loop </span>{
+            <span class="kw">let </span><span class="kw-2">mut </span>events = [KEvent::new(
                 <span class="number">0</span>,
-                <span class="ident">EventFilter::EVFILT_READ</span>,
-                <span class="ident">EventFlag::empty</span>(),
-                <span class="ident">FilterFlag::empty</span>(),
+                EventFilter::EVFILT_READ,
+                EventFlag::empty(),
+                FilterFlag::empty(),
                 <span class="number">0</span>,
                 <span class="number">0</span>,
             ); <span class="number">32</span>];
 
-            <span class="kw">let</span> <span class="ident">nevents</span> <span class="op">=</span> <span class="ident">kevent</span>(<span class="ident">poll_fd</span>.<span class="ident">as_raw_fd</span>(), <span class="kw-2">&amp;</span>[], <span class="kw-2">&amp;mut</span> <span class="ident">events</span>, <span class="number">0</span>)<span class="question-mark">?</span>;
+            <span class="kw">let </span>nevents = kevent(poll_fd.as_raw_fd(), <span class="kw-2">&amp;</span>[], <span class="kw-2">&amp;mut </span>events, <span class="number">0</span>)<span class="question-mark">?</span>;
 
-            <span class="kw">if</span> <span class="ident">nevents</span> <span class="op">==</span> <span class="number">0</span> {
+            <span class="kw">if </span>nevents == <span class="number">0 </span>{
                 <span class="kw">break</span>;
             }
 
-            <span class="kw">for</span> <span class="ident">event</span> <span class="kw">in</span> <span class="ident">events</span>.<span class="ident">iter</span>().<span class="ident">take</span>(<span class="ident">nevents</span>) {
-                <span class="kw">let</span> <span class="ident">id</span> <span class="op">=</span> <span class="ident">InnerClientId::from_u64</span>(<span class="ident">event</span>.<span class="ident">udata</span>() <span class="kw">as</span> <span class="ident">u64</span>);
-                <span class="comment">// remove the cb while we call it, to gracefully handle reentrancy</span>
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">count</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">dispatch_events_for</span>(<span class="ident">data</span>, <span class="ident">id</span>) {
-                    <span class="ident">dispatched</span> <span class="op">+</span><span class="op">=</span> <span class="ident">count</span>;
+            <span class="kw">for </span>event <span class="kw">in </span>events.iter().take(nevents) {
+                <span class="kw">let </span>id = InnerClientId::from_u64(event.udata() <span class="kw">as </span>u64);
+                <span class="comment">// remove the cb while we call it, to gracefully handle reentrancy
+                </span><span class="kw">if let </span><span class="prelude-val">Ok</span>(count) = <span class="self">self</span>.dispatch_events_for(data, id) {
+                    dispatched += count;
                 }
             }
-            <span class="kw">let</span> <span class="ident">cleanup</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>().<span class="ident">cleanup</span>();
-            <span class="ident">cleanup</span>(<span class="ident">data</span>);
+            <span class="kw">let </span>cleanup = <span class="self">self</span>.state.lock().unwrap().cleanup();
+            cleanup(data);
         }
 
-        <span class="prelude-val">Ok</span>(<span class="ident">dispatched</span>)
+        <span class="prelude-val">Ok</span>(dispatched)
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">dispatch_events_for</span>(
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>dispatch_events_for(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">data</span>: <span class="kw-2">&amp;mut</span> <span class="ident">D</span>,
-        <span class="ident">client_id</span>: <span class="ident">InnerClientId</span>,
-    ) -&gt; <span class="ident">std::io::Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dispatched</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">let</span> <span class="ident">handle</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">handle</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
-        <span class="kw">loop</span> {
-            <span class="kw">let</span> <span class="ident">action</span> <span class="op">=</span> {
-                <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="kw-2">*</span><span class="ident">state</span>;
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">client</span>) <span class="op">=</span> <span class="ident">state</span>.<span class="ident">clients</span>.<span class="ident">get_client_mut</span>(<span class="ident">client_id</span>.<span class="ident">clone</span>()) {
-                    <span class="kw">let</span> (<span class="ident">message</span>, <span class="ident">object</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">client</span>.<span class="ident">next_request</span>() {
-                        <span class="prelude-val">Ok</span>(<span class="ident">v</span>) =&gt; <span class="ident">v</span>,
-                        <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">std::io::ErrorKind::WouldBlock</span> =&gt; {
-                            <span class="kw">if</span> <span class="ident">dispatched</span> <span class="op">&gt;</span> <span class="number">0</span> {
+        data: <span class="kw-2">&amp;mut </span>D,
+        client_id: InnerClientId,
+    ) -&gt; std::io::Result&lt;usize&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>dispatched = <span class="number">0</span>;
+        <span class="kw">let </span>handle = <span class="self">self</span>.handle();
+        <span class="kw">let </span><span class="kw-2">mut </span>state = <span class="self">self</span>.state.lock().unwrap();
+        <span class="kw">loop </span>{
+            <span class="kw">let </span>action = {
+                <span class="kw">let </span>state = <span class="kw-2">&amp;mut *</span>state;
+                <span class="kw">if let </span><span class="prelude-val">Ok</span>(client) = state.clients.get_client_mut(client_id.clone()) {
+                    <span class="kw">let </span>(message, object) = <span class="kw">match </span>client.next_request() {
+                        <span class="prelude-val">Ok</span>(v) =&gt; v,
+                        <span class="prelude-val">Err</span>(e) <span class="kw">if </span>e.kind() == std::io::ErrorKind::WouldBlock =&gt; {
+                            <span class="kw">if </span>dispatched &gt; <span class="number">0 </span>{
                                 <span class="kw">break</span>;
-                            } <span class="kw">else</span> {
-                                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>);
+                            } <span class="kw">else </span>{
+                                <span class="kw">return </span><span class="prelude-val">Err</span>(e);
                             }
                         }
-                        <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+                        <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(e),
                     };
-                    <span class="ident">dispatched</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-                    <span class="kw">if</span> <span class="ident">same_interface</span>(<span class="ident">object</span>.<span class="ident">interface</span>, <span class="kw-2">&amp;</span><span class="ident">WL_DISPLAY_INTERFACE</span>) {
-                        <span class="ident">client</span>.<span class="ident">handle_display_request</span>(<span class="ident">message</span>, <span class="kw-2">&amp;mut</span> <span class="ident">state</span>.<span class="ident">registry</span>);
+                    dispatched += <span class="number">1</span>;
+                    <span class="kw">if </span>same_interface(object.interface, <span class="kw-2">&amp;</span>WL_DISPLAY_INTERFACE) {
+                        client.handle_display_request(message, <span class="kw-2">&amp;mut </span>state.registry);
                         <span class="kw">continue</span>;
-                    } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">same_interface</span>(<span class="ident">object</span>.<span class="ident">interface</span>, <span class="kw-2">&amp;</span><span class="ident">WL_REGISTRY_INTERFACE</span>) {
-                        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">client</span>, <span class="ident">global</span>, <span class="ident">object</span>, <span class="ident">handler</span>)) <span class="op">=</span>
-                            <span class="ident">client</span>.<span class="ident">handle_registry_request</span>(<span class="ident">message</span>, <span class="kw-2">&amp;mut</span> <span class="ident">state</span>.<span class="ident">registry</span>)
+                    } <span class="kw">else if </span>same_interface(object.interface, <span class="kw-2">&amp;</span>WL_REGISTRY_INTERFACE) {
+                        <span class="kw">if let </span><span class="prelude-val">Some</span>((client, global, object, handler)) =
+                            client.handle_registry_request(message, <span class="kw-2">&amp;mut </span>state.registry)
                         {
-                            <span class="ident">DispatchAction::Bind</span> { <span class="ident">client</span>, <span class="ident">global</span>, <span class="ident">object</span>, <span class="ident">handler</span> }
-                        } <span class="kw">else</span> {
+                            DispatchAction::Bind { client, global, object, handler }
+                        } <span class="kw">else </span>{
                             <span class="kw">continue</span>;
                         }
-                    } <span class="kw">else</span> {
-                        <span class="kw">let</span> <span class="ident">object_id</span> <span class="op">=</span> <span class="ident">InnerObjectId</span> {
-                            <span class="ident">id</span>: <span class="ident">message</span>.<span class="ident">sender_id</span>,
-                            <span class="ident">serial</span>: <span class="ident">object</span>.<span class="ident">data</span>.<span class="ident">serial</span>,
-                            <span class="ident">interface</span>: <span class="ident">object</span>.<span class="ident">interface</span>,
-                            <span class="ident">client_id</span>: <span class="ident">client</span>.<span class="ident">id</span>.<span class="ident">clone</span>(),
+                    } <span class="kw">else </span>{
+                        <span class="kw">let </span>object_id = InnerObjectId {
+                            id: message.sender_id,
+                            serial: object.data.serial,
+                            interface: object.interface,
+                            client_id: client.id.clone(),
                         };
-                        <span class="kw">let</span> <span class="ident">opcode</span> <span class="op">=</span> <span class="ident">message</span>.<span class="ident">opcode</span>;
-                        <span class="kw">let</span> (<span class="ident">arguments</span>, <span class="ident">is_destructor</span>, <span class="ident">created_id</span>) <span class="op">=</span>
-                            <span class="kw">match</span> <span class="ident">client</span>.<span class="ident">process_request</span>(<span class="kw-2">&amp;</span><span class="ident">object</span>, <span class="ident">message</span>) {
-                                <span class="prelude-val">Some</span>(<span class="ident">args</span>) =&gt; <span class="ident">args</span>,
-                                <span class="prelude-val">None</span> =&gt; <span class="kw">continue</span>,
+                        <span class="kw">let </span>opcode = message.opcode;
+                        <span class="kw">let </span>(arguments, is_destructor, created_id) =
+                            <span class="kw">match </span>client.process_request(<span class="kw-2">&amp;</span>object, message) {
+                                <span class="prelude-val">Some</span>(args) =&gt; args,
+                                <span class="prelude-val">None </span>=&gt; <span class="kw">continue</span>,
                             };
-                        <span class="comment">// Return the whole set to invoke the callback while handle is not borrower via client</span>
-                        <span class="ident">DispatchAction::Request</span> {
-                            <span class="ident">object</span>,
-                            <span class="ident">object_id</span>,
-                            <span class="ident">opcode</span>,
-                            <span class="ident">arguments</span>,
-                            <span class="ident">is_destructor</span>,
-                            <span class="ident">created_id</span>,
+                        <span class="comment">// Return the whole set to invoke the callback while handle is not borrower via client
+                        </span>DispatchAction::Request {
+                            object,
+                            object_id,
+                            opcode,
+                            arguments,
+                            is_destructor,
+                            created_id,
                         }
                     }
-                } <span class="kw">else</span> {
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">std::io::Error::new</span>(
-                        <span class="ident">std::io::ErrorKind::InvalidInput</span>,
+                } <span class="kw">else </span>{
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(std::io::Error::new(
+                        std::io::ErrorKind::InvalidInput,
                         <span class="string">&quot;Invalid client ID&quot;</span>,
                     ));
                 }
             };
-            <span class="kw">match</span> <span class="ident">action</span> {
-                <span class="ident">DispatchAction::Request</span> {
-                    <span class="ident">object</span>,
-                    <span class="ident">object_id</span>,
-                    <span class="ident">opcode</span>,
-                    <span class="ident">arguments</span>,
-                    <span class="ident">is_destructor</span>,
-                    <span class="ident">created_id</span>,
+            <span class="kw">match </span>action {
+                DispatchAction::Request {
+                    object,
+                    object_id,
+                    opcode,
+                    arguments,
+                    is_destructor,
+                    created_id,
                 } =&gt; {
-                    <span class="comment">// temporarily unlock the state Mutex while this request is dispatched</span>
-                    <span class="ident">std::mem::drop</span>(<span class="ident">state</span>);
-                    <span class="kw">let</span> <span class="ident">ret</span> <span class="op">=</span> <span class="ident">object</span>.<span class="ident">data</span>.<span class="ident">user_data</span>.<span class="ident">clone</span>().<span class="ident">request</span>(
-                        <span class="kw-2">&amp;</span><span class="ident">handle</span>.<span class="ident">clone</span>(),
-                        <span class="ident">data</span>,
-                        <span class="ident">ClientId</span> { <span class="ident">id</span>: <span class="ident">client_id</span>.<span class="ident">clone</span>() },
-                        <span class="ident">Message</span> {
-                            <span class="ident">sender_id</span>: <span class="ident">ObjectId</span> { <span class="ident">id</span>: <span class="ident">object_id</span>.<span class="ident">clone</span>() },
-                            <span class="ident">opcode</span>,
-                            <span class="ident">args</span>: <span class="ident">arguments</span>,
+                    <span class="comment">// temporarily unlock the state Mutex while this request is dispatched
+                    </span>std::mem::drop(state);
+                    <span class="kw">let </span>ret = object.data.user_data.clone().request(
+                        <span class="kw-2">&amp;</span>handle.clone(),
+                        data,
+                        ClientId { id: client_id.clone() },
+                        Message {
+                            sender_id: ObjectId { id: object_id.clone() },
+                            opcode,
+                            args: arguments,
                         },
                     );
-                    <span class="kw">if</span> <span class="ident">is_destructor</span> {
-                        <span class="ident">object</span>.<span class="ident">data</span>.<span class="ident">user_data</span>.<span class="ident">destroyed</span>(
-                            <span class="ident">data</span>,
-                            <span class="ident">ClientId</span> { <span class="ident">id</span>: <span class="ident">client_id</span>.<span class="ident">clone</span>() },
-                            <span class="ident">ObjectId</span> { <span class="ident">id</span>: <span class="ident">object_id</span>.<span class="ident">clone</span>() },
+                    <span class="kw">if </span>is_destructor {
+                        object.data.user_data.destroyed(
+                            data,
+                            ClientId { id: client_id.clone() },
+                            ObjectId { id: object_id.clone() },
                         );
                     }
-                    <span class="comment">// acquire the lock again and continue</span>
-                    <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
-                    <span class="kw">if</span> <span class="ident">is_destructor</span> {
-                        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">client</span>) <span class="op">=</span> <span class="ident">state</span>.<span class="ident">clients</span>.<span class="ident">get_client_mut</span>(<span class="ident">client_id</span>.<span class="ident">clone</span>()) {
-                            <span class="ident">client</span>.<span class="ident">send_delete_id</span>(<span class="ident">object_id</span>);
+                    <span class="comment">// acquire the lock again and continue
+                    </span>state = <span class="self">self</span>.state.lock().unwrap();
+                    <span class="kw">if </span>is_destructor {
+                        <span class="kw">if let </span><span class="prelude-val">Ok</span>(client) = state.clients.get_client_mut(client_id.clone()) {
+                            client.send_delete_id(object_id);
                         }
                     }
-                    <span class="kw">match</span> (<span class="ident">created_id</span>, <span class="ident">ret</span>) {
-                        (<span class="prelude-val">Some</span>(<span class="ident">child_id</span>), <span class="prelude-val">Some</span>(<span class="ident">child_data</span>)) =&gt; {
-                            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">client</span>) <span class="op">=</span> <span class="ident">state</span>.<span class="ident">clients</span>.<span class="ident">get_client_mut</span>(<span class="ident">client_id</span>.<span class="ident">clone</span>()) {
-                                <span class="ident">client</span>
-                                    .<span class="ident">map</span>
-                                    .<span class="ident">with</span>(<span class="ident">child_id</span>.<span class="ident">id</span>, <span class="op">|</span><span class="ident">obj</span><span class="op">|</span> <span class="ident">obj</span>.<span class="ident">data</span>.<span class="ident">user_data</span> <span class="op">=</span> <span class="ident">child_data</span>)
-                                    .<span class="ident">unwrap</span>();
+                    <span class="kw">match </span>(created_id, ret) {
+                        (<span class="prelude-val">Some</span>(child_id), <span class="prelude-val">Some</span>(child_data)) =&gt; {
+                            <span class="kw">if let </span><span class="prelude-val">Ok</span>(client) = state.clients.get_client_mut(client_id.clone()) {
+                                client
+                                    .map
+                                    .with(child_id.id, |obj| obj.data.user_data = child_data)
+                                    .unwrap();
                             }
                         }
                         (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>) =&gt; {}
-                        (<span class="prelude-val">Some</span>(<span class="ident">child_id</span>), <span class="prelude-val">None</span>) =&gt; {
-                            <span class="comment">// Allow the callback to not return any data if the client is already dead (typically</span>
-                            <span class="comment">// if the callback provoked a protocol error)</span>
-                            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">client</span>) <span class="op">=</span> <span class="ident">state</span>.<span class="ident">clients</span>.<span class="ident">get_client</span>(<span class="ident">client_id</span>.<span class="ident">clone</span>()) {
-                                <span class="kw">if</span> <span class="op">!</span><span class="ident">client</span>.<span class="ident">killed</span> {
+                        (<span class="prelude-val">Some</span>(child_id), <span class="prelude-val">None</span>) =&gt; {
+                            <span class="comment">// Allow the callback to not return any data if the client is already dead (typically
+                            // if the callback provoked a protocol error)
+                            </span><span class="kw">if let </span><span class="prelude-val">Ok</span>(client) = state.clients.get_client(client_id.clone()) {
+                                <span class="kw">if </span>!client.killed {
                                     <span class="macro">panic!</span>(
                                         <span class="string">&quot;Callback creating object {} did not provide any object data.&quot;</span>,
-                                        <span class="ident">child_id</span>
+                                        child_id
                                     );
                                 }
                             }
@@ -580,43 +580,43 @@
                         }
                     }
                 }
-                <span class="ident">DispatchAction::Bind</span> { <span class="ident">object</span>, <span class="ident">client</span>, <span class="ident">global</span>, <span class="ident">handler</span> } =&gt; {
-                    <span class="comment">// temporarily unlock the state Mutex while this request is dispatched</span>
-                    <span class="ident">std::mem::drop</span>(<span class="ident">state</span>);
-                    <span class="kw">let</span> <span class="ident">child_data</span> <span class="op">=</span> <span class="ident">handler</span>.<span class="ident">bind</span>(
-                        <span class="kw-2">&amp;</span><span class="ident">handle</span>.<span class="ident">clone</span>(),
-                        <span class="ident">data</span>,
-                        <span class="ident">ClientId</span> { <span class="ident">id</span>: <span class="ident">client</span>.<span class="ident">clone</span>() },
-                        <span class="ident">GlobalId</span> { <span class="ident">id</span>: <span class="ident">global</span> },
-                        <span class="ident">ObjectId</span> { <span class="ident">id</span>: <span class="ident">object</span>.<span class="ident">clone</span>() },
+                DispatchAction::Bind { object, client, global, handler } =&gt; {
+                    <span class="comment">// temporarily unlock the state Mutex while this request is dispatched
+                    </span>std::mem::drop(state);
+                    <span class="kw">let </span>child_data = handler.bind(
+                        <span class="kw-2">&amp;</span>handle.clone(),
+                        data,
+                        ClientId { id: client.clone() },
+                        GlobalId { id: global },
+                        ObjectId { id: object.clone() },
                     );
-                    <span class="comment">// acquire the lock again and continue</span>
-                    <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">lock</span>().<span class="ident">unwrap</span>();
-                    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">client</span>) <span class="op">=</span> <span class="ident">state</span>.<span class="ident">clients</span>.<span class="ident">get_client_mut</span>(<span class="ident">client</span>.<span class="ident">clone</span>()) {
-                        <span class="ident">client</span>.<span class="ident">map</span>.<span class="ident">with</span>(<span class="ident">object</span>.<span class="ident">id</span>, <span class="op">|</span><span class="ident">obj</span><span class="op">|</span> <span class="ident">obj</span>.<span class="ident">data</span>.<span class="ident">user_data</span> <span class="op">=</span> <span class="ident">child_data</span>).<span class="ident">unwrap</span>();
+                    <span class="comment">// acquire the lock again and continue
+                    </span>state = <span class="self">self</span>.state.lock().unwrap();
+                    <span class="kw">if let </span><span class="prelude-val">Ok</span>(client) = state.clients.get_client_mut(client.clone()) {
+                        client.map.with(object.id, |obj| obj.data.user_data = child_data).unwrap();
                     }
                 }
             }
         }
-        <span class="prelude-val">Ok</span>(<span class="ident">dispatched</span>)
+        <span class="prelude-val">Ok</span>(dispatched)
     }
 }
 
-<span class="kw">enum</span> <span class="ident">DispatchAction</span><span class="op">&lt;</span><span class="ident">D</span>: <span class="lifetime">&#39;static</span><span class="op">&gt;</span> {
-    <span class="ident">Request</span> {
-        <span class="ident">object</span>: <span class="ident">Object</span><span class="op">&lt;</span><span class="ident">Data</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-        <span class="ident">object_id</span>: <span class="ident">InnerObjectId</span>,
-        <span class="ident">opcode</span>: <span class="ident">u16</span>,
-        <span class="ident">arguments</span>: <span class="ident">SmallVec</span><span class="op">&lt;</span>[<span class="ident">Argument</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>; <span class="number">4</span>]<span class="op">&gt;</span>,
-        <span class="ident">is_destructor</span>: <span class="ident">bool</span>,
-        <span class="ident">created_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">InnerObjectId</span><span class="op">&gt;</span>,
+<span class="kw">enum </span>DispatchAction&lt;D: <span class="lifetime">&#39;static</span>&gt; {
+    Request {
+        object: Object&lt;Data&lt;D&gt;&gt;,
+        object_id: InnerObjectId,
+        opcode: u16,
+        arguments: SmallVec&lt;[Argument&lt;ObjectId, OwnedFd&gt;; <span class="number">4</span>]&gt;,
+        is_destructor: bool,
+        created_id: <span class="prelude-ty">Option</span>&lt;InnerObjectId&gt;,
     },
-    <span class="ident">Bind</span> {
-        <span class="ident">object</span>: <span class="ident">InnerObjectId</span>,
-        <span class="ident">client</span>: <span class="ident">InnerClientId</span>,
-        <span class="ident">global</span>: <span class="ident">InnerGlobalId</span>,
-        <span class="ident">handler</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">GlobalHandler</span><span class="op">&lt;</span><span class="ident">D</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    Bind {
+        object: InnerObjectId,
+        client: InnerClientId,
+        global: InnerGlobalId,
+        handler: Arc&lt;<span class="kw">dyn </span>GlobalHandler&lt;D&gt;&gt;,
     },
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="wayland_backend" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="wayland_backend" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

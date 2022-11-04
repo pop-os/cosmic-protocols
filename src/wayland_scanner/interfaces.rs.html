@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-scanner-0.30.0-beta.10/src/interfaces.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>interfaces.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_scanner/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-scanner-0.30.0-beta.10/src/interfaces.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>interfaces.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_scanner/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -140,147 +140,147 @@
 <span id="140">140</span>
 <span id="141">141</span>
 <span id="142">142</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">proc_macro2::TokenStream</span>;
+</pre><pre class="rust"><code><span class="kw">use </span>proc_macro2::TokenStream;
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::protocol</span>::{<span class="ident">Interface</span>, <span class="ident">Message</span>, <span class="ident">Protocol</span>, <span class="ident">Type</span>};
+<span class="kw">use </span><span class="kw">crate</span>::protocol::{Interface, Message, Protocol, Type};
 
-<span class="kw">use</span> <span class="ident">quote</span>::{<span class="ident">format_ident</span>, <span class="ident">quote</span>};
+<span class="kw">use </span>quote::{format_ident, quote};
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">generate</span>(<span class="ident">protocol</span>: <span class="kw-2">&amp;</span><span class="ident">Protocol</span>, <span class="ident">with_c_interfaces</span>: <span class="ident">bool</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="kw">let</span> <span class="ident">interfaces</span> <span class="op">=</span>
-        <span class="ident">protocol</span>.<span class="ident">interfaces</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">iface</span><span class="op">|</span> <span class="ident">generate_interface</span>(<span class="ident">iface</span>, <span class="ident">with_c_interfaces</span>));
-    <span class="kw">if</span> <span class="ident">with_c_interfaces</span> {
-        <span class="kw">let</span> <span class="ident">prefix</span> <span class="op">=</span> <span class="ident"><span class="kw">super</span>::c_interfaces::generate_interfaces_prefix</span>(<span class="ident">protocol</span>);
-        <span class="macro">quote!</span> {
-            #<span class="ident">prefix</span>
-            #(#<span class="ident">interfaces</span>)<span class="op">*</span>
+<span class="kw">pub fn </span>generate(protocol: <span class="kw-2">&amp;</span>Protocol, with_c_interfaces: bool) -&gt; TokenStream {
+    <span class="kw">let </span>interfaces =
+        protocol.interfaces.iter().map(|iface| generate_interface(iface, with_c_interfaces));
+    <span class="kw">if </span>with_c_interfaces {
+        <span class="kw">let </span>prefix = <span class="kw">super</span>::c_interfaces::generate_interfaces_prefix(protocol);
+        <span class="macro">quote! </span>{
+            #prefix
+            #(#interfaces)*
         }
-    } <span class="kw">else</span> {
-        <span class="ident">interfaces</span>.<span class="ident">collect</span>()
+    } <span class="kw">else </span>{
+        interfaces.collect()
     }
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">generate_interface</span>(<span class="ident">interface</span>: <span class="kw-2">&amp;</span><span class="ident">Interface</span>, <span class="ident">with_c</span>: <span class="ident">bool</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="kw">let</span> <span class="ident">const_name</span> <span class="op">=</span> <span class="macro">format_ident!</span>(<span class="string">&quot;{}_INTERFACE&quot;</span>, <span class="ident">interface</span>.<span class="ident">name</span>.<span class="ident">to_ascii_uppercase</span>());
-    <span class="kw">let</span> <span class="ident">iface_name</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">interface</span>.<span class="ident">name</span>;
-    <span class="kw">let</span> <span class="ident">iface_version</span> <span class="op">=</span> <span class="ident">interface</span>.<span class="ident">version</span>;
-    <span class="kw">let</span> <span class="ident">requests</span> <span class="op">=</span> <span class="ident">build_messagedesc_list</span>(<span class="kw-2">&amp;</span><span class="ident">interface</span>.<span class="ident">requests</span>);
-    <span class="kw">let</span> <span class="ident">events</span> <span class="op">=</span> <span class="ident">build_messagedesc_list</span>(<span class="kw-2">&amp;</span><span class="ident">interface</span>.<span class="ident">events</span>);
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>generate_interface(interface: <span class="kw-2">&amp;</span>Interface, with_c: bool) -&gt; TokenStream {
+    <span class="kw">let </span>const_name = <span class="macro">format_ident!</span>(<span class="string">&quot;{}_INTERFACE&quot;</span>, interface.name.to_ascii_uppercase());
+    <span class="kw">let </span>iface_name = <span class="kw-2">&amp;</span>interface.name;
+    <span class="kw">let </span>iface_version = interface.version;
+    <span class="kw">let </span>requests = build_messagedesc_list(<span class="kw-2">&amp;</span>interface.requests);
+    <span class="kw">let </span>events = build_messagedesc_list(<span class="kw-2">&amp;</span>interface.events);
 
-    <span class="kw">let</span> <span class="ident">c_name</span> <span class="op">=</span> <span class="macro">format_ident!</span>(<span class="string">&quot;{}_interface&quot;</span>, <span class="ident">interface</span>.<span class="ident">name</span>);
+    <span class="kw">let </span>c_name = <span class="macro">format_ident!</span>(<span class="string">&quot;{}_interface&quot;</span>, interface.name);
 
-    <span class="kw">if</span> <span class="ident">with_c</span> {
-        <span class="kw">let</span> <span class="ident">c_iface</span> <span class="op">=</span> <span class="ident"><span class="kw">super</span>::c_interfaces::generate_interface</span>(<span class="ident">interface</span>);
-        <span class="macro">quote!</span> {
-            <span class="kw">pub</span> <span class="kw">static</span> #<span class="ident">const_name</span>: <span class="ident">wayland_backend::protocol::Interface</span> <span class="op">=</span> <span class="ident">wayland_backend::protocol::Interface</span> {
-                <span class="ident">name</span>: #<span class="ident">iface_name</span>,
-                <span class="ident">version</span>: #<span class="ident">iface_version</span>,
-                <span class="ident">requests</span>: #<span class="ident">requests</span>,
-                <span class="ident">events</span>: #<span class="ident">events</span>,
-                <span class="ident">c_ptr</span>: <span class="prelude-val">Some</span>(<span class="kw">unsafe</span> { <span class="op">&amp;</span> #<span class="ident">c_name</span> }),
+    <span class="kw">if </span>with_c {
+        <span class="kw">let </span>c_iface = <span class="kw">super</span>::c_interfaces::generate_interface(interface);
+        <span class="macro">quote! </span>{
+            <span class="kw">pub static </span>#const_name: wayland_backend::protocol::Interface = wayland_backend::protocol::Interface {
+                name: #iface_name,
+                version: #iface_version,
+                requests: #requests,
+                events: #events,
+                c_ptr: <span class="prelude-val">Some</span>(<span class="kw">unsafe </span>{ &amp; #c_name }),
             };
 
-            #<span class="ident">c_iface</span>
+            #c_iface
         }
-    } <span class="kw">else</span> {
-        <span class="macro">quote!</span> {
-            <span class="kw">pub</span> <span class="kw">static</span> #<span class="ident">const_name</span>: <span class="ident">wayland_backend::protocol::Interface</span> <span class="op">=</span> <span class="ident">wayland_backend::protocol::Interface</span> {
-                <span class="ident">name</span>: #<span class="ident">iface_name</span>,
-                <span class="ident">version</span>: #<span class="ident">iface_version</span>,
-                <span class="ident">requests</span>: #<span class="ident">requests</span>,
-                <span class="ident">events</span>: #<span class="ident">events</span>,
-                <span class="ident">c_ptr</span>: <span class="prelude-val">None</span>,
+    } <span class="kw">else </span>{
+        <span class="macro">quote! </span>{
+            <span class="kw">pub static </span>#const_name: wayland_backend::protocol::Interface = wayland_backend::protocol::Interface {
+                name: #iface_name,
+                version: #iface_version,
+                requests: #requests,
+                events: #events,
+                c_ptr: <span class="prelude-val">None</span>,
             };
         }
     }
 }
 
-<span class="kw">fn</span> <span class="ident">build_messagedesc_list</span>(<span class="ident">list</span>: <span class="kw-2">&amp;</span>[<span class="ident">Message</span>]) -&gt; <span class="ident">TokenStream</span> {
-    <span class="kw">let</span> <span class="ident">desc_list</span> <span class="op">=</span> <span class="ident">list</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">message</span><span class="op">|</span> {
-        <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">message</span>.<span class="ident">name</span>;
-        <span class="kw">let</span> <span class="ident">since</span> <span class="op">=</span> <span class="ident">message</span>.<span class="ident">since</span>;
-        <span class="kw">let</span> <span class="ident">is_destructor</span> <span class="op">=</span> <span class="ident">message</span>.<span class="ident">typ</span> <span class="op">==</span> <span class="prelude-val">Some</span>(<span class="ident">Type::Destructor</span>);
-        <span class="kw">let</span> <span class="ident">signature</span> <span class="op">=</span> <span class="ident">message</span>.<span class="ident">args</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">arg</span><span class="op">|</span> {
-            <span class="kw">if</span> <span class="ident">arg</span>.<span class="ident">typ</span> <span class="op">==</span> <span class="ident">Type::NewId</span> <span class="op">&amp;&amp;</span> <span class="ident">arg</span>.<span class="ident">interface</span>.<span class="ident">is_none</span>() {
-                <span class="comment">// this is a special generic message, it expands to multiple arguments</span>
-                <span class="macro">quote!</span> {
-                    <span class="ident">wayland_backend::protocol::ArgumentType::Str</span>(<span class="ident">wayland_backend::protocol::AllowNull::No</span>),
-                    <span class="ident">wayland_backend::protocol::ArgumentType::Uint</span>,
-                    <span class="ident">wayland_backend::protocol::ArgumentType::NewId</span>
+<span class="kw">fn </span>build_messagedesc_list(list: <span class="kw-2">&amp;</span>[Message]) -&gt; TokenStream {
+    <span class="kw">let </span>desc_list = list.iter().map(|message| {
+        <span class="kw">let </span>name = <span class="kw-2">&amp;</span>message.name;
+        <span class="kw">let </span>since = message.since;
+        <span class="kw">let </span>is_destructor = message.typ == <span class="prelude-val">Some</span>(Type::Destructor);
+        <span class="kw">let </span>signature = message.args.iter().map(|arg| {
+            <span class="kw">if </span>arg.typ == Type::NewId &amp;&amp; arg.interface.is_none() {
+                <span class="comment">// this is a special generic message, it expands to multiple arguments
+                </span><span class="macro">quote! </span>{
+                    wayland_backend::protocol::ArgumentType::Str(wayland_backend::protocol::AllowNull::No),
+                    wayland_backend::protocol::ArgumentType::Uint,
+                    wayland_backend::protocol::ArgumentType::NewId
                 }
-            } <span class="kw">else</span> {
-                <span class="kw">let</span> <span class="ident">typ</span> <span class="op">=</span> <span class="ident">arg</span>.<span class="ident">typ</span>.<span class="ident">common_type</span>();
-                <span class="kw">if</span> <span class="ident">arg</span>.<span class="ident">typ</span>.<span class="ident">nullable</span>() {
-                    <span class="kw">if</span> <span class="ident">arg</span>.<span class="ident">allow_null</span> {
-                        <span class="macro">quote!</span> { <span class="ident">wayland_backend::protocol::ArgumentType</span>::#<span class="ident">typ</span>(<span class="ident">wayland_backend::protocol::AllowNull::Yes</span>) }
-                    } <span class="kw">else</span> {
-                        <span class="macro">quote!</span> { <span class="ident">wayland_backend::protocol::ArgumentType</span>::#<span class="ident">typ</span>(<span class="ident">wayland_backend::protocol::AllowNull::No</span>) }
+            } <span class="kw">else </span>{
+                <span class="kw">let </span>typ = arg.typ.common_type();
+                <span class="kw">if </span>arg.typ.nullable() {
+                    <span class="kw">if </span>arg.allow_null {
+                        <span class="macro">quote! </span>{ wayland_backend::protocol::ArgumentType::#typ(wayland_backend::protocol::AllowNull::Yes) }
+                    } <span class="kw">else </span>{
+                        <span class="macro">quote! </span>{ wayland_backend::protocol::ArgumentType::#typ(wayland_backend::protocol::AllowNull::No) }
                     }
-                } <span class="kw">else</span> {
-                    <span class="macro">quote!</span> { <span class="ident">wayland_backend::protocol::ArgumentType</span>::#<span class="ident">typ</span> }
+                } <span class="kw">else </span>{
+                    <span class="macro">quote! </span>{ wayland_backend::protocol::ArgumentType::#typ }
                 }
             }
         });
-        <span class="kw">let</span> <span class="ident">child_interface</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">message</span>
-            .<span class="ident">args</span>
-            .<span class="ident">iter</span>()
-            .<span class="ident">find</span>(<span class="op">|</span><span class="ident">arg</span><span class="op">|</span> <span class="ident">arg</span>.<span class="ident">typ</span> <span class="op">==</span> <span class="ident">Type::NewId</span>)
-            .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">arg</span><span class="op">|</span> <span class="ident">arg</span>.<span class="ident">interface</span>.<span class="ident">as_ref</span>())
+        <span class="kw">let </span>child_interface = <span class="kw">match </span>message
+            .args
+            .iter()
+            .find(|arg| arg.typ == Type::NewId)
+            .and_then(|arg| arg.interface.as_ref())
         {
-            <span class="prelude-val">Some</span>(<span class="ident">name</span>) =&gt; {
-                <span class="kw">let</span> <span class="ident">target_iface</span> <span class="op">=</span> <span class="macro">format_ident!</span>(<span class="string">&quot;{}_INTERFACE&quot;</span>, <span class="ident">name</span>.<span class="ident">to_ascii_uppercase</span>());
-                <span class="macro">quote!</span> { <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>#<span class="ident">target_iface</span>) }
+            <span class="prelude-val">Some</span>(name) =&gt; {
+                <span class="kw">let </span>target_iface = <span class="macro">format_ident!</span>(<span class="string">&quot;{}_INTERFACE&quot;</span>, name.to_ascii_uppercase());
+                <span class="macro">quote! </span>{ <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>#target_iface) }
             }
-            <span class="prelude-val">None</span> =&gt; <span class="macro">quote!</span> { <span class="prelude-val">None</span> },
+            <span class="prelude-val">None </span>=&gt; <span class="macro">quote! </span>{ <span class="prelude-val">None </span>},
         };
-        <span class="kw">let</span> <span class="ident">arg_interfaces</span> <span class="op">=</span> <span class="ident">message</span>.<span class="ident">args</span>.<span class="ident">iter</span>().<span class="ident">filter</span>(<span class="op">|</span><span class="ident">arg</span><span class="op">|</span> <span class="ident">arg</span>.<span class="ident">typ</span> <span class="op">==</span> <span class="ident">Type::Object</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">arg</span><span class="op">|</span> {
-            <span class="kw">match</span> <span class="ident">arg</span>.<span class="ident">interface</span> {
-                <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">name</span>) =&gt; {
-                    <span class="kw">let</span> <span class="ident">target_iface</span> <span class="op">=</span> <span class="macro">format_ident!</span>(<span class="string">&quot;{}_INTERFACE&quot;</span>, <span class="ident">name</span>.<span class="ident">to_ascii_uppercase</span>());
-                    <span class="macro">quote!</span> { <span class="kw-2">&amp;</span>#<span class="ident">target_iface</span> }
+        <span class="kw">let </span>arg_interfaces = message.args.iter().filter(|arg| arg.typ == Type::Object).map(|arg| {
+            <span class="kw">match </span>arg.interface {
+                <span class="prelude-val">Some</span>(<span class="kw-2">ref </span>name) =&gt; {
+                    <span class="kw">let </span>target_iface = <span class="macro">format_ident!</span>(<span class="string">&quot;{}_INTERFACE&quot;</span>, name.to_ascii_uppercase());
+                    <span class="macro">quote! </span>{ <span class="kw-2">&amp;</span>#target_iface }
                 }
-                <span class="prelude-val">None</span> =&gt; {
-                    <span class="macro">quote!</span> { <span class="kw-2">&amp;</span><span class="ident">wayland_backend::protocol::ANONYMOUS_INTERFACE</span> }
+                <span class="prelude-val">None </span>=&gt; {
+                    <span class="macro">quote! </span>{ <span class="kw-2">&amp;</span>wayland_backend::protocol::ANONYMOUS_INTERFACE }
                 }
             }
         });
-        <span class="macro">quote!</span> {
-            <span class="ident">wayland_backend::protocol::MessageDesc</span> {
-                <span class="ident">name</span>: #<span class="ident">name</span>,
-                <span class="ident">signature</span>: <span class="kw-2">&amp;</span>[ #(#<span class="ident">signature</span>),<span class="op">*</span> ],
-                <span class="ident">since</span>: #<span class="ident">since</span>,
-                <span class="ident">is_destructor</span>: #<span class="ident">is_destructor</span>,
-                <span class="ident">child_interface</span>: #<span class="ident">child_interface</span>,
-                <span class="ident">arg_interfaces</span>: <span class="kw-2">&amp;</span>[ #(#<span class="ident">arg_interfaces</span>),<span class="op">*</span> ],
+        <span class="macro">quote! </span>{
+            wayland_backend::protocol::MessageDesc {
+                name: #name,
+                signature: <span class="kw-2">&amp;</span>[ #(#signature),* ],
+                since: #since,
+                is_destructor: #is_destructor,
+                child_interface: #child_interface,
+                arg_interfaces: <span class="kw-2">&amp;</span>[ #(#arg_interfaces),* ],
             }
         }
     });
 
     <span class="macro">quote!</span>(
-        <span class="kw-2">&amp;</span>[ #(#<span class="ident">desc_list</span>),<span class="op">*</span> ]
+        <span class="kw-2">&amp;</span>[ #(#desc_list),* ]
     )
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">interface_gen</span>() {
-        <span class="kw">let</span> <span class="ident">protocol_file</span> <span class="op">=</span>
-            <span class="ident">std::fs::File::open</span>(<span class="string">&quot;./tests/scanner_assets/test-protocol.xml&quot;</span>).<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">protocol_parsed</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::parse::parse</span>(<span class="ident">protocol_file</span>);
-        <span class="kw">let</span> <span class="ident">generated</span>: <span class="ident">String</span> <span class="op">=</span> <span class="ident"><span class="kw">super</span>::generate</span>(<span class="kw-2">&amp;</span><span class="ident">protocol_parsed</span>, <span class="bool-val">true</span>).<span class="ident">to_string</span>();
-        <span class="kw">let</span> <span class="ident">generated</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::format_rust_code</span>(<span class="kw-2">&amp;</span><span class="ident">generated</span>);
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>interface_gen() {
+        <span class="kw">let </span>protocol_file =
+            std::fs::File::open(<span class="string">&quot;./tests/scanner_assets/test-protocol.xml&quot;</span>).unwrap();
+        <span class="kw">let </span>protocol_parsed = <span class="kw">crate</span>::parse::parse(protocol_file);
+        <span class="kw">let </span>generated: String = <span class="kw">super</span>::generate(<span class="kw-2">&amp;</span>protocol_parsed, <span class="bool-val">true</span>).to_string();
+        <span class="kw">let </span>generated = <span class="kw">crate</span>::format_rust_code(<span class="kw-2">&amp;</span>generated);
 
-        <span class="kw">let</span> <span class="ident">reference</span> <span class="op">=</span>
-            <span class="ident">std::fs::read_to_string</span>(<span class="string">&quot;./tests/scanner_assets/test-interfaces.rs&quot;</span>).<span class="ident">unwrap</span>();
-        <span class="kw">let</span> <span class="ident">reference</span> <span class="op">=</span> <span class="ident"><span class="kw">crate</span>::format_rust_code</span>(<span class="kw-2">&amp;</span><span class="ident">reference</span>);
+        <span class="kw">let </span>reference =
+            std::fs::read_to_string(<span class="string">&quot;./tests/scanner_assets/test-interfaces.rs&quot;</span>).unwrap();
+        <span class="kw">let </span>reference = <span class="kw">crate</span>::format_rust_code(<span class="kw-2">&amp;</span>reference);
 
-        <span class="kw">if</span> <span class="ident">reference</span> <span class="op">!</span><span class="op">=</span> <span class="ident">generated</span> {
-            <span class="kw">let</span> <span class="ident">diff</span> <span class="op">=</span> <span class="ident">similar::TextDiff::from_lines</span>(<span class="kw-2">&amp;</span><span class="ident">reference</span>, <span class="kw-2">&amp;</span><span class="ident">generated</span>);
-            <span class="macro">print!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">diff</span>.<span class="ident">unified_diff</span>().<span class="ident">context_radius</span>(<span class="number">10</span>).<span class="ident">header</span>(<span class="string">&quot;reference&quot;</span>, <span class="string">&quot;generated&quot;</span>));
+        <span class="kw">if </span>reference != generated {
+            <span class="kw">let </span>diff = similar::TextDiff::from_lines(<span class="kw-2">&amp;</span>reference, <span class="kw-2">&amp;</span>generated);
+            <span class="macro">print!</span>(<span class="string">&quot;{}&quot;</span>, diff.unified_diff().context_radius(<span class="number">10</span>).header(<span class="string">&quot;reference&quot;</span>, <span class="string">&quot;generated&quot;</span>));
             <span class="macro">panic!</span>(<span class="string">&quot;Generated does not match reference!&quot;</span>)
         }
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_scanner" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_scanner" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":[["__interfaces",""],["zcosmic_screencopy_manager_v1","manager to inform clients and begin capturing"],["zcosmic_screencopy_session_v1","a capture session"]]};

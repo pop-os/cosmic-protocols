@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-scanner-0.30.0-beta.10/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_scanner/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-scanner-0.30.0-beta.10/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_scanner/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -140,147 +140,147 @@
 <span id="140">140</span>
 <span id="141">141</span>
 <span id="142">142</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Wayland protocol code-generation machinnery</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! This crate provides procedural macros for generating the rust code associated with a</span>
-<span class="doccomment">//! Wayland XML protocol specification, for use with the `wayland-client`, `wayland-server`</span>
-<span class="doccomment">//! and `wayland-backend` crates.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Before trying to use this crate, you may check if the protocol extension you want to use</span>
-<span class="doccomment">//! is not already exposed in the `wayland-protocols` crate.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Example usage</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Below is a template for generating the code for a custom protocol client-side. Server-side</span>
-<span class="doccomment">//! is identical, just replacing `client` by `server`. The path to the XML file is relative to the</span>
-<span class="doccomment">//! crate root.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust,ignore</span>
-<span class="doccomment">//! // Generate the bindings in their own module</span>
-<span class="doccomment">//! pub mod my_protocol {</span>
-<span class="doccomment">//!     use wayland_client;</span>
-<span class="doccomment">//!     // import objects from the core protocol if needed</span>
-<span class="doccomment">//!     use wayland_client::protocol::*;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     // This module hosts a low-level representation of the protocol objects</span>
-<span class="doccomment">//!     // you will not need to interact with it yourself, but the code generated</span>
-<span class="doccomment">//!     // by the generate_client_code! macro will use it</span>
-<span class="doccomment">//!     pub mod __interfaces {</span>
-<span class="doccomment">//!         // import the interfaces from the core protocol if needed</span>
-<span class="doccomment">//!         use wayland_client::protocol::__interfaces::*;</span>
-<span class="doccomment">//!         wayland_scanner::generate_interfaces!(&quot;./path/to/the/protocol.xml&quot;);</span>
-<span class="doccomment">//!     }</span>
-<span class="doccomment">//!     use self::__interfaces::*;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     // This macro generates the actual types that represent the wayland objects of</span>
-<span class="doccomment">//!     // your custom protocol</span>
-<span class="doccomment">//!     wayland_scanner::generate_client_code!(&quot;./path/to/the/protocol.xml&quot;);</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Wayland protocol code-generation machinnery
+//!
+//! This crate provides procedural macros for generating the rust code associated with a
+//! Wayland XML protocol specification, for use with the `wayland-client`, `wayland-server`
+//! and `wayland-backend` crates.
+//!
+//! Before trying to use this crate, you may check if the protocol extension you want to use
+//! is not already exposed in the `wayland-protocols` crate.
+//!
+//! ## Example usage
+//!
+//! Below is a template for generating the code for a custom protocol client-side. Server-side
+//! is identical, just replacing `client` by `server`. The path to the XML file is relative to the
+//! crate root.
+//!
+//! ```rust,ignore
+//! // Generate the bindings in their own module
+//! pub mod my_protocol {
+//!     use wayland_client;
+//!     // import objects from the core protocol if needed
+//!     use wayland_client::protocol::*;
+//!
+//!     // This module hosts a low-level representation of the protocol objects
+//!     // you will not need to interact with it yourself, but the code generated
+//!     // by the generate_client_code! macro will use it
+//!     pub mod __interfaces {
+//!         // import the interfaces from the core protocol if needed
+//!         use wayland_client::protocol::__interfaces::*;
+//!         wayland_scanner::generate_interfaces!(&quot;./path/to/the/protocol.xml&quot;);
+//!     }
+//!     use self::__interfaces::*;
+//!
+//!     // This macro generates the actual types that represent the wayland objects of
+//!     // your custom protocol
+//!     wayland_scanner::generate_client_code!(&quot;./path/to/the/protocol.xml&quot;);
+//! }
+//! ```
 
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">ffi::OsString</span>, <span class="ident">path::PathBuf</span>};
+</span><span class="kw">use </span>std::{ffi::OsString, path::PathBuf};
 
-<span class="kw">use</span> <span class="ident">syn</span>::{<span class="ident">parse_macro_input</span>, <span class="ident">LitStr</span>};
+<span class="kw">use </span>syn::{parse_macro_input, LitStr};
 
-<span class="kw">mod</span> <span class="ident">c_interfaces</span>;
-<span class="kw">mod</span> <span class="ident">client_gen</span>;
-<span class="kw">mod</span> <span class="ident">common</span>;
-<span class="kw">mod</span> <span class="ident">interfaces</span>;
-<span class="kw">mod</span> <span class="ident">parse</span>;
-<span class="kw">mod</span> <span class="ident">protocol</span>;
-<span class="kw">mod</span> <span class="ident">server_gen</span>;
-<span class="kw">mod</span> <span class="ident">util</span>;
+<span class="kw">mod </span>c_interfaces;
+<span class="kw">mod </span>client_gen;
+<span class="kw">mod </span>common;
+<span class="kw">mod </span>interfaces;
+<span class="kw">mod </span>parse;
+<span class="kw">mod </span>protocol;
+<span class="kw">mod </span>server_gen;
+<span class="kw">mod </span>util;
 
-<span class="doccomment">/// Proc-macro for generating low-level interfaces associated with an XML specification</span>
-<span class="attribute">#[<span class="ident">proc_macro</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">generate_interfaces</span>(<span class="ident">stream</span>: <span class="ident">proc_macro::TokenStream</span>) -&gt; <span class="ident">proc_macro::TokenStream</span> {
-    <span class="kw">let</span> <span class="ident">path</span>: <span class="ident">OsString</span> <span class="op">=</span> <span class="macro">parse_macro_input!</span>(<span class="ident">stream</span> <span class="kw">as</span> <span class="ident">LitStr</span>).<span class="ident">value</span>().<span class="ident">into</span>();
-    <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">manifest_dir</span>) <span class="op">=</span> <span class="ident">std::env::var_os</span>(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>) {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">PathBuf::from</span>(<span class="ident">manifest_dir</span>);
-        <span class="ident">buf</span>.<span class="ident">push</span>(<span class="ident">path</span>);
-        <span class="ident">buf</span>
-    } <span class="kw">else</span> {
-        <span class="ident">path</span>.<span class="ident">into</span>()
+<span class="doccomment">/// Proc-macro for generating low-level interfaces associated with an XML specification
+</span><span class="attribute">#[proc_macro]
+</span><span class="kw">pub fn </span>generate_interfaces(stream: proc_macro::TokenStream) -&gt; proc_macro::TokenStream {
+    <span class="kw">let </span>path: OsString = <span class="macro">parse_macro_input!</span>(stream <span class="kw">as </span>LitStr).value().into();
+    <span class="kw">let </span>path = <span class="kw">if let </span><span class="prelude-val">Some</span>(manifest_dir) = std::env::var_os(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>) {
+        <span class="kw">let </span><span class="kw-2">mut </span>buf = PathBuf::from(manifest_dir);
+        buf.push(path);
+        buf
+    } <span class="kw">else </span>{
+        path.into()
     };
-    <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">std::fs::File::open</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>) {
-        <span class="prelude-val">Ok</span>(<span class="ident">file</span>) =&gt; <span class="ident">file</span>,
-        <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;Failed to open protocol file {}: {}&quot;</span>, <span class="ident">path</span>.<span class="ident">display</span>(), <span class="ident">e</span>),
+    <span class="kw">let </span>file = <span class="kw">match </span>std::fs::File::open(<span class="kw-2">&amp;</span>path) {
+        <span class="prelude-val">Ok</span>(file) =&gt; file,
+        <span class="prelude-val">Err</span>(e) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;Failed to open protocol file {}: {}&quot;</span>, path.display(), e),
     };
-    <span class="kw">let</span> <span class="ident">protocol</span> <span class="op">=</span> <span class="ident">parse::parse</span>(<span class="ident">file</span>);
-    <span class="ident">interfaces::generate</span>(<span class="kw-2">&amp;</span><span class="ident">protocol</span>, <span class="bool-val">true</span>).<span class="ident">into</span>()
+    <span class="kw">let </span>protocol = parse::parse(file);
+    interfaces::generate(<span class="kw-2">&amp;</span>protocol, <span class="bool-val">true</span>).into()
 }
 
-<span class="doccomment">/// Proc-macro for generating client-side API associated with an XML specification</span>
-<span class="attribute">#[<span class="ident">proc_macro</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">generate_client_code</span>(<span class="ident">stream</span>: <span class="ident">proc_macro::TokenStream</span>) -&gt; <span class="ident">proc_macro::TokenStream</span> {
-    <span class="kw">let</span> <span class="ident">path</span>: <span class="ident">OsString</span> <span class="op">=</span> <span class="macro">parse_macro_input!</span>(<span class="ident">stream</span> <span class="kw">as</span> <span class="ident">LitStr</span>).<span class="ident">value</span>().<span class="ident">into</span>();
-    <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">manifest_dir</span>) <span class="op">=</span> <span class="ident">std::env::var_os</span>(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>) {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">PathBuf::from</span>(<span class="ident">manifest_dir</span>);
-        <span class="ident">buf</span>.<span class="ident">push</span>(<span class="ident">path</span>);
-        <span class="ident">buf</span>
-    } <span class="kw">else</span> {
-        <span class="ident">path</span>.<span class="ident">into</span>()
+<span class="doccomment">/// Proc-macro for generating client-side API associated with an XML specification
+</span><span class="attribute">#[proc_macro]
+</span><span class="kw">pub fn </span>generate_client_code(stream: proc_macro::TokenStream) -&gt; proc_macro::TokenStream {
+    <span class="kw">let </span>path: OsString = <span class="macro">parse_macro_input!</span>(stream <span class="kw">as </span>LitStr).value().into();
+    <span class="kw">let </span>path = <span class="kw">if let </span><span class="prelude-val">Some</span>(manifest_dir) = std::env::var_os(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>) {
+        <span class="kw">let </span><span class="kw-2">mut </span>buf = PathBuf::from(manifest_dir);
+        buf.push(path);
+        buf
+    } <span class="kw">else </span>{
+        path.into()
     };
-    <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">std::fs::File::open</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>) {
-        <span class="prelude-val">Ok</span>(<span class="ident">file</span>) =&gt; <span class="ident">file</span>,
-        <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;Failed to open protocol file {}: {}&quot;</span>, <span class="ident">path</span>.<span class="ident">display</span>(), <span class="ident">e</span>),
+    <span class="kw">let </span>file = <span class="kw">match </span>std::fs::File::open(<span class="kw-2">&amp;</span>path) {
+        <span class="prelude-val">Ok</span>(file) =&gt; file,
+        <span class="prelude-val">Err</span>(e) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;Failed to open protocol file {}: {}&quot;</span>, path.display(), e),
     };
-    <span class="kw">let</span> <span class="ident">protocol</span> <span class="op">=</span> <span class="ident">parse::parse</span>(<span class="ident">file</span>);
-    <span class="ident">client_gen::generate_client_objects</span>(<span class="kw-2">&amp;</span><span class="ident">protocol</span>).<span class="ident">into</span>()
+    <span class="kw">let </span>protocol = parse::parse(file);
+    client_gen::generate_client_objects(<span class="kw-2">&amp;</span>protocol).into()
 }
 
-<span class="doccomment">/// Proc-macro for generating server-side API associated with an XML specification</span>
-<span class="attribute">#[<span class="ident">proc_macro</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">generate_server_code</span>(<span class="ident">stream</span>: <span class="ident">proc_macro::TokenStream</span>) -&gt; <span class="ident">proc_macro::TokenStream</span> {
-    <span class="kw">let</span> <span class="ident">path</span>: <span class="ident">OsString</span> <span class="op">=</span> <span class="macro">parse_macro_input!</span>(<span class="ident">stream</span> <span class="kw">as</span> <span class="ident">LitStr</span>).<span class="ident">value</span>().<span class="ident">into</span>();
-    <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">manifest_dir</span>) <span class="op">=</span> <span class="ident">std::env::var_os</span>(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>) {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">PathBuf::from</span>(<span class="ident">manifest_dir</span>);
-        <span class="ident">buf</span>.<span class="ident">push</span>(<span class="ident">path</span>);
-        <span class="ident">buf</span>
-    } <span class="kw">else</span> {
-        <span class="ident">path</span>.<span class="ident">into</span>()
+<span class="doccomment">/// Proc-macro for generating server-side API associated with an XML specification
+</span><span class="attribute">#[proc_macro]
+</span><span class="kw">pub fn </span>generate_server_code(stream: proc_macro::TokenStream) -&gt; proc_macro::TokenStream {
+    <span class="kw">let </span>path: OsString = <span class="macro">parse_macro_input!</span>(stream <span class="kw">as </span>LitStr).value().into();
+    <span class="kw">let </span>path = <span class="kw">if let </span><span class="prelude-val">Some</span>(manifest_dir) = std::env::var_os(<span class="string">&quot;CARGO_MANIFEST_DIR&quot;</span>) {
+        <span class="kw">let </span><span class="kw-2">mut </span>buf = PathBuf::from(manifest_dir);
+        buf.push(path);
+        buf
+    } <span class="kw">else </span>{
+        path.into()
     };
-    <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">std::fs::File::open</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>) {
-        <span class="prelude-val">Ok</span>(<span class="ident">file</span>) =&gt; <span class="ident">file</span>,
-        <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;Failed to open protocol file {}: {}&quot;</span>, <span class="ident">path</span>.<span class="ident">display</span>(), <span class="ident">e</span>),
+    <span class="kw">let </span>file = <span class="kw">match </span>std::fs::File::open(<span class="kw-2">&amp;</span>path) {
+        <span class="prelude-val">Ok</span>(file) =&gt; file,
+        <span class="prelude-val">Err</span>(e) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;Failed to open protocol file {}: {}&quot;</span>, path.display(), e),
     };
-    <span class="kw">let</span> <span class="ident">protocol</span> <span class="op">=</span> <span class="ident">parse::parse</span>(<span class="ident">file</span>);
-    <span class="ident">server_gen::generate_server_objects</span>(<span class="kw-2">&amp;</span><span class="ident">protocol</span>).<span class="ident">into</span>()
+    <span class="kw">let </span>protocol = parse::parse(file);
+    server_gen::generate_server_objects(<span class="kw-2">&amp;</span>protocol).into()
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">fn</span> <span class="ident">format_rust_code</span>(<span class="ident">code</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">String</span> {
-    <span class="kw">use</span> <span class="ident">std</span>::{
-        <span class="ident">io::Write</span>,
-        <span class="ident">process</span>::{<span class="ident">Command</span>, <span class="ident">Stdio</span>},
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">fn </span>format_rust_code(code: <span class="kw-2">&amp;</span>str) -&gt; String {
+    <span class="kw">use </span>std::{
+        io::Write,
+        process::{Command, Stdio},
     };
-    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="kw-2">mut</span> <span class="ident">proc</span>) <span class="op">=</span> <span class="ident">Command::new</span>(<span class="string">&quot;rustfmt&quot;</span>)
-        .<span class="ident">arg</span>(<span class="string">&quot;--emit=stdout&quot;</span>)
-        .<span class="ident">arg</span>(<span class="string">&quot;--edition=2018&quot;</span>)
-        .<span class="ident">stdin</span>(<span class="ident">Stdio::piped</span>())
-        .<span class="ident">stdout</span>(<span class="ident">Stdio::piped</span>())
-        <span class="comment">//.stderr(Stdio::null())</span>
-        .<span class="ident">spawn</span>()
+    <span class="kw">if let </span><span class="prelude-val">Ok</span>(<span class="kw-2">mut </span>proc) = Command::new(<span class="string">&quot;rustfmt&quot;</span>)
+        .arg(<span class="string">&quot;--emit=stdout&quot;</span>)
+        .arg(<span class="string">&quot;--edition=2018&quot;</span>)
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        <span class="comment">//.stderr(Stdio::null())
+        </span>.spawn()
     {
         {
-            <span class="kw">let</span> <span class="ident">stdin</span> <span class="op">=</span> <span class="ident">proc</span>.<span class="ident">stdin</span>.<span class="ident">as_mut</span>().<span class="ident">unwrap</span>();
-            <span class="ident">stdin</span>.<span class="ident">write_all</span>(<span class="ident">code</span>.<span class="ident">as_bytes</span>()).<span class="ident">unwrap</span>();
+            <span class="kw">let </span>stdin = proc.stdin.as_mut().unwrap();
+            stdin.write_all(code.as_bytes()).unwrap();
         }
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">output</span>) <span class="op">=</span> <span class="ident">proc</span>.<span class="ident">wait_with_output</span>() {
-            <span class="kw">if</span> <span class="ident">output</span>.<span class="ident">status</span>.<span class="ident">success</span>() {
-                <span class="kw">return</span> <span class="ident">std::str::from_utf8</span>(<span class="kw-2">&amp;</span><span class="ident">output</span>.<span class="ident">stdout</span>).<span class="ident">unwrap</span>().<span class="ident">to_owned</span>();
+        <span class="kw">if let </span><span class="prelude-val">Ok</span>(output) = proc.wait_with_output() {
+            <span class="kw">if </span>output.status.success() {
+                <span class="kw">return </span>std::str::from_utf8(<span class="kw-2">&amp;</span>output.stdout).unwrap().to_owned();
             }
         }
     }
     <span class="macro">panic!</span>(<span class="string">&quot;Rustfmt failed!&quot;</span>);
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">enum</span> <span class="ident">Side</span> {
-    <span class="doccomment">/// wayland client applications</span>
-    <span class="ident">Client</span>,
-    <span class="doccomment">/// wayland compositors</span>
-    <span class="ident">Server</span>,
+<span class="attribute">#[derive(Copy, Clone, PartialEq, Eq, Debug)]
+</span><span class="kw">enum </span>Side {
+    <span class="doccomment">/// wayland client applications
+    </span>Client,
+    <span class="doccomment">/// wayland compositors
+    </span>Server,
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_scanner" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_scanner" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

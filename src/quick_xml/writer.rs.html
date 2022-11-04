@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/quick-xml-0.23.1/src/writer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>writer.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../quick_xml/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../quick_xml/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../quick_xml/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/quick-xml-0.23.1/src/writer.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>writer.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../quick_xml/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../quick_xml/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../quick_xml/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -581,578 +581,578 @@
 <span id="581">581</span>
 <span id="582">582</span>
 <span id="583">583</span>
-</pre><pre class="rust"><code><span class="doccomment">//! A module to handle `Writer`</span>
+</pre><pre class="rust"><code><span class="doccomment">//! A module to handle `Writer`
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::errors</span>::{<span class="ident">Error</span>, <span class="prelude-ty">Result</span>};
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::events</span>::{<span class="ident">attributes::Attribute</span>, <span class="ident">BytesCData</span>, <span class="ident">BytesStart</span>, <span class="ident">BytesText</span>, <span class="ident">Event</span>};
-<span class="kw">use</span> <span class="ident">std::io::Write</span>;
+</span><span class="kw">use </span><span class="kw">crate</span>::errors::{Error, <span class="prelude-ty">Result</span>};
+<span class="kw">use </span><span class="kw">crate</span>::events::{attributes::Attribute, BytesCData, BytesStart, BytesText, Event};
+<span class="kw">use </span>std::io::Write;
 
-<span class="doccomment">/// XML writer.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Writes XML `Event`s to a `Write` implementor.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Examples</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```rust</span>
-<span class="doccomment">/// # use pretty_assertions::assert_eq;</span>
-<span class="doccomment">/// use quick_xml::{Reader, Writer};</span>
-<span class="doccomment">/// use quick_xml::events::{Event, BytesEnd, BytesStart};</span>
-<span class="doccomment">/// use std::io::Cursor;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// let xml = r#&quot;&lt;this_tag k1=&quot;v1&quot; k2=&quot;v2&quot;&gt;&lt;child&gt;text&lt;/child&gt;&lt;/this_tag&gt;&quot;#;</span>
-<span class="doccomment">/// let mut reader = Reader::from_str(xml);</span>
-<span class="doccomment">/// reader.trim_text(true);</span>
-<span class="doccomment">/// let mut writer = Writer::new(Cursor::new(Vec::new()));</span>
-<span class="doccomment">/// let mut buf = Vec::new();</span>
-<span class="doccomment">/// loop {</span>
-<span class="doccomment">///     match reader.read_event(&amp;mut buf) {</span>
-<span class="doccomment">///         Ok(Event::Start(ref e)) if e.name() == b&quot;this_tag&quot; =&gt; {</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///             // crates a new element ... alternatively we could reuse `e` by calling</span>
-<span class="doccomment">///             // `e.into_owned()`</span>
-<span class="doccomment">///             let mut elem = BytesStart::owned(b&quot;my_elem&quot;.to_vec(), &quot;my_elem&quot;.len());</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///             // collect existing attributes</span>
-<span class="doccomment">///             elem.extend_attributes(e.attributes().map(|attr| attr.unwrap()));</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///             // copy existing attributes, adds a new my-key=&quot;some value&quot; attribute</span>
-<span class="doccomment">///             elem.push_attribute((&quot;my-key&quot;, &quot;some value&quot;));</span>
-<span class="doccomment">///</span>
-<span class="doccomment">///             // writes the event to the writer</span>
-<span class="doccomment">///             assert!(writer.write_event(Event::Start(elem)).is_ok());</span>
-<span class="doccomment">///         },</span>
-<span class="doccomment">///         Ok(Event::End(ref e)) if e.name() == b&quot;this_tag&quot; =&gt; {</span>
-<span class="doccomment">///             assert!(writer.write_event(Event::End(BytesEnd::borrowed(b&quot;my_elem&quot;))).is_ok());</span>
-<span class="doccomment">///         },</span>
-<span class="doccomment">///         Ok(Event::Eof) =&gt; break,</span>
-<span class="doccomment">///         // we can either move or borrow the event to write, depending on your use-case</span>
-<span class="doccomment">///         Ok(e) =&gt; assert!(writer.write_event(&amp;e).is_ok()),</span>
-<span class="doccomment">///         Err(e) =&gt; panic!(&quot;{}&quot;, e),</span>
-<span class="doccomment">///     }</span>
-<span class="doccomment">///     buf.clear();</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// let result = writer.into_inner().into_inner();</span>
-<span class="doccomment">/// let expected = r#&quot;&lt;my_elem k1=&quot;v1&quot; k2=&quot;v2&quot; my-key=&quot;some value&quot;&gt;&lt;child&gt;text&lt;/child&gt;&lt;/my_elem&gt;&quot;#;</span>
-<span class="doccomment">/// assert_eq!(result, expected.as_bytes());</span>
-<span class="doccomment">/// ```</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Writer</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// underlying writer</span>
-    <span class="ident">writer</span>: <span class="ident">W</span>,
-    <span class="ident">indent</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Indentation</span><span class="op">&gt;</span>,
+<span class="doccomment">/// XML writer.
+///
+/// Writes XML `Event`s to a `Write` implementor.
+///
+/// # Examples
+///
+/// ```rust
+/// # use pretty_assertions::assert_eq;
+/// use quick_xml::{Reader, Writer};
+/// use quick_xml::events::{Event, BytesEnd, BytesStart};
+/// use std::io::Cursor;
+///
+/// let xml = r#&quot;&lt;this_tag k1=&quot;v1&quot; k2=&quot;v2&quot;&gt;&lt;child&gt;text&lt;/child&gt;&lt;/this_tag&gt;&quot;#;
+/// let mut reader = Reader::from_str(xml);
+/// reader.trim_text(true);
+/// let mut writer = Writer::new(Cursor::new(Vec::new()));
+/// let mut buf = Vec::new();
+/// loop {
+///     match reader.read_event(&amp;mut buf) {
+///         Ok(Event::Start(ref e)) if e.name() == b&quot;this_tag&quot; =&gt; {
+///
+///             // crates a new element ... alternatively we could reuse `e` by calling
+///             // `e.into_owned()`
+///             let mut elem = BytesStart::owned(b&quot;my_elem&quot;.to_vec(), &quot;my_elem&quot;.len());
+///
+///             // collect existing attributes
+///             elem.extend_attributes(e.attributes().map(|attr| attr.unwrap()));
+///
+///             // copy existing attributes, adds a new my-key=&quot;some value&quot; attribute
+///             elem.push_attribute((&quot;my-key&quot;, &quot;some value&quot;));
+///
+///             // writes the event to the writer
+///             assert!(writer.write_event(Event::Start(elem)).is_ok());
+///         },
+///         Ok(Event::End(ref e)) if e.name() == b&quot;this_tag&quot; =&gt; {
+///             assert!(writer.write_event(Event::End(BytesEnd::borrowed(b&quot;my_elem&quot;))).is_ok());
+///         },
+///         Ok(Event::Eof) =&gt; break,
+///         // we can either move or borrow the event to write, depending on your use-case
+///         Ok(e) =&gt; assert!(writer.write_event(&amp;e).is_ok()),
+///         Err(e) =&gt; panic!(&quot;{}&quot;, e),
+///     }
+///     buf.clear();
+/// }
+///
+/// let result = writer.into_inner().into_inner();
+/// let expected = r#&quot;&lt;my_elem k1=&quot;v1&quot; k2=&quot;v2&quot; my-key=&quot;some value&quot;&gt;&lt;child&gt;text&lt;/child&gt;&lt;/my_elem&gt;&quot;#;
+/// assert_eq!(result, expected.as_bytes());
+/// ```
+</span><span class="attribute">#[derive(Clone)]
+</span><span class="kw">pub struct </span>Writer&lt;W: Write&gt; {
+    <span class="doccomment">/// underlying writer
+    </span>writer: W,
+    indent: <span class="prelude-ty">Option</span>&lt;Indentation&gt;,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span> <span class="ident">Writer</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Creates a Writer from a generic Write</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">inner</span>: <span class="ident">W</span>) -&gt; <span class="ident">Writer</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span> {
-        <span class="ident">Writer</span> {
-            <span class="ident">writer</span>: <span class="ident">inner</span>,
-            <span class="ident">indent</span>: <span class="prelude-val">None</span>,
+<span class="kw">impl</span>&lt;W: Write&gt; Writer&lt;W&gt; {
+    <span class="doccomment">/// Creates a Writer from a generic Write
+    </span><span class="kw">pub fn </span>new(inner: W) -&gt; Writer&lt;W&gt; {
+        Writer {
+            writer: inner,
+            indent: <span class="prelude-val">None</span>,
         }
     }
 
-    <span class="doccomment">/// Creates a Writer with configured whitespace indents from a generic Write</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_with_indent</span>(<span class="ident">inner</span>: <span class="ident">W</span>, <span class="ident">indent_char</span>: <span class="ident">u8</span>, <span class="ident">indent_size</span>: <span class="ident">usize</span>) -&gt; <span class="ident">Writer</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span> {
-        <span class="ident">Writer</span> {
-            <span class="ident">writer</span>: <span class="ident">inner</span>,
-            <span class="ident">indent</span>: <span class="prelude-val">Some</span>(<span class="ident">Indentation::new</span>(<span class="ident">indent_char</span>, <span class="ident">indent_size</span>)),
+    <span class="doccomment">/// Creates a Writer with configured whitespace indents from a generic Write
+    </span><span class="kw">pub fn </span>new_with_indent(inner: W, indent_char: u8, indent_size: usize) -&gt; Writer&lt;W&gt; {
+        Writer {
+            writer: inner,
+            indent: <span class="prelude-val">Some</span>(Indentation::new(indent_char, indent_size)),
         }
     }
 
-    <span class="doccomment">/// Consumes this `Writer`, returning the underlying writer.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_inner</span>(<span class="self">self</span>) -&gt; <span class="ident">W</span> {
-        <span class="self">self</span>.<span class="ident">writer</span>
+    <span class="doccomment">/// Consumes this `Writer`, returning the underlying writer.
+    </span><span class="kw">pub fn </span>into_inner(<span class="self">self</span>) -&gt; W {
+        <span class="self">self</span>.writer
     }
 
-    <span class="doccomment">/// Get inner writer, keeping ownership</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">inner</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">W</span> {
-        <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">writer</span>
+    <span class="doccomment">/// Get inner writer, keeping ownership
+    </span><span class="kw">pub fn </span>inner(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>W {
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>.writer
     }
 
-    <span class="doccomment">/// Writes the given event to the underlying writer.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_event</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">E</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Event</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">event</span>: <span class="ident">E</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">next_should_line_break</span> <span class="op">=</span> <span class="bool-val">true</span>;
-        <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">*</span><span class="ident">event</span>.<span class="ident">as_ref</span>() {
-            <span class="ident">Event::Start</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) =&gt; {
-                <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">write_wrapped</span>(<span class="string">b&quot;&lt;&quot;</span>, <span class="ident">e</span>, <span class="string">b&quot;&gt;&quot;</span>);
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">i</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">indent</span>.<span class="ident">as_mut</span>() {
-                    <span class="ident">i</span>.<span class="ident">grow</span>();
+    <span class="doccomment">/// Writes the given event to the underlying writer.
+    </span><span class="kw">pub fn </span>write_event&lt;<span class="lifetime">&#39;a</span>, E: AsRef&lt;Event&lt;<span class="lifetime">&#39;a</span>&gt;&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, event: E) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>next_should_line_break = <span class="bool-val">true</span>;
+        <span class="kw">let </span>result = <span class="kw">match </span><span class="kw-2">*</span>event.as_ref() {
+            Event::Start(<span class="kw-2">ref </span>e) =&gt; {
+                <span class="kw">let </span>result = <span class="self">self</span>.write_wrapped(<span class="string">b&quot;&lt;&quot;</span>, e, <span class="string">b&quot;&gt;&quot;</span>);
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(i) = <span class="self">self</span>.indent.as_mut() {
+                    i.grow();
                 }
-                <span class="ident">result</span>
+                result
             }
-            <span class="ident">Event::End</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) =&gt; {
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">i</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">indent</span>.<span class="ident">as_mut</span>() {
-                    <span class="ident">i</span>.<span class="ident">shrink</span>();
+            Event::End(<span class="kw-2">ref </span>e) =&gt; {
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(i) = <span class="self">self</span>.indent.as_mut() {
+                    i.shrink();
                 }
-                <span class="self">self</span>.<span class="ident">write_wrapped</span>(<span class="string">b&quot;&lt;/&quot;</span>, <span class="ident">e</span>, <span class="string">b&quot;&gt;&quot;</span>)
+                <span class="self">self</span>.write_wrapped(<span class="string">b&quot;&lt;/&quot;</span>, e, <span class="string">b&quot;&gt;&quot;</span>)
             }
-            <span class="ident">Event::Empty</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) =&gt; <span class="self">self</span>.<span class="ident">write_wrapped</span>(<span class="string">b&quot;&lt;&quot;</span>, <span class="ident">e</span>, <span class="string">b&quot;/&gt;&quot;</span>),
-            <span class="ident">Event::Text</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) =&gt; {
-                <span class="ident">next_should_line_break</span> <span class="op">=</span> <span class="bool-val">false</span>;
-                <span class="self">self</span>.<span class="ident">write</span>(<span class="kw-2">&amp;</span><span class="ident">e</span>.<span class="ident">escaped</span>())
+            Event::Empty(<span class="kw-2">ref </span>e) =&gt; <span class="self">self</span>.write_wrapped(<span class="string">b&quot;&lt;&quot;</span>, e, <span class="string">b&quot;/&gt;&quot;</span>),
+            Event::Text(<span class="kw-2">ref </span>e) =&gt; {
+                next_should_line_break = <span class="bool-val">false</span>;
+                <span class="self">self</span>.write(<span class="kw-2">&amp;</span>e.escaped())
             }
-            <span class="ident">Event::Comment</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) =&gt; <span class="self">self</span>.<span class="ident">write_wrapped</span>(<span class="string">b&quot;&lt;!--&quot;</span>, <span class="ident">e</span>, <span class="string">b&quot;--&gt;&quot;</span>),
-            <span class="ident">Event::CData</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) =&gt; {
-                <span class="ident">next_should_line_break</span> <span class="op">=</span> <span class="bool-val">false</span>;
-                <span class="self">self</span>.<span class="ident">write</span>(<span class="string">b&quot;&lt;![CDATA[&quot;</span>)<span class="question-mark">?</span>;
-                <span class="self">self</span>.<span class="ident">write</span>(<span class="ident">e</span>)<span class="question-mark">?</span>;
-                <span class="self">self</span>.<span class="ident">write</span>(<span class="string">b&quot;]]&gt;&quot;</span>)
+            Event::Comment(<span class="kw-2">ref </span>e) =&gt; <span class="self">self</span>.write_wrapped(<span class="string">b&quot;&lt;!--&quot;</span>, e, <span class="string">b&quot;--&gt;&quot;</span>),
+            Event::CData(<span class="kw-2">ref </span>e) =&gt; {
+                next_should_line_break = <span class="bool-val">false</span>;
+                <span class="self">self</span>.write(<span class="string">b&quot;&lt;![CDATA[&quot;</span>)<span class="question-mark">?</span>;
+                <span class="self">self</span>.write(e)<span class="question-mark">?</span>;
+                <span class="self">self</span>.write(<span class="string">b&quot;]]&gt;&quot;</span>)
             }
-            <span class="ident">Event::Decl</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) =&gt; <span class="self">self</span>.<span class="ident">write_wrapped</span>(<span class="string">b&quot;&lt;?&quot;</span>, <span class="ident">e</span>, <span class="string">b&quot;?&gt;&quot;</span>),
-            <span class="ident">Event::PI</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) =&gt; <span class="self">self</span>.<span class="ident">write_wrapped</span>(<span class="string">b&quot;&lt;?&quot;</span>, <span class="ident">e</span>, <span class="string">b&quot;?&gt;&quot;</span>),
-            <span class="ident">Event::DocType</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) =&gt; <span class="self">self</span>.<span class="ident">write_wrapped</span>(<span class="string">b&quot;&lt;!DOCTYPE &quot;</span>, <span class="ident">e</span>, <span class="string">b&quot;&gt;&quot;</span>),
-            <span class="ident">Event::Eof</span> =&gt; <span class="prelude-val">Ok</span>(()),
+            Event::Decl(<span class="kw-2">ref </span>e) =&gt; <span class="self">self</span>.write_wrapped(<span class="string">b&quot;&lt;?&quot;</span>, e, <span class="string">b&quot;?&gt;&quot;</span>),
+            Event::PI(<span class="kw-2">ref </span>e) =&gt; <span class="self">self</span>.write_wrapped(<span class="string">b&quot;&lt;?&quot;</span>, e, <span class="string">b&quot;?&gt;&quot;</span>),
+            Event::DocType(<span class="kw-2">ref </span>e) =&gt; <span class="self">self</span>.write_wrapped(<span class="string">b&quot;&lt;!DOCTYPE &quot;</span>, e, <span class="string">b&quot;&gt;&quot;</span>),
+            Event::Eof =&gt; <span class="prelude-val">Ok</span>(()),
         };
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">i</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">indent</span>.<span class="ident">as_mut</span>() {
-            <span class="ident">i</span>.<span class="ident">should_line_break</span> <span class="op">=</span> <span class="ident">next_should_line_break</span>;
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(i) = <span class="self">self</span>.indent.as_mut() {
+            i.should_line_break = next_should_line_break;
         }
-        <span class="ident">result</span>
+        result
     }
 
-    <span class="doccomment">/// Writes bytes</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">value</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="ident">value</span>).<span class="ident">map_err</span>(<span class="ident">Error::Io</span>)
+    <span class="doccomment">/// Writes bytes
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>write(<span class="kw-2">&amp;mut </span><span class="self">self</span>, value: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="self">self</span>.writer.write_all(value).map_err(Error::Io)
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">write_wrapped</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">before</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">value</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">after</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">i</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">indent</span> {
-            <span class="kw">if</span> <span class="ident">i</span>.<span class="ident">should_line_break</span> {
-                <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="string">b&quot;\n&quot;</span>).<span class="ident">map_err</span>(<span class="ident">Error::Io</span>)<span class="question-mark">?</span>;
-                <span class="self">self</span>.<span class="ident">writer</span>
-                    .<span class="ident">write_all</span>(<span class="kw-2">&amp;</span><span class="ident">i</span>.<span class="ident">indents</span>[..<span class="ident">i</span>.<span class="ident">indents_len</span>])
-                    .<span class="ident">map_err</span>(<span class="ident">Error::Io</span>)<span class="question-mark">?</span>;
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>write_wrapped(<span class="kw-2">&amp;mut </span><span class="self">self</span>, before: <span class="kw-2">&amp;</span>[u8], value: <span class="kw-2">&amp;</span>[u8], after: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>i) = <span class="self">self</span>.indent {
+            <span class="kw">if </span>i.should_line_break {
+                <span class="self">self</span>.writer.write_all(<span class="string">b&quot;\n&quot;</span>).map_err(Error::Io)<span class="question-mark">?</span>;
+                <span class="self">self</span>.writer
+                    .write_all(<span class="kw-2">&amp;</span>i.indents[..i.indents_len])
+                    .map_err(Error::Io)<span class="question-mark">?</span>;
             }
         }
-        <span class="self">self</span>.<span class="ident">write</span>(<span class="ident">before</span>)<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">write</span>(<span class="ident">value</span>)<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">write</span>(<span class="ident">after</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.write(before)<span class="question-mark">?</span>;
+        <span class="self">self</span>.write(value)<span class="question-mark">?</span>;
+        <span class="self">self</span>.write(after)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="doccomment">/// Manually write a newline and indentation at the proper level.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This can be used when the heuristic to line break and indent after any [Event] apart</span>
-    <span class="doccomment">/// from [Text] fails such as when a [Start] occurs directly after [Text].</span>
-    <span class="doccomment">/// This method will do nothing if `Writer` was not constructed with `new_with_indent`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [Event]: events/enum.Event.html</span>
-    <span class="doccomment">/// [Text]: events/enum.Event.html#variant.Text</span>
-    <span class="doccomment">/// [Start]: events/enum.Event.html#variant.Start</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_indent</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">i</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">indent</span> {
-            <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_all</span>(<span class="string">b&quot;\n&quot;</span>).<span class="ident">map_err</span>(<span class="ident">Error::Io</span>)<span class="question-mark">?</span>;
-            <span class="self">self</span>.<span class="ident">writer</span>
-                .<span class="ident">write_all</span>(<span class="kw-2">&amp;</span><span class="ident">i</span>.<span class="ident">indents</span>[..<span class="ident">i</span>.<span class="ident">indents_len</span>])
-                .<span class="ident">map_err</span>(<span class="ident">Error::Io</span>)<span class="question-mark">?</span>;
+    <span class="doccomment">/// Manually write a newline and indentation at the proper level.
+    ///
+    /// This can be used when the heuristic to line break and indent after any [Event] apart
+    /// from [Text] fails such as when a [Start] occurs directly after [Text].
+    /// This method will do nothing if `Writer` was not constructed with `new_with_indent`.
+    ///
+    /// [Event]: events/enum.Event.html
+    /// [Text]: events/enum.Event.html#variant.Text
+    /// [Start]: events/enum.Event.html#variant.Start
+    </span><span class="kw">pub fn </span>write_indent(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>i) = <span class="self">self</span>.indent {
+            <span class="self">self</span>.writer.write_all(<span class="string">b&quot;\n&quot;</span>).map_err(Error::Io)<span class="question-mark">?</span>;
+            <span class="self">self</span>.writer
+                .write_all(<span class="kw-2">&amp;</span>i.indents[..i.indents_len])
+                .map_err(Error::Io)<span class="question-mark">?</span>;
         }
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="doccomment">/// Provides a simple, high-level API for writing XML elements.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns an [ElementWriter] that simplifies setting attributes and writing content inside the element.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Example</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```rust</span>
-    <span class="doccomment">/// # use quick_xml::Result;</span>
-    <span class="doccomment">/// # fn main() -&gt; Result&lt;()&gt; {</span>
-    <span class="doccomment">/// use quick_xml::{Error, Writer};</span>
-    <span class="doccomment">/// use quick_xml::events::{BytesStart, BytesText, Event};</span>
-    <span class="doccomment">/// use std::io::Cursor;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let mut writer = Writer::new(Cursor::new(Vec::new()));</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// // writes &lt;tag attr1=&quot;value1&quot;/&gt;</span>
-    <span class="doccomment">/// writer.create_element(&quot;tag&quot;)</span>
-    <span class="doccomment">///     .with_attribute((&quot;attr1&quot;, &quot;value1&quot;))  // chain `with_attribute()` calls to add many attributes</span>
-    <span class="doccomment">///     .write_empty()?;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// // writes &lt;tag attr1=&quot;value1&quot; attr2=&quot;value2&quot;&gt;with some text inside&lt;/tag&gt;</span>
-    <span class="doccomment">/// writer.create_element(&quot;tag&quot;)</span>
-    <span class="doccomment">///     .with_attributes(vec![(&quot;attr1&quot;, &quot;value1&quot;), (&quot;attr2&quot;, &quot;value2&quot;)].into_iter())  // or add attributes from an iterator</span>
-    <span class="doccomment">///     .write_text_content(BytesText::from_plain_str(&quot;with some text inside&quot;))?;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// // writes &lt;tag&gt;&lt;fruit quantity=&quot;0&quot;&gt;apple&lt;/fruit&gt;&lt;fruit quantity=&quot;1&quot;&gt;orange&lt;/fruit&gt;&lt;/tag&gt;</span>
-    <span class="doccomment">/// writer.create_element(&quot;tag&quot;)</span>
-    <span class="doccomment">///     .write_inner_content(|writer| {</span>
-    <span class="doccomment">///         let fruits = [&quot;apple&quot;, &quot;orange&quot;];</span>
-    <span class="doccomment">///         for (quant, item) in fruits.iter().enumerate() {</span>
-    <span class="doccomment">///             writer</span>
-    <span class="doccomment">///                 .create_element(&quot;fruit&quot;)</span>
-    <span class="doccomment">///                 .with_attribute((&quot;quantity&quot;, quant.to_string().as_str()))</span>
-    <span class="doccomment">///                 .write_text_content(BytesText::from_plain_str(item))?;</span>
-    <span class="doccomment">///         }</span>
-    <span class="doccomment">///         Ok(())</span>
-    <span class="doccomment">///     })?;</span>
-    <span class="doccomment">/// # Ok(())</span>
-    <span class="doccomment">/// # }</span>
-    <span class="doccomment">/// ```</span>
-    <span class="attribute">#[<span class="ident">must_use</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_element</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">N</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">N</span>) -&gt; <span class="ident">ElementWriter</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">N</span>: <span class="lifetime">&#39;a</span> <span class="op">+</span> <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span>,
+    <span class="doccomment">/// Provides a simple, high-level API for writing XML elements.
+    ///
+    /// Returns an [ElementWriter] that simplifies setting attributes and writing content inside the element.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// # use quick_xml::Result;
+    /// # fn main() -&gt; Result&lt;()&gt; {
+    /// use quick_xml::{Error, Writer};
+    /// use quick_xml::events::{BytesStart, BytesText, Event};
+    /// use std::io::Cursor;
+    ///
+    /// let mut writer = Writer::new(Cursor::new(Vec::new()));
+    ///
+    /// // writes &lt;tag attr1=&quot;value1&quot;/&gt;
+    /// writer.create_element(&quot;tag&quot;)
+    ///     .with_attribute((&quot;attr1&quot;, &quot;value1&quot;))  // chain `with_attribute()` calls to add many attributes
+    ///     .write_empty()?;
+    ///
+    /// // writes &lt;tag attr1=&quot;value1&quot; attr2=&quot;value2&quot;&gt;with some text inside&lt;/tag&gt;
+    /// writer.create_element(&quot;tag&quot;)
+    ///     .with_attributes(vec![(&quot;attr1&quot;, &quot;value1&quot;), (&quot;attr2&quot;, &quot;value2&quot;)].into_iter())  // or add attributes from an iterator
+    ///     .write_text_content(BytesText::from_plain_str(&quot;with some text inside&quot;))?;
+    ///
+    /// // writes &lt;tag&gt;&lt;fruit quantity=&quot;0&quot;&gt;apple&lt;/fruit&gt;&lt;fruit quantity=&quot;1&quot;&gt;orange&lt;/fruit&gt;&lt;/tag&gt;
+    /// writer.create_element(&quot;tag&quot;)
+    ///     .write_inner_content(|writer| {
+    ///         let fruits = [&quot;apple&quot;, &quot;orange&quot;];
+    ///         for (quant, item) in fruits.iter().enumerate() {
+    ///             writer
+    ///                 .create_element(&quot;fruit&quot;)
+    ///                 .with_attribute((&quot;quantity&quot;, quant.to_string().as_str()))
+    ///                 .write_text_content(BytesText::from_plain_str(item))?;
+    ///         }
+    ///         Ok(())
+    ///     })?;
+    /// # Ok(())
+    /// # }
+    /// ```
+    </span><span class="attribute">#[must_use]
+    </span><span class="kw">pub fn </span>create_element&lt;<span class="lifetime">&#39;a</span>, N&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>N) -&gt; ElementWriter&lt;W&gt;
+    <span class="kw">where
+        </span>N: <span class="lifetime">&#39;a </span>+ AsRef&lt;[u8]&gt; + <span class="question-mark">?</span>Sized,
     {
-        <span class="ident">ElementWriter</span> {
-            <span class="ident">writer</span>: <span class="self">self</span>,
-            <span class="ident">start_tag</span>: <span class="ident">BytesStart::borrowed_name</span>(<span class="ident">name</span>.<span class="ident">as_ref</span>()),
+        ElementWriter {
+            writer: <span class="self">self</span>,
+            start_tag: BytesStart::borrowed_name(name.as_ref()),
         }
     }
 }
 
-<span class="doccomment">/// A struct to write an element. Contains methods to add attributes and inner</span>
-<span class="doccomment">/// elements to the element</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ElementWriter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span> {
-    <span class="ident">writer</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Writer</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>,
-    <span class="ident">start_tag</span>: <span class="ident">BytesStart</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
+<span class="doccomment">/// A struct to write an element. Contains methods to add attributes and inner
+/// elements to the element
+</span><span class="kw">pub struct </span>ElementWriter&lt;<span class="lifetime">&#39;a</span>, W: Write&gt; {
+    writer: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Writer&lt;W&gt;,
+    start_tag: BytesStart&lt;<span class="lifetime">&#39;a</span>&gt;,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">W</span>: <span class="ident">Write</span><span class="op">&gt;</span> <span class="ident">ElementWriter</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">W</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Adds an attribute to this element.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_attribute</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="ident">I</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">attr</span>: <span class="ident">I</span>) -&gt; <span class="self">Self</span>
-    <span class="kw">where</span>
-        <span class="ident">I</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Attribute</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, W: Write&gt; ElementWriter&lt;<span class="lifetime">&#39;a</span>, W&gt; {
+    <span class="doccomment">/// Adds an attribute to this element.
+    </span><span class="kw">pub fn </span>with_attribute&lt;<span class="lifetime">&#39;b</span>, I&gt;(<span class="kw-2">mut </span><span class="self">self</span>, attr: I) -&gt; <span class="self">Self
+    </span><span class="kw">where
+        </span>I: Into&lt;Attribute&lt;<span class="lifetime">&#39;b</span>&gt;&gt;,
     {
-        <span class="self">self</span>.<span class="ident">start_tag</span>.<span class="ident">push_attribute</span>(<span class="ident">attr</span>);
-        <span class="self">self</span>
-    }
+        <span class="self">self</span>.start_tag.push_attribute(attr);
+        <span class="self">self
+    </span>}
 
-    <span class="doccomment">/// Add additional attributes to this element using an iterator.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The yielded items must be convertible to [`Attribute`] using `Into`.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">with_attributes</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="ident">I</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">attributes</span>: <span class="ident">I</span>) -&gt; <span class="self">Self</span>
-    <span class="kw">where</span>
-        <span class="ident">I</span>: <span class="ident">IntoIterator</span>,
-        <span class="ident">I::Item</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">Attribute</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Add additional attributes to this element using an iterator.
+    ///
+    /// The yielded items must be convertible to [`Attribute`] using `Into`.
+    </span><span class="kw">pub fn </span>with_attributes&lt;<span class="lifetime">&#39;b</span>, I&gt;(<span class="kw-2">mut </span><span class="self">self</span>, attributes: I) -&gt; <span class="self">Self
+    </span><span class="kw">where
+        </span>I: IntoIterator,
+        I::Item: Into&lt;Attribute&lt;<span class="lifetime">&#39;b</span>&gt;&gt;,
     {
-        <span class="self">self</span>.<span class="ident">start_tag</span>.<span class="ident">extend_attributes</span>(<span class="ident">attributes</span>);
-        <span class="self">self</span>
+        <span class="self">self</span>.start_tag.extend_attributes(attributes);
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Write some text inside the current element.
+    </span><span class="kw">pub fn </span>write_text_content(<span class="self">self</span>, text: BytesText) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Writer&lt;W&gt;&gt; {
+        <span class="self">self</span>.writer
+            .write_event(Event::Start(<span class="self">self</span>.start_tag.to_borrowed()))<span class="question-mark">?</span>;
+        <span class="self">self</span>.writer.write_event(Event::Text(text))<span class="question-mark">?</span>;
+        <span class="self">self</span>.writer
+            .write_event(Event::End(<span class="self">self</span>.start_tag.to_end()))<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.writer)
     }
 
-    <span class="doccomment">/// Write some text inside the current element.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_text_content</span>(<span class="self">self</span>, <span class="ident">text</span>: <span class="ident">BytesText</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Writer</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::Start</span>(<span class="self">self</span>.<span class="ident">start_tag</span>.<span class="ident">to_borrowed</span>()))<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_event</span>(<span class="ident">Event::Text</span>(<span class="ident">text</span>))<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::End</span>(<span class="self">self</span>.<span class="ident">start_tag</span>.<span class="ident">to_end</span>()))<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">writer</span>)
+    <span class="doccomment">/// Write a CData event `&lt;![CDATA[...]]&gt;` inside the current element.
+    </span><span class="kw">pub fn </span>write_cdata_content(<span class="self">self</span>, text: BytesCData) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Writer&lt;W&gt;&gt; {
+        <span class="self">self</span>.writer
+            .write_event(Event::Start(<span class="self">self</span>.start_tag.to_borrowed()))<span class="question-mark">?</span>;
+        <span class="self">self</span>.writer.write_event(Event::CData(text))<span class="question-mark">?</span>;
+        <span class="self">self</span>.writer
+            .write_event(Event::End(<span class="self">self</span>.start_tag.to_end()))<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.writer)
     }
 
-    <span class="doccomment">/// Write a CData event `&lt;![CDATA[...]]&gt;` inside the current element.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_cdata_content</span>(<span class="self">self</span>, <span class="ident">text</span>: <span class="ident">BytesCData</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Writer</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::Start</span>(<span class="self">self</span>.<span class="ident">start_tag</span>.<span class="ident">to_borrowed</span>()))<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_event</span>(<span class="ident">Event::CData</span>(<span class="ident">text</span>))<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::End</span>(<span class="self">self</span>.<span class="ident">start_tag</span>.<span class="ident">to_end</span>()))<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">writer</span>)
+    <span class="doccomment">/// Write a processing instruction `&lt;?...?&gt;` inside the current element.
+    </span><span class="kw">pub fn </span>write_pi_content(<span class="self">self</span>, text: BytesText) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Writer&lt;W&gt;&gt; {
+        <span class="self">self</span>.writer
+            .write_event(Event::Start(<span class="self">self</span>.start_tag.to_borrowed()))<span class="question-mark">?</span>;
+        <span class="self">self</span>.writer.write_event(Event::PI(text))<span class="question-mark">?</span>;
+        <span class="self">self</span>.writer
+            .write_event(Event::End(<span class="self">self</span>.start_tag.to_end()))<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.writer)
     }
 
-    <span class="doccomment">/// Write a processing instruction `&lt;?...?&gt;` inside the current element.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_pi_content</span>(<span class="self">self</span>, <span class="ident">text</span>: <span class="ident">BytesText</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Writer</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::Start</span>(<span class="self">self</span>.<span class="ident">start_tag</span>.<span class="ident">to_borrowed</span>()))<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_event</span>(<span class="ident">Event::PI</span>(<span class="ident">text</span>))<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::End</span>(<span class="self">self</span>.<span class="ident">start_tag</span>.<span class="ident">to_end</span>()))<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">writer</span>)
+    <span class="doccomment">/// Write an empty (self-closing) tag.
+    </span><span class="kw">pub fn </span>write_empty(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Writer&lt;W&gt;&gt; {
+        <span class="self">self</span>.writer.write_event(Event::Empty(<span class="self">self</span>.start_tag))<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.writer)
     }
 
-    <span class="doccomment">/// Write an empty (self-closing) tag.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_empty</span>(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Writer</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">writer</span>.<span class="ident">write_event</span>(<span class="ident">Event::Empty</span>(<span class="self">self</span>.<span class="ident">start_tag</span>))<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">writer</span>)
-    }
-
-    <span class="doccomment">/// Create a new scope for writing XML inside the current element.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_inner_content</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">closure</span>: <span class="ident">F</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Writer</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">F</span>: <span class="ident">Fn</span>(<span class="kw-2">&amp;mut</span> <span class="ident">Writer</span><span class="op">&lt;</span><span class="ident">W</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
+    <span class="doccomment">/// Create a new scope for writing XML inside the current element.
+    </span><span class="kw">pub fn </span>write_inner_content&lt;F&gt;(<span class="kw-2">mut </span><span class="self">self</span>, closure: F) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Writer&lt;W&gt;&gt;
+    <span class="kw">where
+        </span>F: Fn(<span class="kw-2">&amp;mut </span>Writer&lt;W&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;,
     {
-        <span class="self">self</span>.<span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::Start</span>(<span class="self">self</span>.<span class="ident">start_tag</span>.<span class="ident">to_borrowed</span>()))<span class="question-mark">?</span>;
-        <span class="ident">closure</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">writer</span>)<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::End</span>(<span class="self">self</span>.<span class="ident">start_tag</span>.<span class="ident">to_end</span>()))<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">writer</span>)
+        <span class="self">self</span>.writer
+            .write_event(Event::Start(<span class="self">self</span>.start_tag.to_borrowed()))<span class="question-mark">?</span>;
+        closure(<span class="kw-2">&amp;mut </span><span class="self">self</span>.writer)<span class="question-mark">?</span>;
+        <span class="self">self</span>.writer
+            .write_event(Event::End(<span class="self">self</span>.start_tag.to_end()))<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.writer)
     }
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">struct</span> <span class="ident">Indentation</span> {
-    <span class="ident">should_line_break</span>: <span class="ident">bool</span>,
-    <span class="ident">indent_char</span>: <span class="ident">u8</span>,
-    <span class="ident">indent_size</span>: <span class="ident">usize</span>,
-    <span class="ident">indents</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
-    <span class="ident">indents_len</span>: <span class="ident">usize</span>,
+<span class="attribute">#[derive(Clone)]
+</span><span class="kw">struct </span>Indentation {
+    should_line_break: bool,
+    indent_char: u8,
+    indent_size: usize,
+    indents: Vec&lt;u8&gt;,
+    indents_len: usize,
 }
 
-<span class="kw">impl</span> <span class="ident">Indentation</span> {
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">indent_char</span>: <span class="ident">u8</span>, <span class="ident">indent_size</span>: <span class="ident">usize</span>) -&gt; <span class="ident">Indentation</span> {
-        <span class="ident">Indentation</span> {
-            <span class="ident">should_line_break</span>: <span class="bool-val">false</span>,
-            <span class="ident">indent_char</span>,
-            <span class="ident">indent_size</span>,
-            <span class="ident">indents</span>: <span class="macro">vec!</span>[<span class="ident">indent_char</span>; <span class="number">128</span>],
-            <span class="ident">indents_len</span>: <span class="number">0</span>,
+<span class="kw">impl </span>Indentation {
+    <span class="kw">fn </span>new(indent_char: u8, indent_size: usize) -&gt; Indentation {
+        Indentation {
+            should_line_break: <span class="bool-val">false</span>,
+            indent_char,
+            indent_size,
+            indents: <span class="macro">vec!</span>[indent_char; <span class="number">128</span>],
+            indents_len: <span class="number">0</span>,
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">grow</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
-        <span class="self">self</span>.<span class="ident">indents_len</span> <span class="op">+</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">indent_size</span>;
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">indents_len</span> <span class="op">&gt;</span> <span class="self">self</span>.<span class="ident">indents</span>.<span class="ident">len</span>() {
-            <span class="self">self</span>.<span class="ident">indents</span>.<span class="ident">resize</span>(<span class="self">self</span>.<span class="ident">indents_len</span>, <span class="self">self</span>.<span class="ident">indent_char</span>);
+    <span class="kw">fn </span>grow(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="self">self</span>.indents_len += <span class="self">self</span>.indent_size;
+        <span class="kw">if </span><span class="self">self</span>.indents_len &gt; <span class="self">self</span>.indents.len() {
+            <span class="self">self</span>.indents.resize(<span class="self">self</span>.indents_len, <span class="self">self</span>.indent_char);
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">shrink</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
-        <span class="self">self</span>.<span class="ident">indents_len</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">indents_len</span>.<span class="ident">checked_sub</span>(<span class="self">self</span>.<span class="ident">indent_size</span>) {
-            <span class="prelude-val">Some</span>(<span class="ident">result</span>) =&gt; <span class="ident">result</span>,
-            <span class="prelude-val">None</span> =&gt; <span class="number">0</span>,
+    <span class="kw">fn </span>shrink(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="self">self</span>.indents_len = <span class="kw">match </span><span class="self">self</span>.indents_len.checked_sub(<span class="self">self</span>.indent_size) {
+            <span class="prelude-val">Some</span>(result) =&gt; result,
+            <span class="prelude-val">None </span>=&gt; <span class="number">0</span>,
         };
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">indentation</span> {
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::events</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="ident">pretty_assertions::assert_eq</span>;
+<span class="attribute">#[cfg(test)]
+</span><span class="kw">mod </span>indentation {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use </span><span class="kw">crate</span>::events::<span class="kw-2">*</span>;
+    <span class="kw">use </span>pretty_assertions::assert_eq;
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">self_closed</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">Writer::new_with_indent</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buffer</span>, <span class="string">b&#39; &#39;</span>, <span class="number">4</span>);
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>self_closed() {
+        <span class="kw">let </span><span class="kw-2">mut </span>buffer = Vec::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>writer = Writer::new_with_indent(<span class="kw-2">&amp;mut </span>buffer, <span class="string">b&#39; &#39;</span>, <span class="number">4</span>);
 
-        <span class="kw">let</span> <span class="ident">tag</span> <span class="op">=</span> <span class="ident">BytesStart::borrowed_name</span>(<span class="string">b&quot;self-closed&quot;</span>)
-            .<span class="ident">with_attributes</span>(<span class="macro">vec!</span>[(<span class="string">&quot;attr1&quot;</span>, <span class="string">&quot;value1&quot;</span>), (<span class="string">&quot;attr2&quot;</span>, <span class="string">&quot;value2&quot;</span>)].<span class="ident">into_iter</span>());
-        <span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::Empty</span>(<span class="ident">tag</span>))
-            .<span class="ident">expect</span>(<span class="string">&quot;write tag failed&quot;</span>);
+        <span class="kw">let </span>tag = BytesStart::borrowed_name(<span class="string">b&quot;self-closed&quot;</span>)
+            .with_attributes(<span class="macro">vec!</span>[(<span class="string">&quot;attr1&quot;</span>, <span class="string">&quot;value1&quot;</span>), (<span class="string">&quot;attr2&quot;</span>, <span class="string">&quot;value2&quot;</span>)].into_iter());
+        writer
+            .write_event(Event::Empty(tag))
+            .expect(<span class="string">&quot;write tag failed&quot;</span>);
 
         <span class="macro">assert_eq!</span>(
-            <span class="ident">std::str::from_utf8</span>(<span class="kw-2">&amp;</span><span class="ident">buffer</span>).<span class="ident">unwrap</span>(),
-            <span class="string">r#&quot;&lt;self-closed attr1=&quot;value1&quot; attr2=&quot;value2&quot;/&gt;&quot;#</span>
-        );
+            std::str::from_utf8(<span class="kw-2">&amp;</span>buffer).unwrap(),
+            <span class="string">r#&quot;&lt;self-closed attr1=&quot;value1&quot; attr2=&quot;value2&quot;/&gt;&quot;#
+        </span>);
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">empty_paired</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">Writer::new_with_indent</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buffer</span>, <span class="string">b&#39; &#39;</span>, <span class="number">4</span>);
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>empty_paired() {
+        <span class="kw">let </span><span class="kw-2">mut </span>buffer = Vec::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>writer = Writer::new_with_indent(<span class="kw-2">&amp;mut </span>buffer, <span class="string">b&#39; &#39;</span>, <span class="number">4</span>);
 
-        <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="string">b&quot;paired&quot;</span>;
-        <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">BytesStart::borrowed_name</span>(<span class="ident">name</span>)
-            .<span class="ident">with_attributes</span>(<span class="macro">vec!</span>[(<span class="string">&quot;attr1&quot;</span>, <span class="string">&quot;value1&quot;</span>), (<span class="string">&quot;attr2&quot;</span>, <span class="string">&quot;value2&quot;</span>)].<span class="ident">into_iter</span>());
-        <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="ident">BytesEnd::borrowed</span>(<span class="ident">name</span>);
-        <span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::Start</span>(<span class="ident">start</span>))
-            .<span class="ident">expect</span>(<span class="string">&quot;write start tag failed&quot;</span>);
-        <span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::End</span>(<span class="ident">end</span>))
-            .<span class="ident">expect</span>(<span class="string">&quot;write end tag failed&quot;</span>);
+        <span class="kw">let </span>name = <span class="string">b&quot;paired&quot;</span>;
+        <span class="kw">let </span>start = BytesStart::borrowed_name(name)
+            .with_attributes(<span class="macro">vec!</span>[(<span class="string">&quot;attr1&quot;</span>, <span class="string">&quot;value1&quot;</span>), (<span class="string">&quot;attr2&quot;</span>, <span class="string">&quot;value2&quot;</span>)].into_iter());
+        <span class="kw">let </span>end = BytesEnd::borrowed(name);
+        writer
+            .write_event(Event::Start(start))
+            .expect(<span class="string">&quot;write start tag failed&quot;</span>);
+        writer
+            .write_event(Event::End(end))
+            .expect(<span class="string">&quot;write end tag failed&quot;</span>);
 
         <span class="macro">assert_eq!</span>(
-            <span class="ident">std::str::from_utf8</span>(<span class="kw-2">&amp;</span><span class="ident">buffer</span>).<span class="ident">unwrap</span>(),
+            std::str::from_utf8(<span class="kw-2">&amp;</span>buffer).unwrap(),
             <span class="string">r#&quot;&lt;paired attr1=&quot;value1&quot; attr2=&quot;value2&quot;&gt;
-&lt;/paired&gt;&quot;#</span>
-        );
+&lt;/paired&gt;&quot;#
+        </span>);
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">paired_with_inner</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">Writer::new_with_indent</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buffer</span>, <span class="string">b&#39; &#39;</span>, <span class="number">4</span>);
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>paired_with_inner() {
+        <span class="kw">let </span><span class="kw-2">mut </span>buffer = Vec::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>writer = Writer::new_with_indent(<span class="kw-2">&amp;mut </span>buffer, <span class="string">b&#39; &#39;</span>, <span class="number">4</span>);
 
-        <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="string">b&quot;paired&quot;</span>;
-        <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">BytesStart::borrowed_name</span>(<span class="ident">name</span>)
-            .<span class="ident">with_attributes</span>(<span class="macro">vec!</span>[(<span class="string">&quot;attr1&quot;</span>, <span class="string">&quot;value1&quot;</span>), (<span class="string">&quot;attr2&quot;</span>, <span class="string">&quot;value2&quot;</span>)].<span class="ident">into_iter</span>());
-        <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="ident">BytesEnd::borrowed</span>(<span class="ident">name</span>);
-        <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">BytesStart::borrowed_name</span>(<span class="string">b&quot;inner&quot;</span>);
+        <span class="kw">let </span>name = <span class="string">b&quot;paired&quot;</span>;
+        <span class="kw">let </span>start = BytesStart::borrowed_name(name)
+            .with_attributes(<span class="macro">vec!</span>[(<span class="string">&quot;attr1&quot;</span>, <span class="string">&quot;value1&quot;</span>), (<span class="string">&quot;attr2&quot;</span>, <span class="string">&quot;value2&quot;</span>)].into_iter());
+        <span class="kw">let </span>end = BytesEnd::borrowed(name);
+        <span class="kw">let </span>inner = BytesStart::borrowed_name(<span class="string">b&quot;inner&quot;</span>);
 
-        <span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::Start</span>(<span class="ident">start</span>))
-            .<span class="ident">expect</span>(<span class="string">&quot;write start tag failed&quot;</span>);
-        <span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::Empty</span>(<span class="ident">inner</span>))
-            .<span class="ident">expect</span>(<span class="string">&quot;write inner tag failed&quot;</span>);
-        <span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::End</span>(<span class="ident">end</span>))
-            .<span class="ident">expect</span>(<span class="string">&quot;write end tag failed&quot;</span>);
+        writer
+            .write_event(Event::Start(start))
+            .expect(<span class="string">&quot;write start tag failed&quot;</span>);
+        writer
+            .write_event(Event::Empty(inner))
+            .expect(<span class="string">&quot;write inner tag failed&quot;</span>);
+        writer
+            .write_event(Event::End(end))
+            .expect(<span class="string">&quot;write end tag failed&quot;</span>);
 
         <span class="macro">assert_eq!</span>(
-            <span class="ident">std::str::from_utf8</span>(<span class="kw-2">&amp;</span><span class="ident">buffer</span>).<span class="ident">unwrap</span>(),
+            std::str::from_utf8(<span class="kw-2">&amp;</span>buffer).unwrap(),
             <span class="string">r#&quot;&lt;paired attr1=&quot;value1&quot; attr2=&quot;value2&quot;&gt;
     &lt;inner/&gt;
-&lt;/paired&gt;&quot;#</span>
-        );
+&lt;/paired&gt;&quot;#
+        </span>);
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">paired_with_text</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">Writer::new_with_indent</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buffer</span>, <span class="string">b&#39; &#39;</span>, <span class="number">4</span>);
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>paired_with_text() {
+        <span class="kw">let </span><span class="kw-2">mut </span>buffer = Vec::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>writer = Writer::new_with_indent(<span class="kw-2">&amp;mut </span>buffer, <span class="string">b&#39; &#39;</span>, <span class="number">4</span>);
 
-        <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="string">b&quot;paired&quot;</span>;
-        <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">BytesStart::borrowed_name</span>(<span class="ident">name</span>)
-            .<span class="ident">with_attributes</span>(<span class="macro">vec!</span>[(<span class="string">&quot;attr1&quot;</span>, <span class="string">&quot;value1&quot;</span>), (<span class="string">&quot;attr2&quot;</span>, <span class="string">&quot;value2&quot;</span>)].<span class="ident">into_iter</span>());
-        <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="ident">BytesEnd::borrowed</span>(<span class="ident">name</span>);
-        <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="ident">BytesText::from_plain</span>(<span class="string">b&quot;text&quot;</span>);
+        <span class="kw">let </span>name = <span class="string">b&quot;paired&quot;</span>;
+        <span class="kw">let </span>start = BytesStart::borrowed_name(name)
+            .with_attributes(<span class="macro">vec!</span>[(<span class="string">&quot;attr1&quot;</span>, <span class="string">&quot;value1&quot;</span>), (<span class="string">&quot;attr2&quot;</span>, <span class="string">&quot;value2&quot;</span>)].into_iter());
+        <span class="kw">let </span>end = BytesEnd::borrowed(name);
+        <span class="kw">let </span>text = BytesText::from_plain(<span class="string">b&quot;text&quot;</span>);
 
-        <span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::Start</span>(<span class="ident">start</span>))
-            .<span class="ident">expect</span>(<span class="string">&quot;write start tag failed&quot;</span>);
-        <span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::Text</span>(<span class="ident">text</span>))
-            .<span class="ident">expect</span>(<span class="string">&quot;write text failed&quot;</span>);
-        <span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::End</span>(<span class="ident">end</span>))
-            .<span class="ident">expect</span>(<span class="string">&quot;write end tag failed&quot;</span>);
+        writer
+            .write_event(Event::Start(start))
+            .expect(<span class="string">&quot;write start tag failed&quot;</span>);
+        writer
+            .write_event(Event::Text(text))
+            .expect(<span class="string">&quot;write text failed&quot;</span>);
+        writer
+            .write_event(Event::End(end))
+            .expect(<span class="string">&quot;write end tag failed&quot;</span>);
 
         <span class="macro">assert_eq!</span>(
-            <span class="ident">std::str::from_utf8</span>(<span class="kw-2">&amp;</span><span class="ident">buffer</span>).<span class="ident">unwrap</span>(),
-            <span class="string">r#&quot;&lt;paired attr1=&quot;value1&quot; attr2=&quot;value2&quot;&gt;text&lt;/paired&gt;&quot;#</span>
-        );
+            std::str::from_utf8(<span class="kw-2">&amp;</span>buffer).unwrap(),
+            <span class="string">r#&quot;&lt;paired attr1=&quot;value1&quot; attr2=&quot;value2&quot;&gt;text&lt;/paired&gt;&quot;#
+        </span>);
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">mixed_content</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">Writer::new_with_indent</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buffer</span>, <span class="string">b&#39; &#39;</span>, <span class="number">4</span>);
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>mixed_content() {
+        <span class="kw">let </span><span class="kw-2">mut </span>buffer = Vec::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>writer = Writer::new_with_indent(<span class="kw-2">&amp;mut </span>buffer, <span class="string">b&#39; &#39;</span>, <span class="number">4</span>);
 
-        <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="string">b&quot;paired&quot;</span>;
-        <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">BytesStart::borrowed_name</span>(<span class="ident">name</span>)
-            .<span class="ident">with_attributes</span>(<span class="macro">vec!</span>[(<span class="string">&quot;attr1&quot;</span>, <span class="string">&quot;value1&quot;</span>), (<span class="string">&quot;attr2&quot;</span>, <span class="string">&quot;value2&quot;</span>)].<span class="ident">into_iter</span>());
-        <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="ident">BytesEnd::borrowed</span>(<span class="ident">name</span>);
-        <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="ident">BytesText::from_plain</span>(<span class="string">b&quot;text&quot;</span>);
-        <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">BytesStart::borrowed_name</span>(<span class="string">b&quot;inner&quot;</span>);
+        <span class="kw">let </span>name = <span class="string">b&quot;paired&quot;</span>;
+        <span class="kw">let </span>start = BytesStart::borrowed_name(name)
+            .with_attributes(<span class="macro">vec!</span>[(<span class="string">&quot;attr1&quot;</span>, <span class="string">&quot;value1&quot;</span>), (<span class="string">&quot;attr2&quot;</span>, <span class="string">&quot;value2&quot;</span>)].into_iter());
+        <span class="kw">let </span>end = BytesEnd::borrowed(name);
+        <span class="kw">let </span>text = BytesText::from_plain(<span class="string">b&quot;text&quot;</span>);
+        <span class="kw">let </span>inner = BytesStart::borrowed_name(<span class="string">b&quot;inner&quot;</span>);
 
-        <span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::Start</span>(<span class="ident">start</span>))
-            .<span class="ident">expect</span>(<span class="string">&quot;write start tag failed&quot;</span>);
-        <span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::Text</span>(<span class="ident">text</span>))
-            .<span class="ident">expect</span>(<span class="string">&quot;write text failed&quot;</span>);
-        <span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::Empty</span>(<span class="ident">inner</span>))
-            .<span class="ident">expect</span>(<span class="string">&quot;write inner tag failed&quot;</span>);
-        <span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::End</span>(<span class="ident">end</span>))
-            .<span class="ident">expect</span>(<span class="string">&quot;write end tag failed&quot;</span>);
+        writer
+            .write_event(Event::Start(start))
+            .expect(<span class="string">&quot;write start tag failed&quot;</span>);
+        writer
+            .write_event(Event::Text(text))
+            .expect(<span class="string">&quot;write text failed&quot;</span>);
+        writer
+            .write_event(Event::Empty(inner))
+            .expect(<span class="string">&quot;write inner tag failed&quot;</span>);
+        writer
+            .write_event(Event::End(end))
+            .expect(<span class="string">&quot;write end tag failed&quot;</span>);
 
         <span class="macro">assert_eq!</span>(
-            <span class="ident">std::str::from_utf8</span>(<span class="kw-2">&amp;</span><span class="ident">buffer</span>).<span class="ident">unwrap</span>(),
+            std::str::from_utf8(<span class="kw-2">&amp;</span>buffer).unwrap(),
             <span class="string">r#&quot;&lt;paired attr1=&quot;value1&quot; attr2=&quot;value2&quot;&gt;text&lt;inner/&gt;
-&lt;/paired&gt;&quot;#</span>
-        );
+&lt;/paired&gt;&quot;#
+        </span>);
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">nested</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">Writer::new_with_indent</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buffer</span>, <span class="string">b&#39; &#39;</span>, <span class="number">4</span>);
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>nested() {
+        <span class="kw">let </span><span class="kw-2">mut </span>buffer = Vec::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>writer = Writer::new_with_indent(<span class="kw-2">&amp;mut </span>buffer, <span class="string">b&#39; &#39;</span>, <span class="number">4</span>);
 
-        <span class="kw">let</span> <span class="ident">name</span> <span class="op">=</span> <span class="string">b&quot;paired&quot;</span>;
-        <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">BytesStart::borrowed_name</span>(<span class="ident">name</span>)
-            .<span class="ident">with_attributes</span>(<span class="macro">vec!</span>[(<span class="string">&quot;attr1&quot;</span>, <span class="string">&quot;value1&quot;</span>), (<span class="string">&quot;attr2&quot;</span>, <span class="string">&quot;value2&quot;</span>)].<span class="ident">into_iter</span>());
-        <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="ident">BytesEnd::borrowed</span>(<span class="ident">name</span>);
-        <span class="kw">let</span> <span class="ident">inner</span> <span class="op">=</span> <span class="ident">BytesStart::borrowed_name</span>(<span class="string">b&quot;inner&quot;</span>);
+        <span class="kw">let </span>name = <span class="string">b&quot;paired&quot;</span>;
+        <span class="kw">let </span>start = BytesStart::borrowed_name(name)
+            .with_attributes(<span class="macro">vec!</span>[(<span class="string">&quot;attr1&quot;</span>, <span class="string">&quot;value1&quot;</span>), (<span class="string">&quot;attr2&quot;</span>, <span class="string">&quot;value2&quot;</span>)].into_iter());
+        <span class="kw">let </span>end = BytesEnd::borrowed(name);
+        <span class="kw">let </span>inner = BytesStart::borrowed_name(<span class="string">b&quot;inner&quot;</span>);
 
-        <span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::Start</span>(<span class="ident">start</span>.<span class="ident">clone</span>()))
-            .<span class="ident">expect</span>(<span class="string">&quot;write start 1 tag failed&quot;</span>);
-        <span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::Start</span>(<span class="ident">start</span>))
-            .<span class="ident">expect</span>(<span class="string">&quot;write start 2 tag failed&quot;</span>);
-        <span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::Empty</span>(<span class="ident">inner</span>))
-            .<span class="ident">expect</span>(<span class="string">&quot;write inner tag failed&quot;</span>);
-        <span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::End</span>(<span class="ident">end</span>.<span class="ident">clone</span>()))
-            .<span class="ident">expect</span>(<span class="string">&quot;write end tag 2 failed&quot;</span>);
-        <span class="ident">writer</span>
-            .<span class="ident">write_event</span>(<span class="ident">Event::End</span>(<span class="ident">end</span>))
-            .<span class="ident">expect</span>(<span class="string">&quot;write end tag 1 failed&quot;</span>);
+        writer
+            .write_event(Event::Start(start.clone()))
+            .expect(<span class="string">&quot;write start 1 tag failed&quot;</span>);
+        writer
+            .write_event(Event::Start(start))
+            .expect(<span class="string">&quot;write start 2 tag failed&quot;</span>);
+        writer
+            .write_event(Event::Empty(inner))
+            .expect(<span class="string">&quot;write inner tag failed&quot;</span>);
+        writer
+            .write_event(Event::End(end.clone()))
+            .expect(<span class="string">&quot;write end tag 2 failed&quot;</span>);
+        writer
+            .write_event(Event::End(end))
+            .expect(<span class="string">&quot;write end tag 1 failed&quot;</span>);
 
         <span class="macro">assert_eq!</span>(
-            <span class="ident">std::str::from_utf8</span>(<span class="kw-2">&amp;</span><span class="ident">buffer</span>).<span class="ident">unwrap</span>(),
+            std::str::from_utf8(<span class="kw-2">&amp;</span>buffer).unwrap(),
             <span class="string">r#&quot;&lt;paired attr1=&quot;value1&quot; attr2=&quot;value2&quot;&gt;
     &lt;paired attr1=&quot;value1&quot; attr2=&quot;value2&quot;&gt;
         &lt;inner/&gt;
     &lt;/paired&gt;
-&lt;/paired&gt;&quot;#</span>
-        );
+&lt;/paired&gt;&quot;#
+        </span>);
     }
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">element_writer_empty</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">Writer::new_with_indent</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buffer</span>, <span class="string">b&#39; &#39;</span>, <span class="number">4</span>);
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>element_writer_empty() {
+        <span class="kw">let </span><span class="kw-2">mut </span>buffer = Vec::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>writer = Writer::new_with_indent(<span class="kw-2">&amp;mut </span>buffer, <span class="string">b&#39; &#39;</span>, <span class="number">4</span>);
 
-        <span class="ident">writer</span>
-            .<span class="ident">create_element</span>(<span class="string">b&quot;empty&quot;</span>)
-            .<span class="ident">with_attribute</span>((<span class="string">&quot;attr1&quot;</span>, <span class="string">&quot;value1&quot;</span>))
-            .<span class="ident">with_attribute</span>((<span class="string">&quot;attr2&quot;</span>, <span class="string">&quot;value2&quot;</span>))
-            .<span class="ident">write_empty</span>()
-            .<span class="ident">expect</span>(<span class="string">&quot;failure&quot;</span>);
+        writer
+            .create_element(<span class="string">b&quot;empty&quot;</span>)
+            .with_attribute((<span class="string">&quot;attr1&quot;</span>, <span class="string">&quot;value1&quot;</span>))
+            .with_attribute((<span class="string">&quot;attr2&quot;</span>, <span class="string">&quot;value2&quot;</span>))
+            .write_empty()
+            .expect(<span class="string">&quot;failure&quot;</span>);
 
         <span class="macro">assert_eq!</span>(
-            <span class="ident">std::str::from_utf8</span>(<span class="kw-2">&amp;</span><span class="ident">buffer</span>).<span class="ident">unwrap</span>(),
-            <span class="string">r#&quot;&lt;empty attr1=&quot;value1&quot; attr2=&quot;value2&quot;/&gt;&quot;#</span>
-        );
+            std::str::from_utf8(<span class="kw-2">&amp;</span>buffer).unwrap(),
+            <span class="string">r#&quot;&lt;empty attr1=&quot;value1&quot; attr2=&quot;value2&quot;/&gt;&quot;#
+        </span>);
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">element_writer_text</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">Writer::new_with_indent</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buffer</span>, <span class="string">b&#39; &#39;</span>, <span class="number">4</span>);
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>element_writer_text() {
+        <span class="kw">let </span><span class="kw-2">mut </span>buffer = Vec::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>writer = Writer::new_with_indent(<span class="kw-2">&amp;mut </span>buffer, <span class="string">b&#39; &#39;</span>, <span class="number">4</span>);
 
-        <span class="ident">writer</span>
-            .<span class="ident">create_element</span>(<span class="string">&quot;paired&quot;</span>)
-            .<span class="ident">with_attribute</span>((<span class="string">&quot;attr1&quot;</span>, <span class="string">&quot;value1&quot;</span>))
-            .<span class="ident">with_attribute</span>((<span class="string">&quot;attr2&quot;</span>, <span class="string">&quot;value2&quot;</span>))
-            .<span class="ident">write_text_content</span>(<span class="ident">BytesText::from_plain_str</span>(<span class="string">&quot;text&quot;</span>))
-            .<span class="ident">expect</span>(<span class="string">&quot;failure&quot;</span>);
+        writer
+            .create_element(<span class="string">&quot;paired&quot;</span>)
+            .with_attribute((<span class="string">&quot;attr1&quot;</span>, <span class="string">&quot;value1&quot;</span>))
+            .with_attribute((<span class="string">&quot;attr2&quot;</span>, <span class="string">&quot;value2&quot;</span>))
+            .write_text_content(BytesText::from_plain_str(<span class="string">&quot;text&quot;</span>))
+            .expect(<span class="string">&quot;failure&quot;</span>);
 
         <span class="macro">assert_eq!</span>(
-            <span class="ident">std::str::from_utf8</span>(<span class="kw-2">&amp;</span><span class="ident">buffer</span>).<span class="ident">unwrap</span>(),
-            <span class="string">r#&quot;&lt;paired attr1=&quot;value1&quot; attr2=&quot;value2&quot;&gt;text&lt;/paired&gt;&quot;#</span>
-        );
+            std::str::from_utf8(<span class="kw-2">&amp;</span>buffer).unwrap(),
+            <span class="string">r#&quot;&lt;paired attr1=&quot;value1&quot; attr2=&quot;value2&quot;&gt;text&lt;/paired&gt;&quot;#
+        </span>);
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">element_writer_nested</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buffer</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">writer</span> <span class="op">=</span> <span class="ident">Writer::new_with_indent</span>(<span class="kw-2">&amp;mut</span> <span class="ident">buffer</span>, <span class="string">b&#39; &#39;</span>, <span class="number">4</span>);
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>element_writer_nested() {
+        <span class="kw">let </span><span class="kw-2">mut </span>buffer = Vec::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>writer = Writer::new_with_indent(<span class="kw-2">&amp;mut </span>buffer, <span class="string">b&#39; &#39;</span>, <span class="number">4</span>);
 
-        <span class="ident">writer</span>
-            .<span class="ident">create_element</span>(<span class="string">&quot;outer&quot;</span>)
-            .<span class="ident">with_attribute</span>((<span class="string">&quot;attr1&quot;</span>, <span class="string">&quot;value1&quot;</span>))
-            .<span class="ident">with_attribute</span>((<span class="string">&quot;attr2&quot;</span>, <span class="string">&quot;value2&quot;</span>))
-            .<span class="ident">write_inner_content</span>(<span class="op">|</span><span class="ident">writer</span><span class="op">|</span> {
-                <span class="kw">let</span> <span class="ident">fruits</span> <span class="op">=</span> [<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;orange&quot;</span>, <span class="string">&quot;banana&quot;</span>];
-                <span class="kw">for</span> (<span class="ident">quant</span>, <span class="ident">item</span>) <span class="kw">in</span> <span class="ident">fruits</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-                    <span class="ident">writer</span>
-                        .<span class="ident">create_element</span>(<span class="string">&quot;fruit&quot;</span>)
-                        .<span class="ident">with_attribute</span>((<span class="string">&quot;quantity&quot;</span>, <span class="ident">quant</span>.<span class="ident">to_string</span>().<span class="ident">as_str</span>()))
-                        .<span class="ident">write_text_content</span>(<span class="ident">BytesText::from_plain_str</span>(<span class="ident">item</span>))<span class="question-mark">?</span>;
+        writer
+            .create_element(<span class="string">&quot;outer&quot;</span>)
+            .with_attribute((<span class="string">&quot;attr1&quot;</span>, <span class="string">&quot;value1&quot;</span>))
+            .with_attribute((<span class="string">&quot;attr2&quot;</span>, <span class="string">&quot;value2&quot;</span>))
+            .write_inner_content(|writer| {
+                <span class="kw">let </span>fruits = [<span class="string">&quot;apple&quot;</span>, <span class="string">&quot;orange&quot;</span>, <span class="string">&quot;banana&quot;</span>];
+                <span class="kw">for </span>(quant, item) <span class="kw">in </span>fruits.iter().enumerate() {
+                    writer
+                        .create_element(<span class="string">&quot;fruit&quot;</span>)
+                        .with_attribute((<span class="string">&quot;quantity&quot;</span>, quant.to_string().as_str()))
+                        .write_text_content(BytesText::from_plain_str(item))<span class="question-mark">?</span>;
                 }
-                <span class="ident">writer</span>
-                    .<span class="ident">create_element</span>(<span class="string">&quot;inner&quot;</span>)
-                    .<span class="ident">write_inner_content</span>(<span class="op">|</span><span class="ident">writer</span><span class="op">|</span> {
-                        <span class="ident">writer</span>.<span class="ident">create_element</span>(<span class="string">&quot;empty&quot;</span>).<span class="ident">write_empty</span>()<span class="question-mark">?</span>;
+                writer
+                    .create_element(<span class="string">&quot;inner&quot;</span>)
+                    .write_inner_content(|writer| {
+                        writer.create_element(<span class="string">&quot;empty&quot;</span>).write_empty()<span class="question-mark">?</span>;
                         <span class="prelude-val">Ok</span>(())
                     })<span class="question-mark">?</span>;
 
                 <span class="prelude-val">Ok</span>(())
             })
-            .<span class="ident">expect</span>(<span class="string">&quot;failure&quot;</span>);
+            .expect(<span class="string">&quot;failure&quot;</span>);
 
         <span class="macro">assert_eq!</span>(
-            <span class="ident">std::str::from_utf8</span>(<span class="kw-2">&amp;</span><span class="ident">buffer</span>).<span class="ident">unwrap</span>(),
+            std::str::from_utf8(<span class="kw-2">&amp;</span>buffer).unwrap(),
             <span class="string">r#&quot;&lt;outer attr1=&quot;value1&quot; attr2=&quot;value2&quot;&gt;
     &lt;fruit quantity=&quot;0&quot;&gt;apple&lt;/fruit&gt;
     &lt;fruit quantity=&quot;1&quot;&gt;orange&lt;/fruit&gt;
@@ -1160,9 +1160,9 @@
     &lt;inner&gt;
         &lt;empty/&gt;
     &lt;/inner&gt;
-&lt;/outer&gt;&quot;#</span>
-        );
+&lt;/outer&gt;&quot;#
+        </span>);
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="quick_xml" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="quick_xml" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

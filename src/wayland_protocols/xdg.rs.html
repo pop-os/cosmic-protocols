@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-protocols-0.30.0-beta.10/src/xdg.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>xdg.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_protocols/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_protocols/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_protocols/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-protocols-0.30.0-beta.10/src/xdg.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>xdg.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_protocols/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_protocols/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_protocols/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -140,34 +140,34 @@
 <span id="140">140</span>
 <span id="141">141</span>
 <span id="142">142</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Protocols related to window management</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Protocols related to window management
 
-<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">rustfmt</span>, <span class="ident">rustfmt_skip</span>)]</span>
+</span><span class="attribute">#![cfg_attr(rustfmt, rustfmt_skip)]
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;staging&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">activation</span> {
-    <span class="doccomment">//! The way for a client to pass focus to another toplevel is as follows.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! The client that intends to activate another toplevel uses the</span>
-    <span class="doccomment">//! xdg_activation_v1.get_activation_token request to get an activation token.</span>
-    <span class="doccomment">//! This token is then passed to the client to be activated through a separate</span>
-    <span class="doccomment">//! band of communication. The client to be activated will then pass the token</span>
-    <span class="doccomment">//! it received to the xdg_activation_v1.activate request. The compositor can</span>
-    <span class="doccomment">//! then use this token to decide how to react to the activation request.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! The token the activating client gets may be ineffective either already at</span>
-    <span class="doccomment">//! the time it receives it, for example if it was not focused, for focus</span>
-    <span class="doccomment">//! stealing prevention. The activating client will have no way to discover</span>
-    <span class="doccomment">//! the validity of the token, and may still forward it to the to be activated</span>
-    <span class="doccomment">//! client.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! The created activation token may optionally get information attached to it</span>
-    <span class="doccomment">//! that can be used by the compositor to identify the application that we</span>
-    <span class="doccomment">//! intend to activate. This can for example be used to display a visual hint</span>
-    <span class="doccomment">//! about what application is being started.</span>
+#[cfg(feature = <span class="string">&quot;staging&quot;</span>)]
+</span><span class="kw">pub mod </span>activation {
+    <span class="doccomment">//! The way for a client to pass focus to another toplevel is as follows.
+    //!
+    //! The client that intends to activate another toplevel uses the
+    //! xdg_activation_v1.get_activation_token request to get an activation token.
+    //! This token is then passed to the client to be activated through a separate
+    //! band of communication. The client to be activated will then pass the token
+    //! it received to the xdg_activation_v1.activate request. The compositor can
+    //! then use this token to decide how to react to the activation request.
+    //!
+    //! The token the activating client gets may be ineffective either already at
+    //! the time it receives it, for example if it was not focused, for focus
+    //! stealing prevention. The activating client will have no way to discover
+    //! the validity of the token, and may still forward it to the to be activated
+    //! client.
+    //!
+    //! The created activation token may optionally get information attached to it
+    //! that can be used by the compositor to identify the application that we
+    //! intend to activate. This can for example be used to display a visual hint
+    //! about what application is being started.
 
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">v1</span> {
+    </span><span class="attribute">#[allow(missing_docs)]
+    </span><span class="kw">pub mod </span>v1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/staging/xdg-activation/xdg-activation-v1.xml&quot;</span>,
             []
@@ -175,66 +175,66 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">decoration</span> {
-    <span class="doccomment">//! This interface allows a compositor to announce support for server-side</span>
-    <span class="doccomment">//! decorations.</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub mod </span>decoration {
+    <span class="doccomment">//! This interface allows a compositor to announce support for server-side
+    //! decorations.
 
-    <span class="doccomment">//! A window decoration is a set of window controls as deemed appropriate by</span>
-    <span class="doccomment">//! the party managing them, such as user interface components used to move,</span>
-    <span class="doccomment">//! resize and change a window&#39;s state.</span>
+    //! A window decoration is a set of window controls as deemed appropriate by
+    //! the party managing them, such as user interface components used to move,
+    //! resize and change a window&#39;s state.
 
-    <span class="doccomment">//! A client can use this protocol to request being decorated by a supporting</span>
-    <span class="doccomment">//! compositor.</span>
+    //! A client can use this protocol to request being decorated by a supporting
+    //! compositor.
 
-    <span class="doccomment">//! If compositor and client do not negotiate the use of a server-side</span>
-    <span class="doccomment">//! decoration using this protocol, clients continue to self-decorate as they</span>
-    <span class="doccomment">//! see fit.</span>
+    //! If compositor and client do not negotiate the use of a server-side
+    //! decoration using this protocol, clients continue to self-decorate as they
+    //! see fit.
 
-    <span class="doccomment">/// Unstable version 1</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv1</span> {
+    /// Unstable version 1
+    </span><span class="kw">pub mod </span>zv1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/xdg-decoration/xdg-decoration-unstable-v1.xml&quot;</span>,
-            [<span class="ident"><span class="kw">crate</span>::xdg::shell</span>]
+            [<span class="kw">crate</span>::xdg::shell]
         );
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">foreign</span> {
-    <span class="doccomment">//! Protocol for exporting xdg surface handles</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! This protocol specifies a way for making it possible to reference a surface</span>
-    <span class="doccomment">//! of a different client. With such a reference, a client can, by using the</span>
-    <span class="doccomment">//! interfaces provided by this protocol, manipulate the relationship between</span>
-    <span class="doccomment">//! its own surfaces and the surface of some other client. For example, stack</span>
-    <span class="doccomment">//! some of its own surface above the other clients surface.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! In order for a client A to get a reference of a surface of client B, client</span>
-    <span class="doccomment">//! B must first export its surface using xdg_exporter.export. Upon doing this,</span>
-    <span class="doccomment">//! client B will receive a handle (a unique string) that it may share with</span>
-    <span class="doccomment">//! client A in some way (for example D-Bus). After client A has received the</span>
-    <span class="doccomment">//! handle from client B, it may use xdg_importer.import to create a reference</span>
-    <span class="doccomment">//! to the surface client B just exported. See the corresponding requests for</span>
-    <span class="doccomment">//! details.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! A possible use case for this is out-of-process dialogs. For example when a</span>
-    <span class="doccomment">//! sandboxed client without file system access needs the user to select a file</span>
-    <span class="doccomment">//! on the file system, given sandbox environment support, it can export its</span>
-    <span class="doccomment">//! surface, passing the exported surface handle to an unsandboxed process that</span>
-    <span class="doccomment">//! can show a file browser dialog and stack it above the sandboxed client&#39;s</span>
-    <span class="doccomment">//! surface.</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub mod </span>foreign {
+    <span class="doccomment">//! Protocol for exporting xdg surface handles
+    //!
+    //! This protocol specifies a way for making it possible to reference a surface
+    //! of a different client. With such a reference, a client can, by using the
+    //! interfaces provided by this protocol, manipulate the relationship between
+    //! its own surfaces and the surface of some other client. For example, stack
+    //! some of its own surface above the other clients surface.
+    //!
+    //! In order for a client A to get a reference of a surface of client B, client
+    //! B must first export its surface using xdg_exporter.export. Upon doing this,
+    //! client B will receive a handle (a unique string) that it may share with
+    //! client A in some way (for example D-Bus). After client A has received the
+    //! handle from client B, it may use xdg_importer.import to create a reference
+    //! to the surface client B just exported. See the corresponding requests for
+    //! details.
+    //!
+    //! A possible use case for this is out-of-process dialogs. For example when a
+    //! sandboxed client without file system access needs the user to select a file
+    //! on the file system, given sandbox environment support, it can export its
+    //! surface, passing the exported surface handle to an unsandboxed process that
+    //! can show a file browser dialog and stack it above the sandboxed client&#39;s
+    //! surface.
 
-    <span class="doccomment">/// Unstable version 1</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv1</span> {
+    /// Unstable version 1
+    </span><span class="kw">pub mod </span>zv1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/xdg-foreign/xdg-foreign-unstable-v1.xml&quot;</span>,
             []
         );
     }
     
-    <span class="doccomment">/// Unstable version 2</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv2</span> {
+    <span class="doccomment">/// Unstable version 2
+    </span><span class="kw">pub mod </span>zv2 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/xdg-foreign/xdg-foreign-unstable-v2.xml&quot;</span>,
             []
@@ -242,29 +242,29 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">xdg_output</span> {
-    <span class="doccomment">//! Protocol to describe output regions</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! This protocol aims at describing outputs in a way which is more in line</span>
-    <span class="doccomment">//! with the concept of an output on desktop oriented systems.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! Some information are more specific to the concept of an output for</span>
-    <span class="doccomment">//! a desktop oriented system and may not make sense in other applications,</span>
-    <span class="doccomment">//! such as IVI systems for example.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! Typically, the global compositor space on a desktop system is made of</span>
-    <span class="doccomment">//! a contiguous or overlapping set of rectangular regions.</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! Some of the information provided in this protocol might be identical</span>
-    <span class="doccomment">//! to their counterparts already available from wl_output, in which case</span>
-    <span class="doccomment">//! the information provided by this protocol should be preferred to their</span>
-    <span class="doccomment">//! equivalent in wl_output. The goal is to move the desktop specific</span>
-    <span class="doccomment">//! concepts (such as output location within the global compositor space,</span>
-    <span class="doccomment">//! the connector name and types, etc.) out of the core wl_output protocol.</span>
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub mod </span>xdg_output {
+    <span class="doccomment">//! Protocol to describe output regions
+    //!
+    //! This protocol aims at describing outputs in a way which is more in line
+    //! with the concept of an output on desktop oriented systems.
+    //!
+    //! Some information are more specific to the concept of an output for
+    //! a desktop oriented system and may not make sense in other applications,
+    //! such as IVI systems for example.
+    //!
+    //! Typically, the global compositor space on a desktop system is made of
+    //! a contiguous or overlapping set of rectangular regions.
+    //!
+    //! Some of the information provided in this protocol might be identical
+    //! to their counterparts already available from wl_output, in which case
+    //! the information provided by this protocol should be preferred to their
+    //! equivalent in wl_output. The goal is to move the desktop specific
+    //! concepts (such as output location within the global compositor space,
+    //! the connector name and types, etc.) out of the core wl_output protocol.
 
-    <span class="doccomment">/// Unstable version 1</span>
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">zv1</span> {
+    /// Unstable version 1
+    </span><span class="kw">pub mod </span>zv1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">&quot;./protocols/unstable/xdg-output/xdg-output-unstable-v1.xml&quot;</span>,
             []
@@ -272,15 +272,15 @@
     }
 }
 
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">shell</span> {
-    <span class="doccomment">//! XDG Shell protocol</span>
-    <span class="doccomment">//!</span>
-    <span class="doccomment">//! Exposes the `xdg_wm_base` global, which deprecates and replaces `wl_shell`.</span>
+<span class="kw">pub mod </span>shell {
+    <span class="doccomment">//! XDG Shell protocol
+    //!
+    //! Exposes the `xdg_wm_base` global, which deprecates and replaces `wl_shell`.
 
-    <span class="macro">wayland_protocol!</span>(
+    </span><span class="macro">wayland_protocol!</span>(
         <span class="string">&quot;./protocols/stable/xdg-shell/xdg-shell.xml&quot;</span>,
         []
     );
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_protocols" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_protocols" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

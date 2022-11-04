@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-scanner-0.30.0-beta.10/src/util.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>util.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_scanner/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-scanner-0.30.0-beta.10/src/util.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>util.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_scanner/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_scanner/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -113,120 +113,120 @@
 <span id="113">113</span>
 <span id="114">114</span>
 <span id="115">115</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">proc_macro2</span>::{<span class="ident">Ident</span>, <span class="ident">Span</span>, <span class="ident">TokenStream</span>};
-<span class="kw">use</span> <span class="ident">quote</span>::{<span class="ident">quote</span>, <span class="ident">ToTokens</span>};
+</pre><pre class="rust"><code><span class="kw">use </span>proc_macro2::{Ident, Span, TokenStream};
+<span class="kw">use </span>quote::{quote, ToTokens};
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">to_doc_attr</span>(<span class="ident">text</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="ident">text</span>.<span class="ident">lines</span>().<span class="ident">map</span>(<span class="ident">str::trim</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>().<span class="ident">join</span>(<span class="string">&quot;\n&quot;</span>);
-    <span class="kw">let</span> <span class="ident">text</span> <span class="op">=</span> <span class="ident">text</span>.<span class="ident">trim</span>();
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>to_doc_attr(text: <span class="kw-2">&amp;</span>str) -&gt; TokenStream {
+    <span class="kw">let </span>text = text.lines().map(str::trim).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;().join(<span class="string">&quot;\n&quot;</span>);
+    <span class="kw">let </span>text = text.trim();
 
-    <span class="macro">quote!</span>(<span class="attribute">#[<span class="ident">doc</span> <span class="op">=</span> #<span class="ident">text</span>]</span>)
+    <span class="macro">quote!</span>(<span class="attribute">#[doc = #text]</span>)
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">description_to_doc_attr</span>(<span class="kw-2">&amp;</span>(<span class="kw-2">ref</span> <span class="ident">short</span>, <span class="kw-2">ref</span> <span class="ident">long</span>): <span class="kw-2">&amp;</span>(<span class="ident">String</span>, <span class="ident">String</span>)) -&gt; <span class="ident">TokenStream</span> {
-    <span class="ident">to_doc_attr</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}\n\n{}&quot;</span>, <span class="ident">short</span>, <span class="ident">long</span>))
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>description_to_doc_attr(<span class="kw-2">&amp;</span>(<span class="kw-2">ref </span>short, <span class="kw-2">ref </span>long): <span class="kw-2">&amp;</span>(String, String)) -&gt; TokenStream {
+    to_doc_attr(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">&quot;{}\n\n{}&quot;</span>, short, long))
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_keyword</span>(<span class="ident">txt</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">bool</span> {
+<span class="kw">pub fn </span>is_keyword(txt: <span class="kw-2">&amp;</span>str) -&gt; bool {
     <span class="macro">matches!</span>(
-        <span class="ident">txt</span>,
-        <span class="string">&quot;abstract&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;alignof&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;as&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;become&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;box&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;break&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;const&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;continue&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;crate&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;do&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;else&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;enum&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;extern&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;false&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;final&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;fn&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;for&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;if&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;impl&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;in&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;let&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;loop&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;macro&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;match&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;mod&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;move&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;mut&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;offsetof&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;override&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;priv&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;proc&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;pub&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;pure&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;ref&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;return&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;Self&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;self&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;sizeof&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;static&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;struct&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;super&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;trait&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;true&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;type&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;typeof&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;unsafe&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;unsized&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;use&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;virtual&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;where&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;while&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;yield&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;__handler&quot;</span>
-            <span class="op">|</span> <span class="string">&quot;__object&quot;</span>
-    )
+        txt,
+        <span class="string">&quot;abstract&quot;
+            </span>| <span class="string">&quot;alignof&quot;
+            </span>| <span class="string">&quot;as&quot;
+            </span>| <span class="string">&quot;become&quot;
+            </span>| <span class="string">&quot;box&quot;
+            </span>| <span class="string">&quot;break&quot;
+            </span>| <span class="string">&quot;const&quot;
+            </span>| <span class="string">&quot;continue&quot;
+            </span>| <span class="string">&quot;crate&quot;
+            </span>| <span class="string">&quot;do&quot;
+            </span>| <span class="string">&quot;else&quot;
+            </span>| <span class="string">&quot;enum&quot;
+            </span>| <span class="string">&quot;extern&quot;
+            </span>| <span class="string">&quot;false&quot;
+            </span>| <span class="string">&quot;final&quot;
+            </span>| <span class="string">&quot;fn&quot;
+            </span>| <span class="string">&quot;for&quot;
+            </span>| <span class="string">&quot;if&quot;
+            </span>| <span class="string">&quot;impl&quot;
+            </span>| <span class="string">&quot;in&quot;
+            </span>| <span class="string">&quot;let&quot;
+            </span>| <span class="string">&quot;loop&quot;
+            </span>| <span class="string">&quot;macro&quot;
+            </span>| <span class="string">&quot;match&quot;
+            </span>| <span class="string">&quot;mod&quot;
+            </span>| <span class="string">&quot;move&quot;
+            </span>| <span class="string">&quot;mut&quot;
+            </span>| <span class="string">&quot;offsetof&quot;
+            </span>| <span class="string">&quot;override&quot;
+            </span>| <span class="string">&quot;priv&quot;
+            </span>| <span class="string">&quot;proc&quot;
+            </span>| <span class="string">&quot;pub&quot;
+            </span>| <span class="string">&quot;pure&quot;
+            </span>| <span class="string">&quot;ref&quot;
+            </span>| <span class="string">&quot;return&quot;
+            </span>| <span class="string">&quot;Self&quot;
+            </span>| <span class="string">&quot;self&quot;
+            </span>| <span class="string">&quot;sizeof&quot;
+            </span>| <span class="string">&quot;static&quot;
+            </span>| <span class="string">&quot;struct&quot;
+            </span>| <span class="string">&quot;super&quot;
+            </span>| <span class="string">&quot;trait&quot;
+            </span>| <span class="string">&quot;true&quot;
+            </span>| <span class="string">&quot;type&quot;
+            </span>| <span class="string">&quot;typeof&quot;
+            </span>| <span class="string">&quot;unsafe&quot;
+            </span>| <span class="string">&quot;unsized&quot;
+            </span>| <span class="string">&quot;use&quot;
+            </span>| <span class="string">&quot;virtual&quot;
+            </span>| <span class="string">&quot;where&quot;
+            </span>| <span class="string">&quot;while&quot;
+            </span>| <span class="string">&quot;yield&quot;
+            </span>| <span class="string">&quot;__handler&quot;
+            </span>| <span class="string">&quot;__object&quot;
+    </span>)
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_camel_keyword</span>(<span class="ident">txt</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">bool</span> {
-    <span class="macro">matches!</span>(<span class="ident">txt</span>, <span class="string">&quot;Self&quot;</span>)
+<span class="kw">pub fn </span>is_camel_keyword(txt: <span class="kw-2">&amp;</span>str) -&gt; bool {
+    <span class="macro">matches!</span>(txt, <span class="string">&quot;Self&quot;</span>)
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">snake_to_camel</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">String</span> {
-    <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">input</span>
-        .<span class="ident">split</span>(<span class="string">&#39;_&#39;</span>)
-        .<span class="ident">flat_map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">first</span> <span class="op">=</span> <span class="bool-val">true</span>;
-            <span class="ident">s</span>.<span class="ident">chars</span>().<span class="ident">map</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">c</span><span class="op">|</span> {
-                <span class="kw">if</span> <span class="ident">first</span> {
-                    <span class="ident">first</span> <span class="op">=</span> <span class="bool-val">false</span>;
-                    <span class="ident">c</span>.<span class="ident">to_ascii_uppercase</span>()
-                } <span class="kw">else</span> {
-                    <span class="ident">c</span>
+<span class="kw">pub fn </span>snake_to_camel(input: <span class="kw-2">&amp;</span>str) -&gt; String {
+    <span class="kw">let </span>result = input
+        .split(<span class="string">&#39;_&#39;</span>)
+        .flat_map(|s| {
+            <span class="kw">let </span><span class="kw-2">mut </span>first = <span class="bool-val">true</span>;
+            s.chars().map(<span class="kw">move </span>|c| {
+                <span class="kw">if </span>first {
+                    first = <span class="bool-val">false</span>;
+                    c.to_ascii_uppercase()
+                } <span class="kw">else </span>{
+                    c
                 }
             })
         })
-        .<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>();
+        .collect::&lt;String&gt;();
 
-    <span class="kw">if</span> <span class="ident">is_camel_keyword</span>(<span class="kw-2">&amp;</span><span class="ident">result</span>) {
-        <span class="macro">format!</span>(<span class="string">&quot;_{}&quot;</span>, <span class="kw-2">&amp;</span><span class="ident">result</span>)
-    } <span class="kw">else</span> {
-        <span class="ident">result</span>
+    <span class="kw">if </span>is_camel_keyword(<span class="kw-2">&amp;</span>result) {
+        <span class="macro">format!</span>(<span class="string">&quot;_{}&quot;</span>, <span class="kw-2">&amp;</span>result)
+    } <span class="kw">else </span>{
+        result
     }
 }
 
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dotted_to_relname</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">TokenStream</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">it</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">split</span>(<span class="string">&#39;.&#39;</span>);
-    <span class="kw">match</span> (<span class="ident">it</span>.<span class="ident">next</span>(), <span class="ident">it</span>.<span class="ident">next</span>()) {
-        (<span class="prelude-val">Some</span>(<span class="ident">module</span>), <span class="prelude-val">Some</span>(<span class="ident">name</span>)) =&gt; {
-            <span class="kw">let</span> <span class="ident">module</span> <span class="op">=</span> <span class="ident">Ident::new</span>(<span class="ident">module</span>, <span class="ident">Span::call_site</span>());
-            <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="ident">Ident::new</span>(<span class="kw-2">&amp;</span><span class="ident">snake_to_camel</span>(<span class="ident">name</span>), <span class="ident">Span::call_site</span>());
-            <span class="macro">quote::quote!</span>(<span class="kw">super</span>::#<span class="ident">module</span>::#<span class="ident">ident</span>)
+<span class="kw">pub fn </span>dotted_to_relname(input: <span class="kw-2">&amp;</span>str) -&gt; TokenStream {
+    <span class="kw">let </span><span class="kw-2">mut </span>it = input.split(<span class="string">&#39;.&#39;</span>);
+    <span class="kw">match </span>(it.next(), it.next()) {
+        (<span class="prelude-val">Some</span>(module), <span class="prelude-val">Some</span>(name)) =&gt; {
+            <span class="kw">let </span>module = Ident::new(module, Span::call_site());
+            <span class="kw">let </span>ident = Ident::new(<span class="kw-2">&amp;</span>snake_to_camel(name), Span::call_site());
+            <span class="macro">quote::quote!</span>(<span class="kw">super</span>::#module::#ident)
         }
-        (<span class="prelude-val">Some</span>(<span class="ident">name</span>), <span class="prelude-val">None</span>) =&gt; {
-            <span class="ident">Ident::new</span>(<span class="kw-2">&amp;</span><span class="ident">snake_to_camel</span>(<span class="ident">name</span>), <span class="ident">Span::call_site</span>()).<span class="ident">into_token_stream</span>()
+        (<span class="prelude-val">Some</span>(name), <span class="prelude-val">None</span>) =&gt; {
+            Ident::new(<span class="kw-2">&amp;</span>snake_to_camel(name), Span::call_site()).into_token_stream()
         }
-        <span class="kw">_</span> =&gt; <span class="macro">unreachable!</span>(),
+        <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(),
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_scanner" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_scanner" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

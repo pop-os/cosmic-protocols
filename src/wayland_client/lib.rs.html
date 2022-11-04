@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-client-0.30.0-beta.10/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_client/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_client/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_client/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/wayland-client-0.30.0-beta.10/src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../wayland_client/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../wayland_client/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../wayland_client/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -391,398 +391,398 @@
 <span id="391">391</span>
 <span id="392">392</span>
 <span id="393">393</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Interface for interacting with the Wayland protocol, client-side.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## General concepts</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! This crate is structured around four main objects: the [`Connection`] and [`EventQueue`] structs,</span>
-<span class="doccomment">//! proxies (objects implementing the [`Proxy`] trait), and the [`Dispatch`] trait.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! The [`Connection`] is the heart of this crate, it represents you connection to the Wayland server, and</span>
-<span class="doccomment">//! you&#39;ll generally initialize it using the [`Connection::connect_to_env()`](Connection::connect_to_env)</span>
-<span class="doccomment">//! method, which will attempt to open a Wayland connection following the configuration specified by the</span>
-<span class="doccomment">//! environment.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Once you have a [`Connection`], you can create an [`EventQueue`] from it. This [`EventQueue`] will take</span>
-<span class="doccomment">//! care of processing events from the Wayland server and delivering it to you processing logic, in the form</span>
-<span class="doccomment">//! of a state struct with several [`Dispatch`] implementations (see below).</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! Each of the Wayland object you can manipulate is represented by a struct implementing the [`Proxy`]</span>
-<span class="doccomment">//! trait. Thos structs are automatically generated from the wayland XML protocol specification. This crate</span>
-<span class="doccomment">//! provides the types generated from the core protocol in the [`protocol`] module. For other standard</span>
-<span class="doccomment">//! protocols, see the `wayland-protocols` crate.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Event dispatching</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! The core event dispatching logic provided by this crate is build around the [`EventQueue`] struct. In</span>
-<span class="doccomment">//! this paradigm, receiving and processing events is a two-step process:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! - First events are read from the Wayland socket, for each event the backend figures with [`EventQueue`]</span>
-<span class="doccomment">//!   manages it, and enqueues the event in an internal buffer of that queue.</span>
-<span class="doccomment">//! - Then, the [`EventQueue`] empties its internal buffer by sequentially invoking the appropriate</span>
-<span class="doccomment">//!   [`Dispatch::event()`] method on the `State` value that was provided to it.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! The main goal of this structure is to make your `State` accessible without synchronization to most of</span>
-<span class="doccomment">//! your event-processing logic, to reduce the plumbing costs. See [`EventQueue`] documentation for</span>
-<span class="doccomment">//! explanations of how to drive your event loop using it and explanation about when and how to use multiple</span>
-<span class="doccomment">//! event queues in your app.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ### The [`Dispatch`] trait and dispatch delegation</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! In this paradigm, your `State` needs to implement `Dispatch&lt;O, _&gt;` for every Wayland object `O` it needs to</span>
-<span class="doccomment">//! process events for. This is ensured by the fact that, whenever creating an object using the methods on</span>
-<span class="doccomment">//! an other object, you need to pass a [`QueueHandle&lt;State&gt;`] from the [`EventQueue`] that will be</span>
-<span class="doccomment">//! managing the newly created object.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! However, implementing all those traits on your own is a lot of (often uninteresting) work. To make this</span>
-<span class="doccomment">//! easier a composition mechanism is provided using the [`delegate_dispatch!`] macro. This way, another</span>
-<span class="doccomment">//! library (such as Smithay&#39;s Client Toolkit) can provide generic [`Dispatch`] implementations that you</span>
-<span class="doccomment">//! can reuse on your own app by delegating those objects to that provided implementation. See the</span>
-<span class="doccomment">//! documentation of those traits and macro for details.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Getting started example</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! As an overview of how this crate is used, here is a commented example of a program that connects to the</span>
-<span class="doccomment">//! Wayland server and lists the globals this server advertized throught the `wl_registry`:</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ```rust,no_run</span>
-<span class="doccomment">//! use wayland_client::{protocol::wl_registry, Connection, Dispatch, QueueHandle};</span>
-<span class="doccomment">//! // This struct represents the state of our app. This simple app does not</span>
-<span class="doccomment">//! // need any state, by this type still supports the `Dispatch` implementations.</span>
-<span class="doccomment">//! struct AppData;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // Implement `Dispatch&lt;WlRegistry, ()&gt; for out state. This provides the logic</span>
-<span class="doccomment">//! // to be able to process events for the wl_registry interface.</span>
-<span class="doccomment">//! //</span>
-<span class="doccomment">//! // The second type parameter is the user-data of our implementation. It is a</span>
-<span class="doccomment">//! // mechanism that allows you to associate a value to each particular Wayland</span>
-<span class="doccomment">//! // object, and allow different dispatching logic depending on the type of the</span>
-<span class="doccomment">//! // associated value.</span>
-<span class="doccomment">//! //</span>
-<span class="doccomment">//! // In this example, we just use () as we don&#39;t have any value to associate. See</span>
-<span class="doccomment">//! // the `Dispatch` documentation for more details about this.</span>
-<span class="doccomment">//! impl Dispatch&lt;wl_registry::WlRegistry, ()&gt; for AppData {</span>
-<span class="doccomment">//!     fn event(</span>
-<span class="doccomment">//!         _state: &amp;mut Self,</span>
-<span class="doccomment">//!         _: &amp;wl_registry::WlRegistry,</span>
-<span class="doccomment">//!         event: wl_registry::Event,</span>
-<span class="doccomment">//!         _: &amp;(),</span>
-<span class="doccomment">//!         _: &amp;Connection,</span>
-<span class="doccomment">//!         _: &amp;QueueHandle&lt;AppData&gt;,</span>
-<span class="doccomment">//!     ) {</span>
-<span class="doccomment">//!         // When receiving events from the wl_registry, we are only interested in the</span>
-<span class="doccomment">//!         // `global` event, which signals a new available global.</span>
-<span class="doccomment">//!         // When receiving this event, we just print its characteristics in this example.</span>
-<span class="doccomment">//!         if let wl_registry::Event::Global { name, interface, version } = event {</span>
-<span class="doccomment">//!             println!(&quot;[{}] {} (v{})&quot;, name, interface, version);</span>
-<span class="doccomment">//!         }</span>
-<span class="doccomment">//!     }</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // The main function of our program</span>
-<span class="doccomment">//! fn main() {</span>
-<span class="doccomment">//!     // Create a Wayland connection by connecting to the server through the</span>
-<span class="doccomment">//!     // environment-provided configuration.</span>
-<span class="doccomment">//!     let conn = Connection::connect_to_env().unwrap();</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     // Retrieve the WlDisplay Wayland object from the connection. This object is</span>
-<span class="doccomment">//!     // the starting point of any Wayland program, from which all other objects will</span>
-<span class="doccomment">//!     // be created.</span>
-<span class="doccomment">//!     let display = conn.display();</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     // Create an event queue for our event processing</span>
-<span class="doccomment">//!     let mut event_queue = conn.new_event_queue();</span>
-<span class="doccomment">//!     // An get its handle to associated new objects to it</span>
-<span class="doccomment">//!     let qh = event_queue.handle();</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     // Create a wl_registry object by sending the wl_display.get_registry request</span>
-<span class="doccomment">//!     // This method takes two arguments: a handle to the queue the newly created</span>
-<span class="doccomment">//!     // wl_registry will be assigned to, and the user-data that should be associated</span>
-<span class="doccomment">//!     // with this registry (here it is () as we don&#39;t need user-data).</span>
-<span class="doccomment">//!     let _registry = display.get_registry(&amp;qh, ());</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     // At this point everything is ready, and we just need to wait to receive the events</span>
-<span class="doccomment">//!     // from the wl_registry, our callback will print the advertized globals.</span>
-<span class="doccomment">//!     println!(&quot;Advertized globals:&quot;);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     // To actually receive the events, we invoke the `sync_roundtrip` method. This method</span>
-<span class="doccomment">//!     // is special and you will generally only invoke it during the setup of your program:</span>
-<span class="doccomment">//!     // it will block until the server has received and processed all the messages you&#39;ve</span>
-<span class="doccomment">//!     // sent up to now.</span>
-<span class="doccomment">//!     //</span>
-<span class="doccomment">//!     // In our case, that means it&#39;ll block until the server has received our</span>
-<span class="doccomment">//!     // wl_display.get_registry request, and as a reaction has sent us a batch of</span>
-<span class="doccomment">//!     // wl_registry.global events.</span>
-<span class="doccomment">//!     //</span>
-<span class="doccomment">//!     // `sync_roundtrip` will then empty the internal buffer of the queue it has been invoked</span>
-<span class="doccomment">//!     // on, and thus invoke our `Dispatch` implementation that prints the list of advertized</span>
-<span class="doccomment">//!     // globals.</span>
-<span class="doccomment">//!     event_queue.roundtrip(&amp;mut AppData).unwrap();</span>
-<span class="doccomment">//! }</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Advanced use</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ### Bypassing [`Dispatch`]</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! It may be that for some of your objects, handling them via the [`EventQueue`] is unpractical. For example</span>
-<span class="doccomment">//! if processing the events from those objects don&#39;t require accessing some global state, and/or you need to</span>
-<span class="doccomment">//! handle them in a context where cranking an event loop is unpractical.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! In those contexts, this crate also provides some escape-hatches to directly interface with the low-level</span>
-<span class="doccomment">//! APIs from `wayland-backend`, allowing you to register callbacks for those objects that will be invoked</span>
-<span class="doccomment">//! whenever they receive an event and *any* event queue from the program is being dispatched. Those</span>
-<span class="doccomment">//! callbacks are more constrained: they don&#39;t get a `&amp;mut State` reference, and must be threadsafe. See</span>
-<span class="doccomment">//! [`Proxy::send_constructor`] for details about how to assign such callbacks to objects.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ### Interaction with FFI</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! It can happen that you&#39;ll need to interact with Wayland states accross FFI, a typical example would be if</span>
-<span class="doccomment">//! you need to use the [`raw-window-handle`](https://docs.rs/raw-window-handle/) crate.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! In this case, you&#39;ll need to do it in two steps, by explicitly working with `wayland-backend`, adding</span>
-<span class="doccomment">//! it to your dependencies and enabling its `client_system` feature.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! - If you need to send pointers to FFI, you can retrive the `*mut wl_proxy` pointers from the proxies by</span>
-<span class="doccomment">//!   first getting the [`ObjectId`](crate::backend::ObjectId) using the [`Proxy::id()`] method, and then</span>
-<span class="doccomment">//!   the `ObjectId::as_ptr()` method.</span>
-<span class="doccomment">//! - If you need to receive pointers from FFI, you need to first create a</span>
-<span class="doccomment">//!   [`Backend`](crate::backend::Backend) from the `*mut wl_display` using the `from_external_display()`</span>
-<span class="doccomment">//!   method (see `wayland-backend` docs), and then make it into a [`Connection`] using</span>
-<span class="doccomment">//!   [`Connection::from_backend()`]. Similarly, you can make [`ObjectId`]s from the `*mut wl_proxy` pointers</span>
-<span class="doccomment">//!   using `ObjectId::from_ptr()`, and then make the proxies using [`Proxy::from_id`].</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! ## Logging</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! This crate can generate some runtime error message (notably when a protocol error occurs). By default</span>
-<span class="doccomment">//! those messages are printed to stderr. If you activate the `log` cargo feature, they will instead be</span>
-<span class="doccomment">//! piped through the `log` crate.</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Interface for interacting with the Wayland protocol, client-side.
+//!
+//! ## General concepts
+//!
+//! This crate is structured around four main objects: the [`Connection`] and [`EventQueue`] structs,
+//! proxies (objects implementing the [`Proxy`] trait), and the [`Dispatch`] trait.
+//!
+//! The [`Connection`] is the heart of this crate, it represents you connection to the Wayland server, and
+//! you&#39;ll generally initialize it using the [`Connection::connect_to_env()`](Connection::connect_to_env)
+//! method, which will attempt to open a Wayland connection following the configuration specified by the
+//! environment.
+//!
+//! Once you have a [`Connection`], you can create an [`EventQueue`] from it. This [`EventQueue`] will take
+//! care of processing events from the Wayland server and delivering it to you processing logic, in the form
+//! of a state struct with several [`Dispatch`] implementations (see below).
+//!
+//! Each of the Wayland object you can manipulate is represented by a struct implementing the [`Proxy`]
+//! trait. Thos structs are automatically generated from the wayland XML protocol specification. This crate
+//! provides the types generated from the core protocol in the [`protocol`] module. For other standard
+//! protocols, see the `wayland-protocols` crate.
+//!
+//! ## Event dispatching
+//!
+//! The core event dispatching logic provided by this crate is build around the [`EventQueue`] struct. In
+//! this paradigm, receiving and processing events is a two-step process:
+//!
+//! - First events are read from the Wayland socket, for each event the backend figures with [`EventQueue`]
+//!   manages it, and enqueues the event in an internal buffer of that queue.
+//! - Then, the [`EventQueue`] empties its internal buffer by sequentially invoking the appropriate
+//!   [`Dispatch::event()`] method on the `State` value that was provided to it.
+//!
+//! The main goal of this structure is to make your `State` accessible without synchronization to most of
+//! your event-processing logic, to reduce the plumbing costs. See [`EventQueue`] documentation for
+//! explanations of how to drive your event loop using it and explanation about when and how to use multiple
+//! event queues in your app.
+//!
+//! ### The [`Dispatch`] trait and dispatch delegation
+//!
+//! In this paradigm, your `State` needs to implement `Dispatch&lt;O, _&gt;` for every Wayland object `O` it needs to
+//! process events for. This is ensured by the fact that, whenever creating an object using the methods on
+//! an other object, you need to pass a [`QueueHandle&lt;State&gt;`] from the [`EventQueue`] that will be
+//! managing the newly created object.
+//!
+//! However, implementing all those traits on your own is a lot of (often uninteresting) work. To make this
+//! easier a composition mechanism is provided using the [`delegate_dispatch!`] macro. This way, another
+//! library (such as Smithay&#39;s Client Toolkit) can provide generic [`Dispatch`] implementations that you
+//! can reuse on your own app by delegating those objects to that provided implementation. See the
+//! documentation of those traits and macro for details.
+//!
+//! ## Getting started example
+//!
+//! As an overview of how this crate is used, here is a commented example of a program that connects to the
+//! Wayland server and lists the globals this server advertized throught the `wl_registry`:
+//!
+//! ```rust,no_run
+//! use wayland_client::{protocol::wl_registry, Connection, Dispatch, QueueHandle};
+//! // This struct represents the state of our app. This simple app does not
+//! // need any state, by this type still supports the `Dispatch` implementations.
+//! struct AppData;
+//!
+//! // Implement `Dispatch&lt;WlRegistry, ()&gt; for out state. This provides the logic
+//! // to be able to process events for the wl_registry interface.
+//! //
+//! // The second type parameter is the user-data of our implementation. It is a
+//! // mechanism that allows you to associate a value to each particular Wayland
+//! // object, and allow different dispatching logic depending on the type of the
+//! // associated value.
+//! //
+//! // In this example, we just use () as we don&#39;t have any value to associate. See
+//! // the `Dispatch` documentation for more details about this.
+//! impl Dispatch&lt;wl_registry::WlRegistry, ()&gt; for AppData {
+//!     fn event(
+//!         _state: &amp;mut Self,
+//!         _: &amp;wl_registry::WlRegistry,
+//!         event: wl_registry::Event,
+//!         _: &amp;(),
+//!         _: &amp;Connection,
+//!         _: &amp;QueueHandle&lt;AppData&gt;,
+//!     ) {
+//!         // When receiving events from the wl_registry, we are only interested in the
+//!         // `global` event, which signals a new available global.
+//!         // When receiving this event, we just print its characteristics in this example.
+//!         if let wl_registry::Event::Global { name, interface, version } = event {
+//!             println!(&quot;[{}] {} (v{})&quot;, name, interface, version);
+//!         }
+//!     }
+//! }
+//!
+//! // The main function of our program
+//! fn main() {
+//!     // Create a Wayland connection by connecting to the server through the
+//!     // environment-provided configuration.
+//!     let conn = Connection::connect_to_env().unwrap();
+//!
+//!     // Retrieve the WlDisplay Wayland object from the connection. This object is
+//!     // the starting point of any Wayland program, from which all other objects will
+//!     // be created.
+//!     let display = conn.display();
+//!
+//!     // Create an event queue for our event processing
+//!     let mut event_queue = conn.new_event_queue();
+//!     // An get its handle to associated new objects to it
+//!     let qh = event_queue.handle();
+//!
+//!     // Create a wl_registry object by sending the wl_display.get_registry request
+//!     // This method takes two arguments: a handle to the queue the newly created
+//!     // wl_registry will be assigned to, and the user-data that should be associated
+//!     // with this registry (here it is () as we don&#39;t need user-data).
+//!     let _registry = display.get_registry(&amp;qh, ());
+//!
+//!     // At this point everything is ready, and we just need to wait to receive the events
+//!     // from the wl_registry, our callback will print the advertized globals.
+//!     println!(&quot;Advertized globals:&quot;);
+//!
+//!     // To actually receive the events, we invoke the `sync_roundtrip` method. This method
+//!     // is special and you will generally only invoke it during the setup of your program:
+//!     // it will block until the server has received and processed all the messages you&#39;ve
+//!     // sent up to now.
+//!     //
+//!     // In our case, that means it&#39;ll block until the server has received our
+//!     // wl_display.get_registry request, and as a reaction has sent us a batch of
+//!     // wl_registry.global events.
+//!     //
+//!     // `sync_roundtrip` will then empty the internal buffer of the queue it has been invoked
+//!     // on, and thus invoke our `Dispatch` implementation that prints the list of advertized
+//!     // globals.
+//!     event_queue.roundtrip(&amp;mut AppData).unwrap();
+//! }
+//! ```
+//!
+//! ## Advanced use
+//!
+//! ### Bypassing [`Dispatch`]
+//!
+//! It may be that for some of your objects, handling them via the [`EventQueue`] is unpractical. For example
+//! if processing the events from those objects don&#39;t require accessing some global state, and/or you need to
+//! handle them in a context where cranking an event loop is unpractical.
+//!
+//! In those contexts, this crate also provides some escape-hatches to directly interface with the low-level
+//! APIs from `wayland-backend`, allowing you to register callbacks for those objects that will be invoked
+//! whenever they receive an event and *any* event queue from the program is being dispatched. Those
+//! callbacks are more constrained: they don&#39;t get a `&amp;mut State` reference, and must be threadsafe. See
+//! [`Proxy::send_constructor`] for details about how to assign such callbacks to objects.
+//!
+//! ### Interaction with FFI
+//!
+//! It can happen that you&#39;ll need to interact with Wayland states accross FFI, a typical example would be if
+//! you need to use the [`raw-window-handle`](https://docs.rs/raw-window-handle/) crate.
+//!
+//! In this case, you&#39;ll need to do it in two steps, by explicitly working with `wayland-backend`, adding
+//! it to your dependencies and enabling its `client_system` feature.
+//!
+//! - If you need to send pointers to FFI, you can retrive the `*mut wl_proxy` pointers from the proxies by
+//!   first getting the [`ObjectId`](crate::backend::ObjectId) using the [`Proxy::id()`] method, and then
+//!   the `ObjectId::as_ptr()` method.
+//! - If you need to receive pointers from FFI, you need to first create a
+//!   [`Backend`](crate::backend::Backend) from the `*mut wl_display` using the `from_external_display()`
+//!   method (see `wayland-backend` docs), and then make it into a [`Connection`] using
+//!   [`Connection::from_backend()`]. Similarly, you can make [`ObjectId`]s from the `*mut wl_proxy` pointers
+//!   using `ObjectId::from_ptr()`, and then make the proxies using [`Proxy::from_id`].
+//!
+//! ## Logging
+//!
+//! This crate can generate some runtime error message (notably when a protocol error occurs). By default
+//! those messages are printed to stderr. If you activate the `log` cargo feature, they will instead be
+//! piped through the `log` crate.
 
-<span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy::needless_doctest_main</span>)]</span>
-<span class="attribute">#![<span class="ident">warn</span>(<span class="ident">missing_docs</span>, <span class="ident">missing_debug_implementations</span>)]</span>
-<span class="attribute">#![<span class="ident">forbid</span>(<span class="ident">improper_ctypes</span>, <span class="ident">unsafe_op_in_unsafe_fn</span>)]</span>
-<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">coverage</span>, <span class="ident">feature</span>(<span class="ident">no_coverage</span>))]</span>
+</span><span class="attribute">#![allow(clippy::needless_doctest_main)]
+#![warn(missing_docs, missing_debug_implementations)]
+#![forbid(improper_ctypes, unsafe_op_in_unsafe_fn)]
+#![cfg_attr(coverage, feature(no_coverage))]
 
-<span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">hash</span>::{<span class="ident">Hash</span>, <span class="ident">Hasher</span>},
-    <span class="ident">os::unix::io::RawFd</span>,
-    <span class="ident">sync::Arc</span>,
+</span><span class="kw">use </span>std::{
+    hash::{Hash, Hasher},
+    os::unix::io::RawFd,
+    sync::Arc,
 };
-<span class="kw">use</span> <span class="ident">wayland_backend</span>::{
-    <span class="ident">client</span>::{<span class="ident">InvalidId</span>, <span class="ident">ObjectData</span>, <span class="ident">ObjectId</span>, <span class="ident">WaylandError</span>, <span class="ident">WeakBackend</span>},
-    <span class="ident">io_lifetimes::OwnedFd</span>,
-    <span class="ident">protocol</span>::{<span class="ident">Interface</span>, <span class="ident">Message</span>},
+<span class="kw">use </span>wayland_backend::{
+    client::{InvalidId, ObjectData, ObjectId, WaylandError, WeakBackend},
+    io_lifetimes::OwnedFd,
+    protocol::{Interface, Message},
 };
 
-<span class="kw">mod</span> <span class="ident">conn</span>;
-<span class="kw">mod</span> <span class="ident">event_queue</span>;
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">globals</span>;
+<span class="kw">mod </span>conn;
+<span class="kw">mod </span>event_queue;
+<span class="kw">pub mod </span>globals;
 
-<span class="doccomment">/// Backend reexports</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">backend</span> {
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wayland_backend::client</span>::{
-        <span class="ident">Backend</span>, <span class="ident">InvalidId</span>, <span class="ident">NoWaylandLib</span>, <span class="ident">ObjectData</span>, <span class="ident">ObjectId</span>, <span class="ident">ReadEventsGuard</span>, <span class="ident">WaylandError</span>,
-        <span class="ident">WeakBackend</span>,
+<span class="doccomment">/// Backend reexports
+</span><span class="kw">pub mod </span>backend {
+    <span class="kw">pub use </span>wayland_backend::client::{
+        Backend, InvalidId, NoWaylandLib, ObjectData, ObjectId, ReadEventsGuard, WaylandError,
+        WeakBackend,
     };
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wayland_backend::io_lifetimes</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wayland_backend::protocol</span>;
-    <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wayland_backend::smallvec</span>;
+    <span class="kw">pub use </span>wayland_backend::io_lifetimes;
+    <span class="kw">pub use </span>wayland_backend::protocol;
+    <span class="kw">pub use </span>wayland_backend::smallvec;
 }
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">wayland_backend::protocol::WEnum</span>;
+<span class="kw">pub use </span>wayland_backend::protocol::WEnum;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">conn</span>::{<span class="ident">ConnectError</span>, <span class="ident">Connection</span>};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">event_queue</span>::{<span class="ident">Dispatch</span>, <span class="ident">EventQueue</span>, <span class="ident">QueueFreezeGuard</span>, <span class="ident">QueueHandle</span>, <span class="ident">QueueProxyData</span>};
+<span class="kw">pub use </span>conn::{ConnectError, Connection};
+<span class="kw">pub use </span>event_queue::{Dispatch, EventQueue, QueueFreezeGuard, QueueHandle, QueueProxyData};
 
-<span class="comment">// internal imports for dispatching logging depending on the `log` feature</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;log&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
-<span class="kw">use</span> <span class="ident">log</span>::{<span class="ident">debug</span> <span class="kw">as</span> <span class="ident">log_debug</span>, <span class="ident">error</span> <span class="kw">as</span> <span class="ident">log_error</span>, <span class="ident">info</span> <span class="kw">as</span> <span class="ident">log_info</span>, <span class="ident">warn</span> <span class="kw">as</span> <span class="ident">log_warn</span>};
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;log&quot;</span>))]</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused_imports</span>)]</span>
-<span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">eprintln</span> <span class="kw">as</span> <span class="ident">log_error</span>, <span class="ident">eprintln</span> <span class="kw">as</span> <span class="ident">log_warn</span>, <span class="ident">eprintln</span> <span class="kw">as</span> <span class="ident">log_info</span>, <span class="ident">eprintln</span> <span class="kw">as</span> <span class="ident">log_debug</span>,
+<span class="comment">// internal imports for dispatching logging depending on the `log` feature
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;log&quot;</span>)]
+#[allow(unused_imports)]
+</span><span class="kw">use </span>log::{debug <span class="kw">as </span>log_debug, error <span class="kw">as </span>log_error, info <span class="kw">as </span>log_info, warn <span class="kw">as </span>log_warn};
+<span class="attribute">#[cfg(not(feature = <span class="string">&quot;log&quot;</span>))]
+#[allow(unused_imports)]
+</span><span class="kw">use </span>std::{
+    eprintln <span class="kw">as </span>log_error, eprintln <span class="kw">as </span>log_warn, eprintln <span class="kw">as </span>log_info, eprintln <span class="kw">as </span>log_debug,
 };
 
-<span class="doccomment">/// Generated protocol definitions</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This module is automatically generated from the `wayland.xml` protocol specification,</span>
-<span class="doccomment">/// and contains the interface definitions for the core Wayland protocol.</span>
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">protocol</span> {
-    <span class="kw">use</span> <span class="ident"><span class="self">self</span>::__interfaces</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="kw">crate</span> <span class="kw">as</span> <span class="ident">wayland_client</span>;
-    <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">__interfaces</span> {
+<span class="doccomment">/// Generated protocol definitions
+///
+/// This module is automatically generated from the `wayland.xml` protocol specification,
+/// and contains the interface definitions for the core Wayland protocol.
+</span><span class="attribute">#[allow(missing_docs)]
+</span><span class="kw">pub mod </span>protocol {
+    <span class="kw">use </span><span class="self">self</span>::__interfaces::<span class="kw-2">*</span>;
+    <span class="kw">use crate as </span>wayland_client;
+    <span class="kw">pub mod </span>__interfaces {
         <span class="macro">wayland_scanner::generate_interfaces!</span>(<span class="string">&quot;wayland.xml&quot;</span>);
     }
     <span class="macro">wayland_scanner::generate_client_code!</span>(<span class="string">&quot;wayland.xml&quot;</span>);
 }
 
-<span class="doccomment">/// Trait representing a Wayland interface</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Proxy</span>: <span class="ident">Clone</span> <span class="op">+</span> <span class="ident">std::fmt::Debug</span> <span class="op">+</span> <span class="ident">Sized</span> {
-    <span class="doccomment">/// The event enum for this interface</span>
-    <span class="kw">type</span> <span class="ident">Event</span>;
-    <span class="doccomment">/// The request enum for this interface</span>
-    <span class="kw">type</span> <span class="ident">Request</span>;
+<span class="doccomment">/// Trait representing a Wayland interface
+</span><span class="kw">pub trait </span>Proxy: Clone + std::fmt::Debug + Sized {
+    <span class="doccomment">/// The event enum for this interface
+    </span><span class="kw">type </span>Event;
+    <span class="doccomment">/// The request enum for this interface
+    </span><span class="kw">type </span>Request;
 
-    <span class="doccomment">/// The interface description</span>
-    <span class="kw">fn</span> <span class="ident">interface</span>() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span>;
+    <span class="doccomment">/// The interface description
+    </span><span class="kw">fn </span>interface() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface;
 
-    <span class="doccomment">/// The ID of this object</span>
-    <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">ObjectId</span>;
+    <span class="doccomment">/// The ID of this object
+    </span><span class="kw">fn </span>id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ObjectId;
 
-    <span class="doccomment">/// The version of this object</span>
-    <span class="kw">fn</span> <span class="ident">version</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span>;
+    <span class="doccomment">/// The version of this object
+    </span><span class="kw">fn </span>version(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32;
 
-    <span class="doccomment">/// Checks if the Wayland object associated with this proxy is still alive</span>
-    <span class="kw">fn</span> <span class="ident">is_alive</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">backend</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">backend</span>().<span class="ident">upgrade</span>() {
-            <span class="ident">backend</span>.<span class="ident">info</span>(<span class="self">self</span>.<span class="ident">id</span>()).<span class="ident">is_ok</span>()
-        } <span class="kw">else</span> {
-            <span class="bool-val">false</span>
-        }
+    <span class="doccomment">/// Checks if the Wayland object associated with this proxy is still alive
+    </span><span class="kw">fn </span>is_alive(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(backend) = <span class="self">self</span>.backend().upgrade() {
+            backend.info(<span class="self">self</span>.id()).is_ok()
+        } <span class="kw">else </span>{
+            <span class="bool-val">false
+        </span>}
     }
 
-    <span class="doccomment">/// Access the user-data associated with this object</span>
-    <span class="kw">fn</span> <span class="ident">data</span><span class="op">&lt;</span><span class="ident">U</span>: <span class="ident">Send</span> <span class="op">+</span> <span class="ident">Sync</span> <span class="op">+</span> <span class="lifetime">&#39;static</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">U</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Access the user-data associated with this object
+    </span><span class="kw">fn </span>data&lt;U: Send + Sync + <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>U&gt;;
 
-    <span class="doccomment">/// Access the raw data associated with this object.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// For objects created using the scanner-generated methods, this will be an instance of the</span>
-    <span class="doccomment">/// [QueueProxyData] type.</span>
-    <span class="kw">fn</span> <span class="ident">object_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Access the raw data associated with this object.
+    ///
+    /// For objects created using the scanner-generated methods, this will be an instance of the
+    /// [QueueProxyData] type.
+    </span><span class="kw">fn </span>object_data(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Arc&lt;<span class="kw">dyn </span>ObjectData&gt;&gt;;
 
-    <span class="doccomment">/// Access the backend associated with this object</span>
-    <span class="kw">fn</span> <span class="ident">backend</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">backend::WeakBackend</span>;
+    <span class="doccomment">/// Access the backend associated with this object
+    </span><span class="kw">fn </span>backend(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>backend::WeakBackend;
 
-    <span class="doccomment">/// Create an object proxy from its ID</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns an error this the provided object ID does not correspond to</span>
-    <span class="doccomment">/// the `Self` interface.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note:** This method is mostly meant as an implementation detail to be</span>
-    <span class="doccomment">/// used by code generated by wayland-scanner.</span>
-    <span class="kw">fn</span> <span class="ident">from_id</span>(<span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="ident">Connection</span>, <span class="ident">id</span>: <span class="ident">ObjectId</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Create an object proxy from its ID
+    ///
+    /// Returns an error this the provided object ID does not correspond to
+    /// the `Self` interface.
+    ///
+    /// **Note:** This method is mostly meant as an implementation detail to be
+    /// used by code generated by wayland-scanner.
+    </span><span class="kw">fn </span>from_id(conn: <span class="kw-2">&amp;</span>Connection, id: ObjectId) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidId&gt;;
 
-    <span class="doccomment">/// Create an inert object proxy</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note:** This method is mostly meant as an implementation detail to be</span>
-    <span class="doccomment">/// used by code generated by wayland-scanner.</span>
-    <span class="kw">fn</span> <span class="ident">inert</span>(<span class="ident">backend</span>: <span class="ident">backend::WeakBackend</span>) -&gt; <span class="self">Self</span>;
+    <span class="doccomment">/// Create an inert object proxy
+    ///
+    /// **Note:** This method is mostly meant as an implementation detail to be
+    /// used by code generated by wayland-scanner.
+    </span><span class="kw">fn </span>inert(backend: backend::WeakBackend) -&gt; <span class="self">Self</span>;
 
-    <span class="doccomment">/// Send a request for this object.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// It is an error to use this function on requests that create objects; use</span>
-    <span class="doccomment">/// [Proxy::send_constructor] for such requests.</span>
-    <span class="kw">fn</span> <span class="ident">send_request</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">req</span>: <span class="ident"><span class="self">Self</span>::Request</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">InvalidId</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Send a request for this object.
+    ///
+    /// It is an error to use this function on requests that create objects; use
+    /// [Proxy::send_constructor] for such requests.
+    </span><span class="kw">fn </span>send_request(<span class="kw-2">&amp;</span><span class="self">self</span>, req: <span class="self">Self</span>::Request) -&gt; <span class="prelude-ty">Result</span>&lt;(), InvalidId&gt;;
 
-    <span class="doccomment">/// Send a request for this object that creates another object.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// It is an error to use this function on requests that do not create objects; use</span>
-    <span class="doccomment">/// [Proxy::send_request] for such requests.</span>
-    <span class="kw">fn</span> <span class="ident">send_constructor</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Proxy</span><span class="op">&gt;</span>(
+    <span class="doccomment">/// Send a request for this object that creates another object.
+    ///
+    /// It is an error to use this function on requests that do not create objects; use
+    /// [Proxy::send_request] for such requests.
+    </span><span class="kw">fn </span>send_constructor&lt;I: Proxy&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">req</span>: <span class="ident"><span class="self">Self</span>::Request</span>,
-        <span class="ident">data</span>: <span class="ident">Arc</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">ObjectData</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span>;
+        req: <span class="self">Self</span>::Request,
+        data: Arc&lt;<span class="kw">dyn </span>ObjectData&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;I, InvalidId&gt;;
 
-    <span class="doccomment">/// Parse a event for this object</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note:** This method is mostly meant as an implementation detail to be</span>
-    <span class="doccomment">/// used by code generated by wayland-scanner.</span>
-    <span class="kw">fn</span> <span class="ident">parse_event</span>(
-        <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="ident">Connection</span>,
-        <span class="ident">msg</span>: <span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">OwnedFd</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="self">Self</span>, <span class="ident"><span class="self">Self</span>::Event</span>), <span class="ident">DispatchError</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Parse a event for this object
+    ///
+    /// **Note:** This method is mostly meant as an implementation detail to be
+    /// used by code generated by wayland-scanner.
+    </span><span class="kw">fn </span>parse_event(
+        conn: <span class="kw-2">&amp;</span>Connection,
+        msg: Message&lt;ObjectId, OwnedFd&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(<span class="self">Self</span>, <span class="self">Self</span>::Event), DispatchError&gt;;
 
-    <span class="doccomment">/// Serialize a request for this object</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// **Note:** This method is mostly meant as an implementation detail to be</span>
-    <span class="doccomment">/// used by code generated by wayland-scanner.</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::type_complexity</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">write_request</span>(
+    <span class="doccomment">/// Serialize a request for this object
+    ///
+    /// **Note:** This method is mostly meant as an implementation detail to be
+    /// used by code generated by wayland-scanner.
+    </span><span class="attribute">#[allow(clippy::type_complexity)]
+    </span><span class="kw">fn </span>write_request(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="ident">Connection</span>,
-        <span class="ident">req</span>: <span class="ident"><span class="self">Self</span>::Request</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="ident">Message</span><span class="op">&lt;</span><span class="ident">ObjectId</span>, <span class="ident">RawFd</span><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">Interface</span>, <span class="ident">u32</span>)<span class="op">&gt;</span>), <span class="ident">InvalidId</span><span class="op">&gt;</span>;
+        conn: <span class="kw-2">&amp;</span>Connection,
+        req: <span class="self">Self</span>::Request,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(Message&lt;ObjectId, RawFd&gt;, <span class="prelude-ty">Option</span>&lt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface, u32)&gt;), InvalidId&gt;;
 
-    <span class="doccomment">/// Creates a weak handle to this object</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This weak handle will not keep the user-data associated with the object alive,</span>
-    <span class="doccomment">/// and can be converted back to a full proxy using [`Weak::upgrade()`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This can be of use if you need to store proxies in the used data of other objects and want</span>
-    <span class="doccomment">/// to be sure to avoid reference cycles that would cause memory leaks.</span>
-    <span class="kw">fn</span> <span class="ident">downgrade</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Weak</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {
-        <span class="ident">Weak</span> { <span class="ident">backend</span>: <span class="self">self</span>.<span class="ident">backend</span>().<span class="ident">clone</span>(), <span class="ident">id</span>: <span class="self">self</span>.<span class="ident">id</span>(), <span class="ident">_iface</span>: <span class="ident">std::marker::PhantomData</span> }
+    <span class="doccomment">/// Creates a weak handle to this object
+    ///
+    /// This weak handle will not keep the user-data associated with the object alive,
+    /// and can be converted back to a full proxy using [`Weak::upgrade()`].
+    ///
+    /// This can be of use if you need to store proxies in the used data of other objects and want
+    /// to be sure to avoid reference cycles that would cause memory leaks.
+    </span><span class="kw">fn </span>downgrade(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Weak&lt;<span class="self">Self</span>&gt; {
+        Weak { backend: <span class="self">self</span>.backend().clone(), id: <span class="self">self</span>.id(), _iface: std::marker::PhantomData }
     }
 }
 
-<span class="doccomment">/// Wayland dispatching error</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">thiserror::Error</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">DispatchError</span> {
-    <span class="doccomment">/// The received message does not match the specification for the object&#39;s interface.</span>
-    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;Bad message for object {interface}@{sender_id} on opcode {opcode}&quot;</span>)]</span>
-    <span class="ident">BadMessage</span> {
-        <span class="doccomment">/// The id of the target object</span>
-        <span class="ident">sender_id</span>: <span class="ident">ObjectId</span>,
-        <span class="doccomment">/// The interface of the target object</span>
-        <span class="ident">interface</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span>,
-        <span class="doccomment">/// The opcode number</span>
-        <span class="ident">opcode</span>: <span class="ident">u16</span>,
+<span class="doccomment">/// Wayland dispatching error
+</span><span class="attribute">#[derive(thiserror::Error, Debug)]
+</span><span class="kw">pub enum </span>DispatchError {
+    <span class="doccomment">/// The received message does not match the specification for the object&#39;s interface.
+    </span><span class="attribute">#[error(<span class="string">&quot;Bad message for object {interface}@{sender_id} on opcode {opcode}&quot;</span>)]
+    </span>BadMessage {
+        <span class="doccomment">/// The id of the target object
+        </span>sender_id: ObjectId,
+        <span class="doccomment">/// The interface of the target object
+        </span>interface: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+        <span class="doccomment">/// The opcode number
+        </span>opcode: u16,
     },
-    <span class="doccomment">/// The backend generated an error</span>
-    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;Backend error: {0}&quot;</span>)]</span>
-    <span class="ident">Backend</span>(<span class="attribute">#[<span class="ident">from</span>]</span> <span class="ident">WaylandError</span>),
+    <span class="doccomment">/// The backend generated an error
+    </span><span class="attribute">#[error(<span class="string">&quot;Backend error: {0}&quot;</span>)]
+    </span>Backend(<span class="attribute">#[from] </span>WaylandError),
 }
 
-<span class="doccomment">/// A weak handle to a Wayland object</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This handle does not keep the underlying user data alive, and can be converted back to a full proxy</span>
-<span class="doccomment">/// using [`Weak::upgrade()`].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Weak</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
-    <span class="ident">backend</span>: <span class="ident">WeakBackend</span>,
-    <span class="ident">id</span>: <span class="ident">ObjectId</span>,
-    <span class="ident">_iface</span>: <span class="ident">std::marker::PhantomData</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span>,
+<span class="doccomment">/// A weak handle to a Wayland object
+///
+/// This handle does not keep the underlying user data alive, and can be converted back to a full proxy
+/// using [`Weak::upgrade()`].
+</span><span class="attribute">#[derive(Debug, Clone)]
+</span><span class="kw">pub struct </span>Weak&lt;I&gt; {
+    backend: WeakBackend,
+    id: ObjectId,
+    _iface: std::marker::PhantomData&lt;I&gt;,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Proxy</span><span class="op">&gt;</span> <span class="ident">Weak</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Try to upgrade with weak handle back into a full proxy.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This will fail if either:</span>
-    <span class="doccomment">/// - the object represented by this handle has already been destroyed at the protocol level</span>
-    <span class="doccomment">/// - the Wayland connection has already been closed</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">upgrade</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">I</span>, <span class="ident">InvalidId</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">backend</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">backend</span>.<span class="ident">upgrade</span>().<span class="ident">ok_or</span>(<span class="ident">InvalidId</span>)<span class="question-mark">?</span>;
-        <span class="kw">let</span> <span class="ident">conn</span> <span class="op">=</span> <span class="ident">Connection::from_backend</span>(<span class="ident">backend</span>);
-        <span class="ident">I::from_id</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>, <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">clone</span>())
+<span class="kw">impl</span>&lt;I: Proxy&gt; Weak&lt;I&gt; {
+    <span class="doccomment">/// Try to upgrade with weak handle back into a full proxy.
+    ///
+    /// This will fail if either:
+    /// - the object represented by this handle has already been destroyed at the protocol level
+    /// - the Wayland connection has already been closed
+    </span><span class="kw">pub fn </span>upgrade(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;I, InvalidId&gt; {
+        <span class="kw">let </span>backend = <span class="self">self</span>.backend.upgrade().ok_or(InvalidId)<span class="question-mark">?</span>;
+        <span class="kw">let </span>conn = Connection::from_backend(backend);
+        I::from_id(<span class="kw-2">&amp;</span>conn, <span class="self">self</span>.id.clone())
     }
 
-    <span class="doccomment">/// The underlying [`ObjectId`]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">ObjectId</span> {
-        <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">clone</span>()
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="ident">PartialEq</span> <span class="kw">for</span> <span class="ident">Weak</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">id</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">id</span>
+    <span class="doccomment">/// The underlying [`ObjectId`]
+    </span><span class="kw">pub fn </span>id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ObjectId {
+        <span class="self">self</span>.id.clone()
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="ident">Eq</span> <span class="kw">for</span> <span class="ident">Weak</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="ident">Hash</span> <span class="kw">for</span> <span class="ident">Weak</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">hash</span><span class="op">&lt;</span><span class="ident">H</span>: <span class="ident">Hasher</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">state</span>: <span class="kw-2">&amp;mut</span> <span class="ident">H</span>) {
-        <span class="self">self</span>.<span class="ident">id</span>.<span class="ident">hash</span>(<span class="ident">state</span>);
+<span class="kw">impl</span>&lt;I&gt; PartialEq <span class="kw">for </span>Weak&lt;I&gt; {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
+        <span class="self">self</span>.id == other.id
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">I</span>: <span class="ident">Proxy</span><span class="op">&gt;</span> <span class="ident">PartialEq</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Weak</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">I</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">id</span> <span class="op">==</span> <span class="ident">other</span>.<span class="ident">id</span>()
+<span class="kw">impl</span>&lt;I&gt; Eq <span class="kw">for </span>Weak&lt;I&gt; {}
+
+<span class="kw">impl</span>&lt;I&gt; Hash <span class="kw">for </span>Weak&lt;I&gt; {
+    <span class="kw">fn </span>hash&lt;H: Hasher&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: <span class="kw-2">&amp;mut </span>H) {
+        <span class="self">self</span>.id.hash(state);
+    }
+}
+
+<span class="kw">impl</span>&lt;I: Proxy&gt; PartialEq&lt;I&gt; <span class="kw">for </span>Weak&lt;I&gt; {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>I) -&gt; bool {
+        <span class="self">self</span>.id == other.id()
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_client" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0 (a55dd71d5 2022-09-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="wayland_client" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0 (897e37553 2022-11-02)" ></div></body></html>

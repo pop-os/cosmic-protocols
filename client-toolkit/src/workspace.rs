@@ -4,8 +4,9 @@ use cosmic_protocols::workspace::v1::client::{
 use sctk::registry::{ProvidesRegistryState, RegistryHandler};
 use wayland_client::{protocol::wl_output, Connection, Dispatch, QueueHandle};
 
-#[derive(Default, Clone)]
+#[derive(Default, Clone, Debug)]
 pub struct WorkspaceGroup {
+    pub capabilities: Vec<u8>,
     pub output: Option<wl_output::WlOutput>,
     pub workspaces: Vec<(
         zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1,
@@ -13,9 +14,12 @@ pub struct WorkspaceGroup {
     )>,
 }
 
-#[derive(Default, Clone)]
+#[derive(Default, Clone, Debug)]
 pub struct Workspace {
     pub name: Option<String>,
+    pub coordinates: Vec<u8>,
+    pub state: Vec<u8>,
+    pub capabilities: Vec<u8>,
 }
 
 pub struct WorkspaceState {
@@ -92,7 +96,8 @@ where
             zcosmic_workspace_manager_v1::Event::Done => {
                 state.done();
             }
-            _ => {}
+            zcosmic_workspace_manager_v1::Event::Finished => {}
+            _ => unreachable!(),
         }
     }
 
@@ -125,8 +130,14 @@ where
             .unwrap()
             .1;
         match event {
+            zcosmic_workspace_group_handle_v1::Event::Capabilities { capabilities } => {
+                group_info.capabilities = capabilities;
+            }
             zcosmic_workspace_group_handle_v1::Event::OutputEnter { output } => {
                 group_info.output = Some(output);
+            }
+            zcosmic_workspace_group_handle_v1::Event::OutputLeave { output } => {
+                group_info.output = None;
             }
             zcosmic_workspace_group_handle_v1::Event::Workspace { workspace } => {
                 group_info
@@ -143,7 +154,7 @@ where
                     state.workspace_state().workspace_groups.remove(idx);
                 }
             }
-            _ => {}
+            _ => unreachable!(),
         }
     }
 
@@ -179,6 +190,15 @@ where
             zcosmic_workspace_handle_v1::Event::Name { name } => {
                 workspace_info.name = Some(name);
             }
+            zcosmic_workspace_handle_v1::Event::Coordinates { coordinates } => {
+                workspace_info.coordinates = coordinates;
+            }
+            zcosmic_workspace_handle_v1::Event::State { state } => {
+                workspace_info.state = state;
+            }
+            zcosmic_workspace_handle_v1::Event::Capabilities { capabilities } => {
+                workspace_info.capabilities = capabilities;
+            }
             zcosmic_workspace_handle_v1::Event::Remove => {
                 for (_, group_info) in state.workspace_state().workspace_groups.iter_mut() {
                     if let Some(idx) = group_info
@@ -190,7 +210,7 @@ where
                     }
                 }
             }
-            _ => {}
+            _ => unreachable!(),
         }
     }
 }

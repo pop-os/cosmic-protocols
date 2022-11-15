@@ -26,6 +26,7 @@ use std::{
 };
 use wayland_client::{
     backend::{Backend, ObjectId},
+    globals::registry_queue_init,
     protocol::wl_output,
     Connection, Proxy, QueueHandle,
 };
@@ -120,7 +121,7 @@ impl ProvidesRegistryState for AppData {
         &mut self.registry_state
     }
 
-    sctk::registry_handlers!(OutputState, ExportDmabufState,);
+    sctk::registry_handlers!(OutputState,);
 }
 
 impl OutputHandler for AppData {
@@ -178,7 +179,7 @@ impl ExportDmabufHandler for AppData {
 }
 
 struct Exporter {
-    connection: Connection,
+    conn: Connection,
     qh: QueueHandle<AppData>,
     export_dmabuf_manager: zcosmic_export_dmabuf_manager_v1::ZcosmicExportDmabufManagerV1,
     frames: Arc<Mutex<HashMap<ObjectId, mpsc::Sender<DmabufFrame>>>>,
@@ -192,22 +193,19 @@ fn start_sctk(display: RawDisplayHandle) -> Exporter {
     }
     .display;
 
-    let connection =
-        Connection::from_backend(unsafe { Backend::from_foreign_display(wl_display as _) });
-    let mut event_queue = connection.new_event_queue();
+    let conn = Connection::from_backend(unsafe { Backend::from_foreign_display(wl_display as _) });
+    let (globals, mut event_queue) = registry_queue_init(&conn).unwrap();
     let qh = event_queue.handle();
 
     let frames = Arc::new(Mutex::new(HashMap::new()));
 
+    let registry_state = RegistryState::new(&globals);
     let mut app_data = AppData {
         frames: frames.clone(),
-        registry_state: RegistryState::new(&connection, &qh),
-        output_state: OutputState::new(),
-        export_dmabuf_state: ExportDmabufState::new(),
+        output_state: OutputState::new(&globals, &qh),
+        export_dmabuf_state: ExportDmabufState::new(&registry_state, &qh),
+        registry_state,
     };
-    while !app_data.registry_state.ready() {
-        event_queue.blocking_dispatch(&mut app_data).unwrap();
-    }
     event_queue.roundtrip(&mut app_data).unwrap();
 
     let export_dmabuf_manager = app_data
@@ -231,7 +229,7 @@ fn start_sctk(display: RawDisplayHandle) -> Exporter {
     });
 
     Exporter {
-        connection,
+        conn,
         qh,
         export_dmabuf_manager,
         frames,
@@ -308,7 +306,7 @@ fn main() {
                 .export_dmabuf_manager
                 .capture_output(0, output, &exporter.qh, ());
             frames.insert(frame.id(), sender);
-            let _ = exporter.connection.flush(); // XXX
+            let _ = exporter.conn.flush(); // XXX
             drop(frames);
             let dmabuf = receiver.recv().unwrap();
             let egl_image = unsafe { egl::EGLImage::import_dmabuf(egl_display, &dmabuf).unwrap() };

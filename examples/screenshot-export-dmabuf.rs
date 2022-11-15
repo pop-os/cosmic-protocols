@@ -9,7 +9,7 @@ use smithay::{
         },
         drm::node::DrmNode,
         renderer::{
-            gles2::Gles2Texture,
+            gles2::{Gles2Renderer, Gles2Texture},
             multigpu::{egl::EglGlesBackend, GpuManager},
             Bind, ExportMem,
         },
@@ -193,7 +193,8 @@ fn main() {
         event_queue.blocking_dispatch(&mut app_data).unwrap();
     }
 
-    let mut gpu_manager = GpuManager::new(EglGlesBackend, None).unwrap();
+    let mut gpu_manager =
+        GpuManager::new(EglGlesBackend::<Gles2Renderer>::default(), None).unwrap();
 
     for (k, v) in app_data.frames {
         let mut builder = Dmabuf::builder(

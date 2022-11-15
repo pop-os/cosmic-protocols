@@ -1,7 +1,7 @@
 use cosmic_protocols::export_dmabuf::v1::client::{
     zcosmic_export_dmabuf_frame_v1, zcosmic_export_dmabuf_manager_v1,
 };
-use sctk::registry::{ProvidesRegistryState, RegistryHandler};
+use sctk::registry::{ProvidesRegistryState, RegistryState};
 #[cfg(feature = "smithay")]
 use smithay::{
     backend::{
@@ -84,9 +84,14 @@ pub struct ExportDmabufState {
 }
 
 impl ExportDmabufState {
-    pub fn new() -> Self {
+    pub fn new<D>(registry: &RegistryState, qh: &QueueHandle<D>) -> Self
+    where
+        D: Dispatch<zcosmic_export_dmabuf_manager_v1::ZcosmicExportDmabufManagerV1, ()> + 'static,
+    {
+        let export_dmabuf_manager = registry.bind_one(&qh, 1..=1, ()).ok();
+
         Self {
-            export_dmabuf_manager: None,
+            export_dmabuf_manager,
             frames: HashMap::new(),
         }
     }
@@ -108,19 +113,6 @@ pub trait ExportDmabufHandler {
     );
 
     fn frame_cancel(&mut self, frame: &zcosmic_export_dmabuf_frame_v1::ZcosmicExportDmabufFrameV1);
-}
-
-impl<D: ProvidesRegistryState> RegistryHandler<D> for ExportDmabufState
-where
-    D: Dispatch<zcosmic_export_dmabuf_manager_v1::ZcosmicExportDmabufManagerV1, ()>
-        + ProvidesRegistryState
-        + ExportDmabufHandler
-        + 'static,
-{
-    fn ready(data: &mut D, _: &Connection, qh: &QueueHandle<D>) {
-        data.export_dmabuf_state().export_dmabuf_manager =
-            data.registry().bind_one(&qh, 1..=1, ()).ok();
-    }
 }
 
 impl<D> Dispatch<zcosmic_export_dmabuf_manager_v1::ZcosmicExportDmabufManagerV1, (), D>

@@ -1,7 +1,7 @@
 use cosmic_protocols::workspace::v1::client::{
     zcosmic_workspace_group_handle_v1, zcosmic_workspace_handle_v1, zcosmic_workspace_manager_v1,
 };
-use sctk::registry::{ProvidesRegistryState, RegistryHandler};
+use sctk::registry::RegistryState;
 use wayland_client::{protocol::wl_output, Connection, Dispatch, QueueHandle};
 
 #[derive(Default, Clone, Debug)]
@@ -30,7 +30,18 @@ pub struct WorkspaceState {
 }
 
 impl WorkspaceState {
-    pub fn new() -> Self {
+    pub fn new<D>(registry: &RegistryState, qh: &QueueHandle<D>) -> Self
+    where
+        D: Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, ()> + 'static,
+    {
+        registry
+            .bind_one::<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, _, _>(
+                qh,
+                1..=1,
+                (),
+            )
+            .unwrap();
+
         Self {
             workspace_groups: Vec::new(),
         }
@@ -51,24 +62,6 @@ pub trait WorkspaceHandler {
 
     // TODO: Added/remove/update methods? How to do that with groups and workspaces?
     fn done(&mut self);
-}
-
-impl<D> RegistryHandler<D> for WorkspaceState
-where
-    D: Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, ()>
-        + ProvidesRegistryState
-        + WorkspaceHandler
-        + 'static,
-{
-    fn ready(data: &mut D, _: &Connection, qh: &QueueHandle<D>) {
-        let _ = data
-            .registry()
-            .bind_one::<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, _, _>(
-                qh,
-                1..=1,
-                (),
-            );
-    }
 }
 
 impl<D> Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, (), D> for WorkspaceState

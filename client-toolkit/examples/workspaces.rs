@@ -1,6 +1,6 @@
 use cosmic_client_toolkit::workspace::{WorkspaceHandler, WorkspaceState};
 use sctk::registry::{ProvidesRegistryState, RegistryState};
-use wayland_client::Connection;
+use wayland_client::{globals::registry_queue_init, Connection};
 
 struct AppData {
     registry_state: RegistryState,
@@ -12,7 +12,7 @@ impl ProvidesRegistryState for AppData {
         &mut self.registry_state
     }
 
-    sctk::registry_handlers!(WorkspaceState,);
+    sctk::registry_handlers!();
 }
 
 impl WorkspaceHandler for AppData {
@@ -34,13 +34,14 @@ impl WorkspaceHandler for AppData {
 }
 
 fn main() {
-    let connection = Connection::connect_to_env().unwrap();
-    let mut event_queue = connection.new_event_queue();
+    let conn = Connection::connect_to_env().unwrap();
+    let (globals, mut event_queue) = registry_queue_init(&conn).unwrap();
     let qh = event_queue.handle();
 
+    let registry_state = RegistryState::new(&globals);
     let mut app_data = AppData {
-        registry_state: RegistryState::new(&connection, &qh),
-        workspace_state: WorkspaceState::new(),
+        workspace_state: WorkspaceState::new(&registry_state, &qh),
+        registry_state,
     };
 
     loop {

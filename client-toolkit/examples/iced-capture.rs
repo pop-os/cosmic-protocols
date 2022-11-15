@@ -23,7 +23,10 @@ use std::{
     collections::HashMap,
     sync::{Arc, Mutex},
 };
-use wayland_client::{backend::ObjectId, protocol::wl_output, Connection, Proxy, QueueHandle};
+use wayland_client::{
+    backend::ObjectId, globals::registry_queue_init, protocol::wl_output, Connection, Proxy,
+    QueueHandle,
+};
 
 fn empty_image() -> iced::widget::image::Handle {
     // XXX BGRA?
@@ -73,7 +76,7 @@ impl ProvidesRegistryState for AppData {
         &mut self.registry_state
     }
 
-    sctk::registry_handlers!(OutputState, ExportDmabufState, WorkspaceState,);
+    sctk::registry_handlers!(OutputState,);
 }
 
 impl OutputHandler for AppData {
@@ -143,7 +146,7 @@ impl WorkspaceHandler for AppData {
 }
 
 struct Flags {
-    connection: Connection,
+    conn: Connection,
     outputs: Vec<(wl_output::WlOutput, String)>,
     workspace_groups: Vec<(
         zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
@@ -240,10 +243,10 @@ impl iced::Application for App {
                 let output = output.clone();
                 let qh = self.flags.qh.clone();
                 let id = output.id();
-                let connection = self.flags.connection.clone();
+                let conn = self.flags.conn.clone();
                 export_dmabuf_stream(self.flags.frames.clone(), move || {
                     let frame = export_dmabuf_manager.capture_output(0, &output, &qh, ());
-                    let _ = connection.flush(); // XXX
+                    let _ = conn.flush(); // XXX
                     frame
                 })
                 .map(move |img| (id.clone(), img))
@@ -255,19 +258,20 @@ impl iced::Application for App {
 
 fn main() {
     // TODO: Get raw window handle Iced is using?
-    let connection = Connection::connect_to_env().unwrap();
-    let mut event_queue = connection.new_event_queue();
+    let conn = Connection::connect_to_env().unwrap();
+    let (globals, mut event_queue) = registry_queue_init(&conn).unwrap();
     let qh = event_queue.handle();
 
+    let registry_state = RegistryState::new(&globals);
     let mut app_data = AppData {
         frames: Arc::new(Mutex::new(HashMap::new())),
-        registry_state: RegistryState::new(&connection, &qh),
-        output_state: OutputState::new(),
-        export_dmabuf_state: ExportDmabufState::new(),
-        workspace_state: WorkspaceState::new(),
+        output_state: OutputState::new(&globals, &qh),
+        export_dmabuf_state: ExportDmabufState::new(&registry_state, &qh),
+        workspace_state: WorkspaceState::new(&registry_state, &qh),
+        registry_state,
         workspaces_done: false,
     };
-    while !app_data.registry_state.ready() || !app_data.workspaces_done {
+    while !app_data.workspaces_done {
         event_queue.blocking_dispatch(&mut app_data).unwrap();
     }
     event_queue.roundtrip(&mut app_data).unwrap();
@@ -296,7 +300,7 @@ fn main() {
     });
 
     App::run(iced::Settings::with_flags(Flags {
-        connection,
+        conn,
         outputs,
         workspace_groups,
         export_dmabuf_manager,

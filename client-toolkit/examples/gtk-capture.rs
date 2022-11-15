@@ -24,6 +24,7 @@ use std::{
 };
 use wayland_client::{
     backend::{Backend, ObjectId},
+    globals::registry_queue_init,
     protocol::wl_output,
     Connection, Proxy, QueueHandle,
 };
@@ -43,12 +44,7 @@ impl ProvidesRegistryState for AppData {
         &mut self.registry_state
     }
 
-    sctk::registry_handlers!(
-        OutputState,
-        ExportDmabufState,
-        WorkspaceState,
-        ToplevelInfoState,
-    );
+    sctk::registry_handlers!(OutputState,);
 }
 
 impl OutputHandler for AppData {
@@ -234,21 +230,21 @@ fn main() {
     //let gl_context = display.create_gl_context().unwrap();
     let gl_context = Rc::new(RefCell::new(None));
 
-    let connection =
-        Connection::from_backend(unsafe { Backend::from_foreign_display(wl_display as _) });
-    let mut event_queue = connection.new_event_queue();
+    let conn = Connection::from_backend(unsafe { Backend::from_foreign_display(wl_display as _) });
+    let (globals, mut event_queue) = registry_queue_init(&conn).unwrap();
     let qh = event_queue.handle();
 
+    let registry_state = RegistryState::new(&globals);
     let mut app_data = AppData {
         frames: Arc::new(Mutex::new(HashMap::new())),
-        registry_state: RegistryState::new(&connection, &qh),
-        output_state: OutputState::new(),
-        export_dmabuf_state: ExportDmabufState::new(),
-        workspace_state: WorkspaceState::new(),
-        toplevel_info_state: ToplevelInfoState::new(),
+        output_state: OutputState::new(&globals, &qh),
+        export_dmabuf_state: ExportDmabufState::new(&registry_state, &qh),
+        workspace_state: WorkspaceState::new(&registry_state, &qh),
+        toplevel_info_state: ToplevelInfoState::new(&registry_state, &qh),
+        registry_state,
         workspaces_done: false,
     };
-    while !app_data.registry_state.ready() || !app_data.workspaces_done {
+    while !app_data.workspaces_done {
         event_queue.blocking_dispatch(&mut app_data).unwrap();
     }
     event_queue.roundtrip(&mut app_data).unwrap();

@@ -2,7 +2,7 @@ use cosmic_protocols::{
     toplevel_info::v1::client::{zcosmic_toplevel_handle_v1, zcosmic_toplevel_info_v1},
     workspace::v1::client::zcosmic_workspace_handle_v1,
 };
-use sctk::registry::{ProvidesRegistryState, RegistryHandler};
+use sctk::registry::{ProvidesRegistryState, RegistryState};
 use wayland_client::{protocol::wl_output, Connection, Dispatch, QueueHandle};
 
 #[derive(Clone, Debug, Default)]
@@ -28,7 +28,14 @@ pub struct ToplevelInfoState {
 }
 
 impl ToplevelInfoState {
-    pub fn new() -> Self {
+    pub fn new<D>(registry: &RegistryState, qh: &QueueHandle<D>) -> Self
+    where
+        D: Dispatch<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, ()> + 'static,
+    {
+        registry
+            .bind_one::<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, _, _>(qh, 1..=1, ())
+            .unwrap();
+
         Self {
             toplevels: Vec::new(),
         }
@@ -83,20 +90,6 @@ pub trait ToplevelInfoHandler: Sized {
         qh: &QueueHandle<Self>,
         toplevel: &zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1,
     );
-}
-
-impl<D> RegistryHandler<D> for ToplevelInfoState
-where
-    D: Dispatch<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, ()>
-        + ProvidesRegistryState
-        + ToplevelInfoHandler
-        + 'static,
-{
-    fn ready(data: &mut D, _: &Connection, qh: &QueueHandle<D>) {
-        let _ = data
-            .registry()
-            .bind_one::<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, _, _>(qh, 1..=1, ());
-    }
 }
 
 impl<D> Dispatch<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, (), D> for ToplevelInfoState

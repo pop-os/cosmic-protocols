@@ -2,73 +2,86 @@
 // figure out how to directly import dmabuf
 
 use cosmic_client_toolkit::{
-    export_dmabuf::{DmabufFrame, ExportDmabufHandler, ExportDmabufState},
+    screencopy::{BufferInfo, ScreencopyHandler, ScreencopyState},
     workspace::{WorkspaceGroup, WorkspaceHandler, WorkspaceState},
 };
 use cosmic_protocols::{
-    export_dmabuf::v1::client::{zcosmic_export_dmabuf_frame_v1, zcosmic_export_dmabuf_manager_v1},
+    screencopy::v1::client::{zcosmic_screencopy_manager_v1, zcosmic_screencopy_session_v1},
     workspace::v1::client::zcosmic_workspace_group_handle_v1,
 };
 use futures::{
     channel::mpsc,
     stream::{Stream, StreamExt},
 };
-use iced::{widget, Application};
+use iced::{
+    widget::{self, image},
+    Application,
+};
+use nix::sys::memfd;
 use sctk::{
     output::{OutputHandler, OutputState},
     registry::{ProvidesRegistryState, RegistryState},
+    shm::{raw::RawPool, ShmHandler, ShmState},
 };
-use smithay::backend::renderer::multigpu::{egl::EglGlesBackend, GpuManager};
 use std::{
     collections::HashMap,
+    ffi::CStr,
     sync::{Arc, Mutex},
 };
 use wayland_client::{
-    backend::ObjectId, globals::registry_queue_init, protocol::wl_output, Connection, Proxy,
-    QueueHandle,
+    backend::ObjectId,
+    globals::registry_queue_init,
+    protocol::{wl_buffer, wl_output, wl_shm, wl_shm_pool},
+    Connection, Dispatch, Proxy, QueueHandle, WEnum,
 };
 
-fn empty_image() -> iced::widget::image::Handle {
-    // XXX BGRA?
-    iced::widget::image::Handle::from_pixels(1, 1, vec![0, 0, 0, 255])
+fn empty_image() -> image::Handle {
+    image::Handle::from_pixels(1, 1, vec![0, 0, 0, 255])
 }
 
-// XXX don't create `gpu_manager` every frame; had issues with it not being `Send`, and EGL
-fn dmabuf_to_image(dmabuf: DmabufFrame) -> iced::widget::image::Handle {
-    // error
-    let mut gpu_manager = GpuManager::new(EglGlesBackend::default(), None).unwrap();
-    let width = dmabuf.width;
-    let height = dmabuf.height;
-    let bytes = dmabuf.import_to_bytes(&mut gpu_manager);
-    iced::widget::image::Handle::from_pixels(width, height, bytes)
-}
-
-fn export_dmabuf_stream<
-    F: FnMut() -> zcosmic_export_dmabuf_frame_v1::ZcosmicExportDmabufFrameV1 + Send + Sync + 'static,
+fn screencopy_stream<
+    F: FnMut() -> zcosmic_screencopy_session_v1::ZcosmicScreencopySessionV1 + Send + Sync + 'static,
 >(
-    frames: Arc<Mutex<HashMap<ObjectId, mpsc::UnboundedSender<Option<DmabufFrame>>>>>,
+    frames: Arc<Mutex<HashMap<ObjectId, Frame>>>,
     mut capture: F,
-) -> impl Stream<Item = iced::widget::image::Handle> + Unpin + Send + Sync {
+) -> impl Stream<Item = image::Handle> + Unpin + Send + Sync {
     let (sender, receiver) = mpsc::unbounded();
 
     let frame = capture();
-    frames.lock().unwrap().insert(frame.id(), sender.clone());
-    Box::pin(receiver.filter_map(move |dmabuf| {
+    frames.lock().unwrap().insert(
+        frame.id(),
+        Frame {
+            buffer: None,
+            sender: sender.clone(),
+        },
+    );
+    Box::pin(receiver.filter_map(move |image| {
         let mut frames = frames.lock().unwrap();
         let frame = capture();
-        frames.insert(frame.id(), sender.clone());
-        let res = dmabuf.map(|dmabuf| dmabuf_to_image(dmabuf));
-        async { res }
+        frames.insert(
+            frame.id(),
+            Frame {
+                buffer: None,
+                sender: sender.clone(),
+            },
+        );
+        async { image }
     }))
 }
 
+struct Frame {
+    buffer: Option<(RawPool, wl_buffer::WlBuffer)>,
+    sender: mpsc::UnboundedSender<Option<image::Handle>>,
+}
+
 struct AppData {
-    frames: Arc<Mutex<HashMap<ObjectId, mpsc::UnboundedSender<Option<DmabufFrame>>>>>,
+    frames: Arc<Mutex<HashMap<ObjectId, Frame>>>,
     registry_state: RegistryState,
     output_state: OutputState,
-    export_dmabuf_state: ExportDmabufState,
+    screencopy_state: ScreencopyState,
     workspace_state: WorkspaceState,
     workspaces_done: bool,
+    shm_state: ShmState,
 }
 
 impl ProvidesRegistryState for AppData {
@@ -109,28 +122,79 @@ impl OutputHandler for AppData {
     }
 }
 
-impl ExportDmabufHandler for AppData {
-    fn export_dmabuf_state(&mut self) -> &mut ExportDmabufState {
-        &mut self.export_dmabuf_state
+impl ShmHandler for AppData {
+    fn shm_state(&mut self) -> &mut ShmState {
+        &mut self.shm_state
+    }
+}
+
+impl ScreencopyHandler for AppData {
+    fn screencopy_state(&mut self) -> &mut ScreencopyState {
+        &mut self.screencopy_state
     }
 
-    fn frame_ready(
+    fn init_done(
         &mut self,
-        frame: &zcosmic_export_dmabuf_frame_v1::ZcosmicExportDmabufFrameV1,
-        dmabuf: DmabufFrame,
+        conn: &Connection,
+        qh: &QueueHandle<Self>,
+        session: &zcosmic_screencopy_session_v1::ZcosmicScreencopySessionV1,
+        buffer_infos: &[BufferInfo],
     ) {
-        let _ = self
-            .frames
+        // XXX
+        let buffer_info = buffer_infos
+            .iter()
+            .find(|x| {
+                x.type_ == WEnum::Value(zcosmic_screencopy_session_v1::BufferType::WlShm)
+                    && x.format == wl_shm::Format::Abgr8888.into()
+            })
+            .unwrap();
+        let buf_len = buffer_info.stride * buffer_info.height;
+
+        let mut pool = RawPool::new(buf_len as usize, &self.shm_state).unwrap();
+        let buffer = pool.create_buffer(
+            0,
+            buffer_info.width as i32,
+            buffer_info.height as i32,
+            buffer_info.stride as i32,
+            wl_shm::Format::Abgr8888,
+            (),
+            qh,
+        );
+
+        session.attach_buffer(&buffer, None, 0); // XXX age?
+        session.commit(zcosmic_screencopy_session_v1::Options::empty());
+        conn.flush().unwrap();
+
+        self.frames
             .lock()
             .unwrap()
-            .remove(&frame.id())
+            .get_mut(&session.id())
             .unwrap()
-            .unbounded_send(Some(dmabuf));
+            .buffer = Some((pool, buffer));
     }
 
-    fn frame_cancel(&mut self, frame: &zcosmic_export_dmabuf_frame_v1::ZcosmicExportDmabufFrameV1) {
-        if let Some(sender) = self.frames.lock().unwrap().remove(&frame.id()) {
-            let _ = sender.unbounded_send(None);
+    fn ready(
+        &mut self,
+        conn: &Connection,
+        qh: &QueueHandle<Self>,
+        session: &zcosmic_screencopy_session_v1::ZcosmicScreencopySessionV1,
+    ) {
+        let mut frame = self.frames.lock().unwrap().remove(&session.id()).unwrap();
+        let (pool, buffer) = frame.buffer.as_mut().unwrap();
+        buffer.destroy();
+        let image = image::Handle::from_pixels(1920, 1080, pool.mmap().to_vec());
+        let _ = frame.sender.unbounded_send(Some(image));
+    }
+
+    fn failed(
+        &mut self,
+        conn: &Connection,
+        qh: &QueueHandle<Self>,
+        session: &zcosmic_screencopy_session_v1::ZcosmicScreencopySessionV1,
+        reason: WEnum<zcosmic_screencopy_session_v1::FailureReason>,
+    ) {
+        if let Some(frame) = self.frames.lock().unwrap().remove(&session.id()) {
+            let _ = frame.sender.unbounded_send(None);
         }
     }
 }
@@ -152,19 +216,19 @@ struct Flags {
         zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
         WorkspaceGroup,
     )>,
-    export_dmabuf_manager: zcosmic_export_dmabuf_manager_v1::ZcosmicExportDmabufManagerV1,
-    frames: Arc<Mutex<HashMap<ObjectId, mpsc::UnboundedSender<Option<DmabufFrame>>>>>,
+    screencopy_manager: zcosmic_screencopy_manager_v1::ZcosmicScreencopyManagerV1,
+    frames: Arc<Mutex<HashMap<ObjectId, Frame>>>,
     qh: QueueHandle<AppData>,
 }
 
 #[derive(Debug)]
 enum Message {
-    Image((ObjectId, iced::widget::image::Handle)),
+    Image((ObjectId, image::Handle)),
 }
 
 struct App {
     flags: Flags,
-    images: HashMap<ObjectId, iced::widget::image::Handle>,
+    images: HashMap<ObjectId, image::Handle>,
 }
 
 impl iced::Application for App {
@@ -239,13 +303,18 @@ impl iced::Application for App {
     fn subscription(&self) -> iced::Subscription<Message> {
         let output_img_stream = futures::stream::select_all::select_all(
             self.flags.outputs.iter().map(|(output, _)| {
-                let export_dmabuf_manager = self.flags.export_dmabuf_manager.clone();
+                let screencopy_manager = self.flags.screencopy_manager.clone();
                 let output = output.clone();
                 let qh = self.flags.qh.clone();
                 let id = output.id();
                 let conn = self.flags.conn.clone();
-                export_dmabuf_stream(self.flags.frames.clone(), move || {
-                    let frame = export_dmabuf_manager.capture_output(0, &output, &qh, ());
+                screencopy_stream(self.flags.frames.clone(), move || {
+                    let frame = screencopy_manager.capture_output(
+                        &output,
+                        zcosmic_screencopy_manager_v1::CursorMode::Hidden,
+                        &qh,
+                        Default::default(),
+                    );
                     let _ = conn.flush(); // XXX
                     frame
                 })
@@ -266,8 +335,9 @@ fn main() {
     let mut app_data = AppData {
         frames: Arc::new(Mutex::new(HashMap::new())),
         output_state: OutputState::new(&globals, &qh),
-        export_dmabuf_state: ExportDmabufState::new(&registry_state, &qh),
+        screencopy_state: ScreencopyState::new(&globals, &qh),
         workspace_state: WorkspaceState::new(&registry_state, &qh),
+        shm_state: ShmState::bind(&globals, &qh).unwrap(),
         registry_state,
         workspaces_done: false,
     };
@@ -276,11 +346,7 @@ fn main() {
     }
     event_queue.roundtrip(&mut app_data).unwrap();
 
-    let export_dmabuf_manager = app_data
-        .export_dmabuf_state
-        .export_dmabuf_manager()
-        .unwrap()
-        .clone();
+    let screencopy_manager = app_data.screencopy_state.screencopy_manager.clone();
 
     // XXX update as outputs added/removed
     let outputs: Vec<_> = app_data
@@ -303,14 +369,27 @@ fn main() {
         conn,
         outputs,
         workspace_groups,
-        export_dmabuf_manager,
+        screencopy_manager,
         frames,
         qh,
     }))
     .unwrap();
 }
 
+impl Dispatch<wl_buffer::WlBuffer, ()> for AppData {
+    fn event(
+        _app_data: &mut Self,
+        buffer: &wl_buffer::WlBuffer,
+        event: wl_buffer::Event,
+        _: &(),
+        _: &Connection,
+        _qh: &QueueHandle<Self>,
+    ) {
+    }
+}
+
 sctk::delegate_output!(AppData);
 sctk::delegate_registry!(AppData);
-cosmic_client_toolkit::delegate_export_dmabuf!(AppData);
+sctk::delegate_shm!(AppData);
+cosmic_client_toolkit::delegate_screencopy!(AppData);
 cosmic_client_toolkit::delegate_workspace!(AppData);

@@ -21,7 +21,8 @@ glow = "0.11.2"
 glutin = { git = "https://github.com/ids1024/glutin", rev = "566e12f" } # Patched to use wayland-sys beta.13
 gtk4 = { version = "0.4.8", features = ["v4_6"] }
 gdk4-wayland = { version = "0.4.8", features = ["wayland_crate", "v4_4", "egl"] }
-iced = { git = "https://github.com/iced-rs/iced", features = ["image"] }
+iced = { version = "0.5.2", features = ["image"] }
+nix = "0.25.0"
 raw-window-handle = "0.5.0"
 wayland-backend = { version = "0.1.0-beta.13", features = ["client_system"] }
 winit = "0.27.4"

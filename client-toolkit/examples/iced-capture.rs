@@ -1,4 +1,3 @@
-// Subscription for images?
 // figure out how to directly import dmabuf
 
 use cosmic_client_toolkit::{
@@ -53,6 +52,7 @@ fn screencopy_stream<
         Frame {
             buffer: None,
             sender: sender.clone(),
+            first_frame: true,
         },
     );
     Box::pin(receiver.filter_map(move |image| {
@@ -63,6 +63,7 @@ fn screencopy_stream<
             Frame {
                 buffer: None,
                 sender: sender.clone(),
+                first_frame: false,
             },
         );
         async { image }
@@ -72,6 +73,7 @@ fn screencopy_stream<
 struct Frame {
     buffer: Option<(RawPool, wl_buffer::WlBuffer)>,
     sender: mpsc::UnboundedSender<Option<image::Handle>>,
+    first_frame: bool,
 }
 
 struct AppData {
@@ -161,16 +163,18 @@ impl ScreencopyHandler for AppData {
             qh,
         );
 
+        let mut frames = self.frames.lock().unwrap();
+        let mut frame = frames.get_mut(&session.id()).unwrap();
+
         session.attach_buffer(&buffer, None, 0); // XXX age?
-        session.commit(zcosmic_screencopy_session_v1::Options::empty());
+        if frame.first_frame {
+            session.commit(zcosmic_screencopy_session_v1::Options::empty());
+        } else {
+            session.commit(zcosmic_screencopy_session_v1::Options::OnDamage);
+        }
         conn.flush().unwrap();
 
-        self.frames
-            .lock()
-            .unwrap()
-            .get_mut(&session.id())
-            .unwrap()
-            .buffer = Some((pool, buffer));
+        frame.buffer = Some((pool, buffer));
     }
 
     fn ready(
@@ -269,15 +273,14 @@ impl iced::Application for App {
                     .map(|(output, name)| {
                         widget::column! {
                             widget::text(name),
-                            widget::image(self.images.get(&output.id()).cloned().unwrap_or_else(empty_image)).width(iced::Length::Fill).height(iced::Length::Fill)
-                        }.width(iced::Length::Fill).height(iced::Length::Fill)
+                            widget::image(self.images.get(&output.id()).cloned().unwrap_or_else(empty_image)).width(iced::Length::Fill)
+                        }.width(iced::Length::Fill)
                         .into()
                     })
                     .collect()
             )
             .spacing(24)
-            .width(iced::Length::Fill)
-            .height(iced::Length::Fill),
+            .width(iced::Length::Fill),
             widget::Row::with_children(
                 self.flags
                     .workspace_groups
@@ -287,7 +290,7 @@ impl iced::Application for App {
                         widget::column! {
                             widget::text(workspace_info.name.as_ref().unwrap()),
                             widget::image(self.images.get(&workspace.id()).cloned().unwrap_or_else(empty_image))
-                        }
+                        }.width(iced::Length::Fill)
                         .into()
                     })
                     .collect()
@@ -296,7 +299,6 @@ impl iced::Application for App {
         ]
         .spacing(24)
         .width(iced::Length::Fill)
-        .height(iced::Length::Fill)
         .into()
     }
 
@@ -321,7 +323,37 @@ impl iced::Application for App {
                 .map(move |img| (id.clone(), img))
             }),
         );
-        iced::subscription::run("output-img", output_img_stream.map(Message::Image))
+        let workspace_img_stream =
+            futures::stream::select_all::select_all(self.flags.workspace_groups.iter().flat_map(
+                |(_, group_info)| {
+                    group_info.workspaces.iter().filter_map(|(workspace, _)| {
+                        group_info.output.clone().map(|output| {
+                            let screencopy_manager = self.flags.screencopy_manager.clone();
+                            let workspace = workspace.clone();
+                            let qh = self.flags.qh.clone();
+                            let id = workspace.id();
+                            let conn = self.flags.conn.clone();
+                            screencopy_stream(self.flags.frames.clone(), move || {
+                                let frame = screencopy_manager.capture_workspace(
+                                    &workspace,
+                                    &output,
+                                    zcosmic_screencopy_manager_v1::CursorMode::Hidden,
+                                    &qh,
+                                    Default::default(),
+                                );
+                                let _ = conn.flush(); // XXX
+                                frame
+                            })
+                            .map(move |img| (id.clone(), img))
+                        })
+                    })
+                },
+            ));
+        let output_subscription =
+            iced::subscription::run("output-img", output_img_stream.map(Message::Image));
+        let workspace_subscription =
+            iced::subscription::run("workspace-img", workspace_img_stream.map(Message::Image));
+        iced::Subscription::batch([output_subscription, workspace_subscription])
     }
 }
 

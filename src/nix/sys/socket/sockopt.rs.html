@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/nix-0.24.2/src/sys/socket/sockopt.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>sockopt.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../normalize.css"><link rel="stylesheet" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../dark.css" disabled><link rel="stylesheet" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../nix/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../nix/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../nix/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/nix-0.25.1/src/sys/socket/sockopt.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>sockopt.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../normalize.css"><link rel="stylesheet" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../dark.css" disabled><link rel="stylesheet" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../nix/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../nix/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../nix/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -1009,6 +1009,26 @@
 <span id="1009">1009</span>
 <span id="1010">1010</span>
 <span id="1011">1011</span>
+<span id="1012">1012</span>
+<span id="1013">1013</span>
+<span id="1014">1014</span>
+<span id="1015">1015</span>
+<span id="1016">1016</span>
+<span id="1017">1017</span>
+<span id="1018">1018</span>
+<span id="1019">1019</span>
+<span id="1020">1020</span>
+<span id="1021">1021</span>
+<span id="1022">1022</span>
+<span id="1023">1023</span>
+<span id="1024">1024</span>
+<span id="1025">1025</span>
+<span id="1026">1026</span>
+<span id="1027">1027</span>
+<span id="1028">1028</span>
+<span id="1029">1029</span>
+<span id="1030">1030</span>
+<span id="1031">1031</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Socket options as used by `setsockopt` and `getsockopt`.
 </span><span class="kw">use </span>cfg_if::cfg_if;
 <span class="kw">use super</span>::{GetSockOpt, SetSockOpt};
@@ -1016,6 +1036,7 @@
 <span class="kw">use </span><span class="kw">crate</span>::errno::Errno;
 <span class="kw">use </span><span class="kw">crate</span>::sys::time::TimeVal;
 <span class="kw">use </span>libc::{<span class="self">self</span>, c_int, c_void, socklen_t};
+<span class="kw">use </span>std::convert::TryFrom;
 <span class="kw">use </span>std::mem::{
     <span class="self">self</span>,
     MaybeUninit
@@ -1108,7 +1129,10 @@
                                                getter.ffi_len());
                     Errno::result(res)<span class="question-mark">?</span>;
 
-                    <span class="prelude-val">Ok</span>(getter.assume_init())
+                    <span class="kw">match </span>&lt;<span class="macro-nonterminal">$ty</span>&gt;::try_from(getter.assume_init()) {
+                        <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(Errno::EINVAL),
+                        <span class="prelude-val">Ok</span>(r) =&gt; <span class="prelude-val">Ok</span>(r)
+                    }
                 }
             }
         }
@@ -1364,6 +1388,9 @@
     <span class="doccomment">/// Get and clear the pending socket error.
     </span>SocketError, GetOnly, libc::SOL_SOCKET, libc::SO_ERROR, i32);
 <span class="macro">sockopt_impl!</span>(
+    <span class="doccomment">/// Set or get the don&#39;t route flag.
+    </span>DontRoute, Both, libc::SOL_SOCKET, libc::SO_DONTROUTE, bool);
+<span class="macro">sockopt_impl!</span>(
     <span class="doccomment">/// Enable sending of keep-alive messages on connection-oriented sockets.
     </span>KeepAlive, Both, libc::SOL_SOCKET, libc::SO_KEEPALIVE, bool);
 <span class="attribute">#[cfg(any(
@@ -1391,8 +1418,7 @@
 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>,
           target_os = <span class="string">&quot;dragonfly&quot;</span>,
           target_os = <span class="string">&quot;freebsd&quot;</span>,
-          target_os = <span class="string">&quot;linux&quot;</span>,
-          target_os = <span class="string">&quot;nacl&quot;</span>))]
+          target_os = <span class="string">&quot;linux&quot;</span>))]
 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
 </span><span class="macro">sockopt_impl!</span>(
     <span class="attribute">#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;net&quot;</span>)))]
@@ -1410,7 +1436,7 @@
             </span>TcpMaxSeg, GetOnly, libc::IPPROTO_TCP, libc::TCP_MAXSEG, u32);
     }
 }
-<span class="attribute">#[cfg(not(target_os = <span class="string">&quot;openbsd&quot;</span>))]
+<span class="attribute">#[cfg(not(any(target_os = <span class="string">&quot;openbsd&quot;</span>, target_os = <span class="string">&quot;haiku&quot;</span>)))]
 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
 </span><span class="macro">sockopt_impl!</span>(
     <span class="attribute">#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;net&quot;</span>)))]
@@ -1424,7 +1450,7 @@
     <span class="attribute">#[allow(missing_docs)]
     </span><span class="comment">// Not documented by Linux!
     </span>TcpRepair, Both, libc::IPPROTO_TCP, libc::TCP_REPAIR, u32);
-<span class="attribute">#[cfg(not(target_os = <span class="string">&quot;openbsd&quot;</span>))]
+<span class="attribute">#[cfg(not(any(target_os = <span class="string">&quot;openbsd&quot;</span>, target_os = <span class="string">&quot;haiku&quot;</span>)))]
 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
 </span><span class="macro">sockopt_impl!</span>(
     <span class="attribute">#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;net&quot;</span>)))]
@@ -1458,7 +1484,7 @@
     </span>SndBufForce, SetOnly, libc::SOL_SOCKET, libc::SO_SNDBUFFORCE, usize);
 <span class="macro">sockopt_impl!</span>(
     <span class="doccomment">/// Gets the socket type as an integer.
-    </span>SockType, GetOnly, libc::SOL_SOCKET, libc::SO_TYPE, <span class="kw">super</span>::SockType);
+    </span>SockType, GetOnly, libc::SOL_SOCKET, libc::SO_TYPE, <span class="kw">super</span>::SockType, GetStruct&lt;i32&gt;);
 <span class="macro">sockopt_impl!</span>(
     <span class="doccomment">/// Returns a value indicating whether or not this socket has been marked to
     /// accept connections with `listen(2)`.
@@ -1484,7 +1510,8 @@
     <span class="doccomment">/// Specifies exact type of timestamping information collected by the kernel
     /// [Further reading](https://www.kernel.org/doc/html/latest/networking/timestamping.html)
     </span>Timestamping, Both, libc::SOL_SOCKET, libc::SO_TIMESTAMPING, <span class="kw">super</span>::TimestampingFlag);
-<span class="macro">sockopt_impl!</span>(
+<span class="attribute">#[cfg(not(target_os = <span class="string">&quot;haiku&quot;</span>))]
+</span><span class="macro">sockopt_impl!</span>(
     <span class="doccomment">/// Enable or disable the receiving of the `SO_TIMESTAMP` control message.
     </span>ReceiveTimestamp, Both, libc::SOL_SOCKET, libc::SO_TIMESTAMP, bool);
 <span class="attribute">#[cfg(all(target_os = <span class="string">&quot;linux&quot;</span>))]
@@ -1582,6 +1609,13 @@
     </span><span class="doccomment">/// The `recvmsg(2)` call will return the destination IP address for a UDP
     /// datagram.
     </span>Ipv4RecvDstAddr, Both, libc::IPPROTO_IP, libc::IP_RECVDSTADDR, bool);
+<span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;freebsd&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
+#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
+</span><span class="macro">sockopt_impl!</span>(
+    <span class="attribute">#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;net&quot;</span>)))]
+    </span><span class="doccomment">/// The `recvmsg(2)` call will return the destination IP address for a UDP
+    /// datagram.
+    </span>Ipv4OrigDstAddr, Both, libc::IPPROTO_IP, libc::IP_ORIGDSTADDR, bool);
 <span class="attribute">#[cfg(target_os = <span class="string">&quot;linux&quot;</span>)]
 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
 </span><span class="macro">sockopt_impl!</span>(
@@ -1629,6 +1663,13 @@
 </span><span class="macro">sockopt_impl!</span>(
     <span class="doccomment">/// Set the unicast hop limit for the socket.
     </span>Ipv6Ttl, Both, libc::IPPROTO_IPV6, libc::IPV6_UNICAST_HOPS, libc::c_int);
+<span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;freebsd&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
+#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
+</span><span class="macro">sockopt_impl!</span>(
+    <span class="attribute">#[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;net&quot;</span>)))]
+    </span><span class="doccomment">/// The `recvmsg(2)` call will return the destination IP address for a UDP
+    /// datagram.
+    </span>Ipv6OrigDstAddr, Both, libc::IPPROTO_IPV6, libc::IPV6_ORIGDSTADDR, bool);
 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>))]
 </span><span class="macro">sockopt_impl!</span>(
     <span class="doccomment">/// Set &quot;don&#39;t fragment packet&quot; flag on the IP packet.
@@ -1810,7 +1851,7 @@
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Set&lt;<span class="lifetime">&#39;a</span>, bool&gt; <span class="kw">for </span>SetBool {
     <span class="kw">fn </span>new(val: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>bool) -&gt; SetBool {
-        SetBool { val: <span class="kw">if </span><span class="kw-2">*</span>val { <span class="number">1 </span>} <span class="kw">else </span>{ <span class="number">0 </span>} }
+        SetBool { val: i32::from(<span class="kw-2">*</span>val) }
     }
 
     <span class="kw">fn </span>ffi_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*const </span>c_void {
@@ -1857,7 +1898,7 @@
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Set&lt;<span class="lifetime">&#39;a</span>, u8&gt; <span class="kw">for </span>SetU8 {
     <span class="kw">fn </span>new(val: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>u8) -&gt; SetU8 {
-        SetU8 { val: <span class="kw-2">*</span>val <span class="kw">as </span>u8 }
+        SetU8 { val: <span class="kw-2">*</span>val }
     }
 
     <span class="kw">fn </span>ffi_ptr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*const </span>c_void {
@@ -1976,7 +2017,7 @@
         <span class="kw">let </span>a_cred = getsockopt(a, <span class="kw">super</span>::PeerCredentials).unwrap();
         <span class="kw">let </span>b_cred = getsockopt(b, <span class="kw">super</span>::PeerCredentials).unwrap();
         <span class="macro">assert_eq!</span>(a_cred, b_cred);
-        <span class="macro">assert!</span>(a_cred.pid() != <span class="number">0</span>);
+        <span class="macro">assert_ne!</span>(a_cred.pid(), <span class="number">0</span>);
     }
 
     <span class="attribute">#[test]
@@ -2003,8 +2044,7 @@
     }
 
     <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;freebsd&quot;</span>,
-              target_os = <span class="string">&quot;linux&quot;</span>,
-              target_os = <span class="string">&quot;nacl&quot;</span>))]
+              target_os = <span class="string">&quot;linux&quot;</span>))]
     #[test]
     </span><span class="kw">fn </span>can_get_listen_on_tcp_socket() {
         <span class="kw">use </span><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw-2">*</span>;

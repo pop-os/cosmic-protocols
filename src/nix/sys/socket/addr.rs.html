@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/nix-0.24.2/src/sys/socket/addr.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>addr.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../normalize.css"><link rel="stylesheet" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../dark.css" disabled><link rel="stylesheet" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../nix/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../nix/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../nix/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/nix-0.25.1/src/sys/socket/addr.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>addr.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../normalize.css"><link rel="stylesheet" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../dark.css" disabled><link rel="stylesheet" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../../nix/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../../nix/index.html"><div class="logo-container"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../../nix/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -2810,6 +2810,167 @@
 <span id="2810">2810</span>
 <span id="2811">2811</span>
 <span id="2812">2812</span>
+<span id="2813">2813</span>
+<span id="2814">2814</span>
+<span id="2815">2815</span>
+<span id="2816">2816</span>
+<span id="2817">2817</span>
+<span id="2818">2818</span>
+<span id="2819">2819</span>
+<span id="2820">2820</span>
+<span id="2821">2821</span>
+<span id="2822">2822</span>
+<span id="2823">2823</span>
+<span id="2824">2824</span>
+<span id="2825">2825</span>
+<span id="2826">2826</span>
+<span id="2827">2827</span>
+<span id="2828">2828</span>
+<span id="2829">2829</span>
+<span id="2830">2830</span>
+<span id="2831">2831</span>
+<span id="2832">2832</span>
+<span id="2833">2833</span>
+<span id="2834">2834</span>
+<span id="2835">2835</span>
+<span id="2836">2836</span>
+<span id="2837">2837</span>
+<span id="2838">2838</span>
+<span id="2839">2839</span>
+<span id="2840">2840</span>
+<span id="2841">2841</span>
+<span id="2842">2842</span>
+<span id="2843">2843</span>
+<span id="2844">2844</span>
+<span id="2845">2845</span>
+<span id="2846">2846</span>
+<span id="2847">2847</span>
+<span id="2848">2848</span>
+<span id="2849">2849</span>
+<span id="2850">2850</span>
+<span id="2851">2851</span>
+<span id="2852">2852</span>
+<span id="2853">2853</span>
+<span id="2854">2854</span>
+<span id="2855">2855</span>
+<span id="2856">2856</span>
+<span id="2857">2857</span>
+<span id="2858">2858</span>
+<span id="2859">2859</span>
+<span id="2860">2860</span>
+<span id="2861">2861</span>
+<span id="2862">2862</span>
+<span id="2863">2863</span>
+<span id="2864">2864</span>
+<span id="2865">2865</span>
+<span id="2866">2866</span>
+<span id="2867">2867</span>
+<span id="2868">2868</span>
+<span id="2869">2869</span>
+<span id="2870">2870</span>
+<span id="2871">2871</span>
+<span id="2872">2872</span>
+<span id="2873">2873</span>
+<span id="2874">2874</span>
+<span id="2875">2875</span>
+<span id="2876">2876</span>
+<span id="2877">2877</span>
+<span id="2878">2878</span>
+<span id="2879">2879</span>
+<span id="2880">2880</span>
+<span id="2881">2881</span>
+<span id="2882">2882</span>
+<span id="2883">2883</span>
+<span id="2884">2884</span>
+<span id="2885">2885</span>
+<span id="2886">2886</span>
+<span id="2887">2887</span>
+<span id="2888">2888</span>
+<span id="2889">2889</span>
+<span id="2890">2890</span>
+<span id="2891">2891</span>
+<span id="2892">2892</span>
+<span id="2893">2893</span>
+<span id="2894">2894</span>
+<span id="2895">2895</span>
+<span id="2896">2896</span>
+<span id="2897">2897</span>
+<span id="2898">2898</span>
+<span id="2899">2899</span>
+<span id="2900">2900</span>
+<span id="2901">2901</span>
+<span id="2902">2902</span>
+<span id="2903">2903</span>
+<span id="2904">2904</span>
+<span id="2905">2905</span>
+<span id="2906">2906</span>
+<span id="2907">2907</span>
+<span id="2908">2908</span>
+<span id="2909">2909</span>
+<span id="2910">2910</span>
+<span id="2911">2911</span>
+<span id="2912">2912</span>
+<span id="2913">2913</span>
+<span id="2914">2914</span>
+<span id="2915">2915</span>
+<span id="2916">2916</span>
+<span id="2917">2917</span>
+<span id="2918">2918</span>
+<span id="2919">2919</span>
+<span id="2920">2920</span>
+<span id="2921">2921</span>
+<span id="2922">2922</span>
+<span id="2923">2923</span>
+<span id="2924">2924</span>
+<span id="2925">2925</span>
+<span id="2926">2926</span>
+<span id="2927">2927</span>
+<span id="2928">2928</span>
+<span id="2929">2929</span>
+<span id="2930">2930</span>
+<span id="2931">2931</span>
+<span id="2932">2932</span>
+<span id="2933">2933</span>
+<span id="2934">2934</span>
+<span id="2935">2935</span>
+<span id="2936">2936</span>
+<span id="2937">2937</span>
+<span id="2938">2938</span>
+<span id="2939">2939</span>
+<span id="2940">2940</span>
+<span id="2941">2941</span>
+<span id="2942">2942</span>
+<span id="2943">2943</span>
+<span id="2944">2944</span>
+<span id="2945">2945</span>
+<span id="2946">2946</span>
+<span id="2947">2947</span>
+<span id="2948">2948</span>
+<span id="2949">2949</span>
+<span id="2950">2950</span>
+<span id="2951">2951</span>
+<span id="2952">2952</span>
+<span id="2953">2953</span>
+<span id="2954">2954</span>
+<span id="2955">2955</span>
+<span id="2956">2956</span>
+<span id="2957">2957</span>
+<span id="2958">2958</span>
+<span id="2959">2959</span>
+<span id="2960">2960</span>
+<span id="2961">2961</span>
+<span id="2962">2962</span>
+<span id="2963">2963</span>
+<span id="2964">2964</span>
+<span id="2965">2965</span>
+<span id="2966">2966</span>
+<span id="2967">2967</span>
+<span id="2968">2968</span>
+<span id="2969">2969</span>
+<span id="2970">2970</span>
+<span id="2971">2971</span>
+<span id="2972">2972</span>
+<span id="2973">2973</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">super</span>::sa_family_t;
 <span class="kw">use </span>cfg_if::cfg_if;
 <span class="kw">use crate</span>::{<span class="prelude-ty">Result</span>, NixPath};
@@ -2838,6 +2999,7 @@
           target_os = <span class="string">&quot;illumos&quot;</span>,
           target_os = <span class="string">&quot;netbsd&quot;</span>,
           target_os = <span class="string">&quot;openbsd&quot;</span>,
+          target_os = <span class="string">&quot;haiku&quot;</span>,
           target_os = <span class="string">&quot;fuchsia&quot;</span>))]
 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
 </span><span class="kw">pub use </span><span class="self">self</span>::datalink::LinkAddr;
@@ -2932,6 +3094,7 @@
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Rose = libc::AF_ROSE,
     <span class="doccomment">/// DECet protocol sockets.
+    </span><span class="attribute">#[cfg(not(target_os = <span class="string">&quot;haiku&quot;</span>))]
     </span>Decnet = libc::AF_DECnet,
     <span class="doccomment">/// Reserved for &quot;802.2LLC project&quot;; never used.
     </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
@@ -2963,6 +3126,7 @@
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Rds = libc::AF_RDS,
     <span class="doccomment">/// IBM SNA
+    </span><span class="attribute">#[cfg(not(target_os = <span class="string">&quot;haiku&quot;</span>))]
     </span>Sna = libc::AF_SNA,
     <span class="doccomment">/// Socket interface over IrDA
     </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
@@ -3014,7 +3178,7 @@
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>RxRpc = libc::AF_RXRPC,
     <span class="doccomment">/// New &quot;modular ISDN&quot; driver interface protocol
-    </span><span class="attribute">#[cfg(not(any(target_os = <span class="string">&quot;illumos&quot;</span>, target_os = <span class="string">&quot;solaris&quot;</span>)))]
+    </span><span class="attribute">#[cfg(not(any(target_os = <span class="string">&quot;illumos&quot;</span>, target_os = <span class="string">&quot;solaris&quot;</span>, target_os = <span class="string">&quot;haiku&quot;</span>)))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Isdn = libc::AF_ISDN,
     <span class="doccomment">/// Nokia cellular modem IPC/RPC interface
@@ -3744,7 +3908,7 @@
                 <span class="kw">return </span><span class="prelude-val">None</span>;
             }
         }
-        <span class="kw">if </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 != libc::AF_UNIX <span class="kw">as </span>i32 {
+        <span class="kw">if </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 != libc::AF_UNIX {
             <span class="kw">return </span><span class="prelude-val">None</span>;
         }
         <span class="kw">let </span><span class="kw-2">mut </span>su: libc::sockaddr_un = mem::zeroed();
@@ -3970,6 +4134,7 @@
                   target_os = <span class="string">&quot;ios&quot;</span>,
                   target_os = <span class="string">&quot;macos&quot;</span>,
                   target_os = <span class="string">&quot;netbsd&quot;</span>,
+                  target_os = <span class="string">&quot;haiku&quot;</span>,
                   target_os = <span class="string">&quot;openbsd&quot;</span>))]
             </span>sin_len: <span class="self">Self</span>::size() <span class="kw">as </span>u8,
             sin_family: AddressFamily::Inet <span class="kw">as </span>sa_family_t,
@@ -4000,10 +4165,10 @@
                 <span class="kw">return </span><span class="prelude-val">None</span>;
             }
         }
-        <span class="kw">if </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 != libc::AF_INET <span class="kw">as </span>i32 {
+        <span class="kw">if </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 != libc::AF_INET {
             <span class="kw">return </span><span class="prelude-val">None</span>;
         }
-        <span class="prelude-val">Some</span>(SockaddrIn(<span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_in)))
+        <span class="prelude-val">Some</span>(<span class="self">Self</span>(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))
     }
 }
 
@@ -4042,6 +4207,16 @@
             </span>sin_addr: ipv4addr_to_libc(<span class="kw-2">*</span>addr.ip()),
             .. <span class="kw">unsafe </span>{ mem::zeroed() }
         })
+    }
+}
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
+</span><span class="kw">impl </span>From&lt;SockaddrIn&gt; <span class="kw">for </span>net::SocketAddrV4 {
+    <span class="kw">fn </span>from(addr: SockaddrIn) -&gt; <span class="self">Self </span>{
+        net::SocketAddrV4::new(
+            net::Ipv4Addr::from(addr.<span class="number">0</span>.sin_addr.s_addr.to_ne_bytes()),
+            u16::from_be(addr.<span class="number">0</span>.sin_port)
+        )
     }
 }
 
@@ -4096,10 +4271,10 @@
                 <span class="kw">return </span><span class="prelude-val">None</span>;
             }
         }
-        <span class="kw">if </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 != libc::AF_INET6 <span class="kw">as </span>i32 {
+        <span class="kw">if </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 != libc::AF_INET6 {
             <span class="kw">return </span><span class="prelude-val">None</span>;
         }
-        <span class="prelude-val">Some</span>(SockaddrIn6(<span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_in6)))
+        <span class="prelude-val">Some</span>(<span class="self">Self</span>(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))
     }
 }
 
@@ -4138,6 +4313,18 @@
             </span>sin6_scope_id: addr.scope_id(),  <span class="comment">// host byte order
             </span>.. <span class="kw">unsafe </span>{ mem::zeroed() }
         })
+    }
+}
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
+</span><span class="kw">impl </span>From&lt;SockaddrIn6&gt; <span class="kw">for </span>net::SocketAddrV6 {
+    <span class="kw">fn </span>from(addr: SockaddrIn6) -&gt; <span class="self">Self </span>{
+        net::SocketAddrV6::new(
+            net::Ipv6Addr::from(addr.<span class="number">0</span>.sin6_addr.s6_addr),
+            u16::from_be(addr.<span class="number">0</span>.sin6_port),
+            u32::from_be(addr.<span class="number">0</span>.sin6_flowinfo),
+            u32::from_be(addr.<span class="number">0</span>.sin6_scope_id)
+        )
     }
 }
 
@@ -4210,7 +4397,18 @@
                 <span class="kw">let </span><span class="kw-2">mut </span>ss: libc::sockaddr_storage = mem::zeroed();
                 <span class="kw">let </span>ssp = <span class="kw-2">&amp;mut </span>ss <span class="kw">as </span><span class="kw-2">*mut </span>libc::sockaddr_storage <span class="kw">as </span><span class="kw-2">*mut </span>u8;
                 ptr::copy(addr <span class="kw">as </span><span class="kw-2">*const </span>u8, ssp, len <span class="kw">as </span>usize);
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>{ss})
+                <span class="attribute">#[cfg(any(
+                    target_os = <span class="string">&quot;android&quot;</span>,
+                    target_os = <span class="string">&quot;fuchsia&quot;</span>,
+                    target_os = <span class="string">&quot;illumos&quot;</span>,
+                    target_os = <span class="string">&quot;linux&quot;
+                </span>))]
+                </span><span class="kw">if </span>i32::from(ss.ss_family) == libc::AF_UNIX {
+                    <span class="comment">// Safe because we UnixAddr is strictly smaller than
+                    // SockaddrStorage, and we just initialized the structure.
+                    </span>(<span class="kw-2">*</span>(<span class="kw-2">&amp;mut </span>ss <span class="kw">as </span><span class="kw-2">*mut </span>libc::sockaddr_storage <span class="kw">as </span><span class="kw-2">*mut </span>UnixAddr)).sun_len = len <span class="kw">as </span>u8;
+                }
+                <span class="prelude-val">Some</span>(<span class="self">Self </span>{ ss })
             }
         } <span class="kw">else </span>{
             <span class="comment">// If length is not available and addr is of a fixed-length type,
@@ -4232,6 +4430,7 @@
                           target_os = <span class="string">&quot;macos&quot;</span>,
                           target_os = <span class="string">&quot;illumos&quot;</span>,
                           target_os = <span class="string">&quot;netbsd&quot;</span>,
+                          target_os = <span class="string">&quot;haiku&quot;</span>,
                           target_os = <span class="string">&quot;openbsd&quot;</span>))]
                 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
                 </span>libc::AF_LINK =&gt; LinkAddr::from_raw(addr, l)
@@ -4255,6 +4454,21 @@
                     .map(|vsock| <span class="self">Self</span>{vsock}),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None
             </span>}
+        }
+    }
+
+    <span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;android&quot;</span>,
+        target_os = <span class="string">&quot;fuchsia&quot;</span>,
+        target_os = <span class="string">&quot;illumos&quot;</span>,
+        target_os = <span class="string">&quot;linux&quot;
+    </span>))]
+    </span><span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; libc::socklen_t {
+        <span class="kw">match </span><span class="self">self</span>.as_unix_addr() {
+            <span class="comment">// The UnixAddr type knows its own length
+            </span><span class="prelude-val">Some</span>(ua) =&gt; ua.len(),
+            <span class="comment">// For all else, we&#39;re just a boring SockaddrStorage
+            </span><span class="prelude-val">None </span>=&gt; mem::size_of_val(<span class="self">self</span>) <span class="kw">as </span>libc::socklen_t
         }
     }
 }
@@ -4295,6 +4509,64 @@
 }
 
 <span class="kw">impl </span>SockaddrStorage {
+    <span class="doccomment">/// Downcast to an immutable `[UnixAddr]` reference.
+    </span><span class="kw">pub fn </span>as_unix_addr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>UnixAddr&gt; {
+        <span class="macro">cfg_if! </span>{
+            <span class="kw">if </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>,
+                     target_os = <span class="string">&quot;fuchsia&quot;</span>,
+                     target_os = <span class="string">&quot;illumos&quot;</span>,
+                     target_os = <span class="string">&quot;linux&quot;
+                </span>))]
+            </span>{
+                <span class="kw">let </span>p = <span class="kw">unsafe</span>{ <span class="kw-2">&amp;</span><span class="self">self</span>.ss <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_storage };
+                <span class="comment">// Safe because UnixAddr is strictly smaller than
+                // sockaddr_storage, and we&#39;re fully initialized
+                </span><span class="kw">let </span>len = <span class="kw">unsafe </span>{
+                    (<span class="kw-2">*</span>(p <span class="kw">as </span><span class="kw-2">*const </span>UnixAddr )).sun_len <span class="kw">as </span>usize
+                };
+            } <span class="kw">else </span>{
+                <span class="kw">let </span>len = <span class="self">self</span>.len() <span class="kw">as </span>usize;
+            }
+        }
+        <span class="comment">// Sanity checks
+        </span><span class="kw">if </span><span class="self">self</span>.family() != <span class="prelude-val">Some</span>(AddressFamily::Unix) ||
+           len &lt; <span class="macro">offset_of!</span>(libc::sockaddr_un, sun_path) ||
+           len &gt; mem::size_of::&lt;libc::sockaddr_un&gt;() {
+            <span class="prelude-val">None
+        </span>} <span class="kw">else </span>{
+            <span class="prelude-val">Some</span>(<span class="kw">unsafe</span>{<span class="kw-2">&amp;</span><span class="self">self</span>.su})
+        }
+    }
+
+    <span class="doccomment">/// Downcast to a mutable `[UnixAddr]` reference.
+    </span><span class="kw">pub fn </span>as_unix_addr_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;mut </span>UnixAddr&gt; {
+        <span class="macro">cfg_if! </span>{
+            <span class="kw">if </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>,
+                     target_os = <span class="string">&quot;fuchsia&quot;</span>,
+                     target_os = <span class="string">&quot;illumos&quot;</span>,
+                     target_os = <span class="string">&quot;linux&quot;
+                </span>))]
+            </span>{
+                <span class="kw">let </span>p = <span class="kw">unsafe</span>{ <span class="kw-2">&amp;</span><span class="self">self</span>.ss <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_storage };
+                <span class="comment">// Safe because UnixAddr is strictly smaller than
+                // sockaddr_storage, and we&#39;re fully initialized
+                </span><span class="kw">let </span>len = <span class="kw">unsafe </span>{
+                    (<span class="kw-2">*</span>(p <span class="kw">as </span><span class="kw-2">*const </span>UnixAddr )).sun_len <span class="kw">as </span>usize
+                };
+            } <span class="kw">else </span>{
+                <span class="kw">let </span>len = <span class="self">self</span>.len() <span class="kw">as </span>usize;
+            }
+        }
+        <span class="comment">// Sanity checks
+        </span><span class="kw">if </span><span class="self">self</span>.family() != <span class="prelude-val">Some</span>(AddressFamily::Unix) ||
+           len &lt; <span class="macro">offset_of!</span>(libc::sockaddr_un, sun_path) ||
+           len &gt; mem::size_of::&lt;libc::sockaddr_un&gt;() {
+            <span class="prelude-val">None
+        </span>} <span class="kw">else </span>{
+            <span class="prelude-val">Some</span>(<span class="kw">unsafe</span>{<span class="kw-2">&amp;mut </span><span class="self">self</span>.su})
+        }
+    }
+
     <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
     </span><span class="macro">accessors!</span>{as_alg_addr, as_alg_addr_mut, AlgAddr,
         AddressFamily::Alg, libc::sockaddr_alg, alg}
@@ -4655,21 +4927,21 @@
                 <span class="prelude-val">Some</span>(AddressFamily::Unix) =&gt; <span class="prelude-val">None</span>,
                 <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
                 </span><span class="prelude-val">Some</span>(AddressFamily::Inet) =&gt; <span class="prelude-val">Some</span>(SockAddr::Inet(
-                    InetAddr::V4(<span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_in)))),
+                    InetAddr::V4(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))),
                 <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
                 </span><span class="prelude-val">Some</span>(AddressFamily::Inet6) =&gt; <span class="prelude-val">Some</span>(SockAddr::Inet(
-                    InetAddr::V6(<span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_in6)))),
+                    InetAddr::V6(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))),
                 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
                 </span><span class="prelude-val">Some</span>(AddressFamily::Netlink) =&gt; <span class="prelude-val">Some</span>(SockAddr::Netlink(
-                    NetlinkAddr(<span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_nl)))),
+                    NetlinkAddr(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))),
                 <span class="attribute">#[cfg(all(feature = <span class="string">&quot;ioctl&quot;</span>,
                           any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>)))]
                 </span><span class="prelude-val">Some</span>(AddressFamily::System) =&gt; <span class="prelude-val">Some</span>(SockAddr::SysControl(
-                    SysControlAddr(<span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_ctl)))),
+                    SysControlAddr(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))),
                 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
                 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
                 </span><span class="prelude-val">Some</span>(AddressFamily::Packet) =&gt; <span class="prelude-val">Some</span>(SockAddr::Link(
-                    LinkAddr(<span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_ll)))),
+                    LinkAddr(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))),
                 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
                           target_os = <span class="string">&quot;freebsd&quot;</span>,
                           target_os = <span class="string">&quot;ios&quot;</span>,
@@ -4679,7 +4951,7 @@
                           target_os = <span class="string">&quot;openbsd&quot;</span>))]
                 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
                 </span><span class="prelude-val">Some</span>(AddressFamily::Link) =&gt; {
-                    <span class="kw">let </span>ether_addr = LinkAddr(<span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_dl));
+                    <span class="kw">let </span>ether_addr = LinkAddr(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>));
                     <span class="kw">if </span>ether_addr.is_empty() {
                         <span class="prelude-val">None
                     </span>} <span class="kw">else </span>{
@@ -4688,7 +4960,7 @@
                 },
                 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
                 </span><span class="prelude-val">Some</span>(AddressFamily::Vsock) =&gt; <span class="prelude-val">Some</span>(SockAddr::Vsock(
-                    VsockAddr(<span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_vm)))),
+                    VsockAddr(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))),
                 <span class="comment">// Other address families are currently not supported and simply yield a None
                 // entry instead of a proper conversion to a `SockAddr`.
                 </span><span class="prelude-val">Some</span>(<span class="kw">_</span>) | <span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,
@@ -4886,10 +5158,10 @@
                     <span class="kw">return </span><span class="prelude-val">None</span>;
                 }
             }
-            <span class="kw">if </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 != libc::AF_NETLINK <span class="kw">as </span>i32 {
+            <span class="kw">if </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 != libc::AF_NETLINK {
                 <span class="kw">return </span><span class="prelude-val">None</span>;
             }
-            <span class="prelude-val">Some</span>(NetlinkAddr(<span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_nl)))
+            <span class="prelude-val">Some</span>(<span class="self">Self</span>(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))
         }
     }
 
@@ -4930,10 +5202,10 @@
                     <span class="kw">return </span><span class="prelude-val">None</span>;
                 }
             }
-            <span class="kw">if </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 != libc::AF_ALG <span class="kw">as </span>i32 {
+            <span class="kw">if </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 != libc::AF_ALG {
                 <span class="kw">return </span><span class="prelude-val">None</span>;
             }
-            <span class="prelude-val">Some</span>(AlgAddr(<span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_alg)))
+            <span class="prelude-val">Some</span>(<span class="self">Self</span>(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))
         }
     }
 
@@ -5005,7 +5277,7 @@
 </span><span class="kw">pub mod </span>sys_control {
     <span class="kw">use </span><span class="kw">crate</span>::sys::socket::addr::AddressFamily;
     <span class="kw">use </span>libc::{<span class="self">self</span>, c_uchar};
-    <span class="kw">use </span>std::{fmt, mem};
+    <span class="kw">use </span>std::{fmt, mem, ptr};
     <span class="kw">use </span>std::os::unix::io::RawFd;
     <span class="kw">use crate</span>::{Errno, <span class="prelude-ty">Result</span>};
     <span class="kw">use super</span>::{private, SockaddrLike};
@@ -5044,10 +5316,10 @@
                     <span class="kw">return </span><span class="prelude-val">None</span>;
                 }
             }
-            <span class="kw">if </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 != libc::AF_SYSTEM <span class="kw">as </span>i32 {
+            <span class="kw">if </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 != libc::AF_SYSTEM {
                 <span class="kw">return </span><span class="prelude-val">None</span>;
             }
-            <span class="prelude-val">Some</span>(SysControlAddr(<span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_ctl)))
+            <span class="prelude-val">Some</span>(<span class="self">Self</span>(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))
         }
     }
 
@@ -5114,7 +5386,7 @@
 </span><span class="kw">mod </span>datalink {
     <span class="macro">feature! </span>{
     <span class="attribute">#![feature = <span class="string">&quot;net&quot;</span>]
-    </span><span class="kw">use super</span>::{fmt, mem, private, SockaddrLike};
+    </span><span class="kw">use super</span>::{fmt, mem, private, ptr, SockaddrLike};
 
     <span class="doccomment">/// Hardware Address
     </span><span class="attribute">#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -5151,12 +5423,12 @@
         </span><span class="comment">// Returns an Option just for cross-platform compatibility
         </span><span class="kw">pub fn </span>addr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;[u8; <span class="number">6</span>]&gt; {
             <span class="prelude-val">Some</span>([
-                <span class="self">self</span>.<span class="number">0</span>.sll_addr[<span class="number">0</span>] <span class="kw">as </span>u8,
-                <span class="self">self</span>.<span class="number">0</span>.sll_addr[<span class="number">1</span>] <span class="kw">as </span>u8,
-                <span class="self">self</span>.<span class="number">0</span>.sll_addr[<span class="number">2</span>] <span class="kw">as </span>u8,
-                <span class="self">self</span>.<span class="number">0</span>.sll_addr[<span class="number">3</span>] <span class="kw">as </span>u8,
-                <span class="self">self</span>.<span class="number">0</span>.sll_addr[<span class="number">4</span>] <span class="kw">as </span>u8,
-                <span class="self">self</span>.<span class="number">0</span>.sll_addr[<span class="number">5</span>] <span class="kw">as </span>u8,
+                <span class="self">self</span>.<span class="number">0</span>.sll_addr[<span class="number">0</span>],
+                <span class="self">self</span>.<span class="number">0</span>.sll_addr[<span class="number">1</span>],
+                <span class="self">self</span>.<span class="number">0</span>.sll_addr[<span class="number">2</span>],
+                <span class="self">self</span>.<span class="number">0</span>.sll_addr[<span class="number">3</span>],
+                <span class="self">self</span>.<span class="number">0</span>.sll_addr[<span class="number">4</span>],
+                <span class="self">self</span>.<span class="number">0</span>.sll_addr[<span class="number">5</span>],
             ])
         }
     }
@@ -5187,10 +5459,10 @@
                     <span class="kw">return </span><span class="prelude-val">None</span>;
                 }
             }
-            <span class="kw">if </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 != libc::AF_PACKET <span class="kw">as </span>i32 {
+            <span class="kw">if </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 != libc::AF_PACKET {
                 <span class="kw">return </span><span class="prelude-val">None</span>;
             }
-            <span class="prelude-val">Some</span>(LinkAddr(<span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_ll)))
+            <span class="prelude-val">Some</span>(<span class="self">Self</span>(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))
         }
     }
 
@@ -5209,12 +5481,13 @@
           target_os = <span class="string">&quot;macos&quot;</span>,
           target_os = <span class="string">&quot;illumos&quot;</span>,
           target_os = <span class="string">&quot;netbsd&quot;</span>,
+          target_os = <span class="string">&quot;haiku&quot;</span>,
           target_os = <span class="string">&quot;openbsd&quot;</span>))]
 #[cfg_attr(docsrs, doc(cfg(all())))]
 </span><span class="kw">mod </span>datalink {
     <span class="macro">feature! </span>{
     <span class="attribute">#![feature = <span class="string">&quot;net&quot;</span>]
-    </span><span class="kw">use super</span>::{fmt, mem, private, SockaddrLike};
+    </span><span class="kw">use super</span>::{fmt, mem, private, ptr, SockaddrLike};
 
     <span class="doccomment">/// Hardware Address
     </span><span class="attribute">#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -5223,11 +5496,13 @@
 
     <span class="kw">impl </span>LinkAddr {
         <span class="doccomment">/// interface index, if != 0, system given index for interface
+        </span><span class="attribute">#[cfg(not(target_os = <span class="string">&quot;haiku&quot;</span>))]
         </span><span class="kw">pub fn </span>ifindex(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
             <span class="self">self</span>.<span class="number">0</span>.sdl_index <span class="kw">as </span>usize
         }
 
         <span class="doccomment">/// Datalink type
+        </span><span class="attribute">#[cfg(not(target_os = <span class="string">&quot;haiku&quot;</span>))]
         </span><span class="kw">pub fn </span>datalink_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u8 {
             <span class="self">self</span>.<span class="number">0</span>.sdl_type
         }
@@ -5243,6 +5518,7 @@
         }
 
         <span class="doccomment">/// link layer selector length
+        </span><span class="attribute">#[cfg(not(target_os = <span class="string">&quot;haiku&quot;</span>))]
         </span><span class="kw">pub fn </span>slen(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
             <span class="self">self</span>.<span class="number">0</span>.sdl_slen <span class="kw">as </span>usize
         }
@@ -5258,6 +5534,8 @@
         }
 
         <span class="doccomment">/// Physical-layer address (MAC)
+        </span><span class="comment">// The cast is not unnecessary on all platforms.
+        </span><span class="attribute">#[allow(clippy::unnecessary_cast)]
         </span><span class="kw">pub fn </span>addr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;[u8; <span class="number">6</span>]&gt; {
             <span class="kw">let </span>nlen = <span class="self">self</span>.nlen();
             <span class="kw">let </span>data = <span class="self">self</span>.<span class="number">0</span>.sdl_data;
@@ -5303,10 +5581,10 @@
                     <span class="kw">return </span><span class="prelude-val">None</span>;
                 }
             }
-            <span class="kw">if </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 != libc::AF_LINK <span class="kw">as </span>i32 {
+            <span class="kw">if </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 != libc::AF_LINK {
                 <span class="kw">return </span><span class="prelude-val">None</span>;
             }
-            <span class="prelude-val">Some</span>(LinkAddr(<span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_dl)))
+            <span class="prelude-val">Some</span>(<span class="self">Self</span>(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))
         }
     }
 
@@ -5347,10 +5625,10 @@
                     <span class="kw">return </span><span class="prelude-val">None</span>;
                 }
             }
-            <span class="kw">if </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 != libc::AF_VSOCK <span class="kw">as </span>i32 {
+            <span class="kw">if </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 != libc::AF_VSOCK {
                 <span class="kw">return </span><span class="prelude-val">None</span>;
             }
-            <span class="prelude-val">Some</span>(VsockAddr(<span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_vm)))
+            <span class="prelude-val">Some</span>(<span class="self">Self</span>(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))
         }
     }
 
@@ -5439,7 +5717,9 @@
     }
 
     <span class="kw">mod </span>link {
-        <span class="kw">use super</span>::<span class="kw-2">*</span>;
+        <span class="attribute">#![allow(clippy::cast_ptr_alignment)]
+
+        </span><span class="kw">use super</span>::<span class="kw-2">*</span>;
         <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;ios&quot;</span>,
                   target_os = <span class="string">&quot;macos&quot;</span>,
                   target_os = <span class="string">&quot;illumos&quot;
@@ -5479,8 +5759,11 @@
         </span>))]
         #[test]
         </span><span class="kw">fn </span>linux_loopback() {
-            <span class="kw">let </span>bytes = [<span class="number">17u8</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">0</span>];
-            <span class="kw">let </span>sa = bytes.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr;
+            <span class="attribute">#[repr(align(<span class="number">2</span>))]
+            </span><span class="kw">struct </span>Raw([u8; <span class="number">20</span>]);
+
+            <span class="kw">let </span>bytes = Raw([<span class="number">17u8</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">0</span>]);
+            <span class="kw">let </span>sa = bytes.<span class="number">0</span>.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr;
             <span class="kw">let </span>len = <span class="prelude-val">None</span>;
             <span class="kw">let </span>sock_addr = <span class="kw">unsafe </span>{ SockaddrStorage::from_raw(sa, len) }.unwrap();
             <span class="macro">assert_eq!</span>(sock_addr.family(), <span class="prelude-val">Some</span>(AddressFamily::Packet));
@@ -5554,7 +5837,8 @@
                       target_os = <span class="string">&quot;macos&quot;</span>,
                       target_os = <span class="string">&quot;netbsd&quot;</span>,
                       target_os = <span class="string">&quot;illumos&quot;</span>,
-                      target_os = <span class="string">&quot;openbsd&quot;</span>))]
+                      target_os = <span class="string">&quot;openbsd&quot;</span>,
+                      target_os = <span class="string">&quot;haiku&quot;</span>))]
             </span><span class="kw">let </span>l = mem::size_of::&lt;libc::sockaddr_dl&gt;();
             <span class="attribute">#[cfg(any(
                     target_os = <span class="string">&quot;android&quot;</span>,
@@ -5598,6 +5882,44 @@
         </span><span class="kw">fn </span>size() {
             <span class="macro">assert_eq!</span>(mem::size_of::&lt;libc::sockaddr_in6&gt;(),
                 SockaddrIn6::size() <span class="kw">as </span>usize);
+        }
+    }
+
+    <span class="kw">mod </span>sockaddr_storage {
+        <span class="kw">use super</span>::<span class="kw-2">*</span>;
+
+        <span class="attribute">#[test]
+        </span><span class="kw">fn </span>from_sockaddr_un_named() {
+            <span class="kw">let </span>ua = UnixAddr::new(<span class="string">&quot;/var/run/mysock&quot;</span>).unwrap();
+            <span class="kw">let </span>ptr = ua.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr;
+            <span class="kw">let </span>ss = <span class="kw">unsafe </span>{
+                SockaddrStorage::from_raw(ptr, <span class="prelude-val">Some</span>(ua.len()))
+            }.unwrap();
+            <span class="macro">assert_eq!</span>(ss.len(), ua.len());
+        }
+
+        <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
+        #[test]
+        </span><span class="kw">fn </span>from_sockaddr_un_abstract_named() {
+            <span class="kw">let </span>name = String::from(<span class="string">&quot;nix\0abstract\0test&quot;</span>);
+            <span class="kw">let </span>ua = UnixAddr::new_abstract(name.as_bytes()).unwrap();
+            <span class="kw">let </span>ptr = ua.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr;
+            <span class="kw">let </span>ss = <span class="kw">unsafe </span>{
+                SockaddrStorage::from_raw(ptr, <span class="prelude-val">Some</span>(ua.len()))
+            }.unwrap();
+            <span class="macro">assert_eq!</span>(ss.len(), ua.len());
+        }
+
+        <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
+        #[test]
+        </span><span class="kw">fn </span>from_sockaddr_un_abstract_unnamed() {
+            <span class="kw">let </span>empty = String::new();
+            <span class="kw">let </span>ua = UnixAddr::new_abstract(empty.as_bytes()).unwrap();
+            <span class="kw">let </span>ptr = ua.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr;
+            <span class="kw">let </span>ss = <span class="kw">unsafe </span>{
+                SockaddrStorage::from_raw(ptr, <span class="prelude-val">Some</span>(ua.len()))
+            }.unwrap();
+            <span class="macro">assert_eq!</span>(ss.len(), ua.len());
         }
     }
 

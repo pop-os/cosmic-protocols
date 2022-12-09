@@ -164,8 +164,8 @@ impl Dispatch<zcosmic_screencopy_session_v1::ZcosmicScreencopySessionV1, String>
             } => {
                 let _ = node;
                 if _type == WEnum::Value(zcosmic_screencopy_session_v1::BufferType::WlShm)
-                    && (format == wl_shm::Format::Argb8888 as u32
-                        || format == wl_shm::Format::Xrgb8888 as u32)
+                    && (format == wl_shm::Format::Abgr8888 as u32
+                        || format == wl_shm::Format::Xbgr8888 as u32)
                     && stride == width * 4
                 {
                     app_data.formats.insert(
@@ -274,7 +274,7 @@ fn main() {
     for (output, name) in &app_data.outputs {
         manager.capture_output(
             output,
-            zcosmic_screencopy_manager_v1::CursorMode::Capture,
+            zcosmic_screencopy_manager_v1::CursorMode::Hidden,
             &qh,
             name.clone(),
         );

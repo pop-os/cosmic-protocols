@@ -21,12 +21,12 @@ impl WorkspaceHandler for AppData {
     }
 
     fn done(&mut self) {
-        for (_, group) in self.workspace_state.workspace_groups() {
+        for group in self.workspace_state.workspace_groups() {
             println!(
                 "Group: capabilities: {:?}, output: {:?}",
                 &group.capabilities, &group.output
             );
-            for (_, workspace) in &group.workspaces {
+            for workspace in &group.workspaces {
                 println!("{:?}", &workspace);
             }
         }

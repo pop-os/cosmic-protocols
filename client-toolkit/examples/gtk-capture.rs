@@ -288,17 +288,18 @@ fn main() {
     }
 
     let workspaces_hbox = gtk4::Box::new(gtk4::Orientation::Horizontal, 24);
-    for (_, group_info) in workspace_groups {
-        for (workspace, workspace_info) in &group_info.workspaces {
-            let name = workspace_info.name.clone().unwrap();
-            if let Some(output) = group_info.output.clone() {
+    for group in workspace_groups {
+        for workspace in &group.workspaces {
+            if let Some(output) = group.output.clone() {
+                let name = workspace.name.clone().unwrap();
+                let workspace_handle = workspace.handle.clone();
                 let image_vbox = image_vbox(
                     &app_data,
                     &name,
                     egl_display,
                     gl_context.clone(),
-                    glib::clone!(@strong export_dmabuf_manager, @strong workspace, @strong qh, @strong name => move || {
-                        export_dmabuf_manager.capture_workspace(0, &workspace, &output, &qh, ())
+                    glib::clone!(@strong export_dmabuf_manager, @strong qh, @strong name => move || {
+                        export_dmabuf_manager.capture_workspace(0, &workspace_handle, &output, &qh, ())
                     }),
                 );
                 workspaces_hbox.append(&image_vbox);

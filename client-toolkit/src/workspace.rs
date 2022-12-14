@@ -4,18 +4,17 @@ use cosmic_protocols::workspace::v1::client::{
 use sctk::registry::{GlobalProxy, RegistryState};
 use wayland_client::{protocol::wl_output, Connection, Dispatch, QueueHandle};
 
-#[derive(Default, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct WorkspaceGroup {
+    pub handle: zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
     pub capabilities: Vec<u8>,
     pub output: Option<wl_output::WlOutput>,
-    pub workspaces: Vec<(
-        zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1,
-        Workspace,
-    )>,
+    pub workspaces: Vec<Workspace>,
 }
 
-#[derive(Default, Clone, Debug)]
+#[derive(Clone, Debug)]
 pub struct Workspace {
+    pub handle: zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1,
     pub name: Option<String>,
     pub coordinates: Vec<u8>,
     pub state: Vec<u8>,
@@ -24,10 +23,7 @@ pub struct Workspace {
 
 #[derive(Debug)]
 pub struct WorkspaceState {
-    workspace_groups: Vec<(
-        zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
-        WorkspaceGroup,
-    )>,
+    workspace_groups: Vec<WorkspaceGroup>,
     _manager: GlobalProxy<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1>,
 }
 
@@ -42,12 +38,7 @@ impl WorkspaceState {
         }
     }
 
-    pub fn workspace_groups(
-        &self,
-    ) -> &[(
-        zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
-        WorkspaceGroup,
-    )] {
+    pub fn workspace_groups(&self) -> &[WorkspaceGroup] {
         &self.workspace_groups
     }
 }
@@ -79,7 +70,12 @@ where
                 state
                     .workspace_state()
                     .workspace_groups
-                    .push((workspace_group, WorkspaceGroup::default()));
+                    .push(WorkspaceGroup {
+                        handle: workspace_group,
+                        capabilities: Vec::new(),
+                        output: None,
+                        workspaces: Vec::new(),
+                    });
             }
             zcosmic_workspace_manager_v1::Event::Done => {
                 state.done();
@@ -104,40 +100,43 @@ where
 {
     fn event(
         state: &mut D,
-        workspace_group: &zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
+        handle: &zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
         event: zcosmic_workspace_group_handle_v1::Event,
         _: &(),
         _: &Connection,
         _: &QueueHandle<D>,
     ) {
-        let mut group_info = &mut state
+        let mut group = &mut state
             .workspace_state()
             .workspace_groups
             .iter_mut()
-            .find(|(group, _)| group == workspace_group)
-            .unwrap()
-            .1;
+            .find(|group| &group.handle == handle)
+            .unwrap();
         match event {
             zcosmic_workspace_group_handle_v1::Event::Capabilities { capabilities } => {
-                group_info.capabilities = capabilities;
+                group.capabilities = capabilities;
             }
             zcosmic_workspace_group_handle_v1::Event::OutputEnter { output } => {
-                group_info.output = Some(output);
+                group.output = Some(output);
             }
             zcosmic_workspace_group_handle_v1::Event::OutputLeave { output } => {
-                group_info.output = None;
+                group.output = None;
             }
             zcosmic_workspace_group_handle_v1::Event::Workspace { workspace } => {
-                group_info
-                    .workspaces
-                    .push((workspace, Workspace::default()));
+                group.workspaces.push(Workspace {
+                    handle: workspace,
+                    name: None,
+                    coordinates: Vec::new(),
+                    state: Vec::new(),
+                    capabilities: Vec::new(),
+                });
             }
             zcosmic_workspace_group_handle_v1::Event::Remove => {
                 if let Some(idx) = state
                     .workspace_state()
                     .workspace_groups
                     .iter()
-                    .position(|(group, _)| group == workspace_group)
+                    .position(|group| &group.handle == handle)
                 {
                     state.workspace_state().workspace_groups.remove(idx);
                 }
@@ -157,44 +156,35 @@ where
 {
     fn event(
         state: &mut D,
-        workspace: &zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1,
+        handle: &zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1,
         event: zcosmic_workspace_handle_v1::Event,
         _: &(),
         _: &Connection,
         _: &QueueHandle<D>,
     ) {
-        let (_, workspace_info) = state
+        let workspace = state
             .workspace_state()
             .workspace_groups
             .iter_mut()
-            .find_map(|(_, group_info)| {
-                group_info
-                    .workspaces
-                    .iter_mut()
-                    .find(|(w, _)| w == workspace)
-            })
+            .find_map(|group| group.workspaces.iter_mut().find(|w| &w.handle == handle))
             .unwrap();
         match event {
             zcosmic_workspace_handle_v1::Event::Name { name } => {
-                workspace_info.name = Some(name);
+                workspace.name = Some(name);
             }
             zcosmic_workspace_handle_v1::Event::Coordinates { coordinates } => {
-                workspace_info.coordinates = coordinates;
+                workspace.coordinates = coordinates;
             }
             zcosmic_workspace_handle_v1::Event::State { state } => {
-                workspace_info.state = state;
+                workspace.state = state;
             }
             zcosmic_workspace_handle_v1::Event::Capabilities { capabilities } => {
-                workspace_info.capabilities = capabilities;
+                workspace.capabilities = capabilities;
             }
             zcosmic_workspace_handle_v1::Event::Remove => {
-                for (_, group_info) in state.workspace_state().workspace_groups.iter_mut() {
-                    if let Some(idx) = group_info
-                        .workspaces
-                        .iter()
-                        .position(|(w, _)| w == workspace)
-                    {
-                        group_info.workspaces.remove(idx);
+                for group in state.workspace_state().workspace_groups.iter_mut() {
+                    if let Some(idx) = group.workspaces.iter().position(|w| &w.handle == handle) {
+                        group.workspaces.remove(idx);
                     }
                 }
             }

@@ -7,7 +7,8 @@ use wayland_client::{protocol::wl_output, Connection, Dispatch, QueueHandle, WEn
 #[derive(Clone, Debug)]
 pub struct WorkspaceGroup {
     pub handle: zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
-    pub capabilities: Vec<u8>,
+    pub capabilities:
+        Vec<WEnum<zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupCapabilitiesV1>>,
     pub output: Option<wl_output::WlOutput>,
     pub workspaces: Vec<Workspace>,
 }
@@ -16,9 +17,9 @@ pub struct WorkspaceGroup {
 pub struct Workspace {
     pub handle: zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1,
     pub name: Option<String>,
-    pub coordinates: Vec<u8>,
+    pub coordinates: Vec<u32>,
     pub state: Vec<WEnum<zcosmic_workspace_handle_v1::State>>,
-    pub capabilities: Vec<u8>,
+    pub capabilities: Vec<WEnum<zcosmic_workspace_handle_v1::ZcosmicWorkspaceCapabilitiesV1>>,
 }
 
 #[derive(Debug)]
@@ -114,7 +115,10 @@ where
             .unwrap();
         match event {
             zcosmic_workspace_group_handle_v1::Event::Capabilities { capabilities } => {
-                group.capabilities = capabilities;
+                group.capabilities = capabilities
+                    .chunks(4)
+                    .map(|chunk| WEnum::from(u32::from_ne_bytes(chunk.try_into().unwrap())))
+                    .collect();
             }
             zcosmic_workspace_group_handle_v1::Event::OutputEnter { output } => {
                 group.output = Some(output);
@@ -173,7 +177,10 @@ where
                 workspace.name = Some(name);
             }
             zcosmic_workspace_handle_v1::Event::Coordinates { coordinates } => {
-                workspace.coordinates = coordinates;
+                workspace.coordinates = coordinates
+                    .chunks(4)
+                    .map(|chunk| u32::from_ne_bytes(chunk.try_into().unwrap()))
+                    .collect();
             }
             zcosmic_workspace_handle_v1::Event::State { state } => {
                 workspace.state = state
@@ -182,7 +189,10 @@ where
                     .collect();
             }
             zcosmic_workspace_handle_v1::Event::Capabilities { capabilities } => {
-                workspace.capabilities = capabilities;
+                workspace.capabilities = capabilities
+                    .chunks(4)
+                    .map(|chunk| WEnum::from(u32::from_ne_bytes(chunk.try_into().unwrap())))
+                    .collect();
             }
             zcosmic_workspace_handle_v1::Event::Remove => {
                 for group in state.workspace_state().workspace_groups.iter_mut() {

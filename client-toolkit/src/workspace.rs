@@ -16,7 +16,7 @@ pub struct WorkspaceGroup {
 #[derive(Clone, Debug)]
 pub struct Workspace {
     pub handle: zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1,
-    pub name: Option<String>,
+    pub name: String,
     pub coordinates: Vec<u32>,
     pub state: Vec<WEnum<zcosmic_workspace_handle_v1::State>>,
     pub capabilities: Vec<WEnum<zcosmic_workspace_handle_v1::ZcosmicWorkspaceCapabilitiesV1>>,
@@ -129,7 +129,7 @@ where
             zcosmic_workspace_group_handle_v1::Event::Workspace { workspace } => {
                 group.workspaces.push(Workspace {
                     handle: workspace,
-                    name: None,
+                    name: String::new(),
                     coordinates: Vec::new(),
                     state: Vec::new(),
                     capabilities: Vec::new(),
@@ -174,7 +174,7 @@ where
             .unwrap();
         match event {
             zcosmic_workspace_handle_v1::Event::Name { name } => {
-                workspace.name = Some(name);
+                workspace.name = name;
             }
             zcosmic_workspace_handle_v1::Event::Coordinates { coordinates } => {
                 workspace.coordinates = coordinates

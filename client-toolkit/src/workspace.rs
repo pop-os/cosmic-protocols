@@ -1,7 +1,7 @@
 use cosmic_protocols::workspace::v1::client::{
     zcosmic_workspace_group_handle_v1, zcosmic_workspace_handle_v1, zcosmic_workspace_manager_v1,
 };
-use sctk::registry::RegistryState;
+use sctk::registry::{GlobalProxy, RegistryState};
 use wayland_client::{protocol::wl_output, Connection, Dispatch, QueueHandle};
 
 #[derive(Default, Clone, Debug)]
@@ -27,6 +27,7 @@ pub struct WorkspaceState {
         zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
         WorkspaceGroup,
     )>,
+    _manager: GlobalProxy<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1>,
 }
 
 impl WorkspaceState {
@@ -34,16 +35,9 @@ impl WorkspaceState {
     where
         D: Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, ()> + 'static,
     {
-        registry
-            .bind_one::<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, _, _>(
-                qh,
-                1..=1,
-                (),
-            )
-            .unwrap();
-
         Self {
             workspace_groups: Vec::new(),
+            _manager: GlobalProxy::from(registry.bind_one(qh, 1..=1, ())),
         }
     }
 

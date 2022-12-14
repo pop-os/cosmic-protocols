@@ -2,7 +2,7 @@ use cosmic_protocols::workspace::v1::client::{
     zcosmic_workspace_group_handle_v1, zcosmic_workspace_handle_v1, zcosmic_workspace_manager_v1,
 };
 use sctk::registry::{GlobalProxy, RegistryState};
-use wayland_client::{protocol::wl_output, Connection, Dispatch, QueueHandle};
+use wayland_client::{protocol::wl_output, Connection, Dispatch, QueueHandle, WEnum};
 
 #[derive(Clone, Debug)]
 pub struct WorkspaceGroup {
@@ -17,7 +17,7 @@ pub struct Workspace {
     pub handle: zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1,
     pub name: Option<String>,
     pub coordinates: Vec<u8>,
-    pub state: Vec<u8>,
+    pub state: Vec<WEnum<zcosmic_workspace_handle_v1::State>>,
     pub capabilities: Vec<u8>,
 }
 
@@ -176,7 +176,10 @@ where
                 workspace.coordinates = coordinates;
             }
             zcosmic_workspace_handle_v1::Event::State { state } => {
-                workspace.state = state;
+                workspace.state = state
+                    .chunks(4)
+                    .map(|chunk| WEnum::from(u32::from_ne_bytes(chunk.try_into().unwrap())))
+                    .collect();
             }
             zcosmic_workspace_handle_v1::Event::Capabilities { capabilities } => {
                 workspace.capabilities = capabilities;

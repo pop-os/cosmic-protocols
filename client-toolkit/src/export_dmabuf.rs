@@ -78,6 +78,7 @@ impl DmabufFrame {
     }
 }
 
+#[derive(Debug)]
 pub struct ExportDmabufState {
     export_dmabuf_manager: Option<zcosmic_export_dmabuf_manager_v1::ZcosmicExportDmabufManagerV1>,
     frames: HashMap<ObjectId, DmabufFrame>,

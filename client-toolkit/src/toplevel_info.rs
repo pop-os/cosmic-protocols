@@ -14,12 +14,13 @@ pub struct ToplevelInfo {
     pub workspace: Option<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1>,
 }
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 struct ToplevelData {
     current_info: Option<ToplevelInfo>,
     pending_info: ToplevelInfo,
 }
 
+#[derive(Debug)]
 pub struct ToplevelInfoState {
     toplevels: Vec<(
         zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1,

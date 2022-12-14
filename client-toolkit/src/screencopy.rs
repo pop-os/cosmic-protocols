@@ -24,6 +24,7 @@ pub struct BufferInfo {
     pub stride: u32,
 }
 
+#[derive(Debug)]
 pub struct ScreencopyState {
     pub screencopy_manager: zcosmic_screencopy_manager_v1::ZcosmicScreencopyManagerV1, // XXX pub
     supported_cursor_modes: Vec<zcosmic_screencopy_manager_v1::CursorMode>,

@@ -22,6 +22,7 @@ pub struct Workspace {
     pub capabilities: Vec<u8>,
 }
 
+#[derive(Debug)]
 pub struct WorkspaceState {
     workspace_groups: Vec<(
         zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,

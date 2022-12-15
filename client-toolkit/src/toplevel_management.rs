@@ -1,9 +1,9 @@
-use cosmic_protocols::{toplevel_management::v1::client::zcosmic_toplevel_manager_v1, toplevel_info::v1::client::zcosmic_toplevel_info_v1};
+use cosmic_protocols::toplevel_management::v1::client::zcosmic_toplevel_manager_v1;
 use sctk::registry::RegistryState;
-use wayland_client::{QueueHandle, Dispatch, Connection};
+use wayland_client::{Connection, Dispatch, QueueHandle};
 
 pub struct ToplevelManagerState {
-    pub manager: zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1
+    pub manager: zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1,
 }
 
 impl ToplevelManagerState {
@@ -15,13 +15,12 @@ impl ToplevelManagerState {
             .bind_one::<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, _, _>(qh, 1..=1, ())
             .unwrap();
 
-        Self {
-            manager
-        }
+        Self { manager }
     }
 }
 
-impl<D> Dispatch<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, (), D> for ToplevelManagerState
+impl<D> Dispatch<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, (), D>
+    for ToplevelManagerState
 where
     D: Dispatch<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, ()>
         + Dispatch<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, ()>
@@ -39,7 +38,7 @@ where
         match event {
             zcosmic_toplevel_manager_v1::Event::Capabilities { capabilities } => {
                 state.capabilities(conn, qhandle, capabilities)
-            },
+            }
             _ => unimplemented!(),
         }
     }
@@ -48,12 +47,7 @@ where
 pub trait ToplevelManagerHandler: Sized {
     fn toplevel_manager_state(&mut self) -> &mut ToplevelManagerState;
 
-    fn capabilities(
-        &mut self,
-        conn: &Connection,
-        qh: &QueueHandle<Self>,
-        capabilities: Vec<u8>
-    );
+    fn capabilities(&mut self, conn: &Connection, qh: &QueueHandle<Self>, capabilities: Vec<u8>);
 }
 
 #[macro_export]

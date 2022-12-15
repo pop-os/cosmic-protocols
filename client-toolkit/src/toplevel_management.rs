@@ -37,9 +37,10 @@ where
     ) {
         match event {
             zcosmic_toplevel_manager_v1::Event::Capabilities { capabilities } => {
-                let capabilities = capabilities.chunks(4)
-                .map(|chunk| WEnum::from(u32::from_ne_bytes(chunk.try_into().unwrap())))
-                .collect();
+                let capabilities = capabilities
+                    .chunks(4)
+                    .map(|chunk| WEnum::from(u32::from_ne_bytes(chunk.try_into().unwrap())))
+                    .collect();
                 state.capabilities(conn, qhandle, capabilities)
             }
             _ => unimplemented!(),
@@ -50,7 +51,14 @@ where
 pub trait ToplevelManagerHandler: Sized {
     fn toplevel_manager_state(&mut self) -> &mut ToplevelManagerState;
 
-    fn capabilities(&mut self, conn: &Connection, qh: &QueueHandle<Self>, capabilities: Vec<WEnum::<zcosmic_toplevel_manager_v1::ZcosmicToplelevelManagementCapabilitiesV1>>);
+    fn capabilities(
+        &mut self,
+        conn: &Connection,
+        qh: &QueueHandle<Self>,
+        capabilities: Vec<
+            WEnum<zcosmic_toplevel_manager_v1::ZcosmicToplelevelManagementCapabilitiesV1>,
+        >,
+    );
 }
 
 #[macro_export]

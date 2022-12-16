@@ -196,11 +196,11 @@ where
 
 #[macro_export]
 macro_rules! delegate_screencopy {
-    ($ty: ty) => {
-        $crate::wayland_client::delegate_dispatch!($ty: [
+    ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty) => {
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
             $crate::cosmic_protocols::screencopy::v1::client::zcosmic_screencopy_manager_v1::ZcosmicScreencopyManagerV1: ()
         ] => $crate::screencopy::ScreencopyState);
-        $crate::wayland_client::delegate_dispatch!($ty: [
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
             $crate::cosmic_protocols::screencopy::v1::client::zcosmic_screencopy_session_v1::ZcosmicScreencopySessionV1: $crate::screencopy::ScreencopySessionData
         ] => $crate::screencopy::ScreencopyState);
     };

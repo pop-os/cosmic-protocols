@@ -193,11 +193,11 @@ where
 
 #[macro_export]
 macro_rules! delegate_toplevel_info {
-    ($ty: ty) => {
-        $crate::wayland_client::delegate_dispatch!($ty: [
+    ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty) => {
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
             $crate::cosmic_protocols::toplevel_info::v1::client::zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1: ()
         ] => $crate::toplevel_info::ToplevelInfoState);
-        $crate::wayland_client::delegate_dispatch!($ty: [
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
             $crate::cosmic_protocols::toplevel_info::v1::client::zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1: ()
         ] => $crate::toplevel_info::ToplevelInfoState);
     };

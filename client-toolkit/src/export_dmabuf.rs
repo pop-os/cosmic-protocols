@@ -217,11 +217,11 @@ where
 
 #[macro_export]
 macro_rules! delegate_export_dmabuf {
-    ($ty: ty) => {
-        $crate::wayland_client::delegate_dispatch!($ty: [
+    ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty) => {
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
             $crate::cosmic_protocols::export_dmabuf::v1::client::zcosmic_export_dmabuf_manager_v1::ZcosmicExportDmabufManagerV1: ()
         ] => $crate::export_dmabuf::ExportDmabufState);
-        $crate::wayland_client::delegate_dispatch!($ty: [
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
             $crate::cosmic_protocols::export_dmabuf::v1::client::zcosmic_export_dmabuf_frame_v1::ZcosmicExportDmabufFrameV1: ()
         ] => $crate::export_dmabuf::ExportDmabufState);
     };

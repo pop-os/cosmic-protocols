@@ -208,14 +208,14 @@ where
 
 #[macro_export]
 macro_rules! delegate_workspace {
-    ($ty: ty) => {
-        $crate::wayland_client::delegate_dispatch!($ty: [
+    ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty) => {
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
             $crate::cosmic_protocols::workspace::v1::client::zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1: ()
         ] => $crate::workspace::WorkspaceState);
-        $crate::wayland_client::delegate_dispatch!($ty: [
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
             $crate::cosmic_protocols::workspace::v1::client::zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1: ()
         ] => $crate::workspace::WorkspaceState);
-        $crate::wayland_client::delegate_dispatch!($ty: [
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
             $crate::cosmic_protocols::workspace::v1::client::zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1: ()
         ] => $crate::workspace::WorkspaceState);
     };

@@ -9,4 +9,5 @@ pub mod export_dmabuf;
 pub mod gl;
 pub mod screencopy;
 pub mod toplevel_info;
+pub mod toplevel_management;
 pub mod workspace;

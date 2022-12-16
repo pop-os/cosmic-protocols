@@ -63,8 +63,8 @@ pub trait ToplevelManagerHandler: Sized {
 
 #[macro_export]
 macro_rules! delegate_toplevel_manager {
-    ($ty: ty) => {
-        $crate::wayland_client::delegate_dispatch!($ty: [
+    ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty) => {
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
             $crate::cosmic_protocols::toplevel_management::v1::client::zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1: ()
         ] => $crate::toplevel_management::ToplevelManagerState);
     };

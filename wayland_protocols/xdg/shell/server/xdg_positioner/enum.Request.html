@@ -70,7 +70,8 @@ the anchor point of the parent surface. If a corner gravity is
 specified (e.g. ‘bottom_right’ or ‘top_left’), then the child surface
 will be placed towards the specified gravity; otherwise, the child
 surface will be centered over the anchor point on any axis that had no
-gravity specified.</p>
+gravity specified. If the gravity is not in the ‘gravity’ enum, an
+invalid_input error is raised.</p>
 </div><h3 id="variant.SetConstraintAdjustment" class="variant small-section-header"><a href="#variant.SetConstraintAdjustment" class="anchor field"></a><code>SetConstraintAdjustment</code></h3><div class="sub-variant" id="variant.SetConstraintAdjustment.fields"><h4>Fields</h4><div class="sub-variant-field"><span id="variant.SetConstraintAdjustment.field.constraint_adjustment" class="variant small-section-header"><a href="#variant.SetConstraintAdjustment.field.constraint_adjustment" class="anchor field"></a><code>constraint_adjustment:&nbsp;<a class="primitive" href="https://doc.rust-lang.org/1.66.0/std/primitive.u32.html">u32</a></code></span><div class="docblock"><p>bit mask of constraint adjustments</p>
 </div></div></div><div class="docblock"><p>set the adjustment to be done when constrained</p>
 <p>Specify how the window should be positioned if the originally intended

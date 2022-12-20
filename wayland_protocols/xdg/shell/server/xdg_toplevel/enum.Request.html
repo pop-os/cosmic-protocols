@@ -58,6 +58,9 @@ becomes unmapped, its children’s parent is set to the parent of
 the now-unmapped surface. If the now-unmapped surface has no parent,
 its children’s parent is unset. If the now-unmapped surface becomes
 mapped again, its parent-child relationship is not restored.</p>
+<p>The parent toplevel must not be one of the child toplevel’s
+descendants, and the parent must be different from the child toplevel,
+otherwise the invalid_parent protocol error is raised.</p>
 </div><h3 id="variant.SetTitle" class="variant small-section-header"><a href="#variant.SetTitle" class="anchor field"></a><code>SetTitle</code></h3><div class="sub-variant" id="variant.SetTitle.fields"><h4>Fields</h4><div class="sub-variant-field"><span id="variant.SetTitle.field.title" class="variant small-section-header"><a href="#variant.SetTitle.field.title" class="anchor field"></a><code>title:&nbsp;<a class="struct" href="https://doc.rust-lang.org/1.66.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a></code></span></div></div><div class="docblock"><p>set surface title</p>
 <p>Set a short title for the surface.</p>
 <p>This string may be used to identify the surface in a task bar,
@@ -81,7 +84,7 @@ xdg_toplevel has been mapped to update the property.</p>
 <p>See the desktop-entry specification [0] for more details on
 application identifiers and how they relate to well-known D-Bus
 names and .desktop files.</p>
-<p>[0] http://standards.freedesktop.org/desktop-entry-spec/</p>
+<p>[0] https://standards.freedesktop.org/desktop-entry-spec/</p>
 </div><h3 id="variant.ShowWindowMenu" class="variant small-section-header"><a href="#variant.ShowWindowMenu" class="anchor field"></a><code>ShowWindowMenu</code></h3><div class="sub-variant" id="variant.ShowWindowMenu.fields"><h4>Fields</h4><div class="sub-variant-field"><span id="variant.ShowWindowMenu.field.seat" class="variant small-section-header"><a href="#variant.ShowWindowMenu.field.seat" class="anchor field"></a><code>seat:&nbsp;<a class="struct" href="../../../../../wayland_server/protocol/wl_seat/struct.WlSeat.html" title="struct wayland_server::protocol::wl_seat::WlSeat">WlSeat</a></code></span><div class="docblock"><p>the wl_seat of the user event</p>
 </div></div><div class="sub-variant-field"><span id="variant.ShowWindowMenu.field.serial" class="variant small-section-header"><a href="#variant.ShowWindowMenu.field.serial" class="anchor field"></a><code>serial:&nbsp;<a class="primitive" href="https://doc.rust-lang.org/1.66.0/std/primitive.u32.html">u32</a></code></span><div class="docblock"><p>the serial of the user event</p>
 </div></div><div class="sub-variant-field"><span id="variant.ShowWindowMenu.field.x" class="variant small-section-header"><a href="#variant.ShowWindowMenu.field.x" class="anchor field"></a><code>x:&nbsp;<a class="primitive" href="https://doc.rust-lang.org/1.66.0/std/primitive.i32.html">i32</a></code></span><div class="docblock"><p>the x position to pop up the window menu at</p>
@@ -93,7 +96,8 @@ user a menu that they can use to maximize or minimize the window.</p>
 <p>This request asks the compositor to pop up such a window menu at
 the given position, relative to the local surface coordinates of
 the parent surface. There are no guarantees as to what menu items
-the window menu contains.</p>
+the window menu contains, or even if a window menu will be drawn
+at all.</p>
 <p>This request must be used in response to some sort of user action
 like a button press, key press, or touch down event.</p>
 </div><h3 id="variant.Move" class="variant small-section-header"><a href="#variant.Move" class="anchor field"></a><code>Move</code></h3><div class="sub-variant" id="variant.Move.fields"><h4>Fields</h4><div class="sub-variant-field"><span id="variant.Move.field.seat" class="variant small-section-header"><a href="#variant.Move.field.seat" class="anchor field"></a><code>seat:&nbsp;<a class="struct" href="../../../../../wayland_server/protocol/wl_seat/struct.WlSeat.html" title="struct wayland_server::protocol::wl_seat::WlSeat">WlSeat</a></code></span><div class="docblock"><p>the wl_seat of the user event</p>
@@ -164,10 +168,10 @@ As a result, a client wishing to reset the maximum size
 to an unspecified state can use zero for width and height in the
 request.</p>
 <p>Requesting a maximum size to be smaller than the minimum size of
-a surface is illegal and will result in a protocol error.</p>
+a surface is illegal and will result in an invalid_size error.</p>
 <p>The width and height must be greater than or equal to zero. Using
-strictly negative values for width and height will result in a
-protocol error.</p>
+strictly negative values for width or height will result in a
+invalid_size error.</p>
 </div><h3 id="variant.SetMinSize" class="variant small-section-header"><a href="#variant.SetMinSize" class="anchor field"></a><code>SetMinSize</code></h3><div class="sub-variant" id="variant.SetMinSize.fields"><h4>Fields</h4><div class="sub-variant-field"><span id="variant.SetMinSize.field.width" class="variant small-section-header"><a href="#variant.SetMinSize.field.width" class="anchor field"></a><code>width:&nbsp;<a class="primitive" href="https://doc.rust-lang.org/1.66.0/std/primitive.i32.html">i32</a></code></span></div><div class="sub-variant-field"><span id="variant.SetMinSize.field.height" class="variant small-section-header"><a href="#variant.SetMinSize.field.height" class="anchor field"></a><code>height:&nbsp;<a class="primitive" href="https://doc.rust-lang.org/1.66.0/std/primitive.i32.html">i32</a></code></span></div></div><div class="docblock"><p>set the minimum size</p>
 <p>Set a minimum size for the window.</p>
 <p>The client can specify a minimum size so that the compositor does
@@ -190,10 +194,10 @@ As a result, a client wishing to reset the minimum size
 to an unspecified state can use zero for width and height in the
 request.</p>
 <p>Requesting a minimum size to be larger than the maximum size of
-a surface is illegal and will result in a protocol error.</p>
+a surface is illegal and will result in an invalid_size error.</p>
 <p>The width and height must be greater than or equal to zero. Using
 strictly negative values for width and height will result in a
-protocol error.</p>
+invalid_size error.</p>
 </div><h3 id="variant.SetMaximized" class="variant small-section-header"><a href="#variant.SetMaximized" class="anchor field"></a><code>SetMaximized</code></h3><div class="docblock"><p>maximize the window</p>
 <p>Maximize the surface.</p>
 <p>After requesting that the surface should be maximized, the compositor

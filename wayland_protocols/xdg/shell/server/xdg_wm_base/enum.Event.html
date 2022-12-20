@@ -11,7 +11,9 @@ a “pong” request back with the specified serial. See xdg_wm_base.pong.</p>
 <p>Compositors can use this to determine if the client is still
 alive. It’s unspecified what will happen if the client doesn’t
 respond to the ping request, or in what timeframe. Clients should
-try to respond in a reasonable amount of time.</p>
+try to respond in a reasonable amount of time. The “unresponsive”
+error is provided for compositors that wish to disconnect unresponsive
+clients.</p>
 <p>A compositor is free to ping in any way it wants, but a client must
 always respond to any xdg_wm_base object it created.</p>
 </div><h2 id="implementations" class="small-section-header">Implementations<a href="#implementations" class="anchor"></a></h2><div id="implementations-list"><details class="rustdoc-toggle implementors-toggle" open><summary><section id="impl-Event" class="impl has-srclink"><a class="srclink rightside" href="../../../../../src/wayland_protocols/xdg.rs.html#138-141">source</a><a href="#impl-Event" class="anchor"></a><h3 class="code-header">impl <a class="enum" href="enum.Event.html" title="enum wayland_protocols::xdg::shell::server::xdg_wm_base::Event">Event</a></h3></section></summary><div class="impl-items"><details class="rustdoc-toggle method-toggle" open><summary><section id="method.opcode" class="method has-srclink"><a class="srclink rightside" href="../../../../../src/wayland_protocols/xdg.rs.html#138-141">source</a><h4 class="code-header">pub fn <a href="#method.opcode" class="fnname">opcode</a>(&amp;self) -&gt; <a class="primitive" href="https://doc.rust-lang.org/1.66.0/std/primitive.u16.html">u16</a></h4></section></summary><div class="docblock"><p>Get the opcode number of this message</p>

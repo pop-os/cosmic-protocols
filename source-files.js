@@ -4,8 +4,6 @@ var sourcesIndex = JSON.parse('{\
 "cosmic_protocols":["",[],["lib.rs","protocol_macro.rs"]],\
 "dlib":["",[],["lib.rs"]],\
 "downcast_rs":["",[],["lib.rs"]],\
-"futures_channel":["",[["mpsc",[],["mod.rs","queue.rs"]]],["lib.rs","lock.rs","oneshot.rs"]],\
-"futures_core":["",[["task",[["__internal",[],["atomic_waker.rs","mod.rs"]]],["mod.rs","poll.rs"]]],["future.rs","lib.rs","stream.rs"]],\
 "io_lifetimes":["",[],["example_ffi.rs","lib.rs","portability.rs","raw.rs","traits.rs","views.rs"]],\
 "libc":["",[["unix",[["linux_like",[["linux",[["arch",[["generic",[],["mod.rs"]]],["mod.rs"]],["gnu",[["b64",[["x86_64",[],["align.rs","mod.rs","not_x32.rs"]]],["mod.rs"]]],["align.rs","mod.rs"]]],["align.rs","mod.rs","non_exhaustive.rs"]]],["mod.rs"]]],["align.rs","mod.rs"]]],["fixed_width_ints.rs","lib.rs","macros.rs"]],\
 "libloading":["",[["os",[["unix",[],["consts.rs","mod.rs"]]],["mod.rs"]]],["changelog.rs","error.rs","lib.rs","safe.rs","util.rs"]],\
@@ -18,14 +16,12 @@ var sourcesIndex = JSON.parse('{\
 "quote":["",[],["ext.rs","format.rs","ident_fragment.rs","lib.rs","runtime.rs","spanned.rs","to_tokens.rs"]],\
 "scoped_tls":["",[],["lib.rs"]],\
 "smallvec":["",[],["lib.rs"]],\
-"syn":["",[["gen",[],["clone.rs","gen_helper.rs"]]],["attr.rs","await.rs","bigint.rs","buffer.rs","custom_keyword.rs","custom_punctuation.rs","data.rs","derive.rs","discouraged.rs","drops.rs","error.rs","export.rs","expr.rs","ext.rs","generics.rs","group.rs","ident.rs","lib.rs","lifetime.rs","lit.rs","lookahead.rs","mac.rs","macros.rs","op.rs","parse.rs","parse_macro_input.rs","parse_quote.rs","path.rs","print.rs","punctuated.rs","sealed.rs","span.rs","spanned.rs","thread.rs","token.rs","ty.rs","verbatim.rs"]],\
-"thiserror":["",[],["aserror.rs","display.rs","lib.rs"]],\
-"thiserror_impl":["",[],["ast.rs","attr.rs","expand.rs","fmt.rs","generics.rs","lib.rs","prop.rs","valid.rs"]],\
+"static_assertions":["",[],["assert_cfg.rs","assert_eq_align.rs","assert_eq_size.rs","assert_fields.rs","assert_impl.rs","assert_obj_safe.rs","assert_trait.rs","assert_type.rs","const_assert.rs","lib.rs"]],\
 "unicode_ident":["",[],["lib.rs","tables.rs"]],\
 "wayland_backend":["",[["rs",[["client_impl",[],["mod.rs"]],["server_impl",[],["client.rs","common_poll.rs","handle.rs","mod.rs","registry.rs"]]],["client_api.rs","debug.rs","map.rs","mod.rs","server_api.rs","socket.rs","wire.rs"]],["types",[],["client.rs","mod.rs","server.rs"]]],["core_interfaces.rs","lib.rs","protocol.rs"]],\
 "wayland_client":["",[],["conn.rs","event_queue.rs","globals.rs","lib.rs"]],\
 "wayland_protocols":["",[],["ext.rs","lib.rs","protocol_macro.rs","wp.rs","xdg.rs","xwayland.rs"]],\
-"wayland_scanner":["",[],["c_interfaces.rs","client_gen.rs","common.rs","interfaces.rs","lib.rs","parse.rs","protocol.rs","server_gen.rs","util.rs"]],\
+"wayland_scanner":["",[],["c_interfaces.rs","client_gen.rs","common.rs","interfaces.rs","lib.rs","parse.rs","protocol.rs","server_gen.rs","token.rs","util.rs"]],\
 "wayland_server":["",[],["client.rs","dispatch.rs","display.rs","global.rs","lib.rs","socket.rs"]],\
 "wayland_sys":["",[],["client.rs","common.rs","lib.rs","server.rs"]]\
 }');

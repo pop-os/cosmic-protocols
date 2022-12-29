@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/nix-0.25.1/src/sys/socket/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../normalize.css"><link rel="stylesheet" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../dark.css" disabled><link rel="stylesheet" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../../nix/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/nix-0.26.1/src/sys/socket/mod.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../normalize.css"><link rel="stylesheet" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../dark.css" disabled><link rel="stylesheet" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../../nix/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -2252,24 +2252,259 @@
 <span id="2252">2252</span>
 <span id="2253">2253</span>
 <span id="2254">2254</span>
+<span id="2255">2255</span>
+<span id="2256">2256</span>
+<span id="2257">2257</span>
+<span id="2258">2258</span>
+<span id="2259">2259</span>
+<span id="2260">2260</span>
+<span id="2261">2261</span>
+<span id="2262">2262</span>
+<span id="2263">2263</span>
+<span id="2264">2264</span>
+<span id="2265">2265</span>
+<span id="2266">2266</span>
+<span id="2267">2267</span>
+<span id="2268">2268</span>
+<span id="2269">2269</span>
+<span id="2270">2270</span>
+<span id="2271">2271</span>
+<span id="2272">2272</span>
+<span id="2273">2273</span>
+<span id="2274">2274</span>
+<span id="2275">2275</span>
+<span id="2276">2276</span>
+<span id="2277">2277</span>
+<span id="2278">2278</span>
+<span id="2279">2279</span>
+<span id="2280">2280</span>
+<span id="2281">2281</span>
+<span id="2282">2282</span>
+<span id="2283">2283</span>
+<span id="2284">2284</span>
+<span id="2285">2285</span>
+<span id="2286">2286</span>
+<span id="2287">2287</span>
+<span id="2288">2288</span>
+<span id="2289">2289</span>
+<span id="2290">2290</span>
+<span id="2291">2291</span>
+<span id="2292">2292</span>
+<span id="2293">2293</span>
+<span id="2294">2294</span>
+<span id="2295">2295</span>
+<span id="2296">2296</span>
+<span id="2297">2297</span>
+<span id="2298">2298</span>
+<span id="2299">2299</span>
+<span id="2300">2300</span>
+<span id="2301">2301</span>
+<span id="2302">2302</span>
+<span id="2303">2303</span>
+<span id="2304">2304</span>
+<span id="2305">2305</span>
+<span id="2306">2306</span>
+<span id="2307">2307</span>
+<span id="2308">2308</span>
+<span id="2309">2309</span>
+<span id="2310">2310</span>
+<span id="2311">2311</span>
+<span id="2312">2312</span>
+<span id="2313">2313</span>
+<span id="2314">2314</span>
+<span id="2315">2315</span>
+<span id="2316">2316</span>
+<span id="2317">2317</span>
+<span id="2318">2318</span>
+<span id="2319">2319</span>
+<span id="2320">2320</span>
+<span id="2321">2321</span>
+<span id="2322">2322</span>
+<span id="2323">2323</span>
+<span id="2324">2324</span>
+<span id="2325">2325</span>
+<span id="2326">2326</span>
+<span id="2327">2327</span>
+<span id="2328">2328</span>
+<span id="2329">2329</span>
+<span id="2330">2330</span>
+<span id="2331">2331</span>
+<span id="2332">2332</span>
+<span id="2333">2333</span>
+<span id="2334">2334</span>
+<span id="2335">2335</span>
+<span id="2336">2336</span>
+<span id="2337">2337</span>
+<span id="2338">2338</span>
+<span id="2339">2339</span>
+<span id="2340">2340</span>
+<span id="2341">2341</span>
+<span id="2342">2342</span>
+<span id="2343">2343</span>
+<span id="2344">2344</span>
+<span id="2345">2345</span>
+<span id="2346">2346</span>
+<span id="2347">2347</span>
+<span id="2348">2348</span>
+<span id="2349">2349</span>
+<span id="2350">2350</span>
+<span id="2351">2351</span>
+<span id="2352">2352</span>
+<span id="2353">2353</span>
+<span id="2354">2354</span>
+<span id="2355">2355</span>
+<span id="2356">2356</span>
+<span id="2357">2357</span>
+<span id="2358">2358</span>
+<span id="2359">2359</span>
+<span id="2360">2360</span>
+<span id="2361">2361</span>
+<span id="2362">2362</span>
+<span id="2363">2363</span>
+<span id="2364">2364</span>
+<span id="2365">2365</span>
+<span id="2366">2366</span>
+<span id="2367">2367</span>
+<span id="2368">2368</span>
+<span id="2369">2369</span>
+<span id="2370">2370</span>
+<span id="2371">2371</span>
+<span id="2372">2372</span>
+<span id="2373">2373</span>
+<span id="2374">2374</span>
+<span id="2375">2375</span>
+<span id="2376">2376</span>
+<span id="2377">2377</span>
+<span id="2378">2378</span>
+<span id="2379">2379</span>
+<span id="2380">2380</span>
+<span id="2381">2381</span>
+<span id="2382">2382</span>
+<span id="2383">2383</span>
+<span id="2384">2384</span>
+<span id="2385">2385</span>
+<span id="2386">2386</span>
+<span id="2387">2387</span>
+<span id="2388">2388</span>
+<span id="2389">2389</span>
+<span id="2390">2390</span>
+<span id="2391">2391</span>
+<span id="2392">2392</span>
+<span id="2393">2393</span>
+<span id="2394">2394</span>
+<span id="2395">2395</span>
+<span id="2396">2396</span>
+<span id="2397">2397</span>
+<span id="2398">2398</span>
+<span id="2399">2399</span>
+<span id="2400">2400</span>
+<span id="2401">2401</span>
+<span id="2402">2402</span>
+<span id="2403">2403</span>
+<span id="2404">2404</span>
+<span id="2405">2405</span>
+<span id="2406">2406</span>
+<span id="2407">2407</span>
+<span id="2408">2408</span>
+<span id="2409">2409</span>
+<span id="2410">2410</span>
+<span id="2411">2411</span>
+<span id="2412">2412</span>
+<span id="2413">2413</span>
+<span id="2414">2414</span>
+<span id="2415">2415</span>
+<span id="2416">2416</span>
+<span id="2417">2417</span>
+<span id="2418">2418</span>
+<span id="2419">2419</span>
+<span id="2420">2420</span>
+<span id="2421">2421</span>
+<span id="2422">2422</span>
+<span id="2423">2423</span>
+<span id="2424">2424</span>
+<span id="2425">2425</span>
+<span id="2426">2426</span>
+<span id="2427">2427</span>
+<span id="2428">2428</span>
+<span id="2429">2429</span>
+<span id="2430">2430</span>
+<span id="2431">2431</span>
+<span id="2432">2432</span>
+<span id="2433">2433</span>
+<span id="2434">2434</span>
+<span id="2435">2435</span>
+<span id="2436">2436</span>
+<span id="2437">2437</span>
+<span id="2438">2438</span>
+<span id="2439">2439</span>
+<span id="2440">2440</span>
+<span id="2441">2441</span>
+<span id="2442">2442</span>
+<span id="2443">2443</span>
+<span id="2444">2444</span>
+<span id="2445">2445</span>
+<span id="2446">2446</span>
+<span id="2447">2447</span>
+<span id="2448">2448</span>
+<span id="2449">2449</span>
+<span id="2450">2450</span>
+<span id="2451">2451</span>
+<span id="2452">2452</span>
+<span id="2453">2453</span>
+<span id="2454">2454</span>
+<span id="2455">2455</span>
+<span id="2456">2456</span>
+<span id="2457">2457</span>
+<span id="2458">2458</span>
+<span id="2459">2459</span>
+<span id="2460">2460</span>
+<span id="2461">2461</span>
+<span id="2462">2462</span>
+<span id="2463">2463</span>
+<span id="2464">2464</span>
+<span id="2465">2465</span>
+<span id="2466">2466</span>
+<span id="2467">2467</span>
+<span id="2468">2468</span>
+<span id="2469">2469</span>
+<span id="2470">2470</span>
+<span id="2471">2471</span>
+<span id="2472">2472</span>
+<span id="2473">2473</span>
+<span id="2474">2474</span>
+<span id="2475">2475</span>
+<span id="2476">2476</span>
+<span id="2477">2477</span>
+<span id="2478">2478</span>
+<span id="2479">2479</span>
+<span id="2480">2480</span>
+<span id="2481">2481</span>
+<span id="2482">2482</span>
+<span id="2483">2483</span>
+<span id="2484">2484</span>
+<span id="2485">2485</span>
+<span id="2486">2486</span>
+<span id="2487">2487</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Socket interface functions
 //!
 //! [Further reading](https://man7.org/linux/man-pages/man7/socket.7.html)
-</span><span class="kw">use </span>cfg_if::cfg_if;
-<span class="kw">use crate</span>::{<span class="prelude-ty">Result</span>, errno::Errno};
-<span class="kw">use </span>libc::{<span class="self">self</span>, c_void, c_int, iovec, socklen_t, size_t,
-        CMSG_FIRSTHDR, CMSG_NXTHDR, CMSG_DATA, CMSG_LEN};
-<span class="kw">use </span>std::convert::{TryFrom, TryInto};
-<span class="kw">use </span>std::{mem, ptr, slice};
-<span class="kw">use </span>std::os::unix::io::RawFd;
-<span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
-</span><span class="kw">use </span>std::net;
-<span class="attribute">#[cfg(target_os = <span class="string">&quot;linux&quot;</span>)]
+</span><span class="attribute">#[cfg(target_os = <span class="string">&quot;linux&quot;</span>)]
 #[cfg(feature = <span class="string">&quot;uio&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::sys::time::TimeSpec;
 <span class="attribute">#[cfg(feature = <span class="string">&quot;uio&quot;</span>)]
 </span><span class="kw">use </span><span class="kw">crate</span>::sys::time::TimeVal;
+<span class="kw">use crate</span>::{errno::Errno, <span class="prelude-ty">Result</span>};
+<span class="kw">use </span>cfg_if::cfg_if;
+<span class="kw">use </span>libc::{
+    <span class="self">self</span>, c_int, c_void, iovec, size_t, socklen_t, CMSG_DATA, CMSG_FIRSTHDR,
+    CMSG_LEN, CMSG_NXTHDR,
+};
+<span class="kw">use </span>std::convert::{TryFrom, TryInto};
 <span class="kw">use </span>std::io::{IoSlice, IoSliceMut};
+<span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
+</span><span class="kw">use </span>std::net;
+<span class="kw">use </span>std::os::unix::io::RawFd;
+<span class="kw">use </span>std::{mem, ptr, slice};
 
 <span class="attribute">#[deny(missing_docs)]
 </span><span class="kw">mod </span>addr;
@@ -2286,60 +2521,44 @@
 
 <span class="attribute">#[cfg(not(any(target_os = <span class="string">&quot;illumos&quot;</span>, target_os = <span class="string">&quot;solaris&quot;</span>)))]
 #[allow(deprecated)]
-</span><span class="kw">pub use </span><span class="self">self</span>::addr::{
-    AddressFamily,
-    SockAddr,
-    UnixAddr,
-};
-<span class="attribute">#[allow(deprecated)]
-#[cfg(not(any(target_os = <span class="string">&quot;illumos&quot;</span>, target_os = <span class="string">&quot;solaris&quot;</span>, target_os = <span class="string">&quot;haiku&quot;</span>)))]
-#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
-</span><span class="kw">pub use </span><span class="self">self</span>::addr::{
-    InetAddr,
-    IpAddr,
-    Ipv4Addr,
-    Ipv6Addr,
-    LinkAddr,
-    SockaddrIn,
-    SockaddrIn6
-};
+</span><span class="kw">pub use </span><span class="self">self</span>::addr::{AddressFamily, SockAddr, UnixAddr};
 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;illumos&quot;</span>, target_os = <span class="string">&quot;solaris&quot;</span>))]
 #[allow(deprecated)]
-</span><span class="kw">pub use </span><span class="self">self</span>::addr::{
-    AddressFamily,
-    SockAddr,
-    UnixAddr,
-};
+</span><span class="kw">pub use </span><span class="self">self</span>::addr::{AddressFamily, SockAddr, UnixAddr};
 <span class="attribute">#[allow(deprecated)]
-#[cfg(any(target_os = <span class="string">&quot;illumos&quot;</span>, target_os = <span class="string">&quot;solaris&quot;</span>, target_os = <span class="string">&quot;haiku&quot;</span>))]
+#[cfg(not(any(
+    target_os = <span class="string">&quot;illumos&quot;</span>,
+    target_os = <span class="string">&quot;solaris&quot;</span>,
+    target_os = <span class="string">&quot;haiku&quot;
+</span>)))]
 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
 </span><span class="kw">pub use </span><span class="self">self</span>::addr::{
-    InetAddr,
-    IpAddr,
-    Ipv4Addr,
-    Ipv6Addr,
-    SockaddrIn,
-    SockaddrIn6
+    InetAddr, IpAddr, Ipv4Addr, Ipv6Addr, LinkAddr, SockaddrIn, SockaddrIn6,
+};
+<span class="attribute">#[allow(deprecated)]
+#[cfg(any(
+    target_os = <span class="string">&quot;illumos&quot;</span>,
+    target_os = <span class="string">&quot;solaris&quot;</span>,
+    target_os = <span class="string">&quot;haiku&quot;
+</span>))]
+#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
+</span><span class="kw">pub use </span><span class="self">self</span>::addr::{
+    InetAddr, IpAddr, Ipv4Addr, Ipv6Addr, SockaddrIn, SockaddrIn6,
 };
 
+<span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
+</span><span class="kw">pub use </span><span class="kw">crate</span>::sys::socket::addr::alg::AlgAddr;
+<span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
+</span><span class="kw">pub use </span><span class="kw">crate</span>::sys::socket::addr::netlink::NetlinkAddr;
 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>))]
 #[cfg(feature = <span class="string">&quot;ioctl&quot;</span>)]
 </span><span class="kw">pub use </span><span class="kw">crate</span>::sys::socket::addr::sys_control::SysControlAddr;
-<span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
-</span><span class="kw">pub use </span><span class="kw">crate</span>::sys::socket::addr::netlink::NetlinkAddr;
-<span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
-</span><span class="kw">pub use </span><span class="kw">crate</span>::sys::socket::addr::alg::AlgAddr;
 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
 </span><span class="kw">pub use </span><span class="kw">crate</span>::sys::socket::addr::vsock::VsockAddr;
 
 <span class="attribute">#[cfg(feature = <span class="string">&quot;uio&quot;</span>)]
 </span><span class="kw">pub use </span>libc::{cmsghdr, msghdr};
-<span class="kw">pub use </span>libc::{
-    sa_family_t,
-    sockaddr,
-    sockaddr_storage,
-    sockaddr_un,
-};
+<span class="kw">pub use </span>libc::{sa_family_t, sockaddr, sockaddr_storage, sockaddr_un};
 <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
 </span><span class="kw">pub use </span>libc::{sockaddr_in, sockaddr_in6};
 
@@ -2404,6 +2623,8 @@
     </span>Tcp = libc::IPPROTO_TCP,
     <span class="doccomment">/// UDP protocol ([ip(7)](https://man7.org/linux/man-pages/man7/ip.7.html))
     </span>Udp = libc::IPPROTO_UDP,
+    <span class="doccomment">/// Raw sockets ([raw(7)](https://man7.org/linux/man-pages/man7/raw.7.html))
+    </span>Raw = libc::IPPROTO_RAW,
     <span class="doccomment">/// Allows applications and other KEXTs to be notified when certain kernel events occur
     /// ([ref](https://developer.apple.com/library/content/documentation/Darwin/Conceptual/NKEConceptual/control/control.html))
     </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>))]
@@ -2517,7 +2738,7 @@
     }
 }
 
-<span class="macro">libc_bitflags!</span>{
+<span class="macro">libc_bitflags! </span>{
     <span class="doccomment">/// Additional socket options
     </span><span class="kw">pub struct </span>SockFlag: c_int {
         <span class="doccomment">/// Set non-blocking mode on the new socket
@@ -2552,20 +2773,23 @@
     }
 }
 
-<span class="macro">libc_bitflags!</span>{
+<span class="macro">libc_bitflags! </span>{
     <span class="doccomment">/// Flags for send/recv and their relatives
     </span><span class="kw">pub struct </span>MsgFlags: c_int {
         <span class="doccomment">/// Sends or requests out-of-band data on sockets that support this notion
         /// (e.g., of type [`Stream`](enum.SockType.html)); the underlying protocol must also
         /// support out-of-band data.
+        </span><span class="attribute">#[allow(deprecated)]    </span><span class="comment">// Suppress useless warnings from libc PR 2963
         </span>MSG_OOB;
         <span class="doccomment">/// Peeks at an incoming message. The data is treated as unread and the next
         /// [`recv()`](fn.recv.html)
         /// or similar function shall still return this data.
+        </span><span class="attribute">#[allow(deprecated)]    </span><span class="comment">// Suppress useless warnings from libc PR 2963
         </span>MSG_PEEK;
         <span class="doccomment">/// Receive operation blocks until the full amount of data can be
         /// returned. The function may return smaller amount of data if a signal
         /// is caught, an error or disconnect occurs.
+        </span><span class="attribute">#[allow(deprecated)]    </span><span class="comment">// Suppress useless warnings from libc PR 2963
         </span>MSG_WAITALL;
         <span class="doccomment">/// Enables nonblocking operation; if the operation would block,
         /// `EAGAIN` or `EWOULDBLOCK` is returned.  This provides similar
@@ -2577,8 +2801,10 @@
         /// which will affect all threads in
         /// the calling process and as well as other processes that hold
         /// file descriptors referring to the same open file description.
+        </span><span class="attribute">#[allow(deprecated)]    </span><span class="comment">// Suppress useless warnings from libc PR 2963
         </span>MSG_DONTWAIT;
         <span class="doccomment">/// Receive flags: Control Data was discarded (buffer too small)
+        </span><span class="attribute">#[allow(deprecated)]    </span><span class="comment">// Suppress useless warnings from libc PR 2963
         </span>MSG_CTRUNC;
         <span class="doccomment">/// For raw ([`Packet`](addr/enum.AddressFamily.html)), Internet datagram
         /// (since Linux 2.4.27/2.6.8),
@@ -2588,15 +2814,18 @@
         /// domain ([unix(7)](https://linux.die.net/man/7/unix)) sockets.
         ///
         /// For use with Internet stream sockets, see [tcp(7)](https://linux.die.net/man/7/tcp).
+        </span><span class="attribute">#[allow(deprecated)]    </span><span class="comment">// Suppress useless warnings from libc PR 2963
         </span>MSG_TRUNC;
         <span class="doccomment">/// Terminates a record (when this notion is supported, as for
         /// sockets of type [`SeqPacket`](enum.SockType.html)).
+        </span><span class="attribute">#[allow(deprecated)]    </span><span class="comment">// Suppress useless warnings from libc PR 2963
         </span>MSG_EOR;
         <span class="doccomment">/// This flag specifies that queued errors should be received from
         /// the socket error queue. (For more details, see
         /// [recvfrom(2)](https://linux.die.net/man/2/recvfrom))
         </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
         #[cfg_attr(docsrs, doc(cfg(all())))]
+        #[allow(deprecated)]    </span><span class="comment">// Suppress useless warnings from libc PR 2963
         </span>MSG_ERRQUEUE;
         <span class="doccomment">/// Set the `close-on-exec` flag for the file descriptor received via a UNIX domain
         /// file descriptor using the `SCM_RIGHTS` operation (described in
@@ -2612,6 +2841,7 @@
                   target_os = <span class="string">&quot;netbsd&quot;</span>,
                   target_os = <span class="string">&quot;openbsd&quot;</span>))]
         #[cfg_attr(docsrs, doc(cfg(all())))]
+        #[allow(deprecated)]    </span><span class="comment">// Suppress useless warnings from libc PR 2963
         </span>MSG_CMSG_CLOEXEC;
         <span class="doccomment">/// Requests not to send `SIGPIPE` errors when the other end breaks the connection.
         /// (For more details, see [send(2)](https://linux.die.net/man/2/send)).
@@ -2626,6 +2856,7 @@
                   target_os = <span class="string">&quot;openbsd&quot;</span>,
                   target_os = <span class="string">&quot;solaris&quot;</span>))]
         #[cfg_attr(docsrs, doc(cfg(all())))]
+        #[allow(deprecated)]    </span><span class="comment">// Suppress useless warnings from libc PR 2963
         </span>MSG_NOSIGNAL;
     }
 }
@@ -2734,7 +2965,7 @@
     }
 }
 
-<span class="macro">cfg_if!</span>{
+<span class="macro">cfg_if! </span>{
     <span class="kw">if </span><span class="attribute">#[cfg(any(
                 target_os = <span class="string">&quot;dragonfly&quot;</span>,
                 target_os = <span class="string">&quot;freebsd&quot;</span>,
@@ -2853,15 +3084,20 @@
 }
 
 <span class="attribute">#[derive(Clone, Copy, Debug, Eq, PartialEq)]
-</span><span class="kw">pub struct </span>RecvMsg&lt;<span class="lifetime">&#39;a</span>, S&gt; {
+</span><span class="doccomment">/// Contains outcome of sending or receiving a message
+///
+/// Use [`cmsgs`][RecvMsg::cmsgs] to access all the control messages present, and
+/// [`iovs`][RecvMsg::iovs`] to access underlying io slices.
+</span><span class="kw">pub struct </span>RecvMsg&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;s</span>, S&gt; {
     <span class="kw">pub </span>bytes: usize,
     cmsghdr: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>cmsghdr&gt;,
     <span class="kw">pub </span>address: <span class="prelude-ty">Option</span>&lt;S&gt;,
     <span class="kw">pub </span>flags: MsgFlags,
+    iobufs: std::marker::PhantomData&lt;&amp; <span class="lifetime">&#39;s</span>()&gt;,
     mhdr: msghdr,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, S&gt; RecvMsg&lt;<span class="lifetime">&#39;a</span>, S&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, S&gt; RecvMsg&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;_</span>, S&gt; {
     <span class="doccomment">/// Iterate over the valid control messages pointed to by this
     /// msghdr.
     </span><span class="kw">pub fn </span>cmsgs(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; CmsgIterator {
@@ -3740,24 +3976,6 @@
     Errno::result(ret).map(|r| r <span class="kw">as </span>usize)
 }
 
-<span class="attribute">#[cfg(any(
-    target_os = <span class="string">&quot;linux&quot;</span>,
-    target_os = <span class="string">&quot;android&quot;</span>,
-    target_os = <span class="string">&quot;freebsd&quot;</span>,
-    target_os = <span class="string">&quot;netbsd&quot;</span>,
-))]
-#[derive(Debug)]
-</span><span class="kw">pub struct </span>SendMmsgData&lt;<span class="lifetime">&#39;a</span>, I, C, S&gt;
-    <span class="kw">where
-        </span>I: AsRef&lt;[IoSlice&lt;<span class="lifetime">&#39;a</span>&gt;]&gt;,
-        C: AsRef&lt;[ControlMessage&lt;<span class="lifetime">&#39;a</span>&gt;]&gt;,
-        S: SockaddrLike + <span class="lifetime">&#39;a
-</span>{
-    <span class="kw">pub </span>iov: I,
-    <span class="kw">pub </span>cmsgs: C,
-    <span class="kw">pub </span>addr: <span class="prelude-ty">Option</span>&lt;S&gt;,
-    <span class="kw">pub </span>_lt: std::marker::PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>I&gt;,
-}
 
 <span class="doccomment">/// An extension of `sendmsg` that allows the caller to transmit multiple
 /// messages on a socket using a single system call. This has performance
@@ -3782,51 +4000,66 @@
     target_os = <span class="string">&quot;freebsd&quot;</span>,
     target_os = <span class="string">&quot;netbsd&quot;</span>,
 ))]
-</span><span class="kw">pub fn </span>sendmmsg&lt;<span class="lifetime">&#39;a</span>, I, C, S&gt;(
+</span><span class="kw">pub fn </span>sendmmsg&lt;<span class="lifetime">&#39;a</span>, XS, AS, C, I, S&gt;(
     fd: RawFd,
-    data: <span class="kw">impl </span>std::iter::IntoIterator&lt;Item=<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>SendMmsgData&lt;<span class="lifetime">&#39;a</span>, I, C, S&gt;&gt;,
+    data: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>MultiHeaders&lt;S&gt;,
+    slices: XS,
+    <span class="comment">// one address per group of slices
+    </span>addrs: AS,
+    <span class="comment">// shared across all the messages
+    </span>cmsgs: C,
     flags: MsgFlags
-) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;usize&gt;&gt;
+) -&gt; <span class="kw">crate</span>::Result&lt;MultiResults&lt;<span class="lifetime">&#39;a</span>, S&gt;&gt;
     <span class="kw">where
-        </span>I: AsRef&lt;[IoSlice&lt;<span class="lifetime">&#39;a</span>&gt;]&gt; + <span class="lifetime">&#39;a</span>,
+        </span>XS: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>I&gt;,
+        AS: AsRef&lt;[<span class="prelude-ty">Option</span>&lt;S&gt;]&gt;,
+        I: AsRef&lt;[IoSlice&lt;<span class="lifetime">&#39;a</span>&gt;]&gt; + <span class="lifetime">&#39;a</span>,
         C: AsRef&lt;[ControlMessage&lt;<span class="lifetime">&#39;a</span>&gt;]&gt; + <span class="lifetime">&#39;a</span>,
         S: SockaddrLike + <span class="lifetime">&#39;a
 </span>{
-    <span class="kw">let </span>iter = data.into_iter();
 
-    <span class="kw">let </span>size_hint = iter.size_hint();
-    <span class="kw">let </span>reserve_items = size_hint.<span class="number">1</span>.unwrap_or(size_hint.<span class="number">0</span>);
+    <span class="kw">let </span><span class="kw-2">mut </span>count = <span class="number">0</span>;
 
-    <span class="kw">let </span><span class="kw-2">mut </span>output = Vec::&lt;libc::mmsghdr&gt;::with_capacity(reserve_items);
 
-    <span class="kw">let </span><span class="kw-2">mut </span>cmsgs_buffers = Vec::&lt;Vec&lt;u8&gt;&gt;::with_capacity(reserve_items);
+    <span class="kw">for </span>(i, ((slice, addr), mmsghdr)) <span class="kw">in </span>slices.into_iter().zip(addrs.as_ref()).zip(data.items.iter_mut() ).enumerate() {
+        <span class="kw">let </span><span class="kw-2">mut </span>p = <span class="kw-2">&amp;mut </span>mmsghdr.msg_hdr;
+        p.msg_iov = slice.as_ref().as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>libc::iovec;
+        p.msg_iovlen = slice.as_ref().len() <span class="kw">as _</span>;
 
-    <span class="kw">for </span>d <span class="kw">in </span>iter {
-        <span class="kw">let </span>capacity: usize = d.cmsgs.as_ref().iter().map(|c| c.space()).sum();
-        <span class="kw">let </span><span class="kw-2">mut </span>cmsgs_buffer = <span class="macro">vec!</span>[<span class="number">0u8</span>; capacity];
+        p.msg_namelen = addr.as_ref().map_or(<span class="number">0</span>, S::len);
+        p.msg_name = addr.as_ref().map_or(ptr::null(), S::as_ptr) <span class="kw">as _</span>;
 
-        output.push(libc::mmsghdr {
-            msg_hdr: pack_mhdr_to_send(
-                <span class="kw-2">&amp;mut </span>cmsgs_buffer,
-                <span class="kw-2">&amp;</span>d.iov,
-                <span class="kw-2">&amp;</span>d.cmsgs,
-                d.addr.as_ref()
-            ),
-            msg_len: <span class="number">0</span>,
-        });
-        cmsgs_buffers.push(cmsgs_buffer);
-    };
+        <span class="comment">// Encode each cmsg.  This must happen after initializing the header because
+        // CMSG_NEXT_HDR and friends read the msg_control and msg_controllen fields.
+        // CMSG_FIRSTHDR is always safe
+        </span><span class="kw">let </span><span class="kw-2">mut </span>pmhdr: <span class="kw-2">*mut </span>cmsghdr = <span class="kw">unsafe </span>{ CMSG_FIRSTHDR(p) };
+        <span class="kw">for </span>cmsg <span class="kw">in </span>cmsgs.as_ref() {
+            <span class="macro">assert_ne!</span>(pmhdr, ptr::null_mut());
+            <span class="comment">// Safe because we know that pmhdr is valid, and we initialized it with
+            // sufficient space
+            </span><span class="kw">unsafe </span>{ cmsg.encode_into(pmhdr) };
+            <span class="comment">// Safe because mhdr is valid
+            </span>pmhdr = <span class="kw">unsafe </span>{ CMSG_NXTHDR(p, pmhdr) };
+        }
 
-    <span class="kw">let </span>ret = <span class="kw">unsafe </span>{ libc::sendmmsg(fd, output.as_mut_ptr(), output.len() <span class="kw">as _</span>, flags.bits() <span class="kw">as _</span>) };
-
-    <span class="kw">let </span>sent_messages = Errno::result(ret)<span class="question-mark">? </span><span class="kw">as </span>usize;
-    <span class="kw">let </span><span class="kw-2">mut </span>sent_bytes = Vec::with_capacity(sent_messages);
-
-    <span class="kw">for </span>item <span class="kw">in </span><span class="kw-2">&amp;</span>output {
-        sent_bytes.push(item.msg_len <span class="kw">as </span>usize);
+        count = i+<span class="number">1</span>;
     }
 
-    <span class="prelude-val">Ok</span>(sent_bytes)
+    <span class="kw">let </span>sent = Errno::result(<span class="kw">unsafe </span>{
+        libc::sendmmsg(
+            fd,
+            data.items.as_mut_ptr(),
+            count <span class="kw">as _</span>,
+            flags.bits() <span class="kw">as _
+        </span>)
+    })<span class="question-mark">? </span><span class="kw">as </span>usize;
+
+    <span class="prelude-val">Ok</span>(MultiResults {
+        rmm: data,
+        current_index: <span class="number">0</span>,
+        received: sent
+    })
+
 }
 
 
@@ -3837,138 +4070,347 @@
     target_os = <span class="string">&quot;netbsd&quot;</span>,
 ))]
 #[derive(Debug)]
-</span><span class="kw">pub struct </span>RecvMmsgData&lt;<span class="lifetime">&#39;a</span>, I&gt;
-    <span class="kw">where
-        </span>I: AsRef&lt;[IoSliceMut&lt;<span class="lifetime">&#39;a</span>&gt;]&gt; + <span class="lifetime">&#39;a</span>,
-{
-    <span class="kw">pub </span>iov: I,
-    <span class="kw">pub </span>cmsg_buffer: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Vec&lt;u8&gt;&gt;,
+</span><span class="doccomment">/// Preallocated structures needed for [`recvmmsg`] and [`sendmmsg`] functions
+</span><span class="kw">pub struct </span>MultiHeaders&lt;S&gt; {
+    <span class="comment">// preallocated boxed slice of mmsghdr
+    </span>items: Box&lt;[libc::mmsghdr]&gt;,
+    addresses: Box&lt;[mem::MaybeUninit&lt;S&gt;]&gt;,
+    <span class="comment">// while we are not using it directly - this is used to store control messages
+    // and we retain pointers to them inside items array
+    </span><span class="attribute">#[allow(dead_code)]
+    </span>cmsg_buffers: <span class="prelude-ty">Option</span>&lt;Box&lt;[u8]&gt;&gt;,
+    msg_controllen: usize,
 }
 
-<span class="doccomment">/// An extension of `recvmsg` that allows the caller to receive multiple
-/// messages from a socket using a single system call. This has
-/// performance benefits for some applications.
+<span class="attribute">#[cfg(any(
+    target_os = <span class="string">&quot;linux&quot;</span>,
+    target_os = <span class="string">&quot;android&quot;</span>,
+    target_os = <span class="string">&quot;freebsd&quot;</span>,
+    target_os = <span class="string">&quot;netbsd&quot;</span>,
+))]
+</span><span class="kw">impl</span>&lt;S&gt; MultiHeaders&lt;S&gt; {
+    <span class="doccomment">/// Preallocate structure used by [`recvmmsg`] and [`sendmmsg`] takes number of headers to preallocate
+    ///
+    /// `cmsg_buffer` should be created with [`cmsg_space!`] if needed
+    </span><span class="kw">pub fn </span>preallocate(num_slices: usize, cmsg_buffer: <span class="prelude-ty">Option</span>&lt;Vec&lt;u8&gt;&gt;) -&gt; <span class="self">Self
+    </span><span class="kw">where
+        </span>S: Copy + SockaddrLike,
+    {
+        <span class="comment">// we will be storing pointers to addresses inside mhdr - convert it into boxed
+        // slice so it can&#39;be changed later by pushing anything into self.addresses
+        </span><span class="kw">let </span><span class="kw-2">mut </span>addresses = <span class="macro">vec!</span>[std::mem::MaybeUninit::uninit(); num_slices].into_boxed_slice();
+
+        <span class="kw">let </span>msg_controllen = cmsg_buffer.as_ref().map_or(<span class="number">0</span>, |v| v.capacity());
+
+        <span class="comment">// we&#39;ll need a cmsg_buffer for each slice, we preallocate a vector and split
+        // it into &quot;slices&quot; parts
+        </span><span class="kw">let </span>cmsg_buffers =
+            cmsg_buffer.map(|v| <span class="macro">vec!</span>[<span class="number">0u8</span>; v.capacity() * num_slices].into_boxed_slice());
+
+        <span class="kw">let </span>items = addresses
+            .iter_mut()
+            .enumerate()
+            .map(|(ix, address)| {
+                <span class="kw">let </span>(ptr, cap) = <span class="kw">match </span><span class="kw-2">&amp;</span>cmsg_buffers {
+                    <span class="prelude-val">Some</span>(v) =&gt; ((<span class="kw-2">&amp;</span>v[ix * msg_controllen] <span class="kw">as </span><span class="kw-2">*const </span>u8), msg_controllen),
+                    <span class="prelude-val">None </span>=&gt; (std::ptr::null(), <span class="number">0</span>),
+                };
+                <span class="kw">let </span>msg_hdr = <span class="kw">unsafe </span>{ pack_mhdr_to_receive(std::ptr::null(), <span class="number">0</span>, ptr, cap, address.as_mut_ptr()) };
+                libc::mmsghdr {
+                    msg_hdr,
+                    msg_len: <span class="number">0</span>,
+                }
+            })
+            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+
+        <span class="self">Self </span>{
+            items: items.into_boxed_slice(),
+            addresses,
+            cmsg_buffers,
+            msg_controllen,
+        }
+    }
+}
+
+<span class="doccomment">/// An extension of recvmsg that allows the caller to receive multiple messages from a socket using a single system call.
 ///
-/// `iov` and `cmsg_buffer` should be constructed similarly to `recvmsg`
+/// This has performance benefits for some applications.
 ///
-/// Multiple allocations are performed
+/// This method performs no allocations.
 ///
-/// # Arguments
+/// Returns an iterator producing [`RecvMsg`], one per received messages. Each `RecvMsg` can produce
+/// iterators over [`IoSlice`] with [`iovs`][RecvMsg::iovs`] and
+/// `ControlMessageOwned` with [`cmsgs`][RecvMsg::cmsgs].
 ///
-/// * `fd`:             Socket file descriptor
-/// * `data`:           Struct that implements `IntoIterator` with `RecvMmsgData` items
-/// * `flags`:          Optional flags passed directly to the operating system.
+/// # Bugs (in underlying implementation, at least in Linux)
+/// The timeout argument does not work as intended. The timeout is checked only after the receipt
+/// of each datagram, so that if up to `vlen`-1 datagrams are received before the timeout expires,
+/// but then no further datagrams are received, the call will block forever.
 ///
-/// # RecvMmsgData
-///
-/// * `iov`:            Scatter-gather list of buffers to receive the message
-/// * `cmsg_buffer`:    Space to receive ancillary data.  Should be created by
-///                     [`cmsg_space!`](../../macro.cmsg_space.html)
-///
-/// # Returns
-/// A `Vec` with multiple `RecvMsg`, one per received message
-///
-/// # References
-/// - [`recvmsg`](fn.recvmsg.html)
-/// - [`RecvMsg`](struct.RecvMsg.html)
+/// If an error occurs after at least one message has been received, the call succeeds, and returns
+/// the number of messages received. The error code is expected to be returned on a subsequent
+/// call to recvmmsg(). In the current implementation, however, the error code can be
+/// overwritten in the meantime by an unrelated network event on a socket, for example an
+/// incoming ICMP packet.
+
+</span><span class="comment">// On aarch64 linux using recvmmsg and trying to get hardware/kernel timestamps might not
+// always produce the desired results - see https://github.com/nix-rust/nix/pull/1744 for more
+// details
+
 </span><span class="attribute">#[cfg(any(
     target_os = <span class="string">&quot;linux&quot;</span>,
     target_os = <span class="string">&quot;android&quot;</span>,
     target_os = <span class="string">&quot;freebsd&quot;</span>,
     target_os = <span class="string">&quot;netbsd&quot;</span>,
 ))]
-#[allow(clippy::needless_collect)]  </span><span class="comment">// Complicated false positive
-</span><span class="kw">pub fn </span>recvmmsg&lt;<span class="lifetime">&#39;a</span>, I, S&gt;(
+</span><span class="kw">pub fn </span>recvmmsg&lt;<span class="lifetime">&#39;a</span>, XS, S, I&gt;(
     fd: RawFd,
-    data: <span class="kw">impl </span>std::iter::IntoIterator&lt;Item=<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>RecvMmsgData&lt;<span class="lifetime">&#39;a</span>, I&gt;,
-        IntoIter=<span class="kw">impl </span>ExactSizeIterator + Iterator&lt;Item=<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>RecvMmsgData&lt;<span class="lifetime">&#39;a</span>, I&gt;&gt;&gt;,
+    data: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>MultiHeaders&lt;S&gt;,
+    slices: XS,
     flags: MsgFlags,
-    timeout: <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::sys::time::TimeSpec&gt;
-) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;RecvMsg&lt;<span class="lifetime">&#39;a</span>, S&gt;&gt;&gt;
-    <span class="kw">where
-        </span>I: AsRef&lt;[IoSliceMut&lt;<span class="lifetime">&#39;a</span>&gt;]&gt; + <span class="lifetime">&#39;a</span>,
-        S: Copy + SockaddrLike + <span class="lifetime">&#39;a
-</span>{
-    <span class="kw">let </span>iter = data.into_iter();
+    <span class="kw-2">mut </span>timeout: <span class="prelude-ty">Option</span>&lt;<span class="kw">crate</span>::sys::time::TimeSpec&gt;,
+) -&gt; <span class="kw">crate</span>::Result&lt;MultiResults&lt;<span class="lifetime">&#39;a</span>, S&gt;&gt;
+<span class="kw">where
+    </span>XS: IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>I&gt;,
+    I: AsRef&lt;[IoSliceMut&lt;<span class="lifetime">&#39;a</span>&gt;]&gt; + <span class="lifetime">&#39;a</span>,
+{
+    <span class="kw">let </span><span class="kw-2">mut </span>count = <span class="number">0</span>;
+    <span class="kw">for </span>(i, (slice, mmsghdr)) <span class="kw">in </span>slices.into_iter().zip(data.items.iter_mut()).enumerate() {
+        <span class="kw">let </span><span class="kw-2">mut </span>p = <span class="kw-2">&amp;mut </span>mmsghdr.msg_hdr;
+        p.msg_iov = slice.as_ref().as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>libc::iovec;
+        p.msg_iovlen = slice.as_ref().len() <span class="kw">as _</span>;
+        count = i + <span class="number">1</span>;
+    }
 
-    <span class="kw">let </span>num_messages = iter.len();
+    <span class="kw">let </span>timeout_ptr = timeout
+        .as_mut()
+        .map_or_else(std::ptr::null_mut, |t| t <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_ as </span><span class="kw-2">*mut </span>libc::timespec);
 
-    <span class="kw">let </span><span class="kw-2">mut </span>output: Vec&lt;libc::mmsghdr&gt; = Vec::with_capacity(num_messages);
+    <span class="kw">let </span>received = Errno::result(<span class="kw">unsafe </span>{
+        libc::recvmmsg(
+            fd,
+            data.items.as_mut_ptr(),
+            count <span class="kw">as _</span>,
+            flags.bits() <span class="kw">as _</span>,
+            timeout_ptr,
+        )
+    })<span class="question-mark">? </span><span class="kw">as </span>usize;
 
-    <span class="comment">// Addresses should be pre-allocated.  pack_mhdr_to_receive will store them
-    // as raw pointers, so we may not move them.  Turn the vec into a boxed
-    // slice so we won&#39;t inadvertently reallocate the vec.
-    </span><span class="kw">let </span><span class="kw-2">mut </span>addresses = <span class="macro">vec!</span>[mem::MaybeUninit::uninit(); num_messages]
-        .into_boxed_slice();
-
-    <span class="kw">let </span>results: Vec&lt;<span class="kw">_</span>&gt; = iter.enumerate().map(|(i, d)| {
-        <span class="kw">let </span>(msg_controllen, mhdr) = <span class="kw">unsafe </span>{
-            pack_mhdr_to_receive(
-                d.iov.as_ref(),
-                <span class="kw-2">&amp;mut </span>d.cmsg_buffer,
-                addresses[i].as_mut_ptr(),
-            )
-        };
-
-        output.push(
-            libc::mmsghdr {
-                msg_hdr: mhdr,
-                msg_len: <span class="number">0</span>,
-            }
-        );
-
-        (msg_controllen, <span class="kw-2">&amp;mut </span>d.cmsg_buffer)
-    }).collect();
-
-    <span class="kw">let </span>timeout = <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">mut </span>t) = timeout {
-        t.as_mut() <span class="kw">as </span><span class="kw-2">*mut </span>libc::timespec
-    } <span class="kw">else </span>{
-        ptr::null_mut()
-    };
-
-    <span class="kw">let </span>ret = <span class="kw">unsafe </span>{ libc::recvmmsg(fd, output.as_mut_ptr(), output.len() <span class="kw">as _</span>, flags.bits() <span class="kw">as _</span>, timeout) };
-
-    <span class="kw">let _ </span>= Errno::result(ret)<span class="question-mark">?</span>;
-
-    <span class="prelude-val">Ok</span>(output
-        .into_iter()
-        .take(ret <span class="kw">as </span>usize)
-        .zip(addresses.iter().map(|addr| <span class="kw">unsafe</span>{addr.assume_init()}))
-        .zip(results.into_iter())
-        .map(|((mmsghdr, address), (msg_controllen, cmsg_buffer))| {
-            <span class="comment">// The cast is not unnecessary on all platforms.
-            </span><span class="attribute">#[allow(clippy::unnecessary_cast)]
-            </span><span class="kw">unsafe </span>{
-                read_mhdr(
-                    mmsghdr.msg_hdr,
-                    mmsghdr.msg_len <span class="kw">as </span>isize,
-                    msg_controllen,
-                    address,
-                    cmsg_buffer
-                )
-            }
-        })
-        .collect())
+    <span class="prelude-val">Ok</span>(MultiResults {
+        rmm: data,
+        current_index: <span class="number">0</span>,
+        received,
+    })
 }
 
-<span class="kw">unsafe fn </span>read_mhdr&lt;<span class="lifetime">&#39;a</span>, S&gt;(
+<span class="attribute">#[cfg(any(
+    target_os = <span class="string">&quot;linux&quot;</span>,
+    target_os = <span class="string">&quot;android&quot;</span>,
+    target_os = <span class="string">&quot;freebsd&quot;</span>,
+    target_os = <span class="string">&quot;netbsd&quot;</span>,
+))]
+#[derive(Debug)]
+</span><span class="doccomment">/// Iterator over results of [`recvmmsg`]/[`sendmmsg`]
+///
+///
+</span><span class="kw">pub struct </span>MultiResults&lt;<span class="lifetime">&#39;a</span>, S&gt; {
+    <span class="comment">// preallocated structures
+    </span>rmm: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>MultiHeaders&lt;S&gt;,
+    current_index: usize,
+    received: usize,
+}
+
+<span class="attribute">#[cfg(any(
+    target_os = <span class="string">&quot;linux&quot;</span>,
+    target_os = <span class="string">&quot;android&quot;</span>,
+    target_os = <span class="string">&quot;freebsd&quot;</span>,
+    target_os = <span class="string">&quot;netbsd&quot;</span>,
+))]
+</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, S&gt; Iterator <span class="kw">for </span>MultiResults&lt;<span class="lifetime">&#39;a</span>, S&gt;
+<span class="kw">where
+    </span>S: Copy + SockaddrLike,
+{
+    <span class="kw">type </span>Item = RecvMsg&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span>, S&gt;;
+
+    <span class="comment">// The cast is not unnecessary on all platforms.
+    </span><span class="attribute">#[allow(clippy::unnecessary_cast)]
+    </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
+        <span class="kw">if </span><span class="self">self</span>.current_index &gt;= <span class="self">self</span>.received {
+            <span class="kw">return </span><span class="prelude-val">None</span>;
+        }
+        <span class="kw">let </span>mmsghdr = <span class="self">self</span>.rmm.items[<span class="self">self</span>.current_index];
+
+        <span class="comment">// as long as we are not reading past the index writen by recvmmsg - address
+        // will be initialized
+        </span><span class="kw">let </span>address = <span class="kw">unsafe </span>{ <span class="self">self</span>.rmm.addresses[<span class="self">self</span>.current_index].assume_init() };
+
+        <span class="self">self</span>.current_index += <span class="number">1</span>;
+        <span class="prelude-val">Some</span>(<span class="kw">unsafe </span>{
+            read_mhdr(
+                mmsghdr.msg_hdr,
+                mmsghdr.msg_len <span class="kw">as </span>isize,
+                <span class="self">self</span>.rmm.msg_controllen,
+                address,
+            )
+        })
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, S&gt; RecvMsg&lt;<span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;a</span>, S&gt; {
+    <span class="doccomment">/// Iterate over the filled io slices pointed by this msghdr
+    </span><span class="kw">pub fn </span>iovs(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; IoSliceIterator&lt;<span class="lifetime">&#39;a</span>&gt; {
+        IoSliceIterator {
+            index: <span class="number">0</span>,
+            remaining: <span class="self">self</span>.bytes,
+            slices: <span class="kw">unsafe </span>{
+                <span class="comment">// safe for as long as mgdr is properly initialized and references are valid.
+                // for multi messages API we initialize it with an empty
+                // slice and replace with a concrete buffer
+                // for single message API we hold a lifetime reference to ioslices
+                </span>std::slice::from_raw_parts(<span class="self">self</span>.mhdr.msg_iov <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>, <span class="self">self</span>.mhdr.msg_iovlen <span class="kw">as _</span>)
+            },
+        }
+    }
+}
+
+<span class="attribute">#[derive(Debug)]
+</span><span class="kw">pub struct </span>IoSliceIterator&lt;<span class="lifetime">&#39;a</span>&gt; {
+    index: usize,
+    remaining: usize,
+    slices: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[IoSlice&lt;<span class="lifetime">&#39;a</span>&gt;],
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Iterator <span class="kw">for </span>IoSliceIterator&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">type </span>Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8];
+
+    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Item&gt; {
+        <span class="kw">if </span><span class="self">self</span>.index &gt;= <span class="self">self</span>.slices.len() {
+            <span class="kw">return </span><span class="prelude-val">None</span>;
+        }
+        <span class="kw">let </span>slice = <span class="kw-2">&amp;</span><span class="self">self</span>.slices[<span class="self">self</span>.index][..<span class="self">self</span>.remaining.min(<span class="self">self</span>.slices[<span class="self">self</span>.index].len())];
+        <span class="self">self</span>.remaining -= slice.len();
+        <span class="self">self</span>.index += <span class="number">1</span>;
+        <span class="kw">if </span>slice.is_empty() {
+            <span class="kw">return </span><span class="prelude-val">None</span>;
+        }
+
+        <span class="prelude-val">Some</span>(slice)
+    }
+}
+
+<span class="comment">// test contains both recvmmsg and timestaping which is linux only
+// there are existing tests for recvmmsg only in tests/
+</span><span class="attribute">#[cfg(target_os = <span class="string">&quot;linux&quot;</span>)]
+#[cfg(test)]
+</span><span class="kw">mod </span>test {
+    <span class="kw">use </span><span class="kw">crate</span>::sys::socket::{AddressFamily, ControlMessageOwned};
+    <span class="kw">use crate</span>::<span class="kw-2">*</span>;
+    <span class="kw">use </span>std::str::FromStr;
+
+    <span class="attribute">#[cfg_attr(qemu, ignore)]
+    #[test]
+    </span><span class="kw">fn </span>test_recvmm2() -&gt; <span class="kw">crate</span>::Result&lt;()&gt; {
+        <span class="kw">use </span><span class="kw">crate</span>::sys::socket::{
+            sendmsg, setsockopt, socket, sockopt::Timestamping, MsgFlags, SockFlag, SockType,
+            SockaddrIn, TimestampingFlag,
+        };
+        <span class="kw">use </span>std::io::{IoSlice, IoSliceMut};
+
+        <span class="kw">let </span>sock_addr = SockaddrIn::from_str(<span class="string">&quot;127.0.0.1:6790&quot;</span>).unwrap();
+
+        <span class="kw">let </span>ssock = socket(
+            AddressFamily::Inet,
+            SockType::Datagram,
+            SockFlag::empty(),
+            <span class="prelude-val">None</span>,
+        )<span class="question-mark">?</span>;
+
+        <span class="kw">let </span>rsock = socket(
+            AddressFamily::Inet,
+            SockType::Datagram,
+            SockFlag::SOCK_NONBLOCK,
+            <span class="prelude-val">None</span>,
+        )<span class="question-mark">?</span>;
+
+        <span class="kw">crate</span>::sys::socket::bind(rsock, <span class="kw-2">&amp;</span>sock_addr)<span class="question-mark">?</span>;
+
+        setsockopt(rsock, Timestamping, <span class="kw-2">&amp;</span>TimestampingFlag::all())<span class="question-mark">?</span>;
+
+        <span class="kw">let </span>sbuf = (<span class="number">0</span>..<span class="number">400</span>).map(|i| i <span class="kw">as </span>u8).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+
+        <span class="kw">let </span><span class="kw-2">mut </span>recv_buf = <span class="macro">vec!</span>[<span class="number">0</span>; <span class="number">1024</span>];
+
+        <span class="kw">let </span><span class="kw-2">mut </span>recv_iovs = Vec::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>pkt_iovs = Vec::new();
+
+        <span class="kw">for </span>(ix, chunk) <span class="kw">in </span>recv_buf.chunks_mut(<span class="number">256</span>).enumerate() {
+            pkt_iovs.push(IoSliceMut::new(chunk));
+            <span class="kw">if </span>ix % <span class="number">2 </span>== <span class="number">1 </span>{
+                recv_iovs.push(pkt_iovs);
+                pkt_iovs = Vec::new();
+            }
+        }
+        drop(pkt_iovs);
+
+        <span class="kw">let </span>flags = MsgFlags::empty();
+        <span class="kw">let </span>iov1 = [IoSlice::new(<span class="kw-2">&amp;</span>sbuf)];
+
+        <span class="kw">let </span>cmsg = <span class="macro">cmsg_space!</span>(<span class="kw">crate</span>::sys::socket::Timestamps);
+        sendmsg(ssock, <span class="kw-2">&amp;</span>iov1, <span class="kw-2">&amp;</span>[], flags, <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>sock_addr)).unwrap();
+
+        <span class="kw">let </span><span class="kw-2">mut </span>data = <span class="kw">super</span>::MultiHeaders::&lt;()&gt;::preallocate(recv_iovs.len(), <span class="prelude-val">Some</span>(cmsg));
+
+        <span class="kw">let </span>t = sys::time::TimeSpec::from_duration(std::time::Duration::from_secs(<span class="number">10</span>));
+
+        <span class="kw">let </span>recv = <span class="kw">super</span>::recvmmsg(rsock, <span class="kw-2">&amp;mut </span>data, recv_iovs.iter(), flags, <span class="prelude-val">Some</span>(t))<span class="question-mark">?</span>;
+
+        <span class="kw">for </span>rmsg <span class="kw">in </span>recv {
+            <span class="attribute">#[cfg(not(any(qemu, target_arch = <span class="string">&quot;aarch64&quot;</span>)))]
+            </span><span class="kw">let </span><span class="kw-2">mut </span>saw_time = <span class="bool-val">false</span>;
+            <span class="kw">let </span><span class="kw-2">mut </span>recvd = <span class="number">0</span>;
+            <span class="kw">for </span>cmsg <span class="kw">in </span>rmsg.cmsgs() {
+                <span class="kw">if let </span>ControlMessageOwned::ScmTimestampsns(timestamps) = cmsg {
+                    <span class="kw">let </span>ts = timestamps.system;
+
+                    <span class="kw">let </span>sys_time =
+                        <span class="kw">crate</span>::time::clock_gettime(<span class="kw">crate</span>::time::ClockId::CLOCK_REALTIME)<span class="question-mark">?</span>;
+                    <span class="kw">let </span>diff = <span class="kw">if </span>ts &gt; sys_time {
+                        ts - sys_time
+                    } <span class="kw">else </span>{
+                        sys_time - ts
+                    };
+                    <span class="macro">assert!</span>(std::time::Duration::from(diff).as_secs() &lt; <span class="number">60</span>);
+                    <span class="attribute">#[cfg(not(any(qemu, target_arch = <span class="string">&quot;aarch64&quot;</span>)))]
+                    </span>{
+                        saw_time = <span class="bool-val">true</span>;
+                    }
+                }
+            }
+
+            <span class="attribute">#[cfg(not(any(qemu, target_arch = <span class="string">&quot;aarch64&quot;</span>)))]
+            </span><span class="macro">assert!</span>(saw_time);
+
+            <span class="kw">for </span>iov <span class="kw">in </span>rmsg.iovs() {
+                recvd += iov.len();
+            }
+            <span class="macro">assert_eq!</span>(recvd, <span class="number">400</span>);
+        }
+
+        <span class="prelude-val">Ok</span>(())
+    }
+}
+<span class="kw">unsafe fn </span>read_mhdr&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;i</span>, S&gt;(
     mhdr: msghdr,
     r: isize,
     msg_controllen: usize,
     address: S,
-    cmsg_buffer: <span class="kw-2">&amp;mut </span><span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Vec&lt;u8&gt;&gt;
-) -&gt; RecvMsg&lt;<span class="lifetime">&#39;a</span>, S&gt;
+) -&gt; RecvMsg&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;i</span>, S&gt;
     <span class="kw">where </span>S: SockaddrLike
 {
     <span class="comment">// The cast is not unnecessary on all platforms.
     </span><span class="attribute">#[allow(clippy::unnecessary_cast)]
     </span><span class="kw">let </span>cmsghdr = {
         <span class="kw">if </span>mhdr.msg_controllen &gt; <span class="number">0 </span>{
-            <span class="comment">// got control message(s)
-            </span>cmsg_buffer
-                .as_mut()
-                .unwrap()
-                .set_len(mhdr.msg_controllen <span class="kw">as </span>usize);
             <span class="macro">debug_assert!</span>(!mhdr.msg_control.is_null());
             <span class="macro">debug_assert!</span>(msg_controllen &gt;= mhdr.msg_controllen <span class="kw">as </span>usize);
             CMSG_FIRSTHDR(<span class="kw-2">&amp;</span>mhdr <span class="kw">as </span><span class="kw-2">*const </span>msghdr)
@@ -3983,38 +4425,43 @@
         address: <span class="prelude-val">Some</span>(address),
         flags: MsgFlags::from_bits_truncate(mhdr.msg_flags),
         mhdr,
+        iobufs: std::marker::PhantomData,
     }
 }
 
-<span class="kw">unsafe fn </span>pack_mhdr_to_receive&lt;<span class="lifetime">&#39;outer</span>, <span class="lifetime">&#39;inner</span>, I, S&gt;(
-    iov: I,
-    cmsg_buffer: <span class="kw-2">&amp;mut </span><span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;&gt;,
+<span class="doccomment">/// Pack pointers to various structures into into msghdr
+///
+/// # Safety
+/// `iov_buffer` and `iov_buffer_len` must point to a slice
+/// of `IoSliceMut` and number of available elements or be a null pointer and 0
+///
+/// `cmsg_buffer` and `cmsg_capacity` must point to a byte buffer used
+/// to store control headers later or be a null pointer and 0 if control
+/// headers are not used
+///
+/// Buffers must remain valid for the whole lifetime of msghdr
+</span><span class="kw">unsafe fn </span>pack_mhdr_to_receive&lt;S&gt;(
+    iov_buffer: <span class="kw-2">*const </span>IoSliceMut,
+    iov_buffer_len: usize,
+    cmsg_buffer: <span class="kw-2">*const </span>u8,
+    cmsg_capacity: usize,
     address: <span class="kw-2">*mut </span>S,
-) -&gt; (usize, msghdr)
+) -&gt; msghdr
     <span class="kw">where
-        </span>I: AsRef&lt;[IoSliceMut&lt;<span class="lifetime">&#39;inner</span>&gt;]&gt; + <span class="lifetime">&#39;outer</span>,
-        S: SockaddrLike + <span class="lifetime">&#39;outer
-</span>{
-    <span class="kw">let </span>(msg_control, msg_controllen) = cmsg_buffer.as_mut()
-        .map(|v| (v.as_mut_ptr(), v.capacity()))
-        .unwrap_or((ptr::null_mut(), <span class="number">0</span>));
-
-    <span class="kw">let </span>mhdr = {
-        <span class="comment">// Musl&#39;s msghdr has private fields, so this is the only way to
-        // initialize it.
-        </span><span class="kw">let </span><span class="kw-2">mut </span>mhdr = mem::MaybeUninit::&lt;msghdr&gt;::zeroed();
-        <span class="kw">let </span>p = mhdr.as_mut_ptr();
-        (<span class="kw-2">*</span>p).msg_name = (<span class="kw-2">*</span>address).as_mut_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>c_void;
-        (<span class="kw-2">*</span>p).msg_namelen = S::size();
-        (<span class="kw-2">*</span>p).msg_iov = iov.as_ref().as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>iovec;
-        (<span class="kw-2">*</span>p).msg_iovlen = iov.as_ref().len() <span class="kw">as _</span>;
-        (<span class="kw-2">*</span>p).msg_control = msg_control <span class="kw">as </span><span class="kw-2">*mut </span>c_void;
-        (<span class="kw-2">*</span>p).msg_controllen = msg_controllen <span class="kw">as _</span>;
-        (<span class="kw-2">*</span>p).msg_flags = <span class="number">0</span>;
-        mhdr.assume_init()
-    };
-
-    (msg_controllen, mhdr)
+        </span>S: SockaddrLike
+{
+    <span class="comment">// Musl&#39;s msghdr has private fields, so this is the only way to
+    // initialize it.
+    </span><span class="kw">let </span><span class="kw-2">mut </span>mhdr = mem::MaybeUninit::&lt;msghdr&gt;::zeroed();
+    <span class="kw">let </span>p = mhdr.as_mut_ptr();
+    (<span class="kw-2">*</span>p).msg_name = (<span class="kw-2">*</span>address).as_mut_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>c_void;
+    (<span class="kw-2">*</span>p).msg_namelen = S::size();
+    (<span class="kw-2">*</span>p).msg_iov = iov_buffer <span class="kw">as </span><span class="kw-2">*mut </span>iovec;
+    (<span class="kw-2">*</span>p).msg_iovlen = iov_buffer_len <span class="kw">as _</span>;
+    (<span class="kw-2">*</span>p).msg_control = cmsg_buffer <span class="kw">as </span><span class="kw-2">*mut </span>c_void;
+    (<span class="kw-2">*</span>p).msg_controllen = cmsg_capacity <span class="kw">as _</span>;
+    (<span class="kw-2">*</span>p).msg_flags = <span class="number">0</span>;
+    mhdr.assume_init()
 }
 
 <span class="kw">fn </span>pack_mhdr_to_send&lt;<span class="lifetime">&#39;a</span>, I, C, S&gt;(
@@ -4086,23 +4533,26 @@
 /// [recvmsg(2)](https://pubs.opengroup.org/onlinepubs/9699919799/functions/recvmsg.html)
 </span><span class="kw">pub fn </span>recvmsg&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;outer</span>, <span class="lifetime">&#39;inner</span>, S&gt;(fd: RawFd, iov: <span class="kw-2">&amp;</span><span class="lifetime">&#39;outer </span><span class="kw-2">mut </span>[IoSliceMut&lt;<span class="lifetime">&#39;inner</span>&gt;],
                    <span class="kw-2">mut </span>cmsg_buffer: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Vec&lt;u8&gt;&gt;,
-                   flags: MsgFlags) -&gt; <span class="prelude-ty">Result</span>&lt;RecvMsg&lt;<span class="lifetime">&#39;a</span>, S&gt;&gt;
-    <span class="kw">where </span>S: SockaddrLike + <span class="lifetime">&#39;a
+                   flags: MsgFlags) -&gt; <span class="prelude-ty">Result</span>&lt;RecvMsg&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;inner</span>, S&gt;&gt;
+    <span class="kw">where </span>S: SockaddrLike + <span class="lifetime">&#39;a</span>,
+    <span class="lifetime">&#39;inner</span>: <span class="lifetime">&#39;outer
 </span>{
     <span class="kw">let </span><span class="kw-2">mut </span>address = mem::MaybeUninit::uninit();
 
-    <span class="kw">let </span>(msg_controllen, <span class="kw-2">mut </span>mhdr) = <span class="kw">unsafe </span>{
-        pack_mhdr_to_receive::&lt;<span class="kw">_</span>, S&gt;(iov, <span class="kw-2">&amp;mut </span>cmsg_buffer, address.as_mut_ptr())
+    <span class="kw">let </span>(msg_control, msg_controllen) = cmsg_buffer.as_mut()
+        .map(|v| (v.as_mut_ptr(), v.capacity()))
+        .unwrap_or((ptr::null_mut(), <span class="number">0</span>));
+    <span class="kw">let </span><span class="kw-2">mut </span>mhdr = <span class="kw">unsafe </span>{
+        pack_mhdr_to_receive(iov.as_ref().as_ptr(), iov.len(), msg_control, msg_controllen, address.as_mut_ptr())
     };
 
     <span class="kw">let </span>ret = <span class="kw">unsafe </span>{ libc::recvmsg(fd, <span class="kw-2">&amp;mut </span>mhdr, flags.bits()) };
 
     <span class="kw">let </span>r = Errno::result(ret)<span class="question-mark">?</span>;
 
-    <span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{ read_mhdr(mhdr, r, msg_controllen, address.assume_init(), <span class="kw-2">&amp;mut </span>cmsg_buffer) })
+    <span class="prelude-val">Ok</span>(<span class="kw">unsafe </span>{ read_mhdr(mhdr, r, msg_controllen, address.assume_init()) })
 }
 }
-
 
 <span class="doccomment">/// Create an endpoint for communication
 ///
@@ -4114,7 +4564,12 @@
 /// specified in this manner.
 ///
 /// [Further reading](https://pubs.opengroup.org/onlinepubs/9699919799/functions/socket.html)
-</span><span class="kw">pub fn </span>socket&lt;T: Into&lt;<span class="prelude-ty">Option</span>&lt;SockProtocol&gt;&gt;&gt;(domain: AddressFamily, ty: SockType, flags: SockFlag, protocol: T) -&gt; <span class="prelude-ty">Result</span>&lt;RawFd&gt; {
+</span><span class="kw">pub fn </span>socket&lt;T: Into&lt;<span class="prelude-ty">Option</span>&lt;SockProtocol&gt;&gt;&gt;(
+    domain: AddressFamily,
+    ty: SockType,
+    flags: SockFlag,
+    protocol: T,
+) -&gt; <span class="prelude-ty">Result</span>&lt;RawFd&gt; {
     <span class="kw">let </span>protocol = <span class="kw">match </span>protocol.into() {
         <span class="prelude-val">None </span>=&gt; <span class="number">0</span>,
         <span class="prelude-val">Some</span>(p) =&gt; p <span class="kw">as </span>c_int,
@@ -4134,8 +4589,12 @@
 <span class="doccomment">/// Create a pair of connected sockets
 ///
 /// [Further reading](https://pubs.opengroup.org/onlinepubs/9699919799/functions/socketpair.html)
-</span><span class="kw">pub fn </span>socketpair&lt;T: Into&lt;<span class="prelude-ty">Option</span>&lt;SockProtocol&gt;&gt;&gt;(domain: AddressFamily, ty: SockType, protocol: T,
-                  flags: SockFlag) -&gt; <span class="prelude-ty">Result</span>&lt;(RawFd, RawFd)&gt; {
+</span><span class="kw">pub fn </span>socketpair&lt;T: Into&lt;<span class="prelude-ty">Option</span>&lt;SockProtocol&gt;&gt;&gt;(
+    domain: AddressFamily,
+    ty: SockType,
+    protocol: T,
+    flags: SockFlag,
+) -&gt; <span class="prelude-ty">Result</span>&lt;(RawFd, RawFd)&gt; {
     <span class="kw">let </span>protocol = <span class="kw">match </span>protocol.into() {
         <span class="prelude-val">None </span>=&gt; <span class="number">0</span>,
         <span class="prelude-val">Some</span>(p) =&gt; p <span class="kw">as </span>c_int,
@@ -4149,7 +4608,9 @@
 
     <span class="kw">let </span><span class="kw-2">mut </span>fds = [-<span class="number">1</span>, -<span class="number">1</span>];
 
-    <span class="kw">let </span>res = <span class="kw">unsafe </span>{ libc::socketpair(domain <span class="kw">as </span>c_int, ty, protocol, fds.as_mut_ptr()) };
+    <span class="kw">let </span>res = <span class="kw">unsafe </span>{
+        libc::socketpair(domain <span class="kw">as </span>c_int, ty, protocol, fds.as_mut_ptr())
+    };
     Errno::result(res)<span class="question-mark">?</span>;
 
     <span class="prelude-val">Ok</span>((fds[<span class="number">0</span>], fds[<span class="number">1</span>]))
@@ -4168,9 +4629,7 @@
 ///
 /// [Further reading](https://pubs.opengroup.org/onlinepubs/9699919799/functions/bind.html)
 </span><span class="kw">pub fn </span>bind(fd: RawFd, addr: <span class="kw-2">&amp;</span><span class="kw">dyn </span>SockaddrLike) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
-    <span class="kw">let </span>res = <span class="kw">unsafe </span>{
-        libc::bind(fd, addr.as_ptr(), addr.len())
-    };
+    <span class="kw">let </span>res = <span class="kw">unsafe </span>{ libc::bind(fd, addr.as_ptr(), addr.len()) };
 
     Errno::result(res).map(drop)
 }
@@ -4187,24 +4646,28 @@
 <span class="doccomment">/// Accept a connection on a socket
 ///
 /// [Further reading](https://man7.org/linux/man-pages/man2/accept.2.html)
-</span><span class="attribute">#[cfg(any(all(
-            target_os = <span class="string">&quot;android&quot;</span>,
-            any(
-                target_arch = <span class="string">&quot;aarch64&quot;</span>,
-                target_arch = <span class="string">&quot;x86&quot;</span>,
-                target_arch = <span class="string">&quot;x86_64&quot;
-            </span>)
-          ),
-          target_os = <span class="string">&quot;dragonfly&quot;</span>,
-          target_os = <span class="string">&quot;emscripten&quot;</span>,
-          target_os = <span class="string">&quot;freebsd&quot;</span>,
-          target_os = <span class="string">&quot;fuchsia&quot;</span>,
-          target_os = <span class="string">&quot;illumos&quot;</span>,
-          target_os = <span class="string">&quot;linux&quot;</span>,
-          target_os = <span class="string">&quot;netbsd&quot;</span>,
-          target_os = <span class="string">&quot;openbsd&quot;</span>))]
+</span><span class="attribute">#[cfg(any(
+    all(
+        target_os = <span class="string">&quot;android&quot;</span>,
+        any(
+            target_arch = <span class="string">&quot;aarch64&quot;</span>,
+            target_arch = <span class="string">&quot;x86&quot;</span>,
+            target_arch = <span class="string">&quot;x86_64&quot;
+        </span>)
+    ),
+    target_os = <span class="string">&quot;dragonfly&quot;</span>,
+    target_os = <span class="string">&quot;emscripten&quot;</span>,
+    target_os = <span class="string">&quot;freebsd&quot;</span>,
+    target_os = <span class="string">&quot;fuchsia&quot;</span>,
+    target_os = <span class="string">&quot;illumos&quot;</span>,
+    target_os = <span class="string">&quot;linux&quot;</span>,
+    target_os = <span class="string">&quot;netbsd&quot;</span>,
+    target_os = <span class="string">&quot;openbsd&quot;
+</span>))]
 </span><span class="kw">pub fn </span>accept4(sockfd: RawFd, flags: SockFlag) -&gt; <span class="prelude-ty">Result</span>&lt;RawFd&gt; {
-    <span class="kw">let </span>res = <span class="kw">unsafe </span>{ libc::accept4(sockfd, ptr::null_mut(), ptr::null_mut(), flags.bits()) };
+    <span class="kw">let </span>res = <span class="kw">unsafe </span>{
+        libc::accept4(sockfd, ptr::null_mut(), ptr::null_mut(), flags.bits())
+    };
 
     Errno::result(res)
 }
@@ -4213,9 +4676,7 @@
 ///
 /// [Further reading](https://pubs.opengroup.org/onlinepubs/9699919799/functions/connect.html)
 </span><span class="kw">pub fn </span>connect(fd: RawFd, addr: <span class="kw-2">&amp;</span><span class="kw">dyn </span>SockaddrLike) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
-    <span class="kw">let </span>res = <span class="kw">unsafe </span>{
-        libc::connect(fd, addr.as_ptr(), addr.len())
-    };
+    <span class="kw">let </span>res = <span class="kw">unsafe </span>{ libc::connect(fd, addr.as_ptr(), addr.len()) };
 
     Errno::result(res).map(drop)
 }
@@ -4230,7 +4691,8 @@
             sockfd,
             buf.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>c_void,
             buf.len() <span class="kw">as </span>size_t,
-            flags.bits());
+            flags.bits(),
+        );
 
         Errno::result(ret).map(|r| r <span class="kw">as </span>usize)
     }
@@ -4241,9 +4703,10 @@
 /// address of the sender.
 ///
 /// [Further reading](https://pubs.opengroup.org/onlinepubs/9699919799/functions/recvfrom.html)
-</span><span class="kw">pub fn </span>recvfrom&lt;T:SockaddrLike&gt;(sockfd: RawFd, buf: <span class="kw-2">&amp;mut </span>[u8])
-    -&gt; <span class="prelude-ty">Result</span>&lt;(usize, <span class="prelude-ty">Option</span>&lt;T&gt;)&gt;
-{
+</span><span class="kw">pub fn </span>recvfrom&lt;T: SockaddrLike&gt;(
+    sockfd: RawFd,
+    buf: <span class="kw-2">&amp;mut </span>[u8],
+) -&gt; <span class="prelude-ty">Result</span>&lt;(usize, <span class="prelude-ty">Option</span>&lt;T&gt;)&gt; {
     <span class="kw">unsafe </span>{
         <span class="kw">let </span><span class="kw-2">mut </span>addr = mem::MaybeUninit::&lt;T&gt;::uninit();
         <span class="kw">let </span><span class="kw-2">mut </span>len = mem::size_of_val(<span class="kw-2">&amp;</span>addr) <span class="kw">as </span>socklen_t;
@@ -4254,11 +4717,15 @@
             buf.len() <span class="kw">as </span>size_t,
             <span class="number">0</span>,
             addr.as_mut_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>libc::sockaddr,
-            <span class="kw-2">&amp;mut </span>len <span class="kw">as </span><span class="kw-2">*mut </span>socklen_t))<span class="question-mark">? </span><span class="kw">as </span>usize;
+            <span class="kw-2">&amp;mut </span>len <span class="kw">as </span><span class="kw-2">*mut </span>socklen_t,
+        ))<span class="question-mark">? </span><span class="kw">as </span>usize;
 
-        <span class="prelude-val">Ok</span>((ret, T::from_raw(
-            addr.assume_init().as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr,
-            <span class="prelude-val">Some</span>(len))
+        <span class="prelude-val">Ok</span>((
+            ret,
+            T::from_raw(
+                addr.assume_init().as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr,
+                <span class="prelude-val">Some</span>(len),
+            ),
         ))
     }
 }
@@ -4266,7 +4733,12 @@
 <span class="doccomment">/// Send a message to a socket
 ///
 /// [Further reading](https://pubs.opengroup.org/onlinepubs/9699919799/functions/sendto.html)
-</span><span class="kw">pub fn </span>sendto(fd: RawFd, buf: <span class="kw-2">&amp;</span>[u8], addr: <span class="kw-2">&amp;</span><span class="kw">dyn </span>SockaddrLike, flags: MsgFlags) -&gt; <span class="prelude-ty">Result</span>&lt;usize&gt; {
+</span><span class="kw">pub fn </span>sendto(
+    fd: RawFd,
+    buf: <span class="kw-2">&amp;</span>[u8],
+    addr: <span class="kw-2">&amp;</span><span class="kw">dyn </span>SockaddrLike,
+    flags: MsgFlags,
+) -&gt; <span class="prelude-ty">Result</span>&lt;usize&gt; {
     <span class="kw">let </span>ret = <span class="kw">unsafe </span>{
         libc::sendto(
             fd,
@@ -4274,7 +4746,7 @@
             buf.len() <span class="kw">as </span>size_t,
             flags.bits(),
             addr.as_ptr(),
-            addr.len()
+            addr.len(),
         )
     };
 
@@ -4286,7 +4758,12 @@
 /// [Further reading](https://pubs.opengroup.org/onlinepubs/9699919799/functions/send.html)
 </span><span class="kw">pub fn </span>send(fd: RawFd, buf: <span class="kw-2">&amp;</span>[u8], flags: MsgFlags) -&gt; <span class="prelude-ty">Result</span>&lt;usize&gt; {
     <span class="kw">let </span>ret = <span class="kw">unsafe </span>{
-        libc::send(fd, buf.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>c_void, buf.len() <span class="kw">as </span>size_t, flags.bits())
+        libc::send(
+            fd,
+            buf.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>c_void,
+            buf.len() <span class="kw">as </span>size_t,
+            flags.bits(),
+        )
     };
 
     Errno::result(ret).map(|r| r <span class="kw">as </span>usize)
@@ -4299,7 +4776,7 @@
  */
 
 </span><span class="doccomment">/// Represents a socket option that can be retrieved.
-</span><span class="kw">pub trait </span>GetSockOpt : Copy {
+</span><span class="kw">pub trait </span>GetSockOpt: Copy {
     <span class="kw">type </span>Val;
 
     <span class="doccomment">/// Look up the value of this socket option on the given socket.
@@ -4307,7 +4784,7 @@
 }
 
 <span class="doccomment">/// Represents a socket option that can be set.
-</span><span class="kw">pub trait </span>SetSockOpt : Clone {
+</span><span class="kw">pub trait </span>SetSockOpt: Clone {
     <span class="kw">type </span>Val;
 
     <span class="doccomment">/// Set the value of this socket option on the given socket.
@@ -4338,7 +4815,11 @@
 /// let res = setsockopt(fd, KeepAlive, &amp;true);
 /// assert!(res.is_ok());
 /// ```
-</span><span class="kw">pub fn </span>setsockopt&lt;O: SetSockOpt&gt;(fd: RawFd, opt: O, val: <span class="kw-2">&amp;</span>O::Val) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+</span><span class="kw">pub fn </span>setsockopt&lt;O: SetSockOpt&gt;(
+    fd: RawFd,
+    opt: O,
+    val: <span class="kw-2">&amp;</span>O::Val,
+) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
     opt.set(fd, val)
 }
 
@@ -4353,13 +4834,12 @@
         <span class="kw">let </span>ret = libc::getpeername(
             fd,
             addr.as_mut_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>libc::sockaddr,
-            <span class="kw-2">&amp;mut </span>len
+            <span class="kw-2">&amp;mut </span>len,
         );
 
         Errno::result(ret)<span class="question-mark">?</span>;
 
-        T::from_raw(addr.assume_init().as_ptr(), <span class="prelude-val">Some</span>(len))
-            .ok_or(Errno::EINVAL)
+        T::from_raw(addr.assume_init().as_ptr(), <span class="prelude-val">Some</span>(len)).ok_or(Errno::EINVAL)
     }
 }
 
@@ -4374,13 +4854,12 @@
         <span class="kw">let </span>ret = libc::getsockname(
             fd,
             addr.as_mut_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>libc::sockaddr,
-            <span class="kw-2">&amp;mut </span>len
+            <span class="kw-2">&amp;mut </span>len,
         );
 
         Errno::result(ret)<span class="question-mark">?</span>;
 
-        T::from_raw(addr.assume_init().as_ptr(), <span class="prelude-val">Some</span>(len))
-            .ok_or(Errno::EINVAL)
+        T::from_raw(addr.assume_init().as_ptr(), <span class="prelude-val">Some</span>(len)).ok_or(Errno::EINVAL)
     }
 }
 
@@ -4399,8 +4878,8 @@
 #[allow(deprecated)]
 </span><span class="kw">pub fn </span>sockaddr_storage_to_addr(
     addr: <span class="kw-2">&amp;</span>sockaddr_storage,
-    len: usize) -&gt; <span class="prelude-ty">Result</span>&lt;SockAddr&gt; {
-
+    len: usize,
+) -&gt; <span class="prelude-ty">Result</span>&lt;SockAddr&gt; {
     <span class="macro">assert!</span>(len &lt;= mem::size_of::&lt;sockaddr_storage&gt;());
     <span class="kw">if </span>len &lt; mem::size_of_val(<span class="kw-2">&amp;</span>addr.ss_family) {
         <span class="kw">return </span><span class="prelude-val">Err</span>(Errno::ENOTCONN);
@@ -4418,18 +4897,14 @@
         <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
         </span>libc::AF_INET6 =&gt; {
             <span class="macro">assert!</span>(len &gt;= mem::size_of::&lt;sockaddr_in6&gt;());
-            <span class="kw">let </span>sin6 = <span class="kw">unsafe </span>{
-                <span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>sockaddr_in6)
-            };
+            <span class="kw">let </span>sin6 = <span class="kw">unsafe </span>{ <span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>sockaddr_in6) };
             <span class="prelude-val">Ok</span>(SockAddr::Inet(InetAddr::V6(sin6)))
         }
-        libc::AF_UNIX =&gt; {
-            <span class="kw">unsafe </span>{
-                <span class="kw">let </span>sun = <span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>sockaddr_un);
-                <span class="kw">let </span>sun_len = len.try_into().unwrap();
-                <span class="prelude-val">Ok</span>(SockAddr::Unix(UnixAddr::from_raw_parts(sun, sun_len)))
-            }
-        }
+        libc::AF_UNIX =&gt; <span class="kw">unsafe </span>{
+            <span class="kw">let </span>sun = <span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>sockaddr_un);
+            <span class="kw">let </span>sun_len = len.try_into().unwrap();
+            <span class="prelude-val">Ok</span>(SockAddr::Unix(UnixAddr::from_raw_parts(sun, sun_len)))
+        },
         <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
         #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
         </span>libc::AF_PACKET =&gt; {
@@ -4438,39 +4913,30 @@
             // Apparently the Linux kernel can return smaller sizes when
             // the value in the last element of sockaddr_ll (`sll_addr`) is
             // smaller than the declared size of that field
-            </span><span class="kw">let </span>sll = <span class="kw">unsafe </span>{
-                <span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>sockaddr_ll)
-            };
+            </span><span class="kw">let </span>sll = <span class="kw">unsafe </span>{ <span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>sockaddr_ll) };
             <span class="prelude-val">Ok</span>(SockAddr::Link(LinkAddr(sll)))
         }
         <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
         </span>libc::AF_NETLINK =&gt; {
             <span class="kw">use </span>libc::sockaddr_nl;
-            <span class="kw">let </span>snl = <span class="kw">unsafe </span>{
-                <span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>sockaddr_nl)
-            };
+            <span class="kw">let </span>snl = <span class="kw">unsafe </span>{ <span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>sockaddr_nl) };
             <span class="prelude-val">Ok</span>(SockAddr::Netlink(NetlinkAddr(snl)))
         }
         <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
         </span>libc::AF_ALG =&gt; {
             <span class="kw">use </span>libc::sockaddr_alg;
-            <span class="kw">let </span>salg = <span class="kw">unsafe </span>{
-                <span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>sockaddr_alg)
-            };
+            <span class="kw">let </span>salg = <span class="kw">unsafe </span>{ <span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>sockaddr_alg) };
             <span class="prelude-val">Ok</span>(SockAddr::Alg(AlgAddr(salg)))
         }
         <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
         </span>libc::AF_VSOCK =&gt; {
             <span class="kw">use </span>libc::sockaddr_vm;
-            <span class="kw">let </span>svm = <span class="kw">unsafe </span>{
-                <span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>sockaddr_vm)
-            };
+            <span class="kw">let </span>svm = <span class="kw">unsafe </span>{ <span class="kw-2">*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>sockaddr_vm) };
             <span class="prelude-val">Ok</span>(SockAddr::Vsock(VsockAddr(svm)))
         }
         af =&gt; <span class="macro">panic!</span>(<span class="string">&quot;unexpected address family {}&quot;</span>, af),
     }
 }
-
 
 <span class="attribute">#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 </span><span class="kw">pub enum </span>Shutdown {
@@ -4490,9 +4956,9 @@
         <span class="kw">use </span>libc::shutdown;
 
         <span class="kw">let </span>how = <span class="kw">match </span>how {
-            Shutdown::Read  =&gt; libc::SHUT_RD,
+            Shutdown::Read =&gt; libc::SHUT_RD,
             Shutdown::Write =&gt; libc::SHUT_WR,
-            Shutdown::Both  =&gt; libc::SHUT_RDWR,
+            Shutdown::Both =&gt; libc::SHUT_RDWR,
         };
 
         Errno::result(shutdown(df, how)).map(drop)

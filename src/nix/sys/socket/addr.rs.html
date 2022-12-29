@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/nix-0.25.1/src/sys/socket/addr.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>addr.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../normalize.css"><link rel="stylesheet" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../dark.css" disabled><link rel="stylesheet" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../../nix/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/nix-0.26.1/src/sys/socket/addr.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>addr.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../../normalize.css"><link rel="stylesheet" href="../../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../../ayu.css" disabled><link rel="stylesheet" href="../../../../dark.css" disabled><link rel="stylesheet" href="../../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../../storage.js"></script><script defer src="../../../../source-script.js"></script><script defer src="../../../../source-files.js"></script><script defer src="../../../../main.js"></script><noscript><link rel="stylesheet" href="../../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../../../nix/index.html"><img class="rust-logo" src="../../../../rust-logo.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../wheel.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -2971,58 +2971,326 @@
 <span id="2971">2971</span>
 <span id="2972">2972</span>
 <span id="2973">2973</span>
-</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">super</span>::sa_family_t;
-<span class="kw">use </span>cfg_if::cfg_if;
-<span class="kw">use crate</span>::{<span class="prelude-ty">Result</span>, NixPath};
-<span class="kw">use </span><span class="kw">crate</span>::errno::Errno;
-<span class="kw">use </span>memoffset::offset_of;
-<span class="kw">use </span>std::{fmt, mem, net, ptr, slice};
-<span class="kw">use </span>std::convert::TryInto;
-<span class="kw">use </span>std::ffi::OsStr;
-<span class="kw">use </span>std::hash::{Hash, Hasher};
-<span class="kw">use </span>std::path::Path;
-<span class="kw">use </span>std::os::unix::ffi::OsStrExt;
-<span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
-</span><span class="kw">use </span><span class="kw">crate</span>::sys::socket::addr::netlink::NetlinkAddr;
-<span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
-</span><span class="kw">use </span><span class="kw">crate</span>::sys::socket::addr::alg::AlgAddr;
-<span class="attribute">#[cfg(any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>))]
-</span><span class="kw">use </span>std::os::unix::io::RawFd;
-<span class="attribute">#[cfg(all(feature = <span class="string">&quot;ioctl&quot;</span>, any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>)))]
-</span><span class="kw">use </span><span class="kw">crate</span>::sys::socket::addr::sys_control::SysControlAddr;
-<span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>,
-          target_os = <span class="string">&quot;dragonfly&quot;</span>,
-          target_os = <span class="string">&quot;freebsd&quot;</span>,
-          target_os = <span class="string">&quot;ios&quot;</span>,
-          target_os = <span class="string">&quot;linux&quot;</span>,
-          target_os = <span class="string">&quot;macos&quot;</span>,
-          target_os = <span class="string">&quot;illumos&quot;</span>,
-          target_os = <span class="string">&quot;netbsd&quot;</span>,
-          target_os = <span class="string">&quot;openbsd&quot;</span>,
-          target_os = <span class="string">&quot;haiku&quot;</span>,
-          target_os = <span class="string">&quot;fuchsia&quot;</span>))]
+<span id="2974">2974</span>
+<span id="2975">2975</span>
+<span id="2976">2976</span>
+<span id="2977">2977</span>
+<span id="2978">2978</span>
+<span id="2979">2979</span>
+<span id="2980">2980</span>
+<span id="2981">2981</span>
+<span id="2982">2982</span>
+<span id="2983">2983</span>
+<span id="2984">2984</span>
+<span id="2985">2985</span>
+<span id="2986">2986</span>
+<span id="2987">2987</span>
+<span id="2988">2988</span>
+<span id="2989">2989</span>
+<span id="2990">2990</span>
+<span id="2991">2991</span>
+<span id="2992">2992</span>
+<span id="2993">2993</span>
+<span id="2994">2994</span>
+<span id="2995">2995</span>
+<span id="2996">2996</span>
+<span id="2997">2997</span>
+<span id="2998">2998</span>
+<span id="2999">2999</span>
+<span id="3000">3000</span>
+<span id="3001">3001</span>
+<span id="3002">3002</span>
+<span id="3003">3003</span>
+<span id="3004">3004</span>
+<span id="3005">3005</span>
+<span id="3006">3006</span>
+<span id="3007">3007</span>
+<span id="3008">3008</span>
+<span id="3009">3009</span>
+<span id="3010">3010</span>
+<span id="3011">3011</span>
+<span id="3012">3012</span>
+<span id="3013">3013</span>
+<span id="3014">3014</span>
+<span id="3015">3015</span>
+<span id="3016">3016</span>
+<span id="3017">3017</span>
+<span id="3018">3018</span>
+<span id="3019">3019</span>
+<span id="3020">3020</span>
+<span id="3021">3021</span>
+<span id="3022">3022</span>
+<span id="3023">3023</span>
+<span id="3024">3024</span>
+<span id="3025">3025</span>
+<span id="3026">3026</span>
+<span id="3027">3027</span>
+<span id="3028">3028</span>
+<span id="3029">3029</span>
+<span id="3030">3030</span>
+<span id="3031">3031</span>
+<span id="3032">3032</span>
+<span id="3033">3033</span>
+<span id="3034">3034</span>
+<span id="3035">3035</span>
+<span id="3036">3036</span>
+<span id="3037">3037</span>
+<span id="3038">3038</span>
+<span id="3039">3039</span>
+<span id="3040">3040</span>
+<span id="3041">3041</span>
+<span id="3042">3042</span>
+<span id="3043">3043</span>
+<span id="3044">3044</span>
+<span id="3045">3045</span>
+<span id="3046">3046</span>
+<span id="3047">3047</span>
+<span id="3048">3048</span>
+<span id="3049">3049</span>
+<span id="3050">3050</span>
+<span id="3051">3051</span>
+<span id="3052">3052</span>
+<span id="3053">3053</span>
+<span id="3054">3054</span>
+<span id="3055">3055</span>
+<span id="3056">3056</span>
+<span id="3057">3057</span>
+<span id="3058">3058</span>
+<span id="3059">3059</span>
+<span id="3060">3060</span>
+<span id="3061">3061</span>
+<span id="3062">3062</span>
+<span id="3063">3063</span>
+<span id="3064">3064</span>
+<span id="3065">3065</span>
+<span id="3066">3066</span>
+<span id="3067">3067</span>
+<span id="3068">3068</span>
+<span id="3069">3069</span>
+<span id="3070">3070</span>
+<span id="3071">3071</span>
+<span id="3072">3072</span>
+<span id="3073">3073</span>
+<span id="3074">3074</span>
+<span id="3075">3075</span>
+<span id="3076">3076</span>
+<span id="3077">3077</span>
+<span id="3078">3078</span>
+<span id="3079">3079</span>
+<span id="3080">3080</span>
+<span id="3081">3081</span>
+<span id="3082">3082</span>
+<span id="3083">3083</span>
+<span id="3084">3084</span>
+<span id="3085">3085</span>
+<span id="3086">3086</span>
+<span id="3087">3087</span>
+<span id="3088">3088</span>
+<span id="3089">3089</span>
+<span id="3090">3090</span>
+<span id="3091">3091</span>
+<span id="3092">3092</span>
+<span id="3093">3093</span>
+<span id="3094">3094</span>
+<span id="3095">3095</span>
+<span id="3096">3096</span>
+<span id="3097">3097</span>
+<span id="3098">3098</span>
+<span id="3099">3099</span>
+<span id="3100">3100</span>
+<span id="3101">3101</span>
+<span id="3102">3102</span>
+<span id="3103">3103</span>
+<span id="3104">3104</span>
+<span id="3105">3105</span>
+<span id="3106">3106</span>
+<span id="3107">3107</span>
+<span id="3108">3108</span>
+<span id="3109">3109</span>
+<span id="3110">3110</span>
+<span id="3111">3111</span>
+<span id="3112">3112</span>
+<span id="3113">3113</span>
+<span id="3114">3114</span>
+<span id="3115">3115</span>
+<span id="3116">3116</span>
+<span id="3117">3117</span>
+<span id="3118">3118</span>
+<span id="3119">3119</span>
+<span id="3120">3120</span>
+<span id="3121">3121</span>
+<span id="3122">3122</span>
+<span id="3123">3123</span>
+<span id="3124">3124</span>
+<span id="3125">3125</span>
+<span id="3126">3126</span>
+<span id="3127">3127</span>
+<span id="3128">3128</span>
+<span id="3129">3129</span>
+<span id="3130">3130</span>
+<span id="3131">3131</span>
+<span id="3132">3132</span>
+<span id="3133">3133</span>
+<span id="3134">3134</span>
+<span id="3135">3135</span>
+<span id="3136">3136</span>
+<span id="3137">3137</span>
+<span id="3138">3138</span>
+<span id="3139">3139</span>
+<span id="3140">3140</span>
+<span id="3141">3141</span>
+<span id="3142">3142</span>
+<span id="3143">3143</span>
+<span id="3144">3144</span>
+<span id="3145">3145</span>
+<span id="3146">3146</span>
+<span id="3147">3147</span>
+<span id="3148">3148</span>
+<span id="3149">3149</span>
+<span id="3150">3150</span>
+<span id="3151">3151</span>
+<span id="3152">3152</span>
+<span id="3153">3153</span>
+<span id="3154">3154</span>
+<span id="3155">3155</span>
+<span id="3156">3156</span>
+<span id="3157">3157</span>
+<span id="3158">3158</span>
+<span id="3159">3159</span>
+<span id="3160">3160</span>
+<span id="3161">3161</span>
+<span id="3162">3162</span>
+<span id="3163">3163</span>
+<span id="3164">3164</span>
+<span id="3165">3165</span>
+<span id="3166">3166</span>
+<span id="3167">3167</span>
+<span id="3168">3168</span>
+<span id="3169">3169</span>
+<span id="3170">3170</span>
+<span id="3171">3171</span>
+<span id="3172">3172</span>
+<span id="3173">3173</span>
+<span id="3174">3174</span>
+<span id="3175">3175</span>
+<span id="3176">3176</span>
+<span id="3177">3177</span>
+<span id="3178">3178</span>
+<span id="3179">3179</span>
+<span id="3180">3180</span>
+<span id="3181">3181</span>
+<span id="3182">3182</span>
+<span id="3183">3183</span>
+<span id="3184">3184</span>
+<span id="3185">3185</span>
+<span id="3186">3186</span>
+<span id="3187">3187</span>
+<span id="3188">3188</span>
+<span id="3189">3189</span>
+<span id="3190">3190</span>
+<span id="3191">3191</span>
+<span id="3192">3192</span>
+<span id="3193">3193</span>
+<span id="3194">3194</span>
+<span id="3195">3195</span>
+<span id="3196">3196</span>
+<span id="3197">3197</span>
+<span id="3198">3198</span>
+<span id="3199">3199</span>
+<span id="3200">3200</span>
+<span id="3201">3201</span>
+<span id="3202">3202</span>
+<span id="3203">3203</span>
+<span id="3204">3204</span>
+<span id="3205">3205</span>
+<span id="3206">3206</span>
+<span id="3207">3207</span>
+<span id="3208">3208</span>
+<span id="3209">3209</span>
+<span id="3210">3210</span>
+<span id="3211">3211</span>
+<span id="3212">3212</span>
+<span id="3213">3213</span>
+<span id="3214">3214</span>
+<span id="3215">3215</span>
+<span id="3216">3216</span>
+<span id="3217">3217</span>
+<span id="3218">3218</span>
+<span id="3219">3219</span>
+<span id="3220">3220</span>
+<span id="3221">3221</span>
+<span id="3222">3222</span>
+<span id="3223">3223</span>
+<span id="3224">3224</span>
+<span id="3225">3225</span>
+<span id="3226">3226</span>
+<span id="3227">3227</span>
+<span id="3228">3228</span>
+<span id="3229">3229</span>
+<span id="3230">3230</span>
+<span id="3231">3231</span>
+<span id="3232">3232</span>
+<span id="3233">3233</span>
+<span id="3234">3234</span>
+<span id="3235">3235</span>
+</pre><pre class="rust"><code><span class="attribute">#[cfg(any(
+    target_os = <span class="string">&quot;android&quot;</span>,
+    target_os = <span class="string">&quot;dragonfly&quot;</span>,
+    target_os = <span class="string">&quot;freebsd&quot;</span>,
+    target_os = <span class="string">&quot;ios&quot;</span>,
+    target_os = <span class="string">&quot;linux&quot;</span>,
+    target_os = <span class="string">&quot;macos&quot;</span>,
+    target_os = <span class="string">&quot;illumos&quot;</span>,
+    target_os = <span class="string">&quot;netbsd&quot;</span>,
+    target_os = <span class="string">&quot;openbsd&quot;</span>,
+    target_os = <span class="string">&quot;haiku&quot;</span>,
+    target_os = <span class="string">&quot;fuchsia&quot;
+</span>))]
 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
 </span><span class="kw">pub use </span><span class="self">self</span>::datalink::LinkAddr;
 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
 </span><span class="kw">pub use </span><span class="self">self</span>::vsock::VsockAddr;
+<span class="kw">use </span><span class="kw">super</span>::sa_family_t;
+<span class="kw">use </span><span class="kw">crate</span>::errno::Errno;
+<span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
+</span><span class="kw">use </span><span class="kw">crate</span>::sys::socket::addr::alg::AlgAddr;
+<span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
+</span><span class="kw">use </span><span class="kw">crate</span>::sys::socket::addr::netlink::NetlinkAddr;
+<span class="attribute">#[cfg(all(
+    feature = <span class="string">&quot;ioctl&quot;</span>,
+    any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>)
+))]
+</span><span class="kw">use </span><span class="kw">crate</span>::sys::socket::addr::sys_control::SysControlAddr;
+<span class="kw">use crate</span>::{NixPath, <span class="prelude-ty">Result</span>};
+<span class="kw">use </span>cfg_if::cfg_if;
+<span class="kw">use </span>memoffset::offset_of;
+<span class="kw">use </span>std::convert::TryInto;
+<span class="kw">use </span>std::ffi::OsStr;
+<span class="kw">use </span>std::hash::{Hash, Hasher};
+<span class="kw">use </span>std::os::unix::ffi::OsStrExt;
+<span class="attribute">#[cfg(any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>))]
+</span><span class="kw">use </span>std::os::unix::io::RawFd;
+<span class="kw">use </span>std::path::Path;
+<span class="kw">use </span>std::{fmt, mem, net, ptr, slice};
 
 <span class="doccomment">/// Convert a std::net::Ipv4Addr into the libc form.
 </span><span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>ipv4addr_to_libc(addr: net::Ipv4Addr) -&gt; libc::in_addr {
-    <span class="kw">let </span>octets = addr.octets();
-    libc::in_addr {
-        s_addr: u32::to_be(((octets[<span class="number">0</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">24</span>) |
-            ((octets[<span class="number">1</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">16</span>) |
-            ((octets[<span class="number">2</span>] <span class="kw">as </span>u32) &lt;&lt; <span class="number">8</span>) |
-            (octets[<span class="number">3</span>] <span class="kw">as </span>u32))
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>ipv4addr_to_libc(addr: net::Ipv4Addr) -&gt; libc::in_addr {
+    <span class="macro">static_assertions::assert_eq_size!</span>(net::Ipv4Addr, libc::in_addr);
+    <span class="comment">// Safe because both types have the same memory layout, and no fancy Drop
+    // impls.
+    </span><span class="kw">unsafe </span>{
+        mem::transmute(addr)
     }
 }
 
 <span class="doccomment">/// Convert a std::net::Ipv6Addr into the libc form.
 </span><span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>ipv6addr_to_libc(addr: <span class="kw-2">&amp;</span>net::Ipv6Addr) -&gt; libc::in6_addr {
-    libc::in6_addr {
-        s6_addr: addr.octets()
+    <span class="macro">static_assertions::assert_eq_size!</span>(net::Ipv6Addr, libc::in6_addr);
+    <span class="comment">// Safe because both are Newtype wrappers around the same libc type
+    </span><span class="kw">unsafe </span>{
+        mem::transmute(<span class="kw-2">*</span>addr)
     }
 }
 
@@ -3048,11 +3316,13 @@
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Netlink = libc::AF_NETLINK,
     <span class="doccomment">/// Low level packet interface (see [`packet(7)`](https://man7.org/linux/man-pages/man7/packet.7.html))
-    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>,
-              target_os = <span class="string">&quot;linux&quot;</span>,
-              target_os = <span class="string">&quot;illumos&quot;</span>,
-              target_os = <span class="string">&quot;fuchsia&quot;</span>,
-              target_os = <span class="string">&quot;solaris&quot;</span>))]
+    </span><span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;android&quot;</span>,
+        target_os = <span class="string">&quot;linux&quot;</span>,
+        target_os = <span class="string">&quot;illumos&quot;</span>,
+        target_os = <span class="string">&quot;fuchsia&quot;</span>,
+        target_os = <span class="string">&quot;solaris&quot;
+    </span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Packet = libc::AF_PACKET,
     <span class="doccomment">/// KEXT Controls and Notifications
@@ -3109,7 +3379,7 @@
     </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Key = libc::AF_KEY,
-    <span class="attribute">#[allow(missing_docs)]  </span><span class="comment">// Not documented anywhere that I can find
+    <span class="attribute">#[allow(missing_docs)] </span><span class="comment">// Not documented anywhere that I can find
     </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Ash = libc::AF_ASH,
@@ -3145,7 +3415,7 @@
     </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Llc = libc::AF_LLC,
-    <span class="doccomment">/// InfiniBand native addressing 
+    <span class="doccomment">/// InfiniBand native addressing
     </span><span class="attribute">#[cfg(all(target_os = <span class="string">&quot;linux&quot;</span>, not(target_env = <span class="string">&quot;uclibc&quot;</span>)))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Ib = libc::AF_IB,
@@ -3162,10 +3432,12 @@
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Tipc = libc::AF_TIPC,
     <span class="doccomment">/// Bluetooth low-level socket protocol
-    </span><span class="attribute">#[cfg(not(any(target_os = <span class="string">&quot;illumos&quot;</span>,
-                  target_os = <span class="string">&quot;ios&quot;</span>,
-                  target_os = <span class="string">&quot;macos&quot;</span>,
-                  target_os = <span class="string">&quot;solaris&quot;</span>)))]
+    </span><span class="attribute">#[cfg(not(any(
+        target_os = <span class="string">&quot;illumos&quot;</span>,
+        target_os = <span class="string">&quot;ios&quot;</span>,
+        target_os = <span class="string">&quot;macos&quot;</span>,
+        target_os = <span class="string">&quot;solaris&quot;
+    </span>)))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Bluetooth = libc::AF_BLUETOOTH,
     <span class="doccomment">/// IUCV (inter-user communication vehicle) z/VM protocol for
@@ -3178,7 +3450,11 @@
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>RxRpc = libc::AF_RXRPC,
     <span class="doccomment">/// New &quot;modular ISDN&quot; driver interface protocol
-    </span><span class="attribute">#[cfg(not(any(target_os = <span class="string">&quot;illumos&quot;</span>, target_os = <span class="string">&quot;solaris&quot;</span>, target_os = <span class="string">&quot;haiku&quot;</span>)))]
+    </span><span class="attribute">#[cfg(not(any(
+        target_os = <span class="string">&quot;illumos&quot;</span>,
+        target_os = <span class="string">&quot;solaris&quot;</span>,
+        target_os = <span class="string">&quot;haiku&quot;
+    </span>)))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Isdn = libc::AF_ISDN,
     <span class="doccomment">/// Nokia cellular modem IPC/RPC interface
@@ -3207,128 +3483,156 @@
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Vsock = libc::AF_VSOCK,
     <span class="doccomment">/// ARPANet IMP addresses
-    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-              target_os = <span class="string">&quot;freebsd&quot;</span>,
-              target_os = <span class="string">&quot;ios&quot;</span>,
-              target_os = <span class="string">&quot;macos&quot;</span>,
-              target_os = <span class="string">&quot;netbsd&quot;</span>,
-              target_os = <span class="string">&quot;openbsd&quot;</span>))]
+    </span><span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;dragonfly&quot;</span>,
+        target_os = <span class="string">&quot;freebsd&quot;</span>,
+        target_os = <span class="string">&quot;ios&quot;</span>,
+        target_os = <span class="string">&quot;macos&quot;</span>,
+        target_os = <span class="string">&quot;netbsd&quot;</span>,
+        target_os = <span class="string">&quot;openbsd&quot;
+    </span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>ImpLink = libc::AF_IMPLINK,
     <span class="doccomment">/// PUP protocols, e.g. BSP
-    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-              target_os = <span class="string">&quot;freebsd&quot;</span>,
-              target_os = <span class="string">&quot;ios&quot;</span>,
-              target_os = <span class="string">&quot;macos&quot;</span>,
-              target_os = <span class="string">&quot;netbsd&quot;</span>,
-              target_os = <span class="string">&quot;openbsd&quot;</span>))]
+    </span><span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;dragonfly&quot;</span>,
+        target_os = <span class="string">&quot;freebsd&quot;</span>,
+        target_os = <span class="string">&quot;ios&quot;</span>,
+        target_os = <span class="string">&quot;macos&quot;</span>,
+        target_os = <span class="string">&quot;netbsd&quot;</span>,
+        target_os = <span class="string">&quot;openbsd&quot;
+    </span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Pup = libc::AF_PUP,
     <span class="doccomment">/// MIT CHAOS protocols
-    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-              target_os = <span class="string">&quot;freebsd&quot;</span>,
-              target_os = <span class="string">&quot;ios&quot;</span>,
-              target_os = <span class="string">&quot;macos&quot;</span>,
-              target_os = <span class="string">&quot;netbsd&quot;</span>,
-              target_os = <span class="string">&quot;openbsd&quot;</span>))]
+    </span><span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;dragonfly&quot;</span>,
+        target_os = <span class="string">&quot;freebsd&quot;</span>,
+        target_os = <span class="string">&quot;ios&quot;</span>,
+        target_os = <span class="string">&quot;macos&quot;</span>,
+        target_os = <span class="string">&quot;netbsd&quot;</span>,
+        target_os = <span class="string">&quot;openbsd&quot;
+    </span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Chaos = libc::AF_CHAOS,
     <span class="doccomment">/// Novell and Xerox protocol
-    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;ios&quot;</span>,
-              target_os = <span class="string">&quot;macos&quot;</span>,
-              target_os = <span class="string">&quot;netbsd&quot;</span>,
-              target_os = <span class="string">&quot;openbsd&quot;</span>))]
+    </span><span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;ios&quot;</span>,
+        target_os = <span class="string">&quot;macos&quot;</span>,
+        target_os = <span class="string">&quot;netbsd&quot;</span>,
+        target_os = <span class="string">&quot;openbsd&quot;
+    </span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Ns = libc::AF_NS,
-    <span class="attribute">#[allow(missing_docs)]  </span><span class="comment">// Not documented anywhere that I can find
-    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-              target_os = <span class="string">&quot;freebsd&quot;</span>,
-              target_os = <span class="string">&quot;ios&quot;</span>,
-              target_os = <span class="string">&quot;macos&quot;</span>,
-              target_os = <span class="string">&quot;netbsd&quot;</span>,
-              target_os = <span class="string">&quot;openbsd&quot;</span>))]
+    <span class="attribute">#[allow(missing_docs)] </span><span class="comment">// Not documented anywhere that I can find
+    </span><span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;dragonfly&quot;</span>,
+        target_os = <span class="string">&quot;freebsd&quot;</span>,
+        target_os = <span class="string">&quot;ios&quot;</span>,
+        target_os = <span class="string">&quot;macos&quot;</span>,
+        target_os = <span class="string">&quot;netbsd&quot;</span>,
+        target_os = <span class="string">&quot;openbsd&quot;
+    </span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Iso = libc::AF_ISO,
     <span class="doccomment">/// Bell Labs virtual circuit switch ?
-    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-              target_os = <span class="string">&quot;freebsd&quot;</span>,
-              target_os = <span class="string">&quot;ios&quot;</span>,
-              target_os = <span class="string">&quot;macos&quot;</span>,
-              target_os = <span class="string">&quot;netbsd&quot;</span>,
-              target_os = <span class="string">&quot;openbsd&quot;</span>))]
+    </span><span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;dragonfly&quot;</span>,
+        target_os = <span class="string">&quot;freebsd&quot;</span>,
+        target_os = <span class="string">&quot;ios&quot;</span>,
+        target_os = <span class="string">&quot;macos&quot;</span>,
+        target_os = <span class="string">&quot;netbsd&quot;</span>,
+        target_os = <span class="string">&quot;openbsd&quot;
+    </span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Datakit = libc::AF_DATAKIT,
     <span class="doccomment">/// CCITT protocols, X.25 etc
-    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-              target_os = <span class="string">&quot;freebsd&quot;</span>,
-              target_os = <span class="string">&quot;ios&quot;</span>,
-              target_os = <span class="string">&quot;macos&quot;</span>,
-              target_os = <span class="string">&quot;netbsd&quot;</span>,
-              target_os = <span class="string">&quot;openbsd&quot;</span>))]
+    </span><span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;dragonfly&quot;</span>,
+        target_os = <span class="string">&quot;freebsd&quot;</span>,
+        target_os = <span class="string">&quot;ios&quot;</span>,
+        target_os = <span class="string">&quot;macos&quot;</span>,
+        target_os = <span class="string">&quot;netbsd&quot;</span>,
+        target_os = <span class="string">&quot;openbsd&quot;
+    </span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Ccitt = libc::AF_CCITT,
     <span class="doccomment">/// DEC Direct data link interface
-    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-              target_os = <span class="string">&quot;freebsd&quot;</span>,
-              target_os = <span class="string">&quot;ios&quot;</span>,
-              target_os = <span class="string">&quot;macos&quot;</span>,
-              target_os = <span class="string">&quot;netbsd&quot;</span>,
-              target_os = <span class="string">&quot;openbsd&quot;</span>))]
+    </span><span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;dragonfly&quot;</span>,
+        target_os = <span class="string">&quot;freebsd&quot;</span>,
+        target_os = <span class="string">&quot;ios&quot;</span>,
+        target_os = <span class="string">&quot;macos&quot;</span>,
+        target_os = <span class="string">&quot;netbsd&quot;</span>,
+        target_os = <span class="string">&quot;openbsd&quot;
+    </span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Dli = libc::AF_DLI,
-    <span class="attribute">#[allow(missing_docs)]  </span><span class="comment">// Not documented anywhere that I can find
-    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-              target_os = <span class="string">&quot;freebsd&quot;</span>,
-              target_os = <span class="string">&quot;ios&quot;</span>,
-              target_os = <span class="string">&quot;macos&quot;</span>,
-              target_os = <span class="string">&quot;netbsd&quot;</span>,
-              target_os = <span class="string">&quot;openbsd&quot;</span>))]
+    <span class="attribute">#[allow(missing_docs)] </span><span class="comment">// Not documented anywhere that I can find
+    </span><span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;dragonfly&quot;</span>,
+        target_os = <span class="string">&quot;freebsd&quot;</span>,
+        target_os = <span class="string">&quot;ios&quot;</span>,
+        target_os = <span class="string">&quot;macos&quot;</span>,
+        target_os = <span class="string">&quot;netbsd&quot;</span>,
+        target_os = <span class="string">&quot;openbsd&quot;
+    </span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Lat = libc::AF_LAT,
     <span class="doccomment">/// NSC Hyperchannel
-    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-              target_os = <span class="string">&quot;freebsd&quot;</span>,
-              target_os = <span class="string">&quot;ios&quot;</span>,
-              target_os = <span class="string">&quot;macos&quot;</span>,
-              target_os = <span class="string">&quot;netbsd&quot;</span>,
-              target_os = <span class="string">&quot;openbsd&quot;</span>))]
+    </span><span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;dragonfly&quot;</span>,
+        target_os = <span class="string">&quot;freebsd&quot;</span>,
+        target_os = <span class="string">&quot;ios&quot;</span>,
+        target_os = <span class="string">&quot;macos&quot;</span>,
+        target_os = <span class="string">&quot;netbsd&quot;</span>,
+        target_os = <span class="string">&quot;openbsd&quot;
+    </span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Hylink = libc::AF_HYLINK,
     <span class="doccomment">/// Link layer interface
-    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-              target_os = <span class="string">&quot;freebsd&quot;</span>,
-              target_os = <span class="string">&quot;ios&quot;</span>,
-              target_os = <span class="string">&quot;macos&quot;</span>,
-              target_os = <span class="string">&quot;illumos&quot;</span>,
-              target_os = <span class="string">&quot;netbsd&quot;</span>,
-              target_os = <span class="string">&quot;openbsd&quot;</span>))]
+    </span><span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;dragonfly&quot;</span>,
+        target_os = <span class="string">&quot;freebsd&quot;</span>,
+        target_os = <span class="string">&quot;ios&quot;</span>,
+        target_os = <span class="string">&quot;macos&quot;</span>,
+        target_os = <span class="string">&quot;illumos&quot;</span>,
+        target_os = <span class="string">&quot;netbsd&quot;</span>,
+        target_os = <span class="string">&quot;openbsd&quot;
+    </span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Link = libc::AF_LINK,
     <span class="doccomment">/// connection-oriented IP, aka ST II
-    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-              target_os = <span class="string">&quot;freebsd&quot;</span>,
-              target_os = <span class="string">&quot;ios&quot;</span>,
-              target_os = <span class="string">&quot;macos&quot;</span>,
-              target_os = <span class="string">&quot;netbsd&quot;</span>,
-              target_os = <span class="string">&quot;openbsd&quot;</span>))]
+    </span><span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;dragonfly&quot;</span>,
+        target_os = <span class="string">&quot;freebsd&quot;</span>,
+        target_os = <span class="string">&quot;ios&quot;</span>,
+        target_os = <span class="string">&quot;macos&quot;</span>,
+        target_os = <span class="string">&quot;netbsd&quot;</span>,
+        target_os = <span class="string">&quot;openbsd&quot;
+    </span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Coip = libc::AF_COIP,
     <span class="doccomment">/// Computer Network Technology
-    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-              target_os = <span class="string">&quot;freebsd&quot;</span>,
-              target_os = <span class="string">&quot;ios&quot;</span>,
-              target_os = <span class="string">&quot;macos&quot;</span>,
-              target_os = <span class="string">&quot;netbsd&quot;</span>,
-              target_os = <span class="string">&quot;openbsd&quot;</span>))]
+    </span><span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;dragonfly&quot;</span>,
+        target_os = <span class="string">&quot;freebsd&quot;</span>,
+        target_os = <span class="string">&quot;ios&quot;</span>,
+        target_os = <span class="string">&quot;macos&quot;</span>,
+        target_os = <span class="string">&quot;netbsd&quot;</span>,
+        target_os = <span class="string">&quot;openbsd&quot;
+    </span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Cnt = libc::AF_CNT,
     <span class="doccomment">/// Native ATM access
-    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-              target_os = <span class="string">&quot;freebsd&quot;</span>,
-              target_os = <span class="string">&quot;ios&quot;</span>,
-              target_os = <span class="string">&quot;macos&quot;</span>,
-              target_os = <span class="string">&quot;netbsd&quot;</span>,
-              target_os = <span class="string">&quot;openbsd&quot;</span>))]
+    </span><span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;dragonfly&quot;</span>,
+        target_os = <span class="string">&quot;freebsd&quot;</span>,
+        target_os = <span class="string">&quot;ios&quot;</span>,
+        target_os = <span class="string">&quot;macos&quot;</span>,
+        target_os = <span class="string">&quot;netbsd&quot;</span>,
+        target_os = <span class="string">&quot;openbsd&quot;
+    </span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Natm = libc::AF_NATM,
     <span class="doccomment">/// Unspecified address family, (see [`getaddrinfo(3)`](https://man7.org/linux/man-pages/man3/getaddrinfo.3.html))
@@ -3354,18 +3658,20 @@
             </span>libc::AF_SYSTEM =&gt; <span class="prelude-val">Some</span>(AddressFamily::System),
             <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
             </span>libc::AF_PACKET =&gt; <span class="prelude-val">Some</span>(AddressFamily::Packet),
-            <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-                      target_os = <span class="string">&quot;freebsd&quot;</span>,
-                      target_os = <span class="string">&quot;ios&quot;</span>,
-                      target_os = <span class="string">&quot;macos&quot;</span>,
-                      target_os = <span class="string">&quot;netbsd&quot;</span>,
-                      target_os = <span class="string">&quot;illumos&quot;</span>,
-                      target_os = <span class="string">&quot;openbsd&quot;</span>))]
+            <span class="attribute">#[cfg(any(
+                target_os = <span class="string">&quot;dragonfly&quot;</span>,
+                target_os = <span class="string">&quot;freebsd&quot;</span>,
+                target_os = <span class="string">&quot;ios&quot;</span>,
+                target_os = <span class="string">&quot;macos&quot;</span>,
+                target_os = <span class="string">&quot;netbsd&quot;</span>,
+                target_os = <span class="string">&quot;illumos&quot;</span>,
+                target_os = <span class="string">&quot;openbsd&quot;
+            </span>))]
             </span>libc::AF_LINK =&gt; <span class="prelude-val">Some</span>(AddressFamily::Link),
             <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
             </span>libc::AF_VSOCK =&gt; <span class="prelude-val">Some</span>(AddressFamily::Vsock),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None
-        </span>}
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
     }
 }
 
@@ -3680,12 +3986,13 @@
     <span class="doccomment">/// The length of the valid part of `sun`, including the sun_family field
     /// but excluding any trailing nul.
     </span><span class="comment">// On the BSDs, this field is built into sun
-    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>,
-              target_os = <span class="string">&quot;fuchsia&quot;</span>,
-              target_os = <span class="string">&quot;illumos&quot;</span>,
-              target_os = <span class="string">&quot;linux&quot;
+    </span><span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;android&quot;</span>,
+        target_os = <span class="string">&quot;fuchsia&quot;</span>,
+        target_os = <span class="string">&quot;illumos&quot;</span>,
+        target_os = <span class="string">&quot;linux&quot;
     </span>))]
-    </span>sun_len: u8
+    </span>sun_len: u8,
 }
 
 <span class="comment">// linux man page unix(7) says there are 3 kinds of unix socket:
@@ -3705,17 +4012,21 @@
     <span class="doccomment">/// Safety: sun &amp; sun_len must be valid
     </span><span class="kw">unsafe fn </span>get(sun: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>libc::sockaddr_un, sun_len: u8) -&gt; <span class="self">Self </span>{
         <span class="macro">assert!</span>(sun_len <span class="kw">as </span>usize &gt;= <span class="macro">offset_of!</span>(libc::sockaddr_un, sun_path));
-        <span class="kw">let </span>path_len = sun_len <span class="kw">as </span>usize - <span class="macro">offset_of!</span>(libc::sockaddr_un, sun_path);
+        <span class="kw">let </span>path_len =
+            sun_len <span class="kw">as </span>usize - <span class="macro">offset_of!</span>(libc::sockaddr_un, sun_path);
         <span class="kw">if </span>path_len == <span class="number">0 </span>{
             <span class="kw">return </span><span class="self">Self</span>::Unnamed;
         }
         <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
         </span><span class="kw">if </span>sun.sun_path[<span class="number">0</span>] == <span class="number">0 </span>{
-            <span class="kw">let </span>name =
-                slice::from_raw_parts(sun.sun_path.as_ptr().add(<span class="number">1</span>) <span class="kw">as </span><span class="kw-2">*const </span>u8, path_len - <span class="number">1</span>);
+            <span class="kw">let </span>name = slice::from_raw_parts(
+                sun.sun_path.as_ptr().add(<span class="number">1</span>) <span class="kw">as </span><span class="kw-2">*const </span>u8,
+                path_len - <span class="number">1</span>,
+            );
             <span class="kw">return </span><span class="self">Self</span>::Abstract(name);
         }
-        <span class="kw">let </span>pathname = slice::from_raw_parts(sun.sun_path.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>u8, path_len);
+        <span class="kw">let </span>pathname =
+            slice::from_raw_parts(sun.sun_path.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>u8, path_len);
         <span class="kw">if </span>pathname.last() == <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="number">0</span>) {
             <span class="comment">// A trailing NUL is not considered part of the path, and it does
             // not need to be included in the addrlen passed to functions like
@@ -3724,7 +4035,9 @@
             // getsockname() (the BSDs do not do that).  So we need to filter
             // out any trailing NUL here, so sockaddrs can round-trip through
             // the kernel and still compare equal.
-            </span><span class="self">Self</span>::Pathname(Path::new(OsStr::from_bytes(<span class="kw-2">&amp;</span>pathname[<span class="number">0</span>..pathname.len() - <span class="number">1</span>])))
+            </span><span class="self">Self</span>::Pathname(Path::new(OsStr::from_bytes(
+                <span class="kw-2">&amp;</span>pathname[<span class="number">0</span>..pathname.len() - <span class="number">1</span>],
+            )))
         } <span class="kw">else </span>{
             <span class="self">Self</span>::Pathname(Path::new(OsStr::from_bytes(pathname)))
         }
@@ -3734,38 +4047,41 @@
 <span class="kw">impl </span>UnixAddr {
     <span class="doccomment">/// Create a new sockaddr_un representing a filesystem path.
     </span><span class="kw">pub fn </span>new&lt;P: <span class="question-mark">?</span>Sized + NixPath&gt;(path: <span class="kw-2">&amp;</span>P) -&gt; <span class="prelude-ty">Result</span>&lt;UnixAddr&gt; {
-        path.with_nix_path(|cstr| {
-            <span class="kw">unsafe </span>{
-                <span class="kw">let </span><span class="kw-2">mut </span>ret = libc::sockaddr_un {
-                    sun_family: AddressFamily::Unix <span class="kw">as </span>sa_family_t,
-                    .. mem::zeroed()
-                };
+        path.with_nix_path(|cstr| <span class="kw">unsafe </span>{
+            <span class="kw">let </span><span class="kw-2">mut </span>ret = libc::sockaddr_un {
+                sun_family: AddressFamily::Unix <span class="kw">as </span>sa_family_t,
+                ..mem::zeroed()
+            };
 
-                <span class="kw">let </span>bytes = cstr.to_bytes();
+            <span class="kw">let </span>bytes = cstr.to_bytes();
 
-                <span class="kw">if </span>bytes.len() &gt;= ret.sun_path.len() {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(Errno::ENAMETOOLONG);
-                }
-
-                <span class="kw">let </span>sun_len = (bytes.len() +
-                        <span class="macro">offset_of!</span>(libc::sockaddr_un, sun_path)).try_into()
-                        .unwrap();
-
-                <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-                          target_os = <span class="string">&quot;freebsd&quot;</span>,
-                          target_os = <span class="string">&quot;ios&quot;</span>,
-                          target_os = <span class="string">&quot;macos&quot;</span>,
-                          target_os = <span class="string">&quot;netbsd&quot;</span>,
-                          target_os = <span class="string">&quot;openbsd&quot;</span>))]
-                </span>{
-                    ret.sun_len = sun_len;
-                }
-                ptr::copy_nonoverlapping(bytes.as_ptr(),
-                                         ret.sun_path.as_mut_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>u8,
-                                         bytes.len());
-
-                <span class="prelude-val">Ok</span>(UnixAddr::from_raw_parts(ret, sun_len))
+            <span class="kw">if </span>bytes.len() &gt;= ret.sun_path.len() {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(Errno::ENAMETOOLONG);
             }
+
+            <span class="kw">let </span>sun_len = (bytes.len()
+                + <span class="macro">offset_of!</span>(libc::sockaddr_un, sun_path))
+            .try_into()
+            .unwrap();
+
+            <span class="attribute">#[cfg(any(
+                target_os = <span class="string">&quot;dragonfly&quot;</span>,
+                target_os = <span class="string">&quot;freebsd&quot;</span>,
+                target_os = <span class="string">&quot;ios&quot;</span>,
+                target_os = <span class="string">&quot;macos&quot;</span>,
+                target_os = <span class="string">&quot;netbsd&quot;</span>,
+                target_os = <span class="string">&quot;openbsd&quot;
+            </span>))]
+            </span>{
+                ret.sun_len = sun_len;
+            }
+            ptr::copy_nonoverlapping(
+                bytes.as_ptr(),
+                ret.sun_path.as_mut_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>u8,
+                bytes.len(),
+            );
+
+            <span class="prelude-val">Ok</span>(UnixAddr::from_raw_parts(ret, sun_len))
         })<span class="question-mark">?
     </span>}
 
@@ -3781,25 +4097,41 @@
         <span class="kw">unsafe </span>{
             <span class="kw">let </span><span class="kw-2">mut </span>ret = libc::sockaddr_un {
                 sun_family: AddressFamily::Unix <span class="kw">as </span>sa_family_t,
-                .. mem::zeroed()
+                ..mem::zeroed()
             };
 
             <span class="kw">if </span>path.len() &gt;= ret.sun_path.len() {
                 <span class="kw">return </span><span class="prelude-val">Err</span>(Errno::ENAMETOOLONG);
             }
-            <span class="kw">let </span>sun_len = (path.len() +
-                <span class="number">1 </span>+
-                <span class="macro">offset_of!</span>(libc::sockaddr_un, sun_path)).try_into()
-                .unwrap();
+            <span class="kw">let </span>sun_len =
+                (path.len() + <span class="number">1 </span>+ <span class="macro">offset_of!</span>(libc::sockaddr_un, sun_path))
+                    .try_into()
+                    .unwrap();
 
             <span class="comment">// Abstract addresses are represented by sun_path[0] ==
             // b&#39;\0&#39;, so copy starting one byte in.
-            </span>ptr::copy_nonoverlapping(path.as_ptr(),
-                                     ret.sun_path.as_mut_ptr().offset(<span class="number">1</span>) <span class="kw">as </span><span class="kw-2">*mut </span>u8,
-                                     path.len());
+            </span>ptr::copy_nonoverlapping(
+                path.as_ptr(),
+                ret.sun_path.as_mut_ptr().offset(<span class="number">1</span>) <span class="kw">as </span><span class="kw-2">*mut </span>u8,
+                path.len(),
+            );
 
             <span class="prelude-val">Ok</span>(UnixAddr::from_raw_parts(ret, sun_len))
         }
+    }
+
+    <span class="doccomment">/// Create a new `sockaddr_un` representing an &quot;unnamed&quot; unix socket address.
+    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
+    #[cfg_attr(docsrs, doc(cfg(all())))]
+    </span><span class="kw">pub fn </span>new_unnamed() -&gt; UnixAddr {
+        <span class="kw">let </span>ret = libc::sockaddr_un {
+            sun_family: AddressFamily::Unix <span class="kw">as </span>sa_family_t,
+            .. <span class="kw">unsafe </span>{ mem::zeroed() }
+        };
+
+        <span class="kw">let </span>sun_len: u8 = <span class="macro">offset_of!</span>(libc::sockaddr_un, sun_path).try_into().unwrap();
+
+        <span class="kw">unsafe </span>{ UnixAddr::from_raw_parts(ret, sun_len) }
     }
 
     <span class="doccomment">/// Create a UnixAddr from a raw `sockaddr_un` struct and a size. `sun_len`
@@ -3813,8 +4145,11 @@
     /// - sun_len &lt;= sockaddr_un.sun_path.len() - offset_of(sockaddr_un, sun_path)
     /// - if this is a unix addr with a pathname, sun.sun_path is a
     ///   fs path, not necessarily nul-terminated.
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>from_raw_parts(sun: libc::sockaddr_un, sun_len: u8) -&gt; UnixAddr {
-        <span class="macro">cfg_if!</span>{
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>from_raw_parts(
+        sun: libc::sockaddr_un,
+        sun_len: u8,
+    ) -&gt; UnixAddr {
+        <span class="macro">cfg_if! </span>{
             <span class="kw">if </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>,
                      target_os = <span class="string">&quot;fuchsia&quot;</span>,
                      target_os = <span class="string">&quot;illumos&quot;</span>,
@@ -3855,6 +4190,14 @@
         }
     }
 
+    <span class="doccomment">/// Check if this address is an &quot;unnamed&quot; unix socket address.
+    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
+    #[cfg_attr(docsrs, doc(cfg(all())))]
+    #[inline]
+    </span><span class="kw">pub fn </span>is_unnamed(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="macro">matches!</span>(<span class="self">self</span>.kind(), UnixAddrKind::Unnamed)
+    }
+
     <span class="doccomment">/// Returns the addrlen of this socket - `offsetof(struct sockaddr_un, sun_path)`
     </span><span class="attribute">#[inline]
     </span><span class="kw">pub fn </span>path_len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
@@ -3871,8 +4214,8 @@
         <span class="kw-2">&amp;mut </span><span class="self">self</span>.sun
     }
 
-    <span class="kw">fn </span>sun_len(<span class="kw-2">&amp;</span><span class="self">self</span>)-&gt; u8 {
-        <span class="macro">cfg_if!</span>{
+    <span class="kw">fn </span>sun_len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u8 {
+        <span class="macro">cfg_if! </span>{
             <span class="kw">if </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>,
                      target_os = <span class="string">&quot;fuchsia&quot;</span>,
                      target_os = <span class="string">&quot;illumos&quot;</span>,
@@ -3889,21 +4232,26 @@
 
 <span class="kw">impl </span>private::SockaddrLikePriv <span class="kw">for </span>UnixAddr {}
 <span class="kw">impl </span>SockaddrLike <span class="kw">for </span>UnixAddr {
-    <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>,
-              target_os = <span class="string">&quot;fuchsia&quot;</span>,
-              target_os = <span class="string">&quot;illumos&quot;</span>,
-              target_os = <span class="string">&quot;linux&quot;
+    <span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;android&quot;</span>,
+        target_os = <span class="string">&quot;fuchsia&quot;</span>,
+        target_os = <span class="string">&quot;illumos&quot;</span>,
+        target_os = <span class="string">&quot;linux&quot;
     </span>))]
     </span><span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; libc::socklen_t {
         <span class="self">self</span>.sun_len.into()
     }
 
-    <span class="kw">unsafe fn </span>from_raw(addr: <span class="kw-2">*const </span>libc::sockaddr, len: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;)
-        -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; <span class="kw">where </span><span class="self">Self</span>: Sized
+    <span class="kw">unsafe fn </span>from_raw(
+        addr: <span class="kw-2">*const </span>libc::sockaddr,
+        len: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;
+    <span class="kw">where
+        </span><span class="self">Self</span>: Sized,
     {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(l) = len {
-            <span class="kw">if </span>(l <span class="kw">as </span>usize) &lt; <span class="macro">offset_of!</span>(libc::sockaddr_un, sun_path) ||
-               l &gt; u8::MAX <span class="kw">as </span>libc::socklen_t
+            <span class="kw">if </span>(l <span class="kw">as </span>usize) &lt; <span class="macro">offset_of!</span>(libc::sockaddr_un, sun_path)
+                || l &gt; u8::MAX <span class="kw">as </span>libc::socklen_t
             {
                 <span class="kw">return </span><span class="prelude-val">None</span>;
             }
@@ -3913,7 +4261,7 @@
         }
         <span class="kw">let </span><span class="kw-2">mut </span>su: libc::sockaddr_un = mem::zeroed();
         <span class="kw">let </span>sup = <span class="kw-2">&amp;mut </span>su <span class="kw">as </span><span class="kw-2">*mut </span>libc::sockaddr_un <span class="kw">as </span><span class="kw-2">*mut </span>u8;
-        <span class="macro">cfg_if!</span>{
+        <span class="macro">cfg_if! </span>{
             <span class="kw">if </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>,
                          target_os = <span class="string">&quot;fuchsia&quot;</span>,
                          target_os = <span class="string">&quot;illumos&quot;</span>,
@@ -3930,7 +4278,10 @@
         <span class="prelude-val">Some</span>(<span class="self">Self</span>::from_raw_parts(su, su_len <span class="kw">as </span>u8))
     }
 
-    <span class="kw">fn </span>size() -&gt; libc::socklen_t <span class="kw">where </span><span class="self">Self</span>: Sized {
+    <span class="kw">fn </span>size() -&gt; libc::socklen_t
+    <span class="kw">where
+        </span><span class="self">Self</span>: Sized,
+    {
         mem::size_of::&lt;libc::sockaddr_un&gt;() <span class="kw">as </span>libc::socklen_t
     }
 }
@@ -4010,8 +4361,12 @@
     ///
     /// `addr` must be valid for the specific type of sockaddr.  `len`, if
     /// present, must not exceed the length of valid data in `addr`.
-    </span><span class="kw">unsafe fn </span>from_raw(addr: <span class="kw-2">*const </span>libc::sockaddr, len: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;)
-        -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; <span class="kw">where </span><span class="self">Self</span>: Sized;
+    </span><span class="kw">unsafe fn </span>from_raw(
+        addr: <span class="kw-2">*const </span>libc::sockaddr,
+        len: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;
+    <span class="kw">where
+        </span><span class="self">Self</span>: Sized;
 
     <span class="doccomment">/// Return the address family of this socket
     ///
@@ -4031,11 +4386,9 @@
     </span><span class="kw">fn </span>family(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;AddressFamily&gt; {
         <span class="comment">// Safe since all implementors have a sa_family field at the same
         // address, and they&#39;re all repr(C)
-        </span>AddressFamily::from_i32(
-            <span class="kw">unsafe </span>{
-                (<span class="kw-2">*</span>(<span class="self">self </span><span class="kw">as </span><span class="kw-2">*const </span><span class="self">Self </span><span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr)).sa_family <span class="kw">as </span>i32
-            }
-        )
+        </span>AddressFamily::from_i32(<span class="kw">unsafe </span>{
+            (<span class="kw-2">*</span>(<span class="self">self </span><span class="kw">as </span><span class="kw-2">*const </span><span class="self">Self </span><span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr)).sa_family <span class="kw">as </span>i32
+        })
     }
 
     <span class="macro">cfg_if! </span>{
@@ -4074,7 +4427,10 @@
     }
 
     <span class="doccomment">/// Return the available space in the structure
-    </span><span class="kw">fn </span>size() -&gt; libc::socklen_t <span class="kw">where </span><span class="self">Self</span>: Sized {
+    </span><span class="kw">fn </span>size() -&gt; libc::socklen_t
+    <span class="kw">where
+        </span><span class="self">Self</span>: Sized,
+    {
         mem::size_of::&lt;<span class="self">Self</span>&gt;() <span class="kw">as </span>libc::socklen_t
     }
 }
@@ -4094,8 +4450,12 @@
         ptr::null()
     }
 
-    <span class="kw">unsafe fn </span>from_raw(<span class="kw">_</span>: <span class="kw-2">*const </span>libc::sockaddr, <span class="kw">_</span>: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;)
-        -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; <span class="kw">where </span><span class="self">Self</span>: Sized
+    <span class="kw">unsafe fn </span>from_raw(
+        <span class="kw">_</span>: <span class="kw-2">*const </span>libc::sockaddr,
+        <span class="kw">_</span>: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;
+    <span class="kw">where
+        </span><span class="self">Self</span>: Sized,
     {
         <span class="prelude-val">None
     </span>}
@@ -4129,20 +4489,22 @@
     <span class="doccomment">/// Creates a new socket address from IPv4 octets and a port number.
     </span><span class="kw">pub fn </span>new(a: u8, b: u8, c: u8, d: u8, port: u16) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>(libc::sockaddr_in {
-            <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-                  target_os = <span class="string">&quot;freebsd&quot;</span>,
-                  target_os = <span class="string">&quot;ios&quot;</span>,
-                  target_os = <span class="string">&quot;macos&quot;</span>,
-                  target_os = <span class="string">&quot;netbsd&quot;</span>,
-                  target_os = <span class="string">&quot;haiku&quot;</span>,
-                  target_os = <span class="string">&quot;openbsd&quot;</span>))]
+            <span class="attribute">#[cfg(any(
+                target_os = <span class="string">&quot;dragonfly&quot;</span>,
+                target_os = <span class="string">&quot;freebsd&quot;</span>,
+                target_os = <span class="string">&quot;ios&quot;</span>,
+                target_os = <span class="string">&quot;macos&quot;</span>,
+                target_os = <span class="string">&quot;netbsd&quot;</span>,
+                target_os = <span class="string">&quot;haiku&quot;</span>,
+                target_os = <span class="string">&quot;openbsd&quot;
+            </span>))]
             </span>sin_len: <span class="self">Self</span>::size() <span class="kw">as </span>u8,
             sin_family: AddressFamily::Inet <span class="kw">as </span>sa_family_t,
             sin_port: u16::to_be(port),
             sin_addr: libc::in_addr {
-                s_addr: u32::from_ne_bytes([a, b, c, d])
+                s_addr: u32::from_ne_bytes([a, b, c, d]),
             },
-            sin_zero: <span class="kw">unsafe</span>{mem::zeroed()}
+            sin_zero: <span class="kw">unsafe </span>{ mem::zeroed() },
         })
     }
 
@@ -4157,8 +4519,12 @@
 </span><span class="kw">impl </span>private::SockaddrLikePriv <span class="kw">for </span>SockaddrIn {}
 <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
 </span><span class="kw">impl </span>SockaddrLike <span class="kw">for </span>SockaddrIn {
-    <span class="kw">unsafe fn </span>from_raw(addr: <span class="kw-2">*const </span>libc::sockaddr, len: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;)
-        -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; <span class="kw">where </span><span class="self">Self</span>: Sized
+    <span class="kw">unsafe fn </span>from_raw(
+        addr: <span class="kw-2">*const </span>libc::sockaddr,
+        len: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;
+    <span class="kw">where
+        </span><span class="self">Self</span>: Sized,
     {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(l) = len {
             <span class="kw">if </span>l != mem::size_of::&lt;libc::sockaddr_in&gt;() <span class="kw">as </span>libc::socklen_t {
@@ -4184,28 +4550,37 @@
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="kw">let </span>ne = u32::from_be(<span class="self">self</span>.<span class="number">0</span>.sin_addr.s_addr);
         <span class="kw">let </span>port = u16::from_be(<span class="self">self</span>.<span class="number">0</span>.sin_port);
-        <span class="macro">write!</span>(f, <span class="string">&quot;{}.{}.{}.{}:{}&quot;</span>,
-               ne &gt;&gt; <span class="number">24</span>,
-               (ne &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFF</span>,
-               (ne &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>,
-               ne &amp; <span class="number">0xFF</span>,
-               port)
+        <span class="macro">write!</span>(
+            f,
+            <span class="string">&quot;{}.{}.{}.{}:{}&quot;</span>,
+            ne &gt;&gt; <span class="number">24</span>,
+            (ne &gt;&gt; <span class="number">16</span>) &amp; <span class="number">0xFF</span>,
+            (ne &gt;&gt; <span class="number">8</span>) &amp; <span class="number">0xFF</span>,
+            ne &amp; <span class="number">0xFF</span>,
+            port
+        )
     }
 }
 
 <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
 </span><span class="kw">impl </span>From&lt;net::SocketAddrV4&gt; <span class="kw">for </span>SockaddrIn {
     <span class="kw">fn </span>from(addr: net::SocketAddrV4) -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>(libc::sockaddr_in{
-            <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>, target_os = <span class="string">&quot;freebsd&quot;</span>,
-                      target_os = <span class="string">&quot;haiku&quot;</span>, target_os = <span class="string">&quot;hermit&quot;</span>,
-                      target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>,
-                      target_os = <span class="string">&quot;netbsd&quot;</span>, target_os = <span class="string">&quot;openbsd&quot;</span>))]
+        <span class="self">Self</span>(libc::sockaddr_in {
+            <span class="attribute">#[cfg(any(
+                target_os = <span class="string">&quot;dragonfly&quot;</span>,
+                target_os = <span class="string">&quot;freebsd&quot;</span>,
+                target_os = <span class="string">&quot;haiku&quot;</span>,
+                target_os = <span class="string">&quot;hermit&quot;</span>,
+                target_os = <span class="string">&quot;ios&quot;</span>,
+                target_os = <span class="string">&quot;macos&quot;</span>,
+                target_os = <span class="string">&quot;netbsd&quot;</span>,
+                target_os = <span class="string">&quot;openbsd&quot;
+            </span>))]
             </span>sin_len: mem::size_of::&lt;libc::sockaddr_in&gt;() <span class="kw">as </span>u8,
             sin_family: AddressFamily::Inet <span class="kw">as </span>sa_family_t,
-            sin_port: addr.port().to_be(),  <span class="comment">// network byte order
+            sin_port: addr.port().to_be(), <span class="comment">// network byte order
             </span>sin_addr: ipv4addr_to_libc(<span class="kw-2">*</span>addr.ip()),
-            .. <span class="kw">unsafe </span>{ mem::zeroed() }
+            ..<span class="kw">unsafe </span>{ mem::zeroed() }
         })
     }
 }
@@ -4215,7 +4590,7 @@
     <span class="kw">fn </span>from(addr: SockaddrIn) -&gt; <span class="self">Self </span>{
         net::SocketAddrV4::new(
             net::Ipv4Addr::from(addr.<span class="number">0</span>.sin_addr.s_addr.to_ne_bytes()),
-            u16::from_be(addr.<span class="number">0</span>.sin_port)
+            u16::from_be(addr.<span class="number">0</span>.sin_port),
         )
     }
 }
@@ -4263,8 +4638,12 @@
 </span><span class="kw">impl </span>private::SockaddrLikePriv <span class="kw">for </span>SockaddrIn6 {}
 <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
 </span><span class="kw">impl </span>SockaddrLike <span class="kw">for </span>SockaddrIn6 {
-    <span class="kw">unsafe fn </span>from_raw(addr: <span class="kw-2">*const </span>libc::sockaddr, len: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;)
-        -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; <span class="kw">where </span><span class="self">Self</span>: Sized
+    <span class="kw">unsafe fn </span>from_raw(
+        addr: <span class="kw-2">*const </span>libc::sockaddr,
+        len: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;
+    <span class="kw">where
+        </span><span class="self">Self</span>: Sized,
     {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(l) = len {
             <span class="kw">if </span>l != mem::size_of::&lt;libc::sockaddr_in6&gt;() <span class="kw">as </span>libc::socklen_t {
@@ -4290,8 +4669,12 @@
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="comment">// These things are really hard to display properly.  Easier to let std
         // do it.
-        </span><span class="kw">let </span>std = net::SocketAddrV6::new(<span class="self">self</span>.ip(), <span class="self">self</span>.port(),
-            <span class="self">self</span>.flowinfo(), <span class="self">self</span>.scope_id());
+        </span><span class="kw">let </span>std = net::SocketAddrV6::new(
+            <span class="self">self</span>.ip(),
+            <span class="self">self</span>.port(),
+            <span class="self">self</span>.flowinfo(),
+            <span class="self">self</span>.scope_id(),
+        );
         std.fmt(f)
     }
 }
@@ -4299,19 +4682,25 @@
 <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
 </span><span class="kw">impl </span>From&lt;net::SocketAddrV6&gt; <span class="kw">for </span>SockaddrIn6 {
     <span class="kw">fn </span>from(addr: net::SocketAddrV6) -&gt; <span class="self">Self </span>{
-        <span class="attribute">#[allow(clippy::needless_update)]   </span><span class="comment">// It isn&#39;t needless on Illumos
-        </span><span class="self">Self</span>(libc::sockaddr_in6{
-            <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>, target_os = <span class="string">&quot;freebsd&quot;</span>,
-                      target_os = <span class="string">&quot;haiku&quot;</span>, target_os = <span class="string">&quot;hermit&quot;</span>,
-                      target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>,
-                      target_os = <span class="string">&quot;netbsd&quot;</span>, target_os = <span class="string">&quot;openbsd&quot;</span>))]
+        <span class="attribute">#[allow(clippy::needless_update)] </span><span class="comment">// It isn&#39;t needless on Illumos
+        </span><span class="self">Self</span>(libc::sockaddr_in6 {
+            <span class="attribute">#[cfg(any(
+                target_os = <span class="string">&quot;dragonfly&quot;</span>,
+                target_os = <span class="string">&quot;freebsd&quot;</span>,
+                target_os = <span class="string">&quot;haiku&quot;</span>,
+                target_os = <span class="string">&quot;hermit&quot;</span>,
+                target_os = <span class="string">&quot;ios&quot;</span>,
+                target_os = <span class="string">&quot;macos&quot;</span>,
+                target_os = <span class="string">&quot;netbsd&quot;</span>,
+                target_os = <span class="string">&quot;openbsd&quot;
+            </span>))]
             </span>sin6_len: mem::size_of::&lt;libc::sockaddr_in6&gt;() <span class="kw">as </span>u8,
             sin6_family: AddressFamily::Inet6 <span class="kw">as </span>sa_family_t,
-            sin6_port: addr.port().to_be(),  <span class="comment">// network byte order
+            sin6_port: addr.port().to_be(), <span class="comment">// network byte order
             </span>sin6_addr: ipv6addr_to_libc(addr.ip()),
-            sin6_flowinfo: addr.flowinfo(),  <span class="comment">// host byte order
-            </span>sin6_scope_id: addr.scope_id(),  <span class="comment">// host byte order
-            </span>.. <span class="kw">unsafe </span>{ mem::zeroed() }
+            sin6_flowinfo: addr.flowinfo(), <span class="comment">// host byte order
+            </span>sin6_scope_id: addr.scope_id(), <span class="comment">// host byte order
+            </span>..<span class="kw">unsafe </span>{ mem::zeroed() }
         })
     }
 }
@@ -4323,7 +4712,7 @@
             net::Ipv6Addr::from(addr.<span class="number">0</span>.sin6_addr.s6_addr),
             u16::from_be(addr.<span class="number">0</span>.sin6_port),
             u32::from_be(addr.<span class="number">0</span>.sin6_flowinfo),
-            u32::from_be(addr.<span class="number">0</span>.sin6_scope_id)
+            u32::from_be(addr.<span class="number">0</span>.sin6_scope_id),
         )
     }
 }
@@ -4336,7 +4725,6 @@
         net::SocketAddrV6::from_str(s).map(SockaddrIn6::from)
     }
 }
-
 
 <span class="doccomment">/// A container for any sockaddr type
 ///
@@ -4367,7 +4755,10 @@
     </span>dl: LinkAddr,
     <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
     </span>nl: NetlinkAddr,
-    <span class="attribute">#[cfg(all(feature = <span class="string">&quot;ioctl&quot;</span>, any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>)))]
+    <span class="attribute">#[cfg(all(
+        feature = <span class="string">&quot;ioctl&quot;</span>,
+        any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>)
+    ))]
     #[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;ioctl&quot;</span>)))]
     </span>sctl: SysControlAddr,
     <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
@@ -4378,22 +4769,27 @@
     su: UnixAddr,
     <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
-    </span>vsock: VsockAddr
+    </span>vsock: VsockAddr,
 }
 <span class="kw">impl </span>private::SockaddrLikePriv <span class="kw">for </span>SockaddrStorage {}
 <span class="kw">impl </span>SockaddrLike <span class="kw">for </span>SockaddrStorage {
-    <span class="kw">unsafe fn </span>from_raw(addr: <span class="kw-2">*const </span>libc::sockaddr, l: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;)
-        -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; <span class="kw">where </span><span class="self">Self</span>: Sized
+    <span class="kw">unsafe fn </span>from_raw(
+        addr: <span class="kw-2">*const </span>libc::sockaddr,
+        l: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;
+    <span class="kw">where
+        </span><span class="self">Self</span>: Sized,
     {
         <span class="kw">if </span>addr.is_null() {
             <span class="kw">return </span><span class="prelude-val">None</span>;
         }
         <span class="kw">if let </span><span class="prelude-val">Some</span>(len) = l {
             <span class="kw">let </span>ulen = len <span class="kw">as </span>usize;
-            <span class="kw">if </span>ulen &lt; <span class="macro">offset_of!</span>(libc::sockaddr, sa_data) ||
-                ulen &gt; mem::size_of::&lt;libc::sockaddr_storage&gt;() {
+            <span class="kw">if </span>ulen &lt; <span class="macro">offset_of!</span>(libc::sockaddr, sa_data)
+                || ulen &gt; mem::size_of::&lt;libc::sockaddr_storage&gt;()
+            {
                 <span class="prelude-val">None
-            </span>} <span class="kw">else</span>{
+            </span>} <span class="kw">else </span>{
                 <span class="kw">let </span><span class="kw-2">mut </span>ss: libc::sockaddr_storage = mem::zeroed();
                 <span class="kw">let </span>ssp = <span class="kw-2">&amp;mut </span>ss <span class="kw">as </span><span class="kw-2">*mut </span>libc::sockaddr_storage <span class="kw">as </span><span class="kw-2">*mut </span>u8;
                 ptr::copy(addr <span class="kw">as </span><span class="kw-2">*const </span>u8, ssp, len <span class="kw">as </span>usize);
@@ -4416,44 +4812,57 @@
             // available, then there&#39;s nothing we can do.
             </span><span class="kw">match </span>(<span class="kw-2">*</span>addr).sa_family <span class="kw">as </span>i32 {
                 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
-                </span>libc::AF_ALG =&gt; AlgAddr::from_raw(addr, l)
-                    .map(|alg| <span class="self">Self </span>{ alg}),
+                </span>libc::AF_ALG =&gt; {
+                    AlgAddr::from_raw(addr, l).map(|alg| <span class="self">Self </span>{ alg })
+                }
                 <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
-                </span>libc::AF_INET =&gt; SockaddrIn::from_raw(addr, l)
-                    .map(|sin| <span class="self">Self</span>{ sin}),
+                </span>libc::AF_INET =&gt; {
+                    SockaddrIn::from_raw(addr, l).map(|sin| <span class="self">Self </span>{ sin })
+                }
                 <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
-                </span>libc::AF_INET6 =&gt; SockaddrIn6::from_raw(addr, l)
-                    .map(|sin6| <span class="self">Self</span>{ sin6}),
-                <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-                          target_os = <span class="string">&quot;freebsd&quot;</span>,
-                          target_os = <span class="string">&quot;ios&quot;</span>,
-                          target_os = <span class="string">&quot;macos&quot;</span>,
-                          target_os = <span class="string">&quot;illumos&quot;</span>,
-                          target_os = <span class="string">&quot;netbsd&quot;</span>,
-                          target_os = <span class="string">&quot;haiku&quot;</span>,
-                          target_os = <span class="string">&quot;openbsd&quot;</span>))]
-                #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
-                </span>libc::AF_LINK =&gt; LinkAddr::from_raw(addr, l)
-                    .map(|dl| <span class="self">Self</span>{ dl}),
-                <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
-                </span>libc::AF_NETLINK =&gt; NetlinkAddr::from_raw(addr, l)
-                    .map(|nl| <span class="self">Self</span>{ nl }),
-                <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>,
-                          target_os = <span class="string">&quot;fuchsia&quot;</span>,
-                          target_os = <span class="string">&quot;linux&quot;
+                </span>libc::AF_INET6 =&gt; {
+                    SockaddrIn6::from_raw(addr, l).map(|sin6| <span class="self">Self </span>{ sin6 })
+                }
+                <span class="attribute">#[cfg(any(
+                    target_os = <span class="string">&quot;dragonfly&quot;</span>,
+                    target_os = <span class="string">&quot;freebsd&quot;</span>,
+                    target_os = <span class="string">&quot;ios&quot;</span>,
+                    target_os = <span class="string">&quot;macos&quot;</span>,
+                    target_os = <span class="string">&quot;illumos&quot;</span>,
+                    target_os = <span class="string">&quot;netbsd&quot;</span>,
+                    target_os = <span class="string">&quot;haiku&quot;</span>,
+                    target_os = <span class="string">&quot;openbsd&quot;
                 </span>))]
                 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
-                </span>libc::AF_PACKET =&gt; LinkAddr::from_raw(addr, l)
-                    .map(|dl| <span class="self">Self</span>{ dl}),
-                <span class="attribute">#[cfg(all(feature = <span class="string">&quot;ioctl&quot;</span>,
-                          any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>)))]
-                </span>libc::AF_SYSTEM =&gt; SysControlAddr::from_raw(addr, l)
-                    .map(|sctl| <span class="self">Self </span>{sctl}),
+                </span>libc::AF_LINK =&gt; {
+                    LinkAddr::from_raw(addr, l).map(|dl| <span class="self">Self </span>{ dl })
+                }
                 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
-                </span>libc::AF_VSOCK =&gt; VsockAddr::from_raw(addr, l)
-                    .map(|vsock| <span class="self">Self</span>{vsock}),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None
-            </span>}
+                </span>libc::AF_NETLINK =&gt; {
+                    NetlinkAddr::from_raw(addr, l).map(|nl| <span class="self">Self </span>{ nl })
+                }
+                <span class="attribute">#[cfg(any(
+                    target_os = <span class="string">&quot;android&quot;</span>,
+                    target_os = <span class="string">&quot;fuchsia&quot;</span>,
+                    target_os = <span class="string">&quot;linux&quot;
+                </span>))]
+                #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
+                </span>libc::AF_PACKET =&gt; {
+                    LinkAddr::from_raw(addr, l).map(|dl| <span class="self">Self </span>{ dl })
+                }
+                <span class="attribute">#[cfg(all(
+                    feature = <span class="string">&quot;ioctl&quot;</span>,
+                    any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>)
+                ))]
+                </span>libc::AF_SYSTEM =&gt; {
+                    SysControlAddr::from_raw(addr, l).map(|sctl| <span class="self">Self </span>{ sctl })
+                }
+                <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
+                </span>libc::AF_VSOCK =&gt; {
+                    VsockAddr::from_raw(addr, l).map(|vsock| <span class="self">Self </span>{ vsock })
+                }
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
         }
     }
 
@@ -4480,15 +4889,14 @@
         <span class="macro-nonterminal">$sockty</span>:ty,
         <span class="macro-nonterminal">$family</span>:expr,
         <span class="macro-nonterminal">$libc_ty</span>:ty,
-        <span class="macro-nonterminal">$field</span>:ident) =&gt;
-    {
+        <span class="macro-nonterminal">$field</span>:ident) =&gt; {
         <span class="doccomment">/// Safely and falliably downcast to an immutable reference
         </span><span class="kw">pub fn </span><span class="macro-nonterminal">$fname</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="macro-nonterminal">$sockty</span>&gt; {
-            <span class="kw">if </span><span class="self">self</span>.family() == <span class="prelude-val">Some</span>(<span class="macro-nonterminal">$family</span>) &amp;&amp;
-              <span class="self">self</span>.len() &gt;= mem::size_of::&lt;<span class="macro-nonterminal">$libc_ty</span>&gt;() <span class="kw">as </span>libc::socklen_t
+            <span class="kw">if </span><span class="self">self</span>.family() == <span class="prelude-val">Some</span>(<span class="macro-nonterminal">$family</span>)
+                &amp;&amp; <span class="self">self</span>.len() &gt;= mem::size_of::&lt;<span class="macro-nonterminal">$libc_ty</span>&gt;() <span class="kw">as </span>libc::socklen_t
             {
                 <span class="comment">// Safe because family and len are validated
-                </span><span class="prelude-val">Some</span>(<span class="kw">unsafe</span>{<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="macro-nonterminal">$field</span>})
+                </span><span class="prelude-val">Some</span>(<span class="kw">unsafe </span>{ <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="macro-nonterminal">$field </span>})
             } <span class="kw">else </span>{
                 <span class="prelude-val">None
             </span>}
@@ -4496,16 +4904,16 @@
 
         <span class="doccomment">/// Safely and falliably downcast to a mutable reference
         </span><span class="kw">pub fn </span><span class="macro-nonterminal">$fname_mut</span>(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;mut </span><span class="macro-nonterminal">$sockty</span>&gt; {
-            <span class="kw">if </span><span class="self">self</span>.family() == <span class="prelude-val">Some</span>(<span class="macro-nonterminal">$family</span>) &amp;&amp;
-              <span class="self">self</span>.len() &gt;= mem::size_of::&lt;<span class="macro-nonterminal">$libc_ty</span>&gt;() <span class="kw">as </span>libc::socklen_t
+            <span class="kw">if </span><span class="self">self</span>.family() == <span class="prelude-val">Some</span>(<span class="macro-nonterminal">$family</span>)
+                &amp;&amp; <span class="self">self</span>.len() &gt;= mem::size_of::&lt;<span class="macro-nonterminal">$libc_ty</span>&gt;() <span class="kw">as </span>libc::socklen_t
             {
                 <span class="comment">// Safe because family and len are validated
-                </span><span class="prelude-val">Some</span>(<span class="kw">unsafe</span>{<span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="macro-nonterminal">$field</span>})
+                </span><span class="prelude-val">Some</span>(<span class="kw">unsafe </span>{ <span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="macro-nonterminal">$field </span>})
             } <span class="kw">else </span>{
                 <span class="prelude-val">None
             </span>}
         }
-    }
+    };
 }
 
 <span class="kw">impl </span>SockaddrStorage {
@@ -4568,52 +4976,56 @@
     }
 
     <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
-    </span><span class="macro">accessors!</span>{as_alg_addr, as_alg_addr_mut, AlgAddr,
-        AddressFamily::Alg, libc::sockaddr_alg, alg}
+    </span><span class="macro">accessors! </span>{as_alg_addr, as_alg_addr_mut, AlgAddr,
+    AddressFamily::Alg, libc::sockaddr_alg, alg}
 
-    <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>,
-              target_os = <span class="string">&quot;fuchsia&quot;</span>,
-              target_os = <span class="string">&quot;linux&quot;</span>))]
+    <span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;android&quot;</span>,
+        target_os = <span class="string">&quot;fuchsia&quot;</span>,
+        target_os = <span class="string">&quot;linux&quot;
+    </span>))]
     #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
-    </span><span class="macro">accessors!</span>{
-        as_link_addr, as_link_addr_mut, LinkAddr,
-        AddressFamily::Packet, libc::sockaddr_ll, dl}
+    </span><span class="macro">accessors! </span>{
+    as_link_addr, as_link_addr_mut, LinkAddr,
+    AddressFamily::Packet, libc::sockaddr_ll, dl}
 
-    <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-              target_os = <span class="string">&quot;freebsd&quot;</span>,
-              target_os = <span class="string">&quot;ios&quot;</span>,
-              target_os = <span class="string">&quot;macos&quot;</span>,
-              target_os = <span class="string">&quot;illumos&quot;</span>,
-              target_os = <span class="string">&quot;netbsd&quot;</span>,
-              target_os = <span class="string">&quot;openbsd&quot;</span>))]
+    <span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;dragonfly&quot;</span>,
+        target_os = <span class="string">&quot;freebsd&quot;</span>,
+        target_os = <span class="string">&quot;ios&quot;</span>,
+        target_os = <span class="string">&quot;macos&quot;</span>,
+        target_os = <span class="string">&quot;illumos&quot;</span>,
+        target_os = <span class="string">&quot;netbsd&quot;</span>,
+        target_os = <span class="string">&quot;openbsd&quot;
+    </span>))]
     #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
-    </span><span class="macro">accessors!</span>{
-        as_link_addr, as_link_addr_mut, LinkAddr,
-        AddressFamily::Link, libc::sockaddr_dl, dl}
+    </span><span class="macro">accessors! </span>{
+    as_link_addr, as_link_addr_mut, LinkAddr,
+    AddressFamily::Link, libc::sockaddr_dl, dl}
 
     <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
-    </span><span class="macro">accessors!</span>{
-        as_sockaddr_in, as_sockaddr_in_mut, SockaddrIn,
-        AddressFamily::Inet, libc::sockaddr_in, sin}
+    </span><span class="macro">accessors! </span>{
+    as_sockaddr_in, as_sockaddr_in_mut, SockaddrIn,
+    AddressFamily::Inet, libc::sockaddr_in, sin}
 
     <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
-    </span><span class="macro">accessors!</span>{
-        as_sockaddr_in6, as_sockaddr_in6_mut, SockaddrIn6,
-        AddressFamily::Inet6, libc::sockaddr_in6, sin6}
+    </span><span class="macro">accessors! </span>{
+    as_sockaddr_in6, as_sockaddr_in6_mut, SockaddrIn6,
+    AddressFamily::Inet6, libc::sockaddr_in6, sin6}
 
     <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
-    </span><span class="macro">accessors!</span>{as_netlink_addr, as_netlink_addr_mut, NetlinkAddr,
-        AddressFamily::Netlink, libc::sockaddr_nl, nl}
+    </span><span class="macro">accessors! </span>{as_netlink_addr, as_netlink_addr_mut, NetlinkAddr,
+    AddressFamily::Netlink, libc::sockaddr_nl, nl}
 
     <span class="attribute">#[cfg(all(feature = <span class="string">&quot;ioctl&quot;</span>, any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>)))]
     #[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;ioctl&quot;</span>)))]
-    </span><span class="macro">accessors!</span>{as_sys_control_addr, as_sys_control_addr_mut, SysControlAddr,
-        AddressFamily::System, libc::sockaddr_ctl, sctl}
+    </span><span class="macro">accessors! </span>{as_sys_control_addr, as_sys_control_addr_mut, SysControlAddr,
+    AddressFamily::System, libc::sockaddr_ctl, sctl}
 
     <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
-    </span><span class="macro">accessors!</span>{as_vsock_addr, as_vsock_addr_mut, VsockAddr,
-        AddressFamily::Vsock, libc::sockaddr_vm, vsock}
+    </span><span class="macro">accessors! </span>{as_vsock_addr, as_vsock_addr_mut, VsockAddr,
+    AddressFamily::Vsock, libc::sockaddr_vm, vsock}
 }
 
 <span class="kw">impl </span>fmt::Debug <span class="kw">for </span>SockaddrStorage {
@@ -4621,7 +5033,7 @@
         f.debug_struct(<span class="string">&quot;SockaddrStorage&quot;</span>)
             <span class="comment">// Safe because sockaddr_storage has the least specific
             // field types
-            </span>.field(<span class="string">&quot;ss&quot;</span>, <span class="kw">unsafe</span>{<span class="kw-2">&amp;</span><span class="self">self</span>.ss})
+            </span>.field(<span class="string">&quot;ss&quot;</span>, <span class="kw">unsafe </span>{ <span class="kw-2">&amp;</span><span class="self">self</span>.ss })
             .finish()
     }
 }
@@ -4636,20 +5048,23 @@
                 </span>libc::AF_INET =&gt; <span class="self">self</span>.sin.fmt(f),
                 <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
                 </span>libc::AF_INET6 =&gt; <span class="self">self</span>.sin6.fmt(f),
-                <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-                          target_os = <span class="string">&quot;freebsd&quot;</span>,
-                          target_os = <span class="string">&quot;ios&quot;</span>,
-                          target_os = <span class="string">&quot;macos&quot;</span>,
-                          target_os = <span class="string">&quot;illumos&quot;</span>,
-                          target_os = <span class="string">&quot;netbsd&quot;</span>,
-                          target_os = <span class="string">&quot;openbsd&quot;</span>))]
+                <span class="attribute">#[cfg(any(
+                    target_os = <span class="string">&quot;dragonfly&quot;</span>,
+                    target_os = <span class="string">&quot;freebsd&quot;</span>,
+                    target_os = <span class="string">&quot;ios&quot;</span>,
+                    target_os = <span class="string">&quot;macos&quot;</span>,
+                    target_os = <span class="string">&quot;illumos&quot;</span>,
+                    target_os = <span class="string">&quot;netbsd&quot;</span>,
+                    target_os = <span class="string">&quot;openbsd&quot;
+                </span>))]
                 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
                 </span>libc::AF_LINK =&gt; <span class="self">self</span>.dl.fmt(f),
                 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
                 </span>libc::AF_NETLINK =&gt; <span class="self">self</span>.nl.fmt(f),
-                <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>,
-                          target_os = <span class="string">&quot;linux&quot;</span>,
-                          target_os = <span class="string">&quot;fuchsia&quot;
+                <span class="attribute">#[cfg(any(
+                    target_os = <span class="string">&quot;android&quot;</span>,
+                    target_os = <span class="string">&quot;linux&quot;</span>,
+                    target_os = <span class="string">&quot;fuchsia&quot;
                 </span>))]
                 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
                 </span>libc::AF_PACKET =&gt; <span class="self">self</span>.dl.fmt(f),
@@ -4659,7 +5074,7 @@
                 libc::AF_UNIX =&gt; <span class="self">self</span>.su.fmt(f),
                 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
                 </span>libc::AF_VSOCK =&gt; <span class="self">self</span>.vsock.fmt(f),
-                <span class="kw">_ </span>=&gt; <span class="string">&quot;&lt;Address family unspecified&gt;&quot;</span>.fmt(f)
+                <span class="kw">_ </span>=&gt; <span class="string">&quot;&lt;Address family unspecified&gt;&quot;</span>.fmt(f),
             }
         }
     }
@@ -4707,20 +5122,23 @@
                 </span>libc::AF_INET =&gt; <span class="self">self</span>.sin.hash(s),
                 <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
                 </span>libc::AF_INET6 =&gt; <span class="self">self</span>.sin6.hash(s),
-                <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-                          target_os = <span class="string">&quot;freebsd&quot;</span>,
-                          target_os = <span class="string">&quot;ios&quot;</span>,
-                          target_os = <span class="string">&quot;macos&quot;</span>,
-                          target_os = <span class="string">&quot;illumos&quot;</span>,
-                          target_os = <span class="string">&quot;netbsd&quot;</span>,
-                          target_os = <span class="string">&quot;openbsd&quot;</span>))]
+                <span class="attribute">#[cfg(any(
+                    target_os = <span class="string">&quot;dragonfly&quot;</span>,
+                    target_os = <span class="string">&quot;freebsd&quot;</span>,
+                    target_os = <span class="string">&quot;ios&quot;</span>,
+                    target_os = <span class="string">&quot;macos&quot;</span>,
+                    target_os = <span class="string">&quot;illumos&quot;</span>,
+                    target_os = <span class="string">&quot;netbsd&quot;</span>,
+                    target_os = <span class="string">&quot;openbsd&quot;
+                </span>))]
                 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
                 </span>libc::AF_LINK =&gt; <span class="self">self</span>.dl.hash(s),
                 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
                 </span>libc::AF_NETLINK =&gt; <span class="self">self</span>.nl.hash(s),
-                <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>,
-                          target_os = <span class="string">&quot;linux&quot;</span>,
-                          target_os = <span class="string">&quot;fuchsia&quot;
+                <span class="attribute">#[cfg(any(
+                    target_os = <span class="string">&quot;android&quot;</span>,
+                    target_os = <span class="string">&quot;linux&quot;</span>,
+                    target_os = <span class="string">&quot;fuchsia&quot;
                 </span>))]
                 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
                 </span>libc::AF_PACKET =&gt; <span class="self">self</span>.dl.hash(s),
@@ -4730,7 +5148,7 @@
                 libc::AF_UNIX =&gt; <span class="self">self</span>.su.hash(s),
                 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
                 </span>libc::AF_VSOCK =&gt; <span class="self">self</span>.vsock.hash(s),
-                <span class="kw">_ </span>=&gt; <span class="self">self</span>.ss.hash(s)
+                <span class="kw">_ </span>=&gt; <span class="self">self</span>.ss.hash(s),
             }
         }
     }
@@ -4746,20 +5164,23 @@
                 </span>(libc::AF_INET, libc::AF_INET) =&gt; <span class="self">self</span>.sin == other.sin,
                 <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
                 </span>(libc::AF_INET6, libc::AF_INET6) =&gt; <span class="self">self</span>.sin6 == other.sin6,
-                <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-                          target_os = <span class="string">&quot;freebsd&quot;</span>,
-                          target_os = <span class="string">&quot;ios&quot;</span>,
-                          target_os = <span class="string">&quot;macos&quot;</span>,
-                          target_os = <span class="string">&quot;illumos&quot;</span>,
-                          target_os = <span class="string">&quot;netbsd&quot;</span>,
-                          target_os = <span class="string">&quot;openbsd&quot;</span>))]
+                <span class="attribute">#[cfg(any(
+                    target_os = <span class="string">&quot;dragonfly&quot;</span>,
+                    target_os = <span class="string">&quot;freebsd&quot;</span>,
+                    target_os = <span class="string">&quot;ios&quot;</span>,
+                    target_os = <span class="string">&quot;macos&quot;</span>,
+                    target_os = <span class="string">&quot;illumos&quot;</span>,
+                    target_os = <span class="string">&quot;netbsd&quot;</span>,
+                    target_os = <span class="string">&quot;openbsd&quot;
+                </span>))]
                 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
                 </span>(libc::AF_LINK, libc::AF_LINK) =&gt; <span class="self">self</span>.dl == other.dl,
                 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
                 </span>(libc::AF_NETLINK, libc::AF_NETLINK) =&gt; <span class="self">self</span>.nl == other.nl,
-                <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>,
-                          target_os = <span class="string">&quot;fuchsia&quot;</span>,
-                          target_os = <span class="string">&quot;linux&quot;
+                <span class="attribute">#[cfg(any(
+                    target_os = <span class="string">&quot;android&quot;</span>,
+                    target_os = <span class="string">&quot;fuchsia&quot;</span>,
+                    target_os = <span class="string">&quot;linux&quot;
                 </span>))]
                 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
                 </span>(libc::AF_PACKET, libc::AF_PACKET) =&gt; <span class="self">self</span>.dl == other.dl,
@@ -4797,7 +5218,7 @@
     since = <span class="string">&quot;0.24.0&quot;</span>,
     note = <span class="string">&quot;use SockaddrLike or SockaddrStorage instead&quot;
 </span>)]
-#[allow(missing_docs)]  </span><span class="comment">// Since they&#39;re all deprecated anyway
+#[allow(missing_docs)] </span><span class="comment">// Since they&#39;re all deprecated anyway
 </span><span class="attribute">#[allow(deprecated)]
 #[non_exhaustive]
 </span><span class="kw">pub enum </span>SockAddr {
@@ -4811,19 +5232,24 @@
     <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
     #[cfg_attr(docsrs, doc(cfg(all())))]
     </span>Alg(AlgAddr),
-    <span class="attribute">#[cfg(all(feature = <span class="string">&quot;ioctl&quot;</span>, any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>)))]
+    <span class="attribute">#[cfg(all(
+        feature = <span class="string">&quot;ioctl&quot;</span>,
+        any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>)
+    ))]
     #[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;ioctl&quot;</span>)))]
     </span>SysControl(SysControlAddr),
     <span class="doccomment">/// Datalink address (MAC)
-    </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>,
-              target_os = <span class="string">&quot;dragonfly&quot;</span>,
-              target_os = <span class="string">&quot;freebsd&quot;</span>,
-              target_os = <span class="string">&quot;ios&quot;</span>,
-              target_os = <span class="string">&quot;linux&quot;</span>,
-              target_os = <span class="string">&quot;macos&quot;</span>,
-              target_os = <span class="string">&quot;illumos&quot;</span>,
-              target_os = <span class="string">&quot;netbsd&quot;</span>,
-              target_os = <span class="string">&quot;openbsd&quot;</span>))]
+    </span><span class="attribute">#[cfg(any(
+        target_os = <span class="string">&quot;android&quot;</span>,
+        target_os = <span class="string">&quot;dragonfly&quot;</span>,
+        target_os = <span class="string">&quot;freebsd&quot;</span>,
+        target_os = <span class="string">&quot;ios&quot;</span>,
+        target_os = <span class="string">&quot;linux&quot;</span>,
+        target_os = <span class="string">&quot;macos&quot;</span>,
+        target_os = <span class="string">&quot;illumos&quot;</span>,
+        target_os = <span class="string">&quot;netbsd&quot;</span>,
+        target_os = <span class="string">&quot;openbsd&quot;
+    </span>))]
     #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
     #[cfg_attr(docsrs, doc(cfg(feature = <span class="string">&quot;net&quot;</span>)))]
     </span>Link(LinkAddr),
@@ -4832,7 +5258,7 @@
     </span>Vsock(VsockAddr),
 }
 
-<span class="attribute">#[allow(missing_docs)]  </span><span class="comment">// Since they&#39;re all deprecated anyway
+<span class="attribute">#[allow(missing_docs)] </span><span class="comment">// Since they&#39;re all deprecated anyway
 </span><span class="attribute">#[allow(deprecated)]
 </span><span class="kw">impl </span>SockAddr {
     <span class="macro">feature! </span>{
@@ -4883,19 +5309,23 @@
             </span>SockAddr::Netlink(..) =&gt; AddressFamily::Netlink,
             <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
             </span>SockAddr::Alg(..) =&gt; AddressFamily::Alg,
-            <span class="attribute">#[cfg(all(feature = <span class="string">&quot;ioctl&quot;</span>,
-                      any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>)))]
+            <span class="attribute">#[cfg(all(
+                feature = <span class="string">&quot;ioctl&quot;</span>,
+                any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>)
+            ))]
             </span>SockAddr::SysControl(..) =&gt; AddressFamily::System,
             <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
             #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
             </span>SockAddr::Link(..) =&gt; AddressFamily::Packet,
-            <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-                      target_os = <span class="string">&quot;freebsd&quot;</span>,
-                      target_os = <span class="string">&quot;ios&quot;</span>,
-                      target_os = <span class="string">&quot;macos&quot;</span>,
-                      target_os = <span class="string">&quot;netbsd&quot;</span>,
-                      target_os = <span class="string">&quot;illumos&quot;</span>,
-                      target_os = <span class="string">&quot;openbsd&quot;</span>))]
+            <span class="attribute">#[cfg(any(
+                target_os = <span class="string">&quot;dragonfly&quot;</span>,
+                target_os = <span class="string">&quot;freebsd&quot;</span>,
+                target_os = <span class="string">&quot;ios&quot;</span>,
+                target_os = <span class="string">&quot;macos&quot;</span>,
+                target_os = <span class="string">&quot;netbsd&quot;</span>,
+                target_os = <span class="string">&quot;illumos&quot;</span>,
+                target_os = <span class="string">&quot;openbsd&quot;
+            </span>))]
             #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
             </span>SockAddr::Link(..) =&gt; AddressFamily::Link,
             <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
@@ -4919,7 +5349,9 @@
     /// ensure that the pointer is valid.
     </span><span class="attribute">#[cfg(not(target_os = <span class="string">&quot;fuchsia&quot;</span>))]
     #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>from_libc_sockaddr(addr: <span class="kw-2">*const </span>libc::sockaddr) -&gt; <span class="prelude-ty">Option</span>&lt;SockAddr&gt; {
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>from_libc_sockaddr(
+        addr: <span class="kw-2">*const </span>libc::sockaddr,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;SockAddr&gt; {
         <span class="kw">if </span>addr.is_null() {
             <span class="prelude-val">None
         </span>} <span class="kw">else </span>{
@@ -4927,40 +5359,51 @@
                 <span class="prelude-val">Some</span>(AddressFamily::Unix) =&gt; <span class="prelude-val">None</span>,
                 <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
                 </span><span class="prelude-val">Some</span>(AddressFamily::Inet) =&gt; <span class="prelude-val">Some</span>(SockAddr::Inet(
-                    InetAddr::V4(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))),
+                    InetAddr::V4(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)),
+                )),
                 <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
                 </span><span class="prelude-val">Some</span>(AddressFamily::Inet6) =&gt; <span class="prelude-val">Some</span>(SockAddr::Inet(
-                    InetAddr::V6(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))),
+                    InetAddr::V6(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)),
+                )),
                 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
                 </span><span class="prelude-val">Some</span>(AddressFamily::Netlink) =&gt; <span class="prelude-val">Some</span>(SockAddr::Netlink(
-                    NetlinkAddr(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))),
-                <span class="attribute">#[cfg(all(feature = <span class="string">&quot;ioctl&quot;</span>,
-                          any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>)))]
+                    NetlinkAddr(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)),
+                )),
+                <span class="attribute">#[cfg(all(
+                    feature = <span class="string">&quot;ioctl&quot;</span>,
+                    any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>)
+                ))]
                 </span><span class="prelude-val">Some</span>(AddressFamily::System) =&gt; <span class="prelude-val">Some</span>(SockAddr::SysControl(
-                    SysControlAddr(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))),
+                    SysControlAddr(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)),
+                )),
                 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
                 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
-                </span><span class="prelude-val">Some</span>(AddressFamily::Packet) =&gt; <span class="prelude-val">Some</span>(SockAddr::Link(
-                    LinkAddr(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))),
-                <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-                          target_os = <span class="string">&quot;freebsd&quot;</span>,
-                          target_os = <span class="string">&quot;ios&quot;</span>,
-                          target_os = <span class="string">&quot;macos&quot;</span>,
-                          target_os = <span class="string">&quot;netbsd&quot;</span>,
-                          target_os = <span class="string">&quot;illumos&quot;</span>,
-                          target_os = <span class="string">&quot;openbsd&quot;</span>))]
+                </span><span class="prelude-val">Some</span>(AddressFamily::Packet) =&gt; <span class="prelude-val">Some</span>(SockAddr::Link(LinkAddr(
+                    ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>),
+                ))),
+                <span class="attribute">#[cfg(any(
+                    target_os = <span class="string">&quot;dragonfly&quot;</span>,
+                    target_os = <span class="string">&quot;freebsd&quot;</span>,
+                    target_os = <span class="string">&quot;ios&quot;</span>,
+                    target_os = <span class="string">&quot;macos&quot;</span>,
+                    target_os = <span class="string">&quot;netbsd&quot;</span>,
+                    target_os = <span class="string">&quot;illumos&quot;</span>,
+                    target_os = <span class="string">&quot;openbsd&quot;
+                </span>))]
                 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
                 </span><span class="prelude-val">Some</span>(AddressFamily::Link) =&gt; {
-                    <span class="kw">let </span>ether_addr = LinkAddr(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>));
+                    <span class="kw">let </span>ether_addr =
+                        LinkAddr(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>));
                     <span class="kw">if </span>ether_addr.is_empty() {
                         <span class="prelude-val">None
                     </span>} <span class="kw">else </span>{
                         <span class="prelude-val">Some</span>(SockAddr::Link(ether_addr))
                     }
-                },
+                }
                 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
-                </span><span class="prelude-val">Some</span>(AddressFamily::Vsock) =&gt; <span class="prelude-val">Some</span>(SockAddr::Vsock(
-                    VsockAddr(ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>)))),
+                </span><span class="prelude-val">Some</span>(AddressFamily::Vsock) =&gt; <span class="prelude-val">Some</span>(SockAddr::Vsock(VsockAddr(
+                    ptr::read_unaligned(addr <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_</span>),
+                ))),
                 <span class="comment">// Other address families are currently not supported and simply yield a None
                 // entry instead of a proper conversion to a `SockAddr`.
                 </span><span class="prelude-val">Some</span>(<span class="kw">_</span>) | <span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,
@@ -4981,24 +5424,27 @@
             </span>SockAddr::Inet(InetAddr::V4(<span class="kw-2">ref </span>addr)) =&gt; (
                 <span class="comment">// This cast is always allowed in C
                 </span><span class="kw">unsafe </span>{
-                    <span class="kw-2">&amp;*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_in <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr)
+                    <span class="kw-2">&amp;*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_in
+                        <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr)
                 },
-                mem::size_of_val(addr) <span class="kw">as </span>libc::socklen_t
+                mem::size_of_val(addr) <span class="kw">as </span>libc::socklen_t,
             ),
             <span class="attribute">#[cfg(feature = <span class="string">&quot;net&quot;</span>)]
             </span>SockAddr::Inet(InetAddr::V6(<span class="kw-2">ref </span>addr)) =&gt; (
                 <span class="comment">// This cast is always allowed in C
                 </span><span class="kw">unsafe </span>{
-                    <span class="kw-2">&amp;*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_in6 <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr)
+                    <span class="kw-2">&amp;*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_in6
+                        <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr)
                 },
-                mem::size_of_val(addr) <span class="kw">as </span>libc::socklen_t
+                mem::size_of_val(addr) <span class="kw">as </span>libc::socklen_t,
             ),
             SockAddr::Unix(<span class="kw-2">ref </span>unix_addr) =&gt; (
                 <span class="comment">// This cast is always allowed in C
                 </span><span class="kw">unsafe </span>{
-                    <span class="kw-2">&amp;*</span>(<span class="kw-2">&amp;</span>unix_addr.sun <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_un <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr)
+                    <span class="kw-2">&amp;*</span>(<span class="kw-2">&amp;</span>unix_addr.sun <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_un
+                        <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr)
                 },
-                unix_addr.sun_len() <span class="kw">as </span>libc::socklen_t
+                unix_addr.sun_len() <span class="kw">as </span>libc::socklen_t,
             ),
             <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
             </span>SockAddr::Netlink(NetlinkAddr(<span class="kw-2">ref </span>sa)) =&gt; (
@@ -5006,7 +5452,7 @@
                 </span><span class="kw">unsafe </span>{
                     <span class="kw-2">&amp;*</span>(sa <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_nl <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr)
                 },
-                mem::size_of_val(sa) <span class="kw">as </span>libc::socklen_t
+                mem::size_of_val(sa) <span class="kw">as </span>libc::socklen_t,
             ),
             <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
             </span>SockAddr::Alg(AlgAddr(<span class="kw-2">ref </span>sa)) =&gt; (
@@ -5014,41 +5460,46 @@
                 </span><span class="kw">unsafe </span>{
                     <span class="kw-2">&amp;*</span>(sa <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_alg <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr)
                 },
-                mem::size_of_val(sa) <span class="kw">as </span>libc::socklen_t
+                mem::size_of_val(sa) <span class="kw">as </span>libc::socklen_t,
             ),
-            <span class="attribute">#[cfg(all(feature = <span class="string">&quot;ioctl&quot;</span>,
-                      any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>)))]
+            <span class="attribute">#[cfg(all(
+                feature = <span class="string">&quot;ioctl&quot;</span>,
+                any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>)
+            ))]
             </span>SockAddr::SysControl(SysControlAddr(<span class="kw-2">ref </span>sa)) =&gt; (
                 <span class="comment">// This cast is always allowed in C
                 </span><span class="kw">unsafe </span>{
                     <span class="kw-2">&amp;*</span>(sa <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_ctl <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr)
                 },
-                mem::size_of_val(sa) <span class="kw">as </span>libc::socklen_t
-
+                mem::size_of_val(sa) <span class="kw">as </span>libc::socklen_t,
             ),
             <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
             #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
             </span>SockAddr::Link(LinkAddr(<span class="kw-2">ref </span>addr)) =&gt; (
                 <span class="comment">// This cast is always allowed in C
                 </span><span class="kw">unsafe </span>{
-                    <span class="kw-2">&amp;*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_ll <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr)
+                    <span class="kw-2">&amp;*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_ll
+                        <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr)
                 },
-                mem::size_of_val(addr) <span class="kw">as </span>libc::socklen_t
+                mem::size_of_val(addr) <span class="kw">as </span>libc::socklen_t,
             ),
-            <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-                      target_os = <span class="string">&quot;freebsd&quot;</span>,
-                      target_os = <span class="string">&quot;ios&quot;</span>,
-                      target_os = <span class="string">&quot;macos&quot;</span>,
-                      target_os = <span class="string">&quot;illumos&quot;</span>,
-                      target_os = <span class="string">&quot;netbsd&quot;</span>,
-                      target_os = <span class="string">&quot;openbsd&quot;</span>))]
+            <span class="attribute">#[cfg(any(
+                target_os = <span class="string">&quot;dragonfly&quot;</span>,
+                target_os = <span class="string">&quot;freebsd&quot;</span>,
+                target_os = <span class="string">&quot;ios&quot;</span>,
+                target_os = <span class="string">&quot;macos&quot;</span>,
+                target_os = <span class="string">&quot;illumos&quot;</span>,
+                target_os = <span class="string">&quot;netbsd&quot;</span>,
+                target_os = <span class="string">&quot;openbsd&quot;
+            </span>))]
             #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
             </span>SockAddr::Link(LinkAddr(<span class="kw-2">ref </span>addr)) =&gt; (
                 <span class="comment">// This cast is always allowed in C
                 </span><span class="kw">unsafe </span>{
-                    <span class="kw-2">&amp;*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_dl <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr)
+                    <span class="kw-2">&amp;*</span>(addr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_dl
+                        <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr)
                 },
-                mem::size_of_val(addr) <span class="kw">as </span>libc::socklen_t
+                mem::size_of_val(addr) <span class="kw">as </span>libc::socklen_t,
             ),
             <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
             </span>SockAddr::Vsock(VsockAddr(<span class="kw-2">ref </span>sa)) =&gt; (
@@ -5056,7 +5507,7 @@
                 </span><span class="kw">unsafe </span>{
                     <span class="kw-2">&amp;*</span>(sa <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr_vm <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr)
                 },
-                mem::size_of_val(sa) <span class="kw">as </span>libc::socklen_t
+                mem::size_of_val(sa) <span class="kw">as </span>libc::socklen_t,
             ),
         }
     }
@@ -5073,18 +5524,22 @@
             </span>SockAddr::Netlink(<span class="kw-2">ref </span>nl) =&gt; nl.fmt(f),
             <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
             </span>SockAddr::Alg(<span class="kw-2">ref </span>nl) =&gt; nl.fmt(f),
-            <span class="attribute">#[cfg(all(feature = <span class="string">&quot;ioctl&quot;</span>,
-                      any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>)))]
+            <span class="attribute">#[cfg(all(
+                feature = <span class="string">&quot;ioctl&quot;</span>,
+                any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>)
+            ))]
             </span>SockAddr::SysControl(<span class="kw-2">ref </span>sc) =&gt; sc.fmt(f),
-            <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>,
-                      target_os = <span class="string">&quot;dragonfly&quot;</span>,
-                      target_os = <span class="string">&quot;freebsd&quot;</span>,
-                      target_os = <span class="string">&quot;ios&quot;</span>,
-                      target_os = <span class="string">&quot;linux&quot;</span>,
-                      target_os = <span class="string">&quot;macos&quot;</span>,
-                      target_os = <span class="string">&quot;netbsd&quot;</span>,
-                      target_os = <span class="string">&quot;illumos&quot;</span>,
-                      target_os = <span class="string">&quot;openbsd&quot;</span>))]
+            <span class="attribute">#[cfg(any(
+                target_os = <span class="string">&quot;android&quot;</span>,
+                target_os = <span class="string">&quot;dragonfly&quot;</span>,
+                target_os = <span class="string">&quot;freebsd&quot;</span>,
+                target_os = <span class="string">&quot;ios&quot;</span>,
+                target_os = <span class="string">&quot;linux&quot;</span>,
+                target_os = <span class="string">&quot;macos&quot;</span>,
+                target_os = <span class="string">&quot;netbsd&quot;</span>,
+                target_os = <span class="string">&quot;illumos&quot;</span>,
+                target_os = <span class="string">&quot;openbsd&quot;
+            </span>))]
             #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
             </span>SockAddr::Link(<span class="kw-2">ref </span>ether_addr) =&gt; ether_addr.fmt(f),
             <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
@@ -5101,9 +5556,10 @@
 #[cfg(feature = <span class="string">&quot;net&quot;</span>)]
 #[allow(deprecated)]
 </span><span class="kw">impl </span>SockaddrLike <span class="kw">for </span>SockAddr {
-    <span class="kw">unsafe fn </span>from_raw(addr: <span class="kw-2">*const </span>libc::sockaddr, _len: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;)
-        -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;
-    {
+    <span class="kw">unsafe fn </span>from_raw(
+        addr: <span class="kw-2">*const </span>libc::sockaddr,
+        _len: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; {
         <span class="self">Self</span>::from_libc_sockaddr(addr)
     }
 }
@@ -5111,10 +5567,10 @@
 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
 #[cfg_attr(docsrs, doc(cfg(all())))]
 </span><span class="kw">pub mod </span>netlink {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::sys::socket::addr::AddressFamily;
     <span class="kw">use </span>libc::{sa_family_t, sockaddr_nl};
     <span class="kw">use </span>std::{fmt, mem};
-    <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
     <span class="doccomment">/// Address for the Linux kernel user interface device.
     ///
@@ -5150,8 +5606,12 @@
 
     <span class="kw">impl </span>private::SockaddrLikePriv <span class="kw">for </span>NetlinkAddr {}
     <span class="kw">impl </span>SockaddrLike <span class="kw">for </span>NetlinkAddr {
-        <span class="kw">unsafe fn </span>from_raw(addr: <span class="kw-2">*const </span>libc::sockaddr, len: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;)
-            -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; <span class="kw">where </span><span class="self">Self</span>: Sized
+        <span class="kw">unsafe fn </span>from_raw(
+            addr: <span class="kw-2">*const </span>libc::sockaddr,
+            len: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;,
+        ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;
+        <span class="kw">where
+            </span><span class="self">Self</span>: Sized,
         {
             <span class="kw">if let </span><span class="prelude-val">Some</span>(l) = len {
                 <span class="kw">if </span>l != mem::size_of::&lt;libc::sockaddr_nl&gt;() <span class="kw">as </span>libc::socklen_t {
@@ -5181,11 +5641,11 @@
 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
 #[cfg_attr(docsrs, doc(cfg(all())))]
 </span><span class="kw">pub mod </span>alg {
-    <span class="kw">use </span>libc::{AF_ALG, sockaddr_alg, c_char};
-    <span class="kw">use </span>std::{fmt, mem, str};
-    <span class="kw">use </span>std::hash::{Hash, Hasher};
-    <span class="kw">use </span>std::ffi::CStr;
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use </span>libc::{c_char, sockaddr_alg, AF_ALG};
+    <span class="kw">use </span>std::ffi::CStr;
+    <span class="kw">use </span>std::hash::{Hash, Hasher};
+    <span class="kw">use </span>std::{fmt, mem, str};
 
     <span class="doccomment">/// Socket address for the Linux kernel crypto API
     </span><span class="attribute">#[derive(Copy, Clone)]
@@ -5194,11 +5654,16 @@
 
     <span class="kw">impl </span>private::SockaddrLikePriv <span class="kw">for </span>AlgAddr {}
     <span class="kw">impl </span>SockaddrLike <span class="kw">for </span>AlgAddr {
-        <span class="kw">unsafe fn </span>from_raw(addr: <span class="kw-2">*const </span>libc::sockaddr, l: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;)
-            -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; <span class="kw">where </span><span class="self">Self</span>: Sized
+        <span class="kw">unsafe fn </span>from_raw(
+            addr: <span class="kw-2">*const </span>libc::sockaddr,
+            l: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;,
+        ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;
+        <span class="kw">where
+            </span><span class="self">Self</span>: Sized,
         {
             <span class="kw">if let </span><span class="prelude-val">Some</span>(l) = l {
-                <span class="kw">if </span>l != mem::size_of::&lt;libc::sockaddr_alg&gt;() <span class="kw">as </span>libc::socklen_t {
+                <span class="kw">if </span>l != mem::size_of::&lt;libc::sockaddr_alg&gt;() <span class="kw">as </span>libc::socklen_t
+                {
                     <span class="kw">return </span><span class="prelude-val">None</span>;
                 }
             }
@@ -5219,8 +5684,19 @@
     </span><span class="kw">impl </span>PartialEq <span class="kw">for </span>AlgAddr {
         <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
             <span class="kw">let </span>(inner, other) = (<span class="self">self</span>.<span class="number">0</span>, other.<span class="number">0</span>);
-            (inner.salg_family, <span class="kw-2">&amp;</span>inner.salg_type[..], inner.salg_feat, inner.salg_mask, <span class="kw-2">&amp;</span>inner.salg_name[..]) ==
-            (other.salg_family, <span class="kw-2">&amp;</span>other.salg_type[..], other.salg_feat, other.salg_mask, <span class="kw-2">&amp;</span>other.salg_name[..])
+            (
+                inner.salg_family,
+                <span class="kw-2">&amp;</span>inner.salg_type[..],
+                inner.salg_feat,
+                inner.salg_mask,
+                <span class="kw-2">&amp;</span>inner.salg_name[..],
+            ) == (
+                other.salg_family,
+                <span class="kw-2">&amp;</span>other.salg_type[..],
+                other.salg_feat,
+                other.salg_mask,
+                <span class="kw-2">&amp;</span>other.salg_name[..],
+            )
         }
     }
 
@@ -5229,7 +5705,14 @@
     <span class="kw">impl </span>Hash <span class="kw">for </span>AlgAddr {
         <span class="kw">fn </span>hash&lt;H: Hasher&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, s: <span class="kw-2">&amp;mut </span>H) {
             <span class="kw">let </span>inner = <span class="self">self</span>.<span class="number">0</span>;
-            (inner.salg_family, <span class="kw-2">&amp;</span>inner.salg_type[..], inner.salg_feat, inner.salg_mask, <span class="kw-2">&amp;</span>inner.salg_name[..]).hash(s);
+            (
+                inner.salg_family,
+                <span class="kw-2">&amp;</span>inner.salg_type[..],
+                inner.salg_feat,
+                inner.salg_mask,
+                <span class="kw-2">&amp;</span>inner.salg_name[..],
+            )
+                .hash(s);
         }
     }
 
@@ -5238,29 +5721,37 @@
         </span><span class="kw">pub fn </span>new(alg_type: <span class="kw-2">&amp;</span>str, alg_name: <span class="kw-2">&amp;</span>str) -&gt; AlgAddr {
             <span class="kw">let </span><span class="kw-2">mut </span>addr: sockaddr_alg = <span class="kw">unsafe </span>{ mem::zeroed() };
             addr.salg_family = AF_ALG <span class="kw">as </span>u16;
-            addr.salg_type[..alg_type.len()].copy_from_slice(alg_type.to_string().as_bytes());
-            addr.salg_name[..alg_name.len()].copy_from_slice(alg_name.to_string().as_bytes());
+            addr.salg_type[..alg_type.len()]
+                .copy_from_slice(alg_type.to_string().as_bytes());
+            addr.salg_name[..alg_name.len()]
+                .copy_from_slice(alg_name.to_string().as_bytes());
 
             AlgAddr(addr)
         }
 
-
         <span class="doccomment">/// Return the socket&#39;s cipher type, for example `hash` or `aead`.
         </span><span class="kw">pub fn </span>alg_type(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>CStr {
-            <span class="kw">unsafe </span>{ CStr::from_ptr(<span class="self">self</span>.<span class="number">0</span>.salg_type.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>c_char) }
+            <span class="kw">unsafe </span>{
+                CStr::from_ptr(<span class="self">self</span>.<span class="number">0</span>.salg_type.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>c_char)
+            }
         }
 
         <span class="doccomment">/// Return the socket&#39;s cipher name, for example `sha1`.
         </span><span class="kw">pub fn </span>alg_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>CStr {
-            <span class="kw">unsafe </span>{ CStr::from_ptr(<span class="self">self</span>.<span class="number">0</span>.salg_name.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>c_char) }
+            <span class="kw">unsafe </span>{
+                CStr::from_ptr(<span class="self">self</span>.<span class="number">0</span>.salg_name.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>c_char)
+            }
         }
     }
 
     <span class="kw">impl </span>fmt::Display <span class="kw">for </span>AlgAddr {
         <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
-            <span class="macro">write!</span>(f, <span class="string">&quot;type: {} alg: {}&quot;</span>,
-                   <span class="self">self</span>.alg_name().to_string_lossy(),
-                   <span class="self">self</span>.alg_type().to_string_lossy())
+            <span class="macro">write!</span>(
+                f,
+                <span class="string">&quot;type: {} alg: {}&quot;</span>,
+                <span class="self">self</span>.alg_name().to_string_lossy(),
+                <span class="self">self</span>.alg_type().to_string_lossy()
+            )
         }
     }
 
@@ -5301,7 +5792,7 @@
     ///
     /// # References
     ///
-    /// https://developer.apple.com/documentation/kernel/sockaddr_ctl
+    /// &lt;https://developer.apple.com/documentation/kernel/sockaddr_ctl&gt;
     </span><span class="attribute">#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
     #[repr(transparent)]
     </span><span class="kw">pub struct </span>SysControlAddr(<span class="kw">pub</span>(<span class="kw">in </span><span class="kw">super</span>::<span class="kw">super</span>) libc::sockaddr_ctl);
@@ -5379,7 +5870,6 @@
     }
 }
 }
-
 
 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>, target_os = <span class="string">&quot;fuchsia&quot;</span>))]
 #[cfg_attr(docsrs, doc(cfg(all())))]
@@ -5475,14 +5965,16 @@
     }
 }
 
-<span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-          target_os = <span class="string">&quot;freebsd&quot;</span>,
-          target_os = <span class="string">&quot;ios&quot;</span>,
-          target_os = <span class="string">&quot;macos&quot;</span>,
-          target_os = <span class="string">&quot;illumos&quot;</span>,
-          target_os = <span class="string">&quot;netbsd&quot;</span>,
-          target_os = <span class="string">&quot;haiku&quot;</span>,
-          target_os = <span class="string">&quot;openbsd&quot;</span>))]
+<span class="attribute">#[cfg(any(
+    target_os = <span class="string">&quot;dragonfly&quot;</span>,
+    target_os = <span class="string">&quot;freebsd&quot;</span>,
+    target_os = <span class="string">&quot;ios&quot;</span>,
+    target_os = <span class="string">&quot;macos&quot;</span>,
+    target_os = <span class="string">&quot;illumos&quot;</span>,
+    target_os = <span class="string">&quot;netbsd&quot;</span>,
+    target_os = <span class="string">&quot;haiku&quot;</span>,
+    target_os = <span class="string">&quot;openbsd&quot;
+</span>))]
 #[cfg_attr(docsrs, doc(cfg(all())))]
 </span><span class="kw">mod </span>datalink {
     <span class="macro">feature! </span>{
@@ -5600,11 +6092,11 @@
 <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
 #[cfg_attr(docsrs, doc(cfg(all())))]
 </span><span class="kw">pub mod </span>vsock {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::sys::socket::addr::AddressFamily;
     <span class="kw">use </span>libc::{sa_family_t, sockaddr_vm};
-    <span class="kw">use </span>std::{fmt, mem};
     <span class="kw">use </span>std::hash::{Hash, Hasher};
-    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use </span>std::{fmt, mem};
 
     <span class="doccomment">/// Socket address for VMWare VSockets protocol
     ///
@@ -5617,8 +6109,12 @@
 
     <span class="kw">impl </span>private::SockaddrLikePriv <span class="kw">for </span>VsockAddr {}
     <span class="kw">impl </span>SockaddrLike <span class="kw">for </span>VsockAddr {
-        <span class="kw">unsafe fn </span>from_raw(addr: <span class="kw-2">*const </span>libc::sockaddr, len: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;)
-            -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt; <span class="kw">where </span><span class="self">Self</span>: Sized
+        <span class="kw">unsafe fn </span>from_raw(
+            addr: <span class="kw-2">*const </span>libc::sockaddr,
+            len: <span class="prelude-ty">Option</span>&lt;libc::socklen_t&gt;,
+        ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>&gt;
+        <span class="kw">where
+            </span><span class="self">Self</span>: Sized,
         {
             <span class="kw">if let </span><span class="prelude-val">Some</span>(l) = len {
                 <span class="kw">if </span>l != mem::size_of::&lt;libc::sockaddr_vm&gt;() <span class="kw">as </span>libc::socklen_t {
@@ -5641,8 +6137,8 @@
     <span class="kw">impl </span>PartialEq <span class="kw">for </span>VsockAddr {
         <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; bool {
             <span class="kw">let </span>(inner, other) = (<span class="self">self</span>.<span class="number">0</span>, other.<span class="number">0</span>);
-            (inner.svm_family, inner.svm_cid, inner.svm_port) ==
-            (other.svm_family, other.svm_cid, other.svm_port)
+            (inner.svm_family, inner.svm_cid, inner.svm_port)
+                == (other.svm_family, other.svm_cid, other.svm_port)
         }
     }
 
@@ -5712,33 +6208,39 @@
         </span><span class="kw">fn </span>test_ipv6addr_to_libc() {
             <span class="kw">let </span>s = std::net::Ipv6Addr::new(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>);
             <span class="kw">let </span>l = ipv6addr_to_libc(<span class="kw-2">&amp;</span>s);
-            <span class="macro">assert_eq!</span>(l.s6_addr, [<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">7</span>, <span class="number">0</span>, <span class="number">8</span>]);
+            <span class="macro">assert_eq!</span>(
+                l.s6_addr,
+                [<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">7</span>, <span class="number">0</span>, <span class="number">8</span>]
+            );
         }
     }
 
     <span class="kw">mod </span>link {
         <span class="attribute">#![allow(clippy::cast_ptr_alignment)]
 
-        </span><span class="kw">use super</span>::<span class="kw-2">*</span>;
-        <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;ios&quot;</span>,
-                  target_os = <span class="string">&quot;macos&quot;</span>,
-                  target_os = <span class="string">&quot;illumos&quot;
-                  </span>))]
+        #[cfg(any(
+            target_os = <span class="string">&quot;ios&quot;</span>,
+            target_os = <span class="string">&quot;macos&quot;</span>,
+            target_os = <span class="string">&quot;illumos&quot;
+        </span>))]
         </span><span class="kw">use </span><span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::socklen_t;
+        <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
         <span class="doccomment">/// Don&#39;t panic when trying to display an empty datalink address
-        </span><span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-                  target_os = <span class="string">&quot;freebsd&quot;</span>,
-                  target_os = <span class="string">&quot;ios&quot;</span>,
-                  target_os = <span class="string">&quot;macos&quot;</span>,
-                  target_os = <span class="string">&quot;netbsd&quot;</span>,
-                  target_os = <span class="string">&quot;openbsd&quot;</span>))]
+        </span><span class="attribute">#[cfg(any(
+            target_os = <span class="string">&quot;dragonfly&quot;</span>,
+            target_os = <span class="string">&quot;freebsd&quot;</span>,
+            target_os = <span class="string">&quot;ios&quot;</span>,
+            target_os = <span class="string">&quot;macos&quot;</span>,
+            target_os = <span class="string">&quot;netbsd&quot;</span>,
+            target_os = <span class="string">&quot;openbsd&quot;
+        </span>))]
         #[test]
         </span><span class="kw">fn </span>test_datalink_display() {
             <span class="kw">use </span><span class="kw">super</span>::<span class="kw">super</span>::LinkAddr;
             <span class="kw">use </span>std::mem;
 
-            <span class="kw">let </span>la = LinkAddr(libc::sockaddr_dl{
+            <span class="kw">let </span>la = LinkAddr(libc::sockaddr_dl {
                 sdl_len: <span class="number">56</span>,
                 sdl_family: <span class="number">18</span>,
                 sdl_index: <span class="number">5</span>,
@@ -5746,67 +6248,75 @@
                 sdl_nlen: <span class="number">3</span>,
                 sdl_alen: <span class="number">0</span>,
                 sdl_slen: <span class="number">0</span>,
-                .. <span class="kw">unsafe</span>{mem::zeroed()}
+                ..<span class="kw">unsafe </span>{ mem::zeroed() }
             });
             <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, la);
         }
 
         <span class="attribute">#[cfg(all(
-                any(target_os = <span class="string">&quot;android&quot;</span>,
-                    target_os = <span class="string">&quot;fuchsia&quot;</span>,
-                    target_os = <span class="string">&quot;linux&quot;</span>),
-                target_endian = <span class="string">&quot;little&quot;
+            any(
+                target_os = <span class="string">&quot;android&quot;</span>,
+                target_os = <span class="string">&quot;fuchsia&quot;</span>,
+                target_os = <span class="string">&quot;linux&quot;
+            </span>),
+            target_endian = <span class="string">&quot;little&quot;
         </span>))]
         #[test]
         </span><span class="kw">fn </span>linux_loopback() {
             <span class="attribute">#[repr(align(<span class="number">2</span>))]
             </span><span class="kw">struct </span>Raw([u8; <span class="number">20</span>]);
 
-            <span class="kw">let </span>bytes = Raw([<span class="number">17u8</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">0</span>]);
+            <span class="kw">let </span>bytes = Raw([
+                <span class="number">17u8</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">0</span>,
+            ]);
             <span class="kw">let </span>sa = bytes.<span class="number">0</span>.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr;
             <span class="kw">let </span>len = <span class="prelude-val">None</span>;
-            <span class="kw">let </span>sock_addr = <span class="kw">unsafe </span>{ SockaddrStorage::from_raw(sa, len) }.unwrap();
+            <span class="kw">let </span>sock_addr =
+                <span class="kw">unsafe </span>{ SockaddrStorage::from_raw(sa, len) }.unwrap();
             <span class="macro">assert_eq!</span>(sock_addr.family(), <span class="prelude-val">Some</span>(AddressFamily::Packet));
             <span class="kw">match </span>sock_addr.as_link_addr() {
                 <span class="prelude-val">Some</span>(dl) =&gt; <span class="macro">assert_eq!</span>(dl.addr(), <span class="prelude-val">Some</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])),
-                <span class="prelude-val">None </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;Can&#39;t unwrap sockaddr storage&quot;</span>)
+                <span class="prelude-val">None </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;Can&#39;t unwrap sockaddr storage&quot;</span>),
             }
         }
 
-        <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;ios&quot;</span>,
-                  target_os = <span class="string">&quot;macos&quot;
-                  </span>))]
+        <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>))]
         #[test]
         </span><span class="kw">fn </span>macos_loopback() {
-            <span class="kw">let </span>bytes = [<span class="number">20i8</span>, <span class="number">18</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">24</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">108</span>, <span class="number">111</span>, <span class="number">48</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>];
+            <span class="kw">let </span>bytes =
+                [<span class="number">20i8</span>, <span class="number">18</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">24</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">108</span>, <span class="number">111</span>, <span class="number">48</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>];
             <span class="kw">let </span>sa = bytes.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr;
             <span class="kw">let </span>len = <span class="prelude-val">Some</span>(bytes.len() <span class="kw">as </span>socklen_t);
-            <span class="kw">let </span>sock_addr = <span class="kw">unsafe </span>{ SockaddrStorage::from_raw(sa, len) }.unwrap();
+            <span class="kw">let </span>sock_addr =
+                <span class="kw">unsafe </span>{ SockaddrStorage::from_raw(sa, len) }.unwrap();
             <span class="macro">assert_eq!</span>(sock_addr.family(), <span class="prelude-val">Some</span>(AddressFamily::Link));
             <span class="kw">match </span>sock_addr.as_link_addr() {
                 <span class="prelude-val">Some</span>(dl) =&gt; {
                     <span class="macro">assert!</span>(dl.addr().is_none());
-                },
-                <span class="prelude-val">None </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;Can&#39;t unwrap sockaddr storage&quot;</span>)
+                }
+                <span class="prelude-val">None </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;Can&#39;t unwrap sockaddr storage&quot;</span>),
             }
         }
 
-        <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;ios&quot;</span>,
-                  target_os = <span class="string">&quot;macos&quot;
-                  </span>))]
+        <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;ios&quot;</span>, target_os = <span class="string">&quot;macos&quot;</span>))]
         #[test]
         </span><span class="kw">fn </span>macos_tap() {
-            <span class="kw">let </span>bytes = [<span class="number">20i8</span>, <span class="number">18</span>, <span class="number">7</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">101</span>, <span class="number">110</span>, <span class="number">48</span>, <span class="number">24</span>, <span class="number">101</span>, -<span class="number">112</span>, -<span class="number">35</span>, <span class="number">76</span>, -<span class="number">80</span>];
+            <span class="kw">let </span>bytes = [
+                <span class="number">20i8</span>, <span class="number">18</span>, <span class="number">7</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">101</span>, <span class="number">110</span>, <span class="number">48</span>, <span class="number">24</span>, <span class="number">101</span>, -<span class="number">112</span>, -<span class="number">35</span>,
+                <span class="number">76</span>, -<span class="number">80</span>,
+            ];
             <span class="kw">let </span>ptr = bytes.as_ptr();
             <span class="kw">let </span>sa = ptr <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr;
             <span class="kw">let </span>len = <span class="prelude-val">Some</span>(bytes.len() <span class="kw">as </span>socklen_t);
 
-            <span class="kw">let </span>sock_addr = <span class="kw">unsafe </span>{ SockaddrStorage::from_raw(sa, len).unwrap() };
+            <span class="kw">let </span>sock_addr =
+                <span class="kw">unsafe </span>{ SockaddrStorage::from_raw(sa, len).unwrap() };
             <span class="macro">assert_eq!</span>(sock_addr.family(), <span class="prelude-val">Some</span>(AddressFamily::Link));
             <span class="kw">match </span>sock_addr.as_link_addr() {
-                <span class="prelude-val">Some</span>(dl) =&gt; <span class="macro">assert_eq!</span>(dl.addr(),
-                                       <span class="prelude-val">Some</span>([<span class="number">24u8</span>, <span class="number">101</span>, <span class="number">144</span>, <span class="number">221</span>, <span class="number">76</span>, <span class="number">176</span>])),
-                <span class="prelude-val">None </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;Can&#39;t unwrap sockaddr storage&quot;</span>)
+                <span class="prelude-val">Some</span>(dl) =&gt; {
+                    <span class="macro">assert_eq!</span>(dl.addr(), <span class="prelude-val">Some</span>([<span class="number">24u8</span>, <span class="number">101</span>, <span class="number">144</span>, <span class="number">221</span>, <span class="number">76</span>, <span class="number">176</span>]))
+                }
+                <span class="prelude-val">None </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;Can&#39;t unwrap sockaddr storage&quot;</span>),
             }
         }
 
@@ -5825,27 +6335,32 @@
 
             <span class="macro">assert_eq!</span>(sock_addr.family().unwrap(), AddressFamily::Link);
 
-            <span class="macro">assert_eq!</span>(sock_addr.as_link_addr().unwrap().addr(),
-                    <span class="prelude-val">Some</span>([<span class="number">24u8</span>, <span class="number">101</span>, <span class="number">144</span>, <span class="number">221</span>, <span class="number">76</span>, <span class="number">176</span>]));
+            <span class="macro">assert_eq!</span>(
+                sock_addr.as_link_addr().unwrap().addr(),
+                <span class="prelude-val">Some</span>([<span class="number">24u8</span>, <span class="number">101</span>, <span class="number">144</span>, <span class="number">221</span>, <span class="number">76</span>, <span class="number">176</span>])
+            );
         }
 
         <span class="attribute">#[test]
         </span><span class="kw">fn </span>size() {
-            <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;dragonfly&quot;</span>,
-                      target_os = <span class="string">&quot;freebsd&quot;</span>,
-                      target_os = <span class="string">&quot;ios&quot;</span>,
-                      target_os = <span class="string">&quot;macos&quot;</span>,
-                      target_os = <span class="string">&quot;netbsd&quot;</span>,
-                      target_os = <span class="string">&quot;illumos&quot;</span>,
-                      target_os = <span class="string">&quot;openbsd&quot;</span>,
-                      target_os = <span class="string">&quot;haiku&quot;</span>))]
+            <span class="attribute">#[cfg(any(
+                target_os = <span class="string">&quot;dragonfly&quot;</span>,
+                target_os = <span class="string">&quot;freebsd&quot;</span>,
+                target_os = <span class="string">&quot;ios&quot;</span>,
+                target_os = <span class="string">&quot;macos&quot;</span>,
+                target_os = <span class="string">&quot;netbsd&quot;</span>,
+                target_os = <span class="string">&quot;illumos&quot;</span>,
+                target_os = <span class="string">&quot;openbsd&quot;</span>,
+                target_os = <span class="string">&quot;haiku&quot;
+            </span>))]
             </span><span class="kw">let </span>l = mem::size_of::&lt;libc::sockaddr_dl&gt;();
             <span class="attribute">#[cfg(any(
-                    target_os = <span class="string">&quot;android&quot;</span>,
-                    target_os = <span class="string">&quot;fuchsia&quot;</span>,
-                    target_os = <span class="string">&quot;linux&quot;</span>))]
+                target_os = <span class="string">&quot;android&quot;</span>,
+                target_os = <span class="string">&quot;fuchsia&quot;</span>,
+                target_os = <span class="string">&quot;linux&quot;
+            </span>))]
             </span><span class="kw">let </span>l = mem::size_of::&lt;libc::sockaddr_ll&gt;();
-            <span class="macro">assert_eq!</span>( LinkAddr::size() <span class="kw">as </span>usize, l);
+            <span class="macro">assert_eq!</span>(LinkAddr::size() <span class="kw">as </span>usize, l);
         }
     }
 
@@ -5862,8 +6377,10 @@
 
         <span class="attribute">#[test]
         </span><span class="kw">fn </span>size() {
-            <span class="macro">assert_eq!</span>(mem::size_of::&lt;libc::sockaddr_in&gt;(),
-                SockaddrIn::size() <span class="kw">as </span>usize);
+            <span class="macro">assert_eq!</span>(
+                mem::size_of::&lt;libc::sockaddr_in&gt;(),
+                SockaddrIn::size() <span class="kw">as </span>usize
+            );
         }
     }
 
@@ -5880,8 +6397,10 @@
 
         <span class="attribute">#[test]
         </span><span class="kw">fn </span>size() {
-            <span class="macro">assert_eq!</span>(mem::size_of::&lt;libc::sockaddr_in6&gt;(),
-                SockaddrIn6::size() <span class="kw">as </span>usize);
+            <span class="macro">assert_eq!</span>(
+                mem::size_of::&lt;libc::sockaddr_in6&gt;(),
+                SockaddrIn6::size() <span class="kw">as </span>usize
+            );
         }
     }
 
@@ -5913,8 +6432,7 @@
         <span class="attribute">#[cfg(any(target_os = <span class="string">&quot;android&quot;</span>, target_os = <span class="string">&quot;linux&quot;</span>))]
         #[test]
         </span><span class="kw">fn </span>from_sockaddr_un_abstract_unnamed() {
-            <span class="kw">let </span>empty = String::new();
-            <span class="kw">let </span>ua = UnixAddr::new_abstract(empty.as_bytes()).unwrap();
+            <span class="kw">let </span>ua = UnixAddr::new_unnamed();
             <span class="kw">let </span>ptr = ua.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>libc::sockaddr;
             <span class="kw">let </span>ss = <span class="kw">unsafe </span>{
                 SockaddrStorage::from_raw(ptr, <span class="prelude-val">Some</span>(ua.len()))
@@ -5932,15 +6450,21 @@
             <span class="kw">let </span>name = String::from(<span class="string">&quot;nix\0abstract\0test&quot;</span>);
             <span class="kw">let </span>addr = UnixAddr::new_abstract(name.as_bytes()).unwrap();
 
-            <span class="kw">let </span>sun_path1 = <span class="kw">unsafe </span>{ <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>addr.as_ptr()).sun_path[..addr.path_len()] };
-            <span class="kw">let </span>sun_path2 = [<span class="number">0</span>, <span class="number">110</span>, <span class="number">105</span>, <span class="number">120</span>, <span class="number">0</span>, <span class="number">97</span>, <span class="number">98</span>, <span class="number">115</span>, <span class="number">116</span>, <span class="number">114</span>, <span class="number">97</span>, <span class="number">99</span>, <span class="number">116</span>, <span class="number">0</span>, <span class="number">116</span>, <span class="number">101</span>, <span class="number">115</span>, <span class="number">116</span>];
+            <span class="kw">let </span>sun_path1 =
+                <span class="kw">unsafe </span>{ <span class="kw-2">&amp;</span>(<span class="kw-2">*</span>addr.as_ptr()).sun_path[..addr.path_len()] };
+            <span class="kw">let </span>sun_path2 = [
+                <span class="number">0</span>, <span class="number">110</span>, <span class="number">105</span>, <span class="number">120</span>, <span class="number">0</span>, <span class="number">97</span>, <span class="number">98</span>, <span class="number">115</span>, <span class="number">116</span>, <span class="number">114</span>, <span class="number">97</span>, <span class="number">99</span>, <span class="number">116</span>, <span class="number">0</span>,
+                <span class="number">116</span>, <span class="number">101</span>, <span class="number">115</span>, <span class="number">116</span>,
+            ];
             <span class="macro">assert_eq!</span>(sun_path1, sun_path2);
         }
 
         <span class="attribute">#[test]
         </span><span class="kw">fn </span>size() {
-            <span class="macro">assert_eq!</span>(mem::size_of::&lt;libc::sockaddr_un&gt;(),
-                UnixAddr::size() <span class="kw">as </span>usize);
+            <span class="macro">assert_eq!</span>(
+                mem::size_of::&lt;libc::sockaddr_un&gt;(),
+                UnixAddr::size() <span class="kw">as </span>usize
+            );
         }
     }
 }

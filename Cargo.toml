@@ -12,11 +12,11 @@ categories = ["gui", "api-bindings"]
 readme = "README.md"
 
 [dependencies]
-wayland-scanner = "0.30.0-beta.14"
-wayland-backend = "0.1.0-beta.14"
-wayland-protocols = "0.30.0-beta.14"
-wayland-client = { version = "0.30.0-beta.14", optional = true }
-wayland-server = { version = "0.30.0-beta.14", optional = true }
+wayland-scanner = "0.30.0"
+wayland-backend = "0.1.0"
+wayland-protocols = "0.30.0"
+wayland-client = { version = "0.30.0", optional = true }
+wayland-server = { version = "0.30.0", optional = true }
 bitflags = "1.0"
 
 [dev-dependencies]
@@ -27,8 +27,8 @@ gdk-pixbuf = "0.15.11"
 gtk4 = { version = "0.4.8" }
 gdk4-wayland = { version = "0.4.8", features = ["wayland_crate", "v4_4", "egl"] }
 png = "0.17.5"
-smithay = { git = "https://github.com/Smithay/smithay", rev = "bcc4ee38b8936f57907c844a5e92cf6c0d7325e3", default-features = false, features = ["backend_egl", "renderer_gl", "renderer_multi", "slog-stdlog"] }
-wayland-backend = { version = "0.1.0-beta.14", features = ["client_system"] }
+smithay = { git = "https://github.com/Smithay/smithay", rev = "c85e1e5", default-features = false, features = ["backend_egl", "renderer_gl", "renderer_multi", "slog-stdlog"] }
+wayland-backend = { version = "0.1.0", features = ["client_system"] }
 memfd = "0.6.1"
 
 [features]

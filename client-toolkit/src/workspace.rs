@@ -25,7 +25,7 @@ pub struct Workspace {
 #[derive(Debug)]
 pub struct WorkspaceState {
     workspace_groups: Vec<WorkspaceGroup>,
-    _manager: GlobalProxy<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1>,
+    manager: GlobalProxy<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1>,
 }
 
 impl WorkspaceState {
@@ -35,8 +35,14 @@ impl WorkspaceState {
     {
         Self {
             workspace_groups: Vec::new(),
-            _manager: GlobalProxy::from(registry.bind_one(qh, 1..=1, ())),
+            manager: GlobalProxy::from(registry.bind_one(qh, 1..=1, ())),
         }
+    }
+
+    pub fn workspace_manager(
+        &self,
+    ) -> &GlobalProxy<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1> {
+        &self.manager
     }
 
     pub fn workspace_groups(&self) -> &[WorkspaceGroup] {

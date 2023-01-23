@@ -73,10 +73,20 @@ pub trait ScreencopyHandler: Sized {
     );
 }
 
+pub trait ScreencopySessionDataExt {
+    fn screencopy_session_data(&self) -> &ScreencopySessionData;
+}
+
 #[derive(Default)]
 pub struct ScreencopySessionData {
     buffer_infos: Mutex<Vec<BufferInfo>>,
     // damage, transform
+}
+
+impl ScreencopySessionDataExt for ScreencopySessionData {
+    fn screencopy_session_data(&self) -> &ScreencopySessionData {
+        self
+    }
 }
 
 impl<D> Dispatch<zcosmic_screencopy_manager_v1::ZcosmicScreencopyManagerV1, (), D>
@@ -103,22 +113,21 @@ where
     }
 }
 
-impl<D>
-    Dispatch<zcosmic_screencopy_session_v1::ZcosmicScreencopySessionV1, ScreencopySessionData, D>
+impl<D, U> Dispatch<zcosmic_screencopy_session_v1::ZcosmicScreencopySessionV1, U, D>
     for ScreencopyState
 where
-    D: Dispatch<zcosmic_screencopy_session_v1::ZcosmicScreencopySessionV1, ScreencopySessionData>
-        + ScreencopyHandler,
+    D: Dispatch<zcosmic_screencopy_session_v1::ZcosmicScreencopySessionV1, U> + ScreencopyHandler,
+    U: ScreencopySessionDataExt,
 {
     fn event(
         app_data: &mut D,
         session: &zcosmic_screencopy_session_v1::ZcosmicScreencopySessionV1,
         event: zcosmic_screencopy_session_v1::Event,
-        data: &ScreencopySessionData,
+        udata: &U,
         conn: &Connection,
         qh: &QueueHandle<D>,
     ) {
-        //println!("{:?}", event);
+        let data = udata.screencopy_session_data();
         match event {
             zcosmic_screencopy_session_v1::Event::BufferInfo {
                 _type,
@@ -197,11 +206,17 @@ where
 #[macro_export]
 macro_rules! delegate_screencopy {
     ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty) => {
+        $crate::delegate_screencopy($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty,
+            session: $crate::screencopy::ScreencopySessionData);
+    };
+    ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty, session: [$($session_data:ty),* $(,)?]) => {
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
             $crate::cosmic_protocols::screencopy::v1::client::zcosmic_screencopy_manager_v1::ZcosmicScreencopyManagerV1: ()
         ] => $crate::screencopy::ScreencopyState);
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::screencopy::v1::client::zcosmic_screencopy_session_v1::ZcosmicScreencopySessionV1: $crate::screencopy::ScreencopySessionData
+            $(
+                $crate::cosmic_protocols::screencopy::v1::client::zcosmic_screencopy_session_v1::ZcosmicScreencopySessionV1: $session_data
+            ),*
         ] => $crate::screencopy::ScreencopyState);
     };
 }

@@ -14,7 +14,7 @@ struct Frame {
 
 struct CursorInfo {}
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct BufferInfo {
     pub type_: WEnum<zcosmic_screencopy_session_v1::BufferType>,
     pub node: Option<String>,

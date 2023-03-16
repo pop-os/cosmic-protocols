@@ -9,7 +9,7 @@ pub struct WorkspaceGroup {
     pub handle: zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
     pub capabilities:
         Vec<WEnum<zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupCapabilitiesV1>>,
-    pub output: Option<wl_output::WlOutput>,
+    pub outputs: Vec<wl_output::WlOutput>,
     pub workspaces: Vec<Workspace>,
 }
 
@@ -80,7 +80,7 @@ where
                     .push(WorkspaceGroup {
                         handle: workspace_group,
                         capabilities: Vec::new(),
-                        output: None,
+                        outputs: Vec::new(),
                         workspaces: Vec::new(),
                     });
             }
@@ -127,10 +127,12 @@ where
                     .collect();
             }
             zcosmic_workspace_group_handle_v1::Event::OutputEnter { output } => {
-                group.output = Some(output);
+                group.outputs.push(output);
             }
             zcosmic_workspace_group_handle_v1::Event::OutputLeave { output } => {
-                group.output = None;
+                if let Some(idx) = group.outputs.iter().position(|x| x == &output) {
+                    group.outputs.remove(idx);
+                }
             }
             zcosmic_workspace_group_handle_v1::Event::Workspace { workspace } => {
                 group.workspaces.push(Workspace {

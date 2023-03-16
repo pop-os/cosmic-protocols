@@ -57,14 +57,17 @@ impl WorkspaceHandler for AppData {
 
     fn done(&mut self) {
         for group in self.workspace_state.workspace_groups() {
-            let output_name = group.output.as_ref().and_then(|output| {
-                let info = self.output_state.info(output).unwrap();
-                info.name.clone()
-            });
+            let output_names: Vec<_> = group
+                .outputs
+                .iter()
+                .filter_map(|output| {
+                    let info = self.output_state.info(output).unwrap();
+                    info.name.clone()
+                })
+                .collect();
             println!(
-                "Group: output: {}, capabilities: {:?}",
-                output_name.as_deref().unwrap_or("None"),
-                group.capabilities,
+                "Group: outputs: {:?}, capabilities: {:?}",
+                output_names, group.capabilities,
             );
             for workspace in &group.workspaces {
                 println!(

@@ -290,8 +290,8 @@ fn main() {
     let workspaces_hbox = gtk4::Box::new(gtk4::Orientation::Horizontal, 24);
     for group in workspace_groups {
         for workspace in &group.workspaces {
-            if let Some(output) = group.output.clone() {
-                let name = workspace.name.clone().unwrap();
+            for output in group.outputs.clone() {
+                let name = workspace.name.clone();
                 let workspace_handle = workspace.handle.clone();
                 let image_vbox = image_vbox(
                     &app_data,

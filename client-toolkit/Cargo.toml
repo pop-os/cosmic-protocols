@@ -33,4 +33,8 @@ gl = ["gl_generator"]
 
 [[example]]
 name = "gtk-capture"
-required-features = ["smithay"]
+required-features = ["gl", "smithay"]
+
+[[example]]
+name = "glutin-capture"
+required-features = ["gl"]

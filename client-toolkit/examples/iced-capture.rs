@@ -1,7 +1,10 @@
 // figure out how to directly import dmabuf
 
 use cosmic_client_toolkit::{
-    screencopy::{BufferInfo, ScreencopyHandler, ScreencopyState},
+    screencopy::{
+        BufferInfo, ScreencopyHandler, ScreencopySessionData, ScreencopySessionDataExt,
+        ScreencopyState,
+    },
     workspace::{WorkspaceGroup, WorkspaceHandler, WorkspaceState},
 };
 use cosmic_protocols::{
@@ -20,7 +23,7 @@ use nix::sys::memfd;
 use sctk::{
     output::{OutputHandler, OutputState},
     registry::{ProvidesRegistryState, RegistryState},
-    shm::{raw::RawPool, ShmHandler, ShmState},
+    shm::{raw::RawPool, Shm, ShmHandler},
 };
 use std::{
     collections::HashMap,
@@ -83,7 +86,7 @@ struct AppData {
     screencopy_state: ScreencopyState,
     workspace_state: WorkspaceState,
     workspaces_done: bool,
-    shm_state: ShmState,
+    shm_state: Shm,
 }
 
 impl ProvidesRegistryState for AppData {
@@ -125,7 +128,7 @@ impl OutputHandler for AppData {
 }
 
 impl ShmHandler for AppData {
-    fn shm_state(&mut self) -> &mut ShmState {
+    fn shm_state(&mut self) -> &mut Shm {
         &mut self.shm_state
     }
 }
@@ -285,7 +288,7 @@ impl iced::Application for App {
                     .flat_map(|group| &group.workspaces)
                     .map(|workspace| {
                         widget::column! {
-                            widget::text(workspace.name.as_ref().unwrap()),
+                            widget::text(&workspace.name),
                             widget::image(self.images.get(&workspace.handle.id()).cloned().unwrap_or_else(empty_image))
                         }.width(iced::Length::Fill)
                         .into()
@@ -322,8 +325,8 @@ impl iced::Application for App {
         );
         let workspace_img_stream = futures::stream::select_all::select_all(
             self.flags.workspace_groups.iter().flat_map(|group| {
-                group.workspaces.iter().filter_map(|workspace| {
-                    group.output.clone().map(|output| {
+                group.workspaces.iter().flat_map(|workspace| {
+                    group.outputs.iter().cloned().map(|output| {
                         let screencopy_manager = self.flags.screencopy_manager.clone();
                         let workspace_handle = workspace.handle.clone();
                         let qh = self.flags.qh.clone();
@@ -365,7 +368,7 @@ fn main() {
         output_state: OutputState::new(&globals, &qh),
         screencopy_state: ScreencopyState::new(&globals, &qh),
         workspace_state: WorkspaceState::new(&registry_state, &qh),
-        shm_state: ShmState::bind(&globals, &qh).unwrap(),
+        shm_state: Shm::bind(&globals, &qh).unwrap(),
         registry_state,
         workspaces_done: false,
     };
@@ -416,8 +419,19 @@ impl Dispatch<wl_buffer::WlBuffer, ()> for AppData {
     }
 }
 
+#[derive(Default)]
+struct SessionData {
+    session_data: ScreencopySessionData,
+}
+
+impl ScreencopySessionDataExt for SessionData {
+    fn screencopy_session_data(&self) -> &ScreencopySessionData {
+        &self.session_data
+    }
+}
+
 sctk::delegate_output!(AppData);
 sctk::delegate_registry!(AppData);
 sctk::delegate_shm!(AppData);
-cosmic_client_toolkit::delegate_screencopy!(AppData);
+cosmic_client_toolkit::delegate_screencopy!(AppData, session: [SessionData]);
 cosmic_client_toolkit::delegate_workspace!(AppData);

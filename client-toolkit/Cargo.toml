@@ -16,11 +16,11 @@ gl_generator = { version = "0.14.0", optional = true }
 futures = "0.3.24"
 cascade = "1"
 env_logger = "0.9.1"
-gdk-pixbuf = "0.15.11"
+gdk-pixbuf = "0.17.0"
 glow = "0.11.2"
 glutin = "0.30.0"
-gtk4 = { version = "0.4.8", features = ["v4_6"] }
-gdk4-wayland = { version = "0.4.8", features = ["wayland_crate", "v4_4", "egl"] }
+gtk4 = { version = "0.6.4", features = ["v4_6"] }
+gdk4-wayland = { version = "0.6.3", features = ["wayland_crate", "v4_4", "egl"] }
 iced = { version = "0.5.2", features = ["image"] }
 nix = "0.25.0"
 raw-window-handle = "0.5.0"

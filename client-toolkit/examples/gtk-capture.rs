@@ -225,7 +225,7 @@ fn main() {
         .unwrap()
         .downcast::<gdk4_wayland::WaylandDisplay>()
         .unwrap();
-    let wl_display = display.wl_display().c_ptr();
+    let wl_display = display.wl_display().unwrap().id().as_ptr();
     let egl_display = display.egl_display().unwrap().as_ptr();
     //let gl_context = display.create_gl_context().unwrap();
     let gl_context = Rc::new(RefCell::new(None));

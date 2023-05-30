@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":[["__interfaces",""],["zcosmic_toplevel_handle_v1","an open toplevel"],["zcosmic_toplevel_info_v1","list toplevels and properties thereof"]]};
+window.SIDEBAR_ITEMS = {"mod":["__interfaces","zcosmic_toplevel_handle_v1","zcosmic_toplevel_info_v1"]};

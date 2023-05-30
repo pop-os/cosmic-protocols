@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"constant":[["EVT_RELEASE_OPCODE","The wire opcode for this event"],["EVT_RELEASE_SINCE","The minimal object version supporting this event"],["REQ_DESTROY_OPCODE","The wire opcode for this request"],["REQ_DESTROY_SINCE","The minimal object version supporting this request"]],"enum":[["Event",""],["Request",""]],"struct":[["WlBuffer","content for a wl_surface"]]};
+window.SIDEBAR_ITEMS = {"constant":["EVT_RELEASE_OPCODE","EVT_RELEASE_SINCE","REQ_DESTROY_OPCODE","REQ_DESTROY_SINCE"],"enum":["Event","Request"],"struct":["WlBuffer"]};

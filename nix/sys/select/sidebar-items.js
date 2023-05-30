@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"constant":[["FD_SETSIZE",""]],"fn":[["select","Monitors file descriptors for readiness"]],"struct":[["FdSet","Contains a set of file descriptors used by [`select`]"],["Fds","Iterator over `FdSet`."]]};
+window.SIDEBAR_ITEMS = {"constant":["FD_SETSIZE"],"fn":["select"],"struct":["FdSet","Fds"]};

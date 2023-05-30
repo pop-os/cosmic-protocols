@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":[["presentation_time","Presentation time protocol"],["viewporter","Viewporter protocol"]]};
+window.SIDEBAR_ITEMS = {"mod":["presentation_time","viewporter"]};

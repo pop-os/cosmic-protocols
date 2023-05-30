@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":[["epoll",""],["eventfd",""],["memfd","Interfaces for managing memory-backed files."],["select","Portably monitor a group of file descriptors for readiness."],["signal","Operating system signals."],["socket","Socket interface functions"],["stat",""],["statfs","Get filesystem statistics, non-portably"],["statvfs","Get filesystem statistics"],["sysinfo",""],["time",""],["uio","Vectored I/O"]]};
+window.SIDEBAR_ITEMS = {"mod":["epoll","eventfd","memfd","select","signal","socket","stat","statfs","statvfs","sysinfo","time","uio"]};

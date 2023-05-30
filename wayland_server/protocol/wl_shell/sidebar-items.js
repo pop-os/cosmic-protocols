@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"constant":[["REQ_GET_SHELL_SURFACE_OPCODE","The wire opcode for this request"],["REQ_GET_SHELL_SURFACE_SINCE","The minimal object version supporting this request"]],"enum":[["Error",""],["Event",""],["Request",""]],"struct":[["WlShell","create desktop-style surfaces"]]};
+window.SIDEBAR_ITEMS = {"constant":["REQ_GET_SHELL_SURFACE_OPCODE","REQ_GET_SHELL_SURFACE_SINCE"],"enum":["Error","Event","Request"],"struct":["WlShell"]};

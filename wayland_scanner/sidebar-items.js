@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"macro":[["generate_client_code","Proc-macro for generating client-side API associated with an XML specification"],["generate_interfaces","Proc-macro for generating low-level interfaces associated with an XML specification"],["generate_server_code","Proc-macro for generating server-side API associated with an XML specification"]]};
+window.SIDEBAR_ITEMS = {"macro":["generate_client_code","generate_interfaces","generate_server_code"]};

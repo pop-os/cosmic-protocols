@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":[["poll","`poll` waits for one of a set of file descriptors to become ready to perform I/O. (`poll(2)`)"]],"struct":[["PollFd","This is a wrapper around `libc::pollfd`."],["PollFlags","These flags define the different events that can be monitored by `poll` and `ppoll`"]]};
+window.SIDEBAR_ITEMS = {"fn":["poll"],"struct":["PollFd","PollFlags"]};

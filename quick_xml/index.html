@@ -1,112 +1,28 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="High performance XML reader/writer."><title>quick_xml - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../static.files/ayu-be46fdc453a55015.css"><script src="../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="logo-container" href="../quick_xml/index.html"><img class="rust-logo" src="../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2></h2></nav><nav class="sidebar"><a class="logo-container" href="../quick_xml/index.html"><img class="rust-logo" src="../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2 class="location"><a href="#">Crate quick_xml</a></h2><div class="sidebar-elems"><ul class="block"><li class="version">Version 0.23.1</li><li><a id="all-types" href="all.html">All Items</a></li></ul><section><ul class="block"><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#types">Type Definitions</a></li></ul></section></div></nav><main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Crate <a class="mod" href="#">quick_xml</a><button id="copy-path" title="Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="srclink" href="../src/quick_xml/lib.rs.html#1-157">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>High performance XML reader/writer.</p>
-<h3 id="description"><a href="#description">Description</a></h3>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="High performance XML reader/writer."><title>quick_xml - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="quick_xml" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0 (8ede3aae2 2023-07-12)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="logo-container" href="../quick_xml/index.html"><img class="rust-logo" src="../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2></h2></nav><nav class="sidebar"><a class="logo-container" href="../quick_xml/index.html"><img class="rust-logo" src="../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2 class="location"><a href="#">Crate quick_xml</a></h2><div class="sidebar-elems"><ul class="block"><li class="version">Version 0.28.2</li><li><a id="all-types" href="all.html">All Items</a></li></ul><section><ul class="block"><li><a href="#reexports">Re-exports</a></li><li><a href="#modules">Modules</a></li><li><a href="#enums">Enums</a></li><li><a href="#types">Type Definitions</a></li></ul></section></div></nav><main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Crate <a class="mod" href="#">quick_xml</a><button id="copy-path" title="Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="srclink" href="../src/quick_xml/lib.rs.html#1-76">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>High performance XML reader/writer.</p>
+<h2 id="description"><a href="#description">Description</a></h2>
 <p>quick-xml contains two modes of operation:</p>
 <p>A streaming API based on the <a href="https://en.wikipedia.org/wiki/StAX">StAX</a> model. This is suited for larger XML documents which
 cannot completely read into memory at once.</p>
-<p>The user has to expicitely <em>ask</em> for the next XML event, similar
-to a database cursor.
+<p>The user has to explicitly <em>ask</em> for the next XML event, similar to a database cursor.
 This is achieved by the following two structs:</p>
 <ul>
-<li><a href="struct.Reader.html" title="struct quick_xml::Reader"><code>Reader</code></a>: A low level XML pull-reader where buffer allocation/clearing is left to user.</li>
-<li><a href="struct.Writer.html" title="struct quick_xml::Writer"><code>Writer</code></a>: A XML writer. Can be nested with readers if you want to transform XMLs.</li>
+<li><a href="reader/struct.Reader.html" title="struct quick_xml::reader::Reader"><code>Reader</code></a>: A low level XML pull-reader where buffer allocation/clearing is left to user.</li>
+<li><a href="writer/struct.Writer.html" title="struct quick_xml::writer::Writer"><code>Writer</code></a>: A XML writer. Can be nested with readers if you want to transform XMLs.</li>
 </ul>
-<p>Especially for nested XML elements, the user must keep track <em>where</em> (how deep) in the XML document
-the current event is located. This is needed as the</p>
-<p>Furthermore, quick-xml also contains optional <a href="https://serde.rs/">Serde</a> support to directly serialize and deserialize from
-structs, without having to deal with the XML events.</p>
-<h3 id="examples"><a href="#examples">Examples</a></h3><h4 id="reader"><a href="#reader">Reader</a></h4>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>quick_xml::Reader;
-<span class="kw">use </span>quick_xml::events::Event;
-
-<span class="kw">let </span>xml = <span class="string">r#&quot;&lt;tag1 att1 = &quot;test&quot;&gt;
-                &lt;tag2&gt;&lt;!--Test comment--&gt;Test&lt;/tag2&gt;
-                &lt;tag2&gt;
-                    Test 2
-                &lt;/tag2&gt;
-            &lt;/tag1&gt;&quot;#</span>;
-
-<span class="kw">let </span><span class="kw-2">mut </span>reader = Reader::from_str(xml);
-reader.trim_text(<span class="bool-val">true</span>);
-
-<span class="kw">let </span><span class="kw-2">mut </span>count = <span class="number">0</span>;
-<span class="kw">let </span><span class="kw-2">mut </span>txt = Vec::new();
-<span class="kw">let </span><span class="kw-2">mut </span>buf = Vec::new();
-
-<span class="comment">// The `Reader` does not implement `Iterator` because it outputs borrowed data (`Cow`s)
-</span><span class="kw">loop </span>{
-    <span class="kw">match </span>reader.read_event(<span class="kw-2">&amp;mut </span>buf) {
-    <span class="comment">// for triggering namespaced events, use this instead:
-    // match reader.read_namespaced_event(&amp;mut buf) {
-        </span><span class="prelude-val">Ok</span>(Event::Start(<span class="kw-2">ref </span>e)) =&gt; {
-        <span class="comment">// for namespaced:
-        // Ok((ref namespace_value, Event::Start(ref e)))
-            </span><span class="kw">match </span>e.name() {
-                <span class="string">b&quot;tag1&quot; </span>=&gt; <span class="macro">println!</span>(<span class="string">&quot;attributes values: {:?}&quot;</span>,
-                                    e.attributes().map(|a| a.unwrap().value)
-                                    .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;()),
-                <span class="string">b&quot;tag2&quot; </span>=&gt; count += <span class="number">1</span>,
-                <span class="kw">_ </span>=&gt; (),
-            }
-        },
-        <span class="comment">// unescape and decode the text event using the reader encoding
-        </span><span class="prelude-val">Ok</span>(Event::Text(e)) =&gt; txt.push(e.unescape_and_decode(<span class="kw-2">&amp;</span>reader).unwrap()),
-        <span class="prelude-val">Ok</span>(Event::Eof) =&gt; <span class="kw">break</span>, <span class="comment">// exits the loop when reaching end of file
-        </span><span class="prelude-val">Err</span>(e) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;Error at position {}: {:?}&quot;</span>, reader.buffer_position(), e),
-        <span class="kw">_ </span>=&gt; (), <span class="comment">// There are several other `Event`s we do not consider here
-    </span>}
-
-    <span class="comment">// if we don&#39;t keep a borrow elsewhere, we can clear the buffer to keep memory usage low
-    </span>buf.clear();
-}</code></pre></div>
-<h4 id="writer"><a href="#writer">Writer</a></h4>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>quick_xml::Writer;
-<span class="kw">use </span>quick_xml::events::{Event, BytesEnd, BytesStart};
-<span class="kw">use </span>quick_xml::Reader;
-<span class="kw">use </span>std::io::Cursor;
-<span class="kw">use </span>std::iter;
-
-<span class="kw">let </span>xml = <span class="string">r#&quot;&lt;this_tag k1=&quot;v1&quot; k2=&quot;v2&quot;&gt;&lt;child&gt;text&lt;/child&gt;&lt;/this_tag&gt;&quot;#</span>;
-<span class="kw">let </span><span class="kw-2">mut </span>reader = Reader::from_str(xml);
-reader.trim_text(<span class="bool-val">true</span>);
-<span class="kw">let </span><span class="kw-2">mut </span>writer = Writer::new(Cursor::new(Vec::new()));
-<span class="kw">let </span><span class="kw-2">mut </span>buf = Vec::new();
-<span class="kw">loop </span>{
-    <span class="kw">match </span>reader.read_event(<span class="kw-2">&amp;mut </span>buf) {
-        <span class="prelude-val">Ok</span>(Event::Start(<span class="kw-2">ref </span>e)) <span class="kw">if </span>e.name() == <span class="string">b&quot;this_tag&quot; </span>=&gt; {
-
-            <span class="comment">// crates a new element ... alternatively we could reuse `e` by calling
-            // `e.into_owned()`
-            </span><span class="kw">let </span><span class="kw-2">mut </span>elem = BytesStart::owned(<span class="string">b&quot;my_elem&quot;</span>.to_vec(), <span class="string">&quot;my_elem&quot;</span>.len());
-
-            <span class="comment">// collect existing attributes
-            </span>elem.extend_attributes(e.attributes().map(|attr| attr.unwrap()));
-
-            <span class="comment">// copy existing attributes, adds a new my-key=&quot;some value&quot; attribute
-            </span>elem.push_attribute((<span class="string">&quot;my-key&quot;</span>, <span class="string">&quot;some value&quot;</span>));
-
-            <span class="comment">// writes the event to the writer
-            </span><span class="macro">assert!</span>(writer.write_event(Event::Start(elem)).is_ok());
-        },
-        <span class="prelude-val">Ok</span>(Event::End(<span class="kw-2">ref </span>e)) <span class="kw">if </span>e.name() == <span class="string">b&quot;this_tag&quot; </span>=&gt; {
-            <span class="macro">assert!</span>(writer.write_event(Event::End(BytesEnd::borrowed(<span class="string">b&quot;my_elem&quot;</span>))).is_ok());
-        },
-        <span class="prelude-val">Ok</span>(Event::Eof) =&gt; <span class="kw">break</span>,
-        <span class="prelude-val">Ok</span>(e) =&gt; <span class="macro">assert!</span>(writer.write_event(e).is_ok()),
-        <span class="comment">// or using the buffer
-        // Ok(e) =&gt; assert!(writer.write(&amp;buf).is_ok()),
-        </span><span class="prelude-val">Err</span>(e) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;Error at position {}: {:?}&quot;</span>, reader.buffer_position(), e),
-    }
-    buf.clear();
-}
-
-<span class="kw">let </span>result = writer.into_inner().into_inner();
-<span class="kw">let </span>expected = <span class="string">r#&quot;&lt;my_elem k1=&quot;v1&quot; k2=&quot;v2&quot; my-key=&quot;some value&quot;&gt;&lt;child&gt;text&lt;/child&gt;&lt;/my_elem&gt;&quot;#</span>;
-<span class="macro">assert_eq!</span>(result, expected.as_bytes());</code></pre></div>
-<h2 id="features"><a href="#features">Features</a></h2>
-<p>quick-xml supports 2 additional features, non activated by default:</p>
+<p>Especially for nested XML elements, the user must keep track <em>where</em> (how deep)
+in the XML document the current event is located.</p>
+<p>quick-xml contains optional support of asynchronous reading and writing using <a href="https://tokio.rs/">tokio</a>.
+To get it enable the <code>async-tokio</code> feature.</p>
+<p>Furthermore, quick-xml also contains optional <a href="https://serde.rs/">Serde</a> support to directly
+serialize and deserialize from structs, without having to deal with the XML events.
+To get it enable the <code>serialize</code> feature. Read more about mapping Rust types
+to XML in the documentation of <a href="./de/index.html"><code>de</code></a> module.</p>
+<h2 id="examples"><a href="#examples">Examples</a></h2>
 <ul>
-<li><code>encoding</code>: support non utf8 XMLs</li>
-<li><code>serialize</code>: support serde <code>Serialize</code>/<code>Deserialize</code></li>
+<li>For a reading example see <a href="reader/struct.Reader.html" title="struct quick_xml::reader::Reader"><code>Reader</code></a></li>
+<li>For a writing example see <a href="writer/struct.Writer.html" title="struct quick_xml::writer::Writer"><code>Writer</code></a></li>
 </ul>
-</div></details><h2 id="modules" class="small-section-header"><a href="#modules">Modules</a></h2><ul class="item-table"><li><div class="item-name"><a class="mod" href="escape/index.html" title="mod quick_xml::escape">escape</a></div><div class="desc docblock-short">Manage xml character escapes</div></li><li><div class="item-name"><a class="mod" href="events/index.html" title="mod quick_xml::events">events</a></div><div class="desc docblock-short">Defines zero-copy XML events used throughout this library.</div></li></ul><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2><ul class="item-table"><li><div class="item-name"><a class="struct" href="struct.ElementWriter.html" title="struct quick_xml::ElementWriter">ElementWriter</a></div><div class="desc docblock-short">A struct to write an element. Contains methods to add attributes and inner
-elements to the element</div></li><li><div class="item-name"><a class="struct" href="struct.Reader.html" title="struct quick_xml::Reader">Reader</a></div><div class="desc docblock-short">A low level encoding-agnostic XML event reader.</div></li><li><div class="item-name"><a class="struct" href="struct.Writer.html" title="struct quick_xml::Writer">Writer</a></div><div class="desc docblock-short">XML writer.</div></li></ul><h2 id="enums" class="small-section-header"><a href="#enums">Enums</a></h2><ul class="item-table"><li><div class="item-name"><a class="enum" href="enum.Error.html" title="enum quick_xml::Error">Error</a></div><div class="desc docblock-short">The error type used by this crate.</div></li></ul><h2 id="types" class="small-section-header"><a href="#types">Type Definitions</a></h2><ul class="item-table"><li><div class="item-name"><a class="type" href="type.Result.html" title="type quick_xml::Result">Result</a></div><div class="desc docblock-short">A specialized <code>Result</code> type where the error is hard-wired to <a href="enum.Error.html"><code>Error</code></a>.</div></li></ul></section></div></main><div id="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="quick_xml" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0 (84c898d65 2023-04-16)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+<h2 id="features"><a href="#features">Features</a></h2>
+<p><code>quick-xml</code> supports the following features:</p>
+</div></details><h2 id="reexports" class="small-section-header"><a href="#reexports">Re-exports</a></h2><ul class="item-table"><li><div class="item-name" id="reexport.Decoder"><code>pub use crate::encoding::<a class="struct" href="encoding/struct.Decoder.html" title="struct quick_xml::encoding::Decoder">Decoder</a>;</code></div></li><li><div class="item-name" id="reexport.NsReader"><code>pub use crate::reader::<a class="struct" href="reader/struct.NsReader.html" title="struct quick_xml::reader::NsReader">NsReader</a>;</code></div></li><li><div class="item-name" id="reexport.Reader"><code>pub use crate::reader::<a class="struct" href="reader/struct.Reader.html" title="struct quick_xml::reader::Reader">Reader</a>;</code></div></li><li><div class="item-name" id="reexport.ElementWriter"><code>pub use crate::writer::<a class="struct" href="writer/struct.ElementWriter.html" title="struct quick_xml::writer::ElementWriter">ElementWriter</a>;</code></div></li><li><div class="item-name" id="reexport.Writer"><code>pub use crate::writer::<a class="struct" href="writer/struct.Writer.html" title="struct quick_xml::writer::Writer">Writer</a>;</code></div></li></ul><h2 id="modules" class="small-section-header"><a href="#modules">Modules</a></h2><ul class="item-table"><li><div class="item-name"><a class="mod" href="encoding/index.html" title="mod quick_xml::encoding">encoding</a></div><div class="desc docblock-short">A module for wrappers that encode / decode data.</div></li><li><div class="item-name"><a class="mod" href="escape/index.html" title="mod quick_xml::escape">escape</a></div><div class="desc docblock-short">Manage xml character escapes</div></li><li><div class="item-name"><a class="mod" href="events/index.html" title="mod quick_xml::events">events</a></div><div class="desc docblock-short">Defines zero-copy XML events used throughout this library.</div></li><li><div class="item-name"><a class="mod" href="name/index.html" title="mod quick_xml::name">name</a></div><div class="desc docblock-short">Module for handling names according to the W3C <a href="https://www.w3.org/TR/xml-names11">Namespaces in XML 1.1 (Second Edition)</a>
+specification</div></li><li><div class="item-name"><a class="mod" href="reader/index.html" title="mod quick_xml::reader">reader</a></div><div class="desc docblock-short">Contains high-level interface for a pull-based XML parser.</div></li><li><div class="item-name"><a class="mod" href="writer/index.html" title="mod quick_xml::writer">writer</a></div><div class="desc docblock-short">Contains high-level interface for an events-based XML emitter.</div></li></ul><h2 id="enums" class="small-section-header"><a href="#enums">Enums</a></h2><ul class="item-table"><li><div class="item-name"><a class="enum" href="enum.Error.html" title="enum quick_xml::Error">Error</a></div><div class="desc docblock-short">The error type used by this crate.</div></li></ul><h2 id="types" class="small-section-header"><a href="#types">Type Definitions</a></h2><ul class="item-table"><li><div class="item-name"><a class="type" href="type.Result.html" title="type quick_xml::Result">Result</a></div><div class="desc docblock-short">A specialized <code>Result</code> type where the error is hard-wired to <a href="enum.Error.html" title="enum quick_xml::Error"><code>Error</code></a>.</div></li></ul></section></div></main></body></html>

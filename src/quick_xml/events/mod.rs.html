@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/quick-xml-0.23.1/src/events/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../quick_xml/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quick-xml-0.28.2/src/events/mod.rs`."><title>mod.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="quick_xml" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0 (8ede3aae2 2023-07-12)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../quick_xml/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1132,109 +1132,7 @@
 <a href="#1132" id="1132">1132</a>
 <a href="#1133" id="1133">1133</a>
 <a href="#1134" id="1134">1134</a>
-<a href="#1135" id="1135">1135</a>
-<a href="#1136" id="1136">1136</a>
-<a href="#1137" id="1137">1137</a>
-<a href="#1138" id="1138">1138</a>
-<a href="#1139" id="1139">1139</a>
-<a href="#1140" id="1140">1140</a>
-<a href="#1141" id="1141">1141</a>
-<a href="#1142" id="1142">1142</a>
-<a href="#1143" id="1143">1143</a>
-<a href="#1144" id="1144">1144</a>
-<a href="#1145" id="1145">1145</a>
-<a href="#1146" id="1146">1146</a>
-<a href="#1147" id="1147">1147</a>
-<a href="#1148" id="1148">1148</a>
-<a href="#1149" id="1149">1149</a>
-<a href="#1150" id="1150">1150</a>
-<a href="#1151" id="1151">1151</a>
-<a href="#1152" id="1152">1152</a>
-<a href="#1153" id="1153">1153</a>
-<a href="#1154" id="1154">1154</a>
-<a href="#1155" id="1155">1155</a>
-<a href="#1156" id="1156">1156</a>
-<a href="#1157" id="1157">1157</a>
-<a href="#1158" id="1158">1158</a>
-<a href="#1159" id="1159">1159</a>
-<a href="#1160" id="1160">1160</a>
-<a href="#1161" id="1161">1161</a>
-<a href="#1162" id="1162">1162</a>
-<a href="#1163" id="1163">1163</a>
-<a href="#1164" id="1164">1164</a>
-<a href="#1165" id="1165">1165</a>
-<a href="#1166" id="1166">1166</a>
-<a href="#1167" id="1167">1167</a>
-<a href="#1168" id="1168">1168</a>
-<a href="#1169" id="1169">1169</a>
-<a href="#1170" id="1170">1170</a>
-<a href="#1171" id="1171">1171</a>
-<a href="#1172" id="1172">1172</a>
-<a href="#1173" id="1173">1173</a>
-<a href="#1174" id="1174">1174</a>
-<a href="#1175" id="1175">1175</a>
-<a href="#1176" id="1176">1176</a>
-<a href="#1177" id="1177">1177</a>
-<a href="#1178" id="1178">1178</a>
-<a href="#1179" id="1179">1179</a>
-<a href="#1180" id="1180">1180</a>
-<a href="#1181" id="1181">1181</a>
-<a href="#1182" id="1182">1182</a>
-<a href="#1183" id="1183">1183</a>
-<a href="#1184" id="1184">1184</a>
-<a href="#1185" id="1185">1185</a>
-<a href="#1186" id="1186">1186</a>
-<a href="#1187" id="1187">1187</a>
-<a href="#1188" id="1188">1188</a>
-<a href="#1189" id="1189">1189</a>
-<a href="#1190" id="1190">1190</a>
-<a href="#1191" id="1191">1191</a>
-<a href="#1192" id="1192">1192</a>
-<a href="#1193" id="1193">1193</a>
-<a href="#1194" id="1194">1194</a>
-<a href="#1195" id="1195">1195</a>
-<a href="#1196" id="1196">1196</a>
-<a href="#1197" id="1197">1197</a>
-<a href="#1198" id="1198">1198</a>
-<a href="#1199" id="1199">1199</a>
-<a href="#1200" id="1200">1200</a>
-<a href="#1201" id="1201">1201</a>
-<a href="#1202" id="1202">1202</a>
-<a href="#1203" id="1203">1203</a>
-<a href="#1204" id="1204">1204</a>
-<a href="#1205" id="1205">1205</a>
-<a href="#1206" id="1206">1206</a>
-<a href="#1207" id="1207">1207</a>
-<a href="#1208" id="1208">1208</a>
-<a href="#1209" id="1209">1209</a>
-<a href="#1210" id="1210">1210</a>
-<a href="#1211" id="1211">1211</a>
-<a href="#1212" id="1212">1212</a>
-<a href="#1213" id="1213">1213</a>
-<a href="#1214" id="1214">1214</a>
-<a href="#1215" id="1215">1215</a>
-<a href="#1216" id="1216">1216</a>
-<a href="#1217" id="1217">1217</a>
-<a href="#1218" id="1218">1218</a>
-<a href="#1219" id="1219">1219</a>
-<a href="#1220" id="1220">1220</a>
-<a href="#1221" id="1221">1221</a>
-<a href="#1222" id="1222">1222</a>
-<a href="#1223" id="1223">1223</a>
-<a href="#1224" id="1224">1224</a>
-<a href="#1225" id="1225">1225</a>
-<a href="#1226" id="1226">1226</a>
-<a href="#1227" id="1227">1227</a>
-<a href="#1228" id="1228">1228</a>
-<a href="#1229" id="1229">1229</a>
-<a href="#1230" id="1230">1230</a>
-<a href="#1231" id="1231">1231</a>
-<a href="#1232" id="1232">1232</a>
-<a href="#1233" id="1233">1233</a>
-<a href="#1234" id="1234">1234</a>
-<a href="#1235" id="1235">1235</a>
-<a href="#1236" id="1236">1236</a>
-</pre><pre class="rust"><code><span class="doccomment">//! Defines zero-copy XML events used throughout this library.
+</pre></div><pre class="rust"><code><span class="doccomment">//! Defines zero-copy XML events used throughout this library.
 //!
 //! A XML event often represents part of a XML element.
 //! They occur both during reading and writing and are
@@ -1252,8 +1150,8 @@
 //! See [`Event`] for a list of all possible events.
 //!
 //! # Reading
-//! When reading a XML stream, the events are emitted by
-//! [`Reader::read_event`]. You must listen
+//! When reading a XML stream, the events are emitted by [`Reader::read_event`]
+//! and [`Reader::read_event_into`]. You must listen
 //! for the different types of events you are interested in.
 //!
 //! See [`Reader`] for further information.
@@ -1265,54 +1163,54 @@
 //!
 //! See [`Writer`] for further information.
 //!
-//! [`Reader::read_event`]: ../reader/struct.Reader.html#method.read_event
-//! [`Reader`]: ../reader/struct.Reader.html
-//! [`Writer`]: ../writer/struct.Writer.html
-//! [`Event`]: enum.Event.html
+//! [`Reader::read_event`]: crate::reader::Reader::read_event
+//! [`Reader::read_event_into`]: crate::reader::Reader::read_event_into
+//! [`Reader`]: crate::reader::Reader
+//! [`Writer`]: crate::writer::Writer
+//! [`Event`]: crate::events::Event
 
 </span><span class="kw">pub mod </span>attributes;
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;encoding_rs&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">&quot;encoding&quot;</span>)]
 </span><span class="kw">use </span>encoding_rs::Encoding;
-<span class="kw">use </span>std::{borrow::Cow, collections::HashMap, io::BufRead, ops::Deref, str::from_utf8};
+<span class="kw">use </span>std::borrow::Cow;
+<span class="kw">use </span>std::fmt::{<span class="self">self</span>, Debug, Formatter};
+<span class="kw">use </span>std::ops::Deref;
+<span class="kw">use </span>std::str::from_utf8;
 
-<span class="kw">use </span><span class="kw">crate</span>::escape::{do_unescape, escape, partial_escape};
+<span class="kw">use </span><span class="kw">crate</span>::encoding::Decoder;
+<span class="kw">use </span><span class="kw">crate</span>::errors::{Error, <span class="prelude-ty">Result</span>};
+<span class="kw">use </span><span class="kw">crate</span>::escape::{escape, partial_escape, unescape_with};
+<span class="kw">use </span><span class="kw">crate</span>::name::{LocalName, QName};
+<span class="kw">use </span><span class="kw">crate</span>::reader::is_whitespace;
 <span class="kw">use </span><span class="kw">crate</span>::utils::write_cow_string;
-<span class="kw">use crate</span>::{errors::Error, errors::Result, reader::Reader};
-<span class="kw">use </span>attributes::{Attribute, Attributes};
-
 <span class="attr">#[cfg(feature = <span class="string">&quot;serialize&quot;</span>)]
-</span><span class="kw">use </span><span class="kw">crate</span>::escape::EscapeError;
-
-<span class="kw">use </span>memchr;
+</span><span class="kw">use </span><span class="kw">crate</span>::utils::CowRef;
+<span class="kw">use </span>attributes::{Attribute, Attributes};
+<span class="kw">use </span>std::mem::replace;
 
 <span class="doccomment">/// Opening tag data (`Event::Start`), with optional attributes.
 ///
 /// `&lt;name attr=&quot;value&quot;&gt;`.
 ///
-/// The name can be accessed using the [`name`], [`local_name`] or [`unescaped`] methods. An
-/// iterator over the attributes is returned by the [`attributes`] method.
+/// The name can be accessed using the [`name`] or [`local_name`] methods.
+/// An iterator over the attributes is returned by the [`attributes`] method.
 ///
-/// [`name`]: #method.name
-/// [`local_name`]: #method.local_name
-/// [`unescaped`]: #method.unescaped
-/// [`attributes`]: #method.attributes
+/// [`name`]: Self::name
+/// [`local_name`]: Self::local_name
+/// [`attributes`]: Self::attributes
 </span><span class="attr">#[derive(Clone, Eq, PartialEq)]
 </span><span class="kw">pub struct </span>BytesStart&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="doccomment">/// content of the element, before any utf8 conversion
-    </span>buf: Cow&lt;<span class="lifetime">&#39;a</span>, [u8]&gt;,
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) buf: Cow&lt;<span class="lifetime">&#39;a</span>, [u8]&gt;,
     <span class="doccomment">/// end of the element name, the name starts at that the start of `buf`
-    </span>name_len: usize,
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) name_len: usize,
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; BytesStart&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="doccomment">/// Creates a new `BytesStart` from the given content (name + attributes).
-    ///
-    /// # Warning
-    ///
-    /// `&amp;content[..name_len]` is not checked to be a valid name
+    <span class="doccomment">/// Internal constructor, used by `Reader`. Supplies data in reader&#39;s encoding
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>borrowed(content: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8], name_len: usize) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>wrap(content: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8], name_len: usize) -&gt; <span class="self">Self </span>{
         BytesStart {
             buf: Cow::Borrowed(content),
             name_len,
@@ -1323,52 +1221,55 @@
     ///
     /// # Warning
     ///
-    /// `&amp;content` is not checked to be a valid name
+    /// `name` must be a valid name.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>borrowed_name(name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]) -&gt; BytesStart&lt;<span class="lifetime">&#39;a</span>&gt; {
-        <span class="self">Self</span>::borrowed(name, name.len())
-    }
-
-    <span class="doccomment">/// Creates a new `BytesStart` from the given content (name + attributes)
-    ///
-    /// Owns its contents.
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>owned&lt;C: Into&lt;Vec&lt;u8&gt;&gt;&gt;(content: C, name_len: usize) -&gt; BytesStart&lt;<span class="lifetime">&#39;static</span>&gt; {
+    </span><span class="kw">pub fn </span>new&lt;C: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;&gt;(name: C) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>buf = str_cow_to_bytes(name);
         BytesStart {
-            buf: Cow::Owned(content.into()),
-            name_len,
+            name_len: buf.len(),
+            buf,
         }
     }
 
-    <span class="doccomment">/// Creates a new `BytesStart` from the given name
+    <span class="doccomment">/// Creates a new `BytesStart` from the given content (name + attributes).
     ///
-    /// Owns its contents.
+    /// # Warning
+    ///
+    /// `&amp;content[..name_len]` must be a valid name, and the remainder of `content`
+    /// must be correctly-formed attributes. Neither are checked, it is possible
+    /// to generate invalid XML if `content` or `name_len` are incorrect.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>owned_name&lt;C: Into&lt;Vec&lt;u8&gt;&gt;&gt;(name: C) -&gt; BytesStart&lt;<span class="lifetime">&#39;static</span>&gt; {
-        <span class="kw">let </span>content = name.into();
+    </span><span class="kw">pub fn </span>from_content&lt;C: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;&gt;(content: C, name_len: usize) -&gt; <span class="self">Self </span>{
         BytesStart {
-            name_len: content.len(),
-            buf: Cow::Owned(content),
+            buf: str_cow_to_bytes(content),
+            name_len,
         }
     }
 
     <span class="doccomment">/// Converts the event into an owned event.
     </span><span class="kw">pub fn </span>into_owned(<span class="self">self</span>) -&gt; BytesStart&lt;<span class="lifetime">&#39;static</span>&gt; {
-        <span class="self">Self</span>::owned(<span class="self">self</span>.buf.into_owned(), <span class="self">self</span>.name_len)
+        BytesStart {
+            buf: Cow::Owned(<span class="self">self</span>.buf.into_owned()),
+            name_len: <span class="self">self</span>.name_len,
+        }
     }
 
     <span class="doccomment">/// Converts the event into an owned event without taking ownership of Event
     </span><span class="kw">pub fn </span>to_owned(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BytesStart&lt;<span class="lifetime">&#39;static</span>&gt; {
-        <span class="self">Self</span>::owned(<span class="self">self</span>.buf.to_owned(), <span class="self">self</span>.name_len)
+        BytesStart {
+            buf: Cow::Owned(<span class="self">self</span>.buf.clone().into_owned()),
+            name_len: <span class="self">self</span>.name_len,
+        }
     }
 
     <span class="doccomment">/// Converts the event into a borrowed event. Most useful when paired with [`to_end`].
     ///
     /// # Example
     ///
-    /// ```rust
-    /// # use quick_xml::{Error, Writer};
+    /// ```
     /// use quick_xml::events::{BytesStart, Event};
+    /// # use quick_xml::writer::Writer;
+    /// # use quick_xml::Error;
     ///
     /// struct SomeStruct&lt;&#39;a&gt; {
     ///     attrs: BytesStart&lt;&#39;a&gt;,
@@ -1378,151 +1279,68 @@
     /// # fn example(&amp;self) -&gt; Result&lt;(), Error&gt; {
     /// # let mut writer = Writer::new(Vec::new());
     ///
-    /// writer.write_event(Event::Start(self.attrs.to_borrowed()))?;
+    /// writer.write_event(Event::Start(self.attrs.borrow()))?;
     /// // ...
     /// writer.write_event(Event::End(self.attrs.to_end()))?;
     /// # Ok(())
     /// # }}
     /// ```
     ///
-    /// [`to_end`]: #method.to_end
-    </span><span class="kw">pub fn </span>to_borrowed(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BytesStart {
-        BytesStart::borrowed(<span class="kw-2">&amp;</span><span class="self">self</span>.buf, <span class="self">self</span>.name_len)
+    /// [`to_end`]: Self::to_end
+    </span><span class="kw">pub fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BytesStart {
+        BytesStart {
+            buf: Cow::Borrowed(<span class="kw-2">&amp;</span><span class="self">self</span>.buf),
+            name_len: <span class="self">self</span>.name_len,
+        }
     }
 
     <span class="doccomment">/// Creates new paired close tag
     </span><span class="kw">pub fn </span>to_end(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BytesEnd {
-        BytesEnd::borrowed(<span class="self">self</span>.name())
+        BytesEnd::wrap(<span class="self">self</span>.name().into_inner().into())
     }
 
-    <span class="doccomment">/// Gets the undecoded raw tag name as a `&amp;[u8]`.
+    <span class="doccomment">/// Gets the undecoded raw tag name, as present in the input stream.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.buf[..<span class="self">self</span>.name_len]
+    </span><span class="kw">pub fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; QName {
+        QName(<span class="kw-2">&amp;</span><span class="self">self</span>.buf[..<span class="self">self</span>.name_len])
     }
 
-    <span class="doccomment">/// Gets the undecoded raw local tag name (excluding namespace) as a `&amp;[u8]`.
+    <span class="doccomment">/// Gets the undecoded raw local tag name (excluding namespace) as present
+    /// in the input stream.
     ///
     /// All content up to and including the first `:` character is removed from the tag name.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>local_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
-        <span class="kw">let </span>name = <span class="self">self</span>.name();
-        memchr::memchr(<span class="string">b&#39;:&#39;</span>, name).map_or(name, |i| <span class="kw-2">&amp;</span>name[i + <span class="number">1</span>..])
-    }
-
-    <span class="doccomment">/// Gets the unescaped tag name.
-    ///
-    /// XML escape sequences like &quot;`&amp;lt;`&quot; will be replaced by their unescaped characters like
-    /// &quot;`&lt;`&quot;.
-    ///
-    /// See also [`unescaped_with_custom_entities()`](#method.unescaped_with_custom_entities)
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>unescaped(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;[u8]&gt;&gt; {
-        <span class="self">self</span>.make_unescaped(<span class="prelude-val">None</span>)
-    }
-
-    <span class="doccomment">/// Gets the unescaped tag name, using custom entities.
-    ///
-    /// XML escape sequences like &quot;`&amp;lt;`&quot; will be replaced by their unescaped characters like
-    /// &quot;`&lt;`&quot;.
-    /// Additional entities can be provided in `custom_entities`.
-    ///
-    /// # Pre-condition
-    ///
-    /// The keys and values of `custom_entities`, if any, must be valid UTF-8.
-    ///
-    /// See also [`unescaped()`](#method.unescaped)
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>unescaped_with_custom_entities&lt;<span class="lifetime">&#39;s</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span><span class="self">self</span>,
-        custom_entities: <span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;<span class="lifetime">&#39;s</span>, [u8]&gt;&gt; {
-        <span class="self">self</span>.make_unescaped(<span class="prelude-val">Some</span>(custom_entities))
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>make_unescaped&lt;<span class="lifetime">&#39;s</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span><span class="self">self</span>,
-        custom_entities: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;<span class="lifetime">&#39;s</span>, [u8]&gt;&gt; {
-        do_unescape(<span class="kw-2">&amp;*</span><span class="self">self</span>.buf, custom_entities).map_err(Error::EscapeError)
-    }
-
-    <span class="doccomment">/// Returns the unescaped and decoded string value.
-    ///
-    /// This allocates a `String` in all cases. For performance reasons it might be a better idea to
-    /// instead use one of:
-    ///
-    /// * [`unescaped()`], as it doesn&#39;t allocate when no escape sequences are used.
-    /// * [`Reader::decode()`], as it only allocates when the decoding can&#39;t be performed otherwise.
-    ///
-    /// [`unescaped()`]: #method.unescaped
-    /// [`Reader::decode()`]: ../reader/struct.Reader.html#method.decode
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>unescape_and_decode&lt;B: BufRead&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;String&gt; {
-        <span class="self">self</span>.do_unescape_and_decode_with_custom_entities(reader, <span class="prelude-val">None</span>)
-    }
-
-    <span class="doccomment">/// Returns the unescaped and decoded string value with custom entities.
-    ///
-    /// This allocates a `String` in all cases. For performance reasons it might be a better idea to
-    /// instead use one of:
-    ///
-    /// * [`unescaped_with_custom_entities()`], as it doesn&#39;t allocate when no escape sequences are used.
-    /// * [`Reader::decode()`], as it only allocates when the decoding can&#39;t be performed otherwise.
-    ///
-    /// [`unescaped_with_custom_entities()`]: #method.unescaped_with_custom_entities
-    /// [`Reader::decode()`]: ../reader/struct.Reader.html#method.decode
-    ///
-    /// # Pre-condition
-    ///
-    /// The keys and values of `custom_entities`, if any, must be valid UTF-8.
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>unescape_and_decode_with_custom_entities&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;,
-        custom_entities: <span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;String&gt; {
-        <span class="self">self</span>.do_unescape_and_decode_with_custom_entities(reader, <span class="prelude-val">Some</span>(custom_entities))
-    }
-
-    <span class="attr">#[cfg(feature = <span class="string">&quot;encoding&quot;</span>)]
-    #[inline]
-    </span><span class="kw">fn </span>do_unescape_and_decode_with_custom_entities&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;,
-        custom_entities: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;String&gt; {
-        <span class="kw">let </span>decoded = reader.decode(<span class="kw-2">&amp;*</span><span class="self">self</span>);
-        <span class="kw">let </span>unescaped =
-            do_unescape(decoded.as_bytes(), custom_entities).map_err(Error::EscapeError)<span class="question-mark">?</span>;
-        String::from_utf8(unescaped.into_owned()).map_err(|e| Error::Utf8(e.utf8_error()))
-    }
-
-    <span class="attr">#[cfg(not(feature = <span class="string">&quot;encoding&quot;</span>))]
-    #[inline]
-    </span><span class="kw">fn </span>do_unescape_and_decode_with_custom_entities&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;,
-        custom_entities: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;String&gt; {
-        <span class="kw">let </span>decoded = reader.decode(<span class="kw-2">&amp;*</span><span class="self">self</span>)<span class="question-mark">?</span>;
-        <span class="kw">let </span>unescaped =
-            do_unescape(decoded.as_bytes(), custom_entities).map_err(Error::EscapeError)<span class="question-mark">?</span>;
-        String::from_utf8(unescaped.into_owned()).map_err(|e| Error::Utf8(e.utf8_error()))
+    </span><span class="kw">pub fn </span>local_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; LocalName {
+        <span class="self">self</span>.name().into()
     }
 
     <span class="doccomment">/// Edit the name of the BytesStart in-place
     ///
     /// # Warning
     ///
-    /// `name` is not checked to be a valid name
+    /// `name` must be a valid name.
     </span><span class="kw">pub fn </span>set_name(<span class="kw-2">&amp;mut </span><span class="self">self</span>, name: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="kw-2">&amp;mut </span>BytesStart&lt;<span class="lifetime">&#39;a</span>&gt; {
         <span class="kw">let </span>bytes = <span class="self">self</span>.buf.to_mut();
         bytes.splice(..<span class="self">self</span>.name_len, name.iter().cloned());
         <span class="self">self</span>.name_len = name.len();
         <span class="self">self
     </span>}
+
+    <span class="doccomment">/// Gets the undecoded raw tag name, as present in the input stream, which
+    /// is borrowed either to the input, or to the event.
+    ///
+    /// # Lifetimes
+    ///
+    /// - `&#39;a`: Lifetime of the input data from which this event is borrow
+    /// - `&#39;e`: Lifetime of the concrete event instance
+    </span><span class="comment">// TODO: We should made this is a part of public API, but with safe wrapped for a name
+    </span><span class="attr">#[cfg(feature = <span class="string">&quot;serialize&quot;</span>)]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>raw_name&lt;<span class="lifetime">&#39;e</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;e </span><span class="self">self</span>) -&gt; CowRef&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;e</span>, [u8]&gt; {
+        <span class="kw">match </span><span class="self">self</span>.buf {
+            Cow::Borrowed(b) =&gt; CowRef::Input(<span class="kw-2">&amp;</span>b[..<span class="self">self</span>.name_len]),
+            Cow::Owned(<span class="kw-2">ref </span>o) =&gt; CowRef::Slice(<span class="kw-2">&amp;</span>o[..<span class="self">self</span>.name_len]),
+        }
+    }
 }
 
 <span class="doccomment">/// Attribute-related methods
@@ -1561,9 +1379,9 @@
         <span class="kw">let </span>a = attr.into();
         <span class="kw">let </span>bytes = <span class="self">self</span>.buf.to_mut();
         bytes.push(<span class="string">b&#39; &#39;</span>);
-        bytes.extend_from_slice(a.key);
+        bytes.extend_from_slice(a.key.as_ref());
         bytes.extend_from_slice(<span class="string">b&quot;=\&quot;&quot;</span>);
-        bytes.extend_from_slice(<span class="kw-2">&amp;*</span>a.value);
+        bytes.extend_from_slice(a.value.as_ref());
         bytes.push(<span class="string">b&#39;&quot;&#39;</span>);
     }
 
@@ -1575,12 +1393,12 @@
 
     <span class="doccomment">/// Returns an iterator over the attributes of this tag.
     </span><span class="kw">pub fn </span>attributes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Attributes {
-        Attributes::new(<span class="kw-2">&amp;</span><span class="self">self</span>.buf, <span class="self">self</span>.name_len)
+        Attributes::wrap(<span class="kw-2">&amp;</span><span class="self">self</span>.buf, <span class="self">self</span>.name_len, <span class="bool-val">false</span>)
     }
 
     <span class="doccomment">/// Returns an iterator over the HTML-like attributes of this tag (no mandatory quotes or `=`).
     </span><span class="kw">pub fn </span>html_attributes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Attributes {
-        Attributes::html(<span class="self">self</span>, <span class="self">self</span>.name_len)
+        Attributes::wrap(<span class="kw-2">&amp;</span><span class="self">self</span>.buf, <span class="self">self</span>.name_len, <span class="bool-val">true</span>)
     }
 
     <span class="doccomment">/// Gets the undecoded raw string with the attributes of this tag as a `&amp;[u8]`,
@@ -1595,9 +1413,9 @@
         <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
         attr_name: N,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;Attribute&lt;<span class="lifetime">&#39;a</span>&gt;&gt;&gt; {
-        <span class="kw">for </span>a <span class="kw">in </span><span class="self">self</span>.attributes() {
+        <span class="kw">for </span>a <span class="kw">in </span><span class="self">self</span>.attributes().with_checks(<span class="bool-val">false</span>) {
             <span class="kw">let </span>a = a<span class="question-mark">?</span>;
-            <span class="kw">if </span>a.key == attr_name.as_ref() {
+            <span class="kw">if </span>a.key.as_ref() == attr_name.as_ref() {
                 <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(a));
             }
         }
@@ -1605,14 +1423,38 @@
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; std::fmt::Debug <span class="kw">for </span>BytesStart&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter) -&gt; std::fmt::Result {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Debug <span class="kw">for </span>BytesStart&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter) -&gt; fmt::Result {
         <span class="macro">write!</span>(f, <span class="string">&quot;BytesStart {{ buf: &quot;</span>)<span class="question-mark">?</span>;
         write_cow_string(f, <span class="kw-2">&amp;</span><span class="self">self</span>.buf)<span class="question-mark">?</span>;
         <span class="macro">write!</span>(f, <span class="string">&quot;, name_len: {} }}&quot;</span>, <span class="self">self</span>.name_len)
     }
 }
 
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Deref <span class="kw">for </span>BytesStart&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">type </span>Target = [u8];
+
+    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.buf
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;arbitrary&quot;</span>)]
+</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; arbitrary::Arbitrary&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>BytesStart&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>arbitrary(u: <span class="kw-2">&amp;mut </span>arbitrary::Unstructured&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; arbitrary::Result&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">let </span>s = &lt;<span class="kw-2">&amp;</span>str&gt;::arbitrary(u)<span class="question-mark">?</span>;
+        <span class="kw">if </span>s.is_empty() || !s.chars().all(char::is_alphanumeric) {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(arbitrary::Error::IncorrectFormat);
+        }
+        <span class="kw">let </span><span class="kw-2">mut </span>result = <span class="self">Self</span>::new(s);
+        result.extend_attributes(Vec::&lt;(<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str)&gt;::arbitrary(u)<span class="question-mark">?</span>.into_iter());
+        <span class="prelude-val">Ok</span>(result)
+    }
+
+    <span class="kw">fn </span>size_hint(depth: usize) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
+        <span class="kw">return </span>&lt;<span class="kw-2">&amp;</span>str <span class="kw">as </span>arbitrary::Arbitrary&gt;::size_hint(depth);
+    }
+}
 <span class="comment">////////////////////////////////////////////////////////////////////////////////////////////////////
 
 </span><span class="doccomment">/// An XML declaration (`Event::Decl`).
@@ -1620,13 +1462,60 @@
 /// [W3C XML 1.1 Prolog and Document Type Declaration](http://w3.org/TR/xml11/#sec-prolog-dtd)
 </span><span class="attr">#[derive(Clone, Debug, Eq, PartialEq)]
 </span><span class="kw">pub struct </span>BytesDecl&lt;<span class="lifetime">&#39;a</span>&gt; {
-    element: BytesStart&lt;<span class="lifetime">&#39;a</span>&gt;,
+    content: BytesStart&lt;<span class="lifetime">&#39;a</span>&gt;,
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; BytesDecl&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="doccomment">/// Constructs a new `XmlDecl` from the (mandatory) _version_ (should be `1.0` or `1.1`),
+    /// the optional _encoding_ (e.g., `UTF-8`) and the optional _standalone_ (`yes` or `no`)
+    /// attribute.
+    ///
+    /// Does not escape any of its inputs. Always uses double quotes to wrap the attribute values.
+    /// The caller is responsible for escaping attribute values. Shouldn&#39;t usually be relevant since
+    /// the double quote character is not allowed in any of the attribute values.
+    </span><span class="kw">pub fn </span>new(
+        version: <span class="kw-2">&amp;</span>str,
+        encoding: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;,
+        standalone: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt;,
+    ) -&gt; BytesDecl&lt;<span class="lifetime">&#39;static</span>&gt; {
+        <span class="comment">// Compute length of the buffer based on supplied attributes
+        // &#39; encoding=&quot;&quot;&#39;   =&gt; 12
+        </span><span class="kw">let </span>encoding_attr_len = <span class="kw">if let </span><span class="prelude-val">Some</span>(xs) = encoding {
+            <span class="number">12 </span>+ xs.len()
+        } <span class="kw">else </span>{
+            <span class="number">0
+        </span>};
+        <span class="comment">// &#39; standalone=&quot;&quot;&#39; =&gt; 14
+        </span><span class="kw">let </span>standalone_attr_len = <span class="kw">if let </span><span class="prelude-val">Some</span>(xs) = standalone {
+            <span class="number">14 </span>+ xs.len()
+        } <span class="kw">else </span>{
+            <span class="number">0
+        </span>};
+        <span class="comment">// &#39;xml version=&quot;&quot;&#39; =&gt; 14
+        </span><span class="kw">let </span><span class="kw-2">mut </span>buf = String::with_capacity(<span class="number">14 </span>+ encoding_attr_len + standalone_attr_len);
+
+        buf.push_str(<span class="string">&quot;xml version=\&quot;&quot;</span>);
+        buf.push_str(version);
+
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(encoding_val) = encoding {
+            buf.push_str(<span class="string">&quot;\&quot; encoding=\&quot;&quot;</span>);
+            buf.push_str(encoding_val);
+        }
+
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(standalone_val) = standalone {
+            buf.push_str(<span class="string">&quot;\&quot; standalone=\&quot;&quot;</span>);
+            buf.push_str(standalone_val);
+        }
+        buf.push(<span class="string">&#39;&quot;&#39;</span>);
+
+        BytesDecl {
+            content: BytesStart::from_content(buf, <span class="number">3</span>),
+        }
+    }
+
     <span class="doccomment">/// Creates a `BytesDecl` from a `BytesStart`
-    </span><span class="kw">pub fn </span>from_start(start: BytesStart&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; BytesDecl&lt;<span class="lifetime">&#39;a</span>&gt; {
-        BytesDecl { element: start }
+    </span><span class="kw">pub fn </span>from_start(start: BytesStart&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{ content: start }
     }
 
     <span class="doccomment">/// Gets xml version, excluding quotes (`&#39;` or `&quot;`).
@@ -1641,40 +1530,33 @@
     /// # Examples
     ///
     /// ```
-    /// use std::borrow::Cow;
     /// use quick_xml::Error;
     /// use quick_xml::events::{BytesDecl, BytesStart};
     ///
     /// // &lt;?xml version=&#39;1.1&#39;?&gt;
-    /// let decl = BytesDecl::from_start(BytesStart::borrowed(b&quot; version=&#39;1.1&#39;&quot;, 0));
-    /// assert_eq!(
-    ///     decl.version().unwrap(),
-    ///     Cow::Borrowed(b&quot;1.1&quot;.as_ref())
-    /// );
+    /// let decl = BytesDecl::from_start(BytesStart::from_content(&quot; version=&#39;1.1&#39;&quot;, 0));
+    /// assert_eq!(decl.version().unwrap(), b&quot;1.1&quot;.as_ref());
     ///
     /// // &lt;?xml version=&#39;1.0&#39; version=&#39;1.1&#39;?&gt;
-    /// let decl = BytesDecl::from_start(BytesStart::borrowed(b&quot; version=&#39;1.0&#39; version=&#39;1.1&#39;&quot;, 0));
-    /// assert_eq!(
-    ///     decl.version().unwrap(),
-    ///     Cow::Borrowed(b&quot;1.0&quot;.as_ref())
-    /// );
+    /// let decl = BytesDecl::from_start(BytesStart::from_content(&quot; version=&#39;1.0&#39; version=&#39;1.1&#39;&quot;, 0));
+    /// assert_eq!(decl.version().unwrap(), b&quot;1.0&quot;.as_ref());
     ///
     /// // &lt;?xml encoding=&#39;utf-8&#39;?&gt;
-    /// let decl = BytesDecl::from_start(BytesStart::borrowed(b&quot; encoding=&#39;utf-8&#39;&quot;, 0));
+    /// let decl = BytesDecl::from_start(BytesStart::from_content(&quot; encoding=&#39;utf-8&#39;&quot;, 0));
     /// match decl.version() {
-    ///     Err(Error::XmlDeclWithoutVersion(Some(key))) =&gt; assert_eq!(key, &quot;encoding&quot;.to_string()),
+    ///     Err(Error::XmlDeclWithoutVersion(Some(key))) =&gt; assert_eq!(key, &quot;encoding&quot;),
     ///     _ =&gt; assert!(false),
     /// }
     ///
     /// // &lt;?xml encoding=&#39;utf-8&#39; version=&#39;1.1&#39;?&gt;
-    /// let decl = BytesDecl::from_start(BytesStart::borrowed(b&quot; encoding=&#39;utf-8&#39; version=&#39;1.1&#39;&quot;, 0));
+    /// let decl = BytesDecl::from_start(BytesStart::from_content(&quot; encoding=&#39;utf-8&#39; version=&#39;1.1&#39;&quot;, 0));
     /// match decl.version() {
-    ///     Err(Error::XmlDeclWithoutVersion(Some(key))) =&gt; assert_eq!(key, &quot;encoding&quot;.to_string()),
+    ///     Err(Error::XmlDeclWithoutVersion(Some(key))) =&gt; assert_eq!(key, &quot;encoding&quot;),
     ///     _ =&gt; assert!(false),
     /// }
     ///
     /// // &lt;?xml?&gt;
-    /// let decl = BytesDecl::from_start(BytesStart::borrowed(b&quot;&quot;, 0));
+    /// let decl = BytesDecl::from_start(BytesStart::from_content(&quot;&quot;, 0));
     /// match decl.version() {
     ///     Err(Error::XmlDeclWithoutVersion(None)) =&gt; {},
     ///     _ =&gt; assert!(false),
@@ -1684,11 +1566,11 @@
     /// [grammar]: https://www.w3.org/TR/xml11/#NT-XMLDecl
     </span><span class="kw">pub fn </span>version(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;[u8]&gt;&gt; {
         <span class="comment">// The version *must* be the first thing in the declaration.
-        </span><span class="kw">match </span><span class="self">self</span>.element.attributes().with_checks(<span class="bool-val">false</span>).next() {
-            <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(a)) <span class="kw">if </span>a.key == <span class="string">b&quot;version&quot; </span>=&gt; <span class="prelude-val">Ok</span>(a.value),
+        </span><span class="kw">match </span><span class="self">self</span>.content.attributes().with_checks(<span class="bool-val">false</span>).next() {
+            <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(a)) <span class="kw">if </span>a.key.as_ref() == <span class="string">b&quot;version&quot; </span>=&gt; <span class="prelude-val">Ok</span>(a.value),
             <span class="comment">// first attribute was not &quot;version&quot;
             </span><span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(a)) =&gt; {
-                <span class="kw">let </span>found = from_utf8(a.key).map_err(Error::Utf8)<span class="question-mark">?</span>.to_string();
+                <span class="kw">let </span>found = from_utf8(a.key.as_ref())<span class="question-mark">?</span>.to_string();
                 <span class="prelude-val">Err</span>(Error::XmlDeclWithoutVersion(<span class="prelude-val">Some</span>(found)))
             }
             <span class="comment">// error parsing attributes
@@ -1714,18 +1596,18 @@
     /// use quick_xml::events::{BytesDecl, BytesStart};
     ///
     /// // &lt;?xml version=&#39;1.1&#39;?&gt;
-    /// let decl = BytesDecl::from_start(BytesStart::borrowed(b&quot; version=&#39;1.1&#39;&quot;, 0));
+    /// let decl = BytesDecl::from_start(BytesStart::from_content(&quot; version=&#39;1.1&#39;&quot;, 0));
     /// assert!(decl.encoding().is_none());
     ///
     /// // &lt;?xml encoding=&#39;utf-8&#39;?&gt;
-    /// let decl = BytesDecl::from_start(BytesStart::borrowed(b&quot; encoding=&#39;utf-8&#39;&quot;, 0));
+    /// let decl = BytesDecl::from_start(BytesStart::from_content(&quot; encoding=&#39;utf-8&#39;&quot;, 0));
     /// match decl.encoding() {
     ///     Some(Ok(Cow::Borrowed(encoding))) =&gt; assert_eq!(encoding, b&quot;utf-8&quot;),
     ///     _ =&gt; assert!(false),
     /// }
     ///
     /// // &lt;?xml encoding=&#39;something_WRONG&#39; encoding=&#39;utf-8&#39;?&gt;
-    /// let decl = BytesDecl::from_start(BytesStart::borrowed(b&quot; encoding=&#39;something_WRONG&#39; encoding=&#39;utf-8&#39;&quot;, 0));
+    /// let decl = BytesDecl::from_start(BytesStart::from_content(&quot; encoding=&#39;something_WRONG&#39; encoding=&#39;utf-8&#39;&quot;, 0));
     /// match decl.encoding() {
     ///     Some(Ok(Cow::Borrowed(encoding))) =&gt; assert_eq!(encoding, b&quot;something_WRONG&quot;),
     ///     _ =&gt; assert!(false),
@@ -1734,7 +1616,7 @@
     ///
     /// [grammar]: https://www.w3.org/TR/xml11/#NT-XMLDecl
     </span><span class="kw">pub fn </span>encoding(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Result</span>&lt;Cow&lt;[u8]&gt;&gt;&gt; {
-        <span class="self">self</span>.element
+        <span class="self">self</span>.content
             .try_get_attribute(<span class="string">&quot;encoding&quot;</span>)
             .map(|a| a.map(|a| a.value))
             .transpose()
@@ -1756,18 +1638,18 @@
     /// use quick_xml::events::{BytesDecl, BytesStart};
     ///
     /// // &lt;?xml version=&#39;1.1&#39;?&gt;
-    /// let decl = BytesDecl::from_start(BytesStart::borrowed(b&quot; version=&#39;1.1&#39;&quot;, 0));
+    /// let decl = BytesDecl::from_start(BytesStart::from_content(&quot; version=&#39;1.1&#39;&quot;, 0));
     /// assert!(decl.standalone().is_none());
     ///
     /// // &lt;?xml standalone=&#39;yes&#39;?&gt;
-    /// let decl = BytesDecl::from_start(BytesStart::borrowed(b&quot; standalone=&#39;yes&#39;&quot;, 0));
+    /// let decl = BytesDecl::from_start(BytesStart::from_content(&quot; standalone=&#39;yes&#39;&quot;, 0));
     /// match decl.standalone() {
     ///     Some(Ok(Cow::Borrowed(encoding))) =&gt; assert_eq!(encoding, b&quot;yes&quot;),
     ///     _ =&gt; assert!(false),
     /// }
     ///
     /// // &lt;?xml standalone=&#39;something_WRONG&#39; encoding=&#39;utf-8&#39;?&gt;
-    /// let decl = BytesDecl::from_start(BytesStart::borrowed(b&quot; standalone=&#39;something_WRONG&#39; encoding=&#39;utf-8&#39;&quot;, 0));
+    /// let decl = BytesDecl::from_start(BytesStart::from_content(&quot; standalone=&#39;something_WRONG&#39; encoding=&#39;utf-8&#39;&quot;, 0));
     /// match decl.standalone() {
     ///     Some(Ok(Cow::Borrowed(flag))) =&gt; assert_eq!(flag, b&quot;something_WRONG&quot;),
     ///     _ =&gt; assert!(false),
@@ -1776,72 +1658,61 @@
     ///
     /// [grammar]: https://www.w3.org/TR/xml11/#NT-XMLDecl
     </span><span class="kw">pub fn </span>standalone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Result</span>&lt;Cow&lt;[u8]&gt;&gt;&gt; {
-        <span class="self">self</span>.element
+        <span class="self">self</span>.content
             .try_get_attribute(<span class="string">&quot;standalone&quot;</span>)
             .map(|a| a.map(|a| a.value))
             .transpose()
     }
 
-    <span class="doccomment">/// Constructs a new `XmlDecl` from the (mandatory) _version_ (should be `1.0` or `1.1`),
-    /// the optional _encoding_ (e.g., `UTF-8`) and the optional _standalone_ (`yes` or `no`)
-    /// attribute.
+    <span class="doccomment">/// Gets the actual encoding using [_get an encoding_](https://encoding.spec.whatwg.org/#concept-encoding-get)
+    /// algorithm.
     ///
-    /// Does not escape any of its inputs. Always uses double quotes to wrap the attribute values.
-    /// The caller is responsible for escaping attribute values. Shouldn&#39;t usually be relevant since
-    /// the double quote character is not allowed in any of the attribute values.
-    </span><span class="kw">pub fn </span>new(
-        version: <span class="kw-2">&amp;</span>[u8],
-        encoding: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[u8]&gt;,
-        standalone: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>[u8]&gt;,
-    ) -&gt; BytesDecl&lt;<span class="lifetime">&#39;static</span>&gt; {
-        <span class="comment">// Compute length of the buffer based on supplied attributes
-        // &#39; encoding=&quot;&quot;&#39;   =&gt; 12
-        </span><span class="kw">let </span>encoding_attr_len = <span class="kw">if let </span><span class="prelude-val">Some</span>(xs) = encoding {
-            <span class="number">12 </span>+ xs.len()
-        } <span class="kw">else </span>{
-            <span class="number">0
-        </span>};
-        <span class="comment">// &#39; standalone=&quot;&quot;&#39; =&gt; 14
-        </span><span class="kw">let </span>standalone_attr_len = <span class="kw">if let </span><span class="prelude-val">Some</span>(xs) = standalone {
-            <span class="number">14 </span>+ xs.len()
-        } <span class="kw">else </span>{
-            <span class="number">0
-        </span>};
-        <span class="comment">// &#39;xml version=&quot;&quot;&#39; =&gt; 14
-        </span><span class="kw">let </span><span class="kw-2">mut </span>buf = Vec::with_capacity(<span class="number">14 </span>+ encoding_attr_len + standalone_attr_len);
-
-        buf.extend_from_slice(<span class="string">b&quot;xml version=\&quot;&quot;</span>);
-        buf.extend_from_slice(version);
-
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(encoding_val) = encoding {
-            buf.extend_from_slice(<span class="string">b&quot;\&quot; encoding=\&quot;&quot;</span>);
-            buf.extend_from_slice(encoding_val);
-        }
-
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(standalone_val) = standalone {
-            buf.extend_from_slice(<span class="string">b&quot;\&quot; standalone=\&quot;&quot;</span>);
-            buf.extend_from_slice(standalone_val);
-        }
-        buf.push(<span class="string">b&#39;&quot;&#39;</span>);
-
-        BytesDecl {
-            element: BytesStart::owned(buf, <span class="number">3</span>),
-        }
-    }
-
-    <span class="doccomment">/// Gets the decoder struct
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;encoding_rs&quot;</span>)]
+    /// If encoding in not known, or `encoding` key was not found, returns `None`.
+    /// In case of duplicated `encoding` key, encoding, corresponding to the first
+    /// one, is returned.
+    </span><span class="attr">#[cfg(feature = <span class="string">&quot;encoding&quot;</span>)]
     </span><span class="kw">pub fn </span>encoder(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Encoding&gt; {
         <span class="self">self</span>.encoding()
             .and_then(|e| e.ok())
-            .and_then(|e| Encoding::for_label(<span class="kw-2">&amp;*</span>e))
+            .and_then(|e| Encoding::for_label(<span class="kw-2">&amp;</span>e))
     }
 
     <span class="doccomment">/// Converts the event into an owned event.
     </span><span class="kw">pub fn </span>into_owned(<span class="self">self</span>) -&gt; BytesDecl&lt;<span class="lifetime">&#39;static</span>&gt; {
         BytesDecl {
-            element: <span class="self">self</span>.element.into_owned(),
+            content: <span class="self">self</span>.content.into_owned(),
         }
+    }
+
+    <span class="doccomment">/// Converts the event into a borrowed event.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BytesDecl {
+        BytesDecl {
+            content: <span class="self">self</span>.content.borrow(),
+        }
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Deref <span class="kw">for </span>BytesDecl&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">type </span>Target = [u8];
+
+    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.content
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;arbitrary&quot;</span>)]
+</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; arbitrary::Arbitrary&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>BytesDecl&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>arbitrary(u: <span class="kw-2">&amp;mut </span>arbitrary::Unstructured&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; arbitrary::Result&lt;<span class="self">Self</span>&gt; {
+        <span class="prelude-val">Ok</span>(<span class="self">Self</span>::new(
+            &lt;<span class="kw-2">&amp;</span>str&gt;::arbitrary(u)<span class="question-mark">?</span>,
+            <span class="prelude-ty">Option</span>::&lt;<span class="kw-2">&amp;</span>str&gt;::arbitrary(u)<span class="question-mark">?</span>,
+            <span class="prelude-ty">Option</span>::&lt;<span class="kw-2">&amp;</span>str&gt;::arbitrary(u)<span class="question-mark">?</span>,
+        ))
+    }
+
+    <span class="kw">fn </span>size_hint(depth: usize) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
+        <span class="kw">return </span>&lt;<span class="kw-2">&amp;</span>str <span class="kw">as </span>arbitrary::Arbitrary&gt;::size_hint(depth);
     }
 }
 
@@ -1854,20 +1725,20 @@
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; BytesEnd&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="doccomment">/// Creates a new `BytesEnd` borrowing a slice
+    <span class="doccomment">/// Internal constructor, used by `Reader`. Supplies data in reader&#39;s encoding
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>borrowed(name: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]) -&gt; BytesEnd&lt;<span class="lifetime">&#39;a</span>&gt; {
-        BytesEnd {
-            name: Cow::Borrowed(name),
-        }
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>wrap(name: Cow&lt;<span class="lifetime">&#39;a</span>, [u8]&gt;) -&gt; <span class="self">Self </span>{
+        BytesEnd { name }
     }
 
-    <span class="doccomment">/// Creates a new `BytesEnd` owning its name
+    <span class="doccomment">/// Creates a new `BytesEnd` borrowing a slice.
+    ///
+    /// # Warning
+    ///
+    /// `name` must be a valid name.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>owned(name: Vec&lt;u8&gt;) -&gt; BytesEnd&lt;<span class="lifetime">&#39;static</span>&gt; {
-        BytesEnd {
-            name: Cow::Owned(name),
-        }
+    </span><span class="kw">pub fn </span>new&lt;C: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;&gt;(name: C) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::wrap(str_cow_to_bytes(name))
     }
 
     <span class="doccomment">/// Converts the event into an owned event.
@@ -1877,30 +1748,53 @@
         }
     }
 
-    <span class="doccomment">/// Gets `BytesEnd` event name
+    <span class="doccomment">/// Converts the event into a borrowed event.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
-        <span class="kw-2">&amp;*</span><span class="self">self</span>.name
+    </span><span class="kw">pub fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BytesEnd {
+        BytesEnd {
+            name: Cow::Borrowed(<span class="kw-2">&amp;</span><span class="self">self</span>.name),
+        }
     }
 
-    <span class="doccomment">/// local name (excluding namespace) as &amp;[u8] (without eventual attributes)
-    /// returns the name() with any leading namespace removed (all content up to
-    /// and including the first &#39;:&#39; character)
+    <span class="doccomment">/// Gets the undecoded raw tag name, as present in the input stream.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>local_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(i) = <span class="self">self</span>.name().iter().position(|b| <span class="kw-2">*</span>b == <span class="string">b&#39;:&#39;</span>) {
-            <span class="kw-2">&amp;</span><span class="self">self</span>.name()[i + <span class="number">1</span>..]
-        } <span class="kw">else </span>{
-            <span class="self">self</span>.name()
-        }
+    </span><span class="kw">pub fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; QName {
+        QName(<span class="kw-2">&amp;</span><span class="self">self</span>.name)
+    }
+
+    <span class="doccomment">/// Gets the undecoded raw local tag name (excluding namespace) as present
+    /// in the input stream.
+    ///
+    /// All content up to and including the first `:` character is removed from the tag name.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>local_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; LocalName {
+        <span class="self">self</span>.name().into()
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; std::fmt::Debug <span class="kw">for </span>BytesEnd&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter) -&gt; std::fmt::Result {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Debug <span class="kw">for </span>BytesEnd&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter) -&gt; fmt::Result {
         <span class="macro">write!</span>(f, <span class="string">&quot;BytesEnd {{ name: &quot;</span>)<span class="question-mark">?</span>;
         write_cow_string(f, <span class="kw-2">&amp;</span><span class="self">self</span>.name)<span class="question-mark">?</span>;
         <span class="macro">write!</span>(f, <span class="string">&quot; }}&quot;</span>)
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Deref <span class="kw">for </span>BytesEnd&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">type </span>Target = [u8];
+
+    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.name
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;arbitrary&quot;</span>)]
+</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; arbitrary::Arbitrary&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>BytesEnd&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>arbitrary(u: <span class="kw-2">&amp;mut </span>arbitrary::Unstructured&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; arbitrary::Result&lt;<span class="self">Self</span>&gt; {
+        <span class="prelude-val">Ok</span>(<span class="self">Self</span>::new(&lt;<span class="kw-2">&amp;</span>str&gt;::arbitrary(u)<span class="question-mark">?</span>))
+    }
+    <span class="kw">fn </span>size_hint(depth: usize) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
+        <span class="kw">return </span>&lt;<span class="kw-2">&amp;</span>str <span class="kw">as </span>arbitrary::Arbitrary&gt;::size_hint(depth);
     }
 }
 
@@ -1910,42 +1804,35 @@
 /// in escaped form. Internally data is stored in escaped form
 </span><span class="attr">#[derive(Clone, Eq, PartialEq)]
 </span><span class="kw">pub struct </span>BytesText&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="comment">// Invariant: The content is always escaped.
+    <span class="doccomment">/// Escaped then encoded content of the event. Content is encoded in the XML
+    /// document encoding when event comes from the reader and should be in the
+    /// document encoding when event passed to the writer
     </span>content: Cow&lt;<span class="lifetime">&#39;a</span>, [u8]&gt;,
+    <span class="doccomment">/// Encoding in which the `content` is stored inside the event
+    </span>decoder: Decoder,
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; BytesText&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="doccomment">/// Creates a new `BytesText` from an escaped byte sequence.
+    <span class="doccomment">/// Creates a new `BytesText` from an escaped byte sequence in the specified encoding.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>from_escaped&lt;C: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, [u8]&gt;&gt;&gt;(content: C) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>wrap&lt;C: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, [u8]&gt;&gt;&gt;(content: C, decoder: Decoder) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             content: content.into(),
-        }
-    }
-
-    <span class="doccomment">/// Creates a new `BytesText` from a byte sequence. The byte sequence is
-    /// expected not to be escaped.
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>from_plain(content: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]) -&gt; <span class="self">Self </span>{
-        <span class="self">Self </span>{
-            content: escape(content),
+            decoder,
         }
     }
 
     <span class="doccomment">/// Creates a new `BytesText` from an escaped string.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>from_escaped_str&lt;C: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;&gt;(content: C) -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>::from_escaped(<span class="kw">match </span>content.into() {
-            Cow::Owned(o) =&gt; Cow::Owned(o.into_bytes()),
-            Cow::Borrowed(b) =&gt; Cow::Borrowed(b.as_bytes()),
-        })
+    </span><span class="kw">pub fn </span>from_escaped&lt;C: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;&gt;(content: C) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::wrap(str_cow_to_bytes(content), Decoder::utf8())
     }
 
     <span class="doccomment">/// Creates a new `BytesText` from a string. The string is expected not to
     /// be escaped.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>from_plain_str(content: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>::from_plain(content.as_bytes())
+    </span><span class="kw">pub fn </span>new(content: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::from_escaped(escape(content))
     }
 
     <span class="doccomment">/// Ensures that all data is owned to extend the object&#39;s lifetime if
@@ -1954,6 +1841,7 @@
     </span><span class="kw">pub fn </span>into_owned(<span class="self">self</span>) -&gt; BytesText&lt;<span class="lifetime">&#39;static</span>&gt; {
         BytesText {
             content: <span class="self">self</span>.content.into_owned().into(),
+            decoder: <span class="self">self</span>.decoder,
         }
     }
 
@@ -1963,211 +1851,92 @@
         <span class="self">self</span>.content
     }
 
-    <span class="doccomment">/// Returns unescaped version of the text content, that can be written
-    /// as CDATA in XML
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;serialize&quot;</span>)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>unescape(<span class="self">self</span>) -&gt; std::result::Result&lt;BytesCData&lt;<span class="lifetime">&#39;a</span>&gt;, EscapeError&gt; {
-        <span class="comment">//TODO: need to think about better API instead of dozens similar functions
-        // Maybe use builder pattern. After that expose function as public API
-        //FIXME: need to take into account entities defined in the document
-        </span><span class="prelude-val">Ok</span>(BytesCData::new(<span class="kw">match </span>do_unescape(<span class="kw-2">&amp;</span><span class="self">self</span>.content, <span class="prelude-val">None</span>)<span class="question-mark">? </span>{
-            Cow::Borrowed(<span class="kw">_</span>) =&gt; <span class="self">self</span>.content,
-            Cow::Owned(unescaped) =&gt; Cow::Owned(unescaped),
-        }))
+    <span class="doccomment">/// Converts the event into a borrowed event.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BytesText {
+        BytesText {
+            content: Cow::Borrowed(<span class="kw-2">&amp;</span><span class="self">self</span>.content),
+            decoder: <span class="self">self</span>.decoder,
+        }
     }
 
-    <span class="doccomment">/// gets escaped content
+    <span class="doccomment">/// Decodes then unescapes the content of the event.
     ///
-    /// Searches for &#39;&amp;&#39; into content and try to escape the coded character if possible
-    /// returns Malformed error with index within element if &#39;&amp;&#39; is not followed by &#39;;&#39;
-    ///
-    /// See also [`unescaped_with_custom_entities()`](#method.unescaped_with_custom_entities)
-    </span><span class="kw">pub fn </span>unescaped(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;[u8]&gt;&gt; {
-        <span class="self">self</span>.make_unescaped(<span class="prelude-val">None</span>)
+    /// This will allocate if the value contains any escape sequences or in
+    /// non-UTF-8 encoding.
+    </span><span class="kw">pub fn </span>unescape(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt; {
+        <span class="self">self</span>.unescape_with(|<span class="kw">_</span>| <span class="prelude-val">None</span>)
     }
 
-    <span class="doccomment">/// gets escaped content with custom entities
+    <span class="doccomment">/// Decodes then unescapes the content of the event with custom entities.
     ///
-    /// Searches for &#39;&amp;&#39; into content and try to escape the coded character if possible
-    /// returns Malformed error with index within element if &#39;&amp;&#39; is not followed by &#39;;&#39;
-    /// Additional entities can be provided in `custom_entities`.
-    ///
-    /// # Pre-condition
-    ///
-    /// The keys and values of `custom_entities`, if any, must be valid UTF-8.
-    ///
-    /// See also [`unescaped()`](#method.unescaped)
-    </span><span class="kw">pub fn </span>unescaped_with_custom_entities&lt;<span class="lifetime">&#39;s</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span><span class="self">self</span>,
-        custom_entities: <span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;<span class="lifetime">&#39;s</span>, [u8]&gt;&gt; {
-        <span class="self">self</span>.make_unescaped(<span class="prelude-val">Some</span>(custom_entities))
-    }
-
-    <span class="kw">fn </span>make_unescaped&lt;<span class="lifetime">&#39;s</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;s </span><span class="self">self</span>,
-        custom_entities: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;<span class="lifetime">&#39;s</span>, [u8]&gt;&gt; {
-        do_unescape(<span class="self">self</span>, custom_entities).map_err(Error::EscapeError)
-    }
-
-    <span class="doccomment">/// helper method to unescape then decode self using the reader encoding
-    /// but without BOM (Byte order mark)
-    ///
-    /// for performance reasons (could avoid allocating a `String`),
-    /// it might be wiser to manually use
-    /// 1. BytesText::unescaped()
-    /// 2. Reader::decode(...)
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;encoding&quot;</span>)]
-    </span><span class="kw">pub fn </span>unescape_and_decode_without_bom&lt;B: BufRead&gt;(
+    /// This will allocate if the value contains any escape sequences or in
+    /// non-UTF-8 encoding.
+    </span><span class="kw">pub fn </span>unescape_with&lt;<span class="lifetime">&#39;entity</span>&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;mut </span>Reader&lt;B&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;String&gt; {
-        <span class="self">self</span>.do_unescape_and_decode_without_bom(reader, <span class="prelude-val">None</span>)
+        resolve_entity: <span class="kw">impl </span>FnMut(<span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;entity </span>str&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt; {
+        <span class="kw">let </span>decoded = <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.content {
+            Cow::Borrowed(bytes) =&gt; <span class="self">self</span>.decoder.decode(bytes)<span class="question-mark">?</span>,
+            <span class="comment">// Convert to owned, because otherwise Cow will be bound with wrong lifetime
+            </span>Cow::Owned(bytes) =&gt; <span class="self">self</span>.decoder.decode(bytes)<span class="question-mark">?</span>.into_owned().into(),
+        };
+
+        <span class="kw">match </span>unescape_with(<span class="kw-2">&amp;</span>decoded, resolve_entity)<span class="question-mark">? </span>{
+            <span class="comment">// Because result is borrowed, no replacements was done and we can use original string
+            </span>Cow::Borrowed(<span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(decoded),
+            Cow::Owned(s) =&gt; <span class="prelude-val">Ok</span>(s.into()),
+        }
     }
 
-    <span class="doccomment">/// helper method to unescape then decode self using the reader encoding
-    /// but without BOM (Byte order mark)
+    <span class="doccomment">/// Removes leading XML whitespace bytes from text content.
     ///
-    /// for performance reasons (could avoid allocating a `String`),
-    /// it might be wiser to manually use
-    /// 1. BytesText::unescaped()
-    /// 2. Reader::decode(...)
-    </span><span class="attr">#[cfg(not(feature = <span class="string">&quot;encoding&quot;</span>))]
-    </span><span class="kw">pub fn </span>unescape_and_decode_without_bom&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;String&gt; {
-        <span class="self">self</span>.do_unescape_and_decode_without_bom(reader, <span class="prelude-val">None</span>)
+    /// Returns `true` if content is empty after that
+    </span><span class="kw">pub fn </span>inplace_trim_start(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.content = trim_cow(
+            replace(<span class="kw-2">&amp;mut </span><span class="self">self</span>.content, Cow::Borrowed(<span class="string">b&quot;&quot;</span>)),
+            trim_xml_start,
+        );
+        <span class="self">self</span>.content.is_empty()
     }
 
-    <span class="doccomment">/// helper method to unescape then decode self using the reader encoding with custom entities
-    /// but without BOM (Byte order mark)
+    <span class="doccomment">/// Removes trailing XML whitespace bytes from text content.
     ///
-    /// for performance reasons (could avoid allocating a `String`),
-    /// it might be wiser to manually use
-    /// 1. BytesText::unescaped()
-    /// 2. Reader::decode(...)
-    ///
-    /// # Pre-condition
-    ///
-    /// The keys and values of `custom_entities`, if any, must be valid UTF-8.
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;encoding&quot;</span>)]
-    </span><span class="kw">pub fn </span>unescape_and_decode_without_bom_with_custom_entities&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;mut </span>Reader&lt;B&gt;,
-        custom_entities: <span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;String&gt; {
-        <span class="self">self</span>.do_unescape_and_decode_without_bom(reader, <span class="prelude-val">Some</span>(custom_entities))
-    }
-
-    <span class="doccomment">/// helper method to unescape then decode self using the reader encoding with custom entities
-    /// but without BOM (Byte order mark)
-    ///
-    /// for performance reasons (could avoid allocating a `String`),
-    /// it might be wiser to manually use
-    /// 1. BytesText::unescaped()
-    /// 2. Reader::decode(...)
-    ///
-    /// # Pre-condition
-    ///
-    /// The keys and values of `custom_entities`, if any, must be valid UTF-8.
-    </span><span class="attr">#[cfg(not(feature = <span class="string">&quot;encoding&quot;</span>))]
-    </span><span class="kw">pub fn </span>unescape_and_decode_without_bom_with_custom_entities&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;,
-        custom_entities: <span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;String&gt; {
-        <span class="self">self</span>.do_unescape_and_decode_without_bom(reader, <span class="prelude-val">Some</span>(custom_entities))
-    }
-
-    <span class="attr">#[cfg(feature = <span class="string">&quot;encoding&quot;</span>)]
-    </span><span class="kw">fn </span>do_unescape_and_decode_without_bom&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;mut </span>Reader&lt;B&gt;,
-        custom_entities: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;String&gt; {
-        <span class="kw">let </span>decoded = reader.decode_without_bom(<span class="kw-2">&amp;*</span><span class="self">self</span>);
-        <span class="kw">let </span>unescaped =
-            do_unescape(decoded.as_bytes(), custom_entities).map_err(Error::EscapeError)<span class="question-mark">?</span>;
-        String::from_utf8(unescaped.into_owned()).map_err(|e| Error::Utf8(e.utf8_error()))
-    }
-
-    <span class="attr">#[cfg(not(feature = <span class="string">&quot;encoding&quot;</span>))]
-    </span><span class="kw">fn </span>do_unescape_and_decode_without_bom&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;,
-        custom_entities: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;String&gt; {
-        <span class="kw">let </span>decoded = reader.decode_without_bom(<span class="kw-2">&amp;*</span><span class="self">self</span>)<span class="question-mark">?</span>;
-        <span class="kw">let </span>unescaped =
-            do_unescape(decoded.as_bytes(), custom_entities).map_err(Error::EscapeError)<span class="question-mark">?</span>;
-        String::from_utf8(unescaped.into_owned()).map_err(|e| Error::Utf8(e.utf8_error()))
-    }
-
-    <span class="doccomment">/// helper method to unescape then decode self using the reader encoding
-    ///
-    /// for performance reasons (could avoid allocating a `String`),
-    /// it might be wiser to manually use
-    /// 1. BytesText::unescaped()
-    /// 2. Reader::decode(...)
-    </span><span class="kw">pub fn </span>unescape_and_decode&lt;B: BufRead&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;String&gt; {
-        <span class="self">self</span>.do_unescape_and_decode_with_custom_entities(reader, <span class="prelude-val">None</span>)
-    }
-
-    <span class="doccomment">/// helper method to unescape then decode self using the reader encoding with custom entities
-    ///
-    /// for performance reasons (could avoid allocating a `String`),
-    /// it might be wiser to manually use
-    /// 1. BytesText::unescaped()
-    /// 2. Reader::decode(...)
-    ///
-    /// # Pre-condition
-    ///
-    /// The keys and values of `custom_entities`, if any, must be valid UTF-8.
-    </span><span class="kw">pub fn </span>unescape_and_decode_with_custom_entities&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;,
-        custom_entities: <span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;String&gt; {
-        <span class="self">self</span>.do_unescape_and_decode_with_custom_entities(reader, <span class="prelude-val">Some</span>(custom_entities))
-    }
-
-    <span class="attr">#[cfg(feature = <span class="string">&quot;encoding&quot;</span>)]
-    </span><span class="kw">fn </span>do_unescape_and_decode_with_custom_entities&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;,
-        custom_entities: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;String&gt; {
-        <span class="kw">let </span>decoded = reader.decode(<span class="kw-2">&amp;*</span><span class="self">self</span>);
-        <span class="kw">let </span>unescaped =
-            do_unescape(decoded.as_bytes(), custom_entities).map_err(Error::EscapeError)<span class="question-mark">?</span>;
-        String::from_utf8(unescaped.into_owned()).map_err(|e| Error::Utf8(e.utf8_error()))
-    }
-
-    <span class="attr">#[cfg(not(feature = <span class="string">&quot;encoding&quot;</span>))]
-    </span><span class="kw">fn </span>do_unescape_and_decode_with_custom_entities&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;,
-        custom_entities: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;String&gt; {
-        <span class="kw">let </span>decoded = reader.decode(<span class="kw-2">&amp;*</span><span class="self">self</span>)<span class="question-mark">?</span>;
-        <span class="kw">let </span>unescaped =
-            do_unescape(decoded.as_bytes(), custom_entities).map_err(Error::EscapeError)<span class="question-mark">?</span>;
-        String::from_utf8(unescaped.into_owned()).map_err(|e| Error::Utf8(e.utf8_error()))
-    }
-
-    <span class="doccomment">/// Gets escaped content.
-    </span><span class="kw">pub fn </span>escaped(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
-        <span class="self">self</span>.content.as_ref()
+    /// Returns `true` if content is empty after that
+    </span><span class="kw">pub fn </span>inplace_trim_end(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.content = trim_cow(replace(<span class="kw-2">&amp;mut </span><span class="self">self</span>.content, Cow::Borrowed(<span class="string">b&quot;&quot;</span>)), trim_xml_end);
+        <span class="self">self</span>.content.is_empty()
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; std::fmt::Debug <span class="kw">for </span>BytesText&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter) -&gt; std::fmt::Result {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Debug <span class="kw">for </span>BytesText&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter) -&gt; fmt::Result {
         <span class="macro">write!</span>(f, <span class="string">&quot;BytesText {{ content: &quot;</span>)<span class="question-mark">?</span>;
         write_cow_string(f, <span class="kw-2">&amp;</span><span class="self">self</span>.content)<span class="question-mark">?</span>;
         <span class="macro">write!</span>(f, <span class="string">&quot; }}&quot;</span>)
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Deref <span class="kw">for </span>BytesText&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">type </span>Target = [u8];
+
+    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.content
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;arbitrary&quot;</span>)]
+</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; arbitrary::Arbitrary&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>BytesText&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>arbitrary(u: <span class="kw-2">&amp;mut </span>arbitrary::Unstructured&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; arbitrary::Result&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">let </span>s = &lt;<span class="kw-2">&amp;</span>str&gt;::arbitrary(u)<span class="question-mark">?</span>;
+        <span class="kw">if </span>!s.chars().all(char::is_alphanumeric) {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(arbitrary::Error::IncorrectFormat);
+        }
+        <span class="prelude-val">Ok</span>(<span class="self">Self</span>::new(s))
+    }
+
+    <span class="kw">fn </span>size_hint(depth: usize) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
+        <span class="kw">return </span>&lt;<span class="kw-2">&amp;</span>str <span class="kw">as </span>arbitrary::Arbitrary&gt;::size_hint(depth);
     }
 }
 
@@ -2178,21 +1947,28 @@
 </span><span class="attr">#[derive(Clone, Eq, PartialEq)]
 </span><span class="kw">pub struct </span>BytesCData&lt;<span class="lifetime">&#39;a</span>&gt; {
     content: Cow&lt;<span class="lifetime">&#39;a</span>, [u8]&gt;,
+    <span class="doccomment">/// Encoding in which the `content` is stored inside the event
+    </span>decoder: Decoder,
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; BytesCData&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="doccomment">/// Creates a new `BytesCData` from a byte sequence.
+    <span class="doccomment">/// Creates a new `BytesCData` from a byte sequence in the specified encoding.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>new&lt;C: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, [u8]&gt;&gt;&gt;(content: C) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>wrap&lt;C: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, [u8]&gt;&gt;&gt;(content: C, decoder: Decoder) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             content: content.into(),
+            decoder,
         }
     }
 
-    <span class="doccomment">/// Creates a new `BytesCData` from a string
+    <span class="doccomment">/// Creates a new `BytesCData` from a string.
+    ///
+    /// # Warning
+    ///
+    /// `content` must not contain the `]]&gt;` sequence.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>from_str(content: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str) -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>::new(content.as_bytes())
+    </span><span class="kw">pub fn </span>new&lt;C: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;&gt;(content: C) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::wrap(str_cow_to_bytes(content), Decoder::utf8())
     }
 
     <span class="doccomment">/// Ensures that all data is owned to extend the object&#39;s lifetime if
@@ -2201,6 +1977,7 @@
     </span><span class="kw">pub fn </span>into_owned(<span class="self">self</span>) -&gt; BytesCData&lt;<span class="lifetime">&#39;static</span>&gt; {
         BytesCData {
             content: <span class="self">self</span>.content.into_owned().into(),
+            decoder: <span class="self">self</span>.decoder,
         }
     }
 
@@ -2208,6 +1985,15 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>into_inner(<span class="self">self</span>) -&gt; Cow&lt;<span class="lifetime">&#39;a</span>, [u8]&gt; {
         <span class="self">self</span>.content
+    }
+
+    <span class="doccomment">/// Converts the event into a borrowed event.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BytesCData {
+        BytesCData {
+            content: Cow::Borrowed(<span class="kw-2">&amp;</span><span class="self">self</span>.content),
+            decoder: <span class="self">self</span>.decoder,
+        }
     }
 
     <span class="doccomment">/// Converts this CDATA content to an escaped version, that can be written
@@ -2222,11 +2008,16 @@
     /// | `&amp;`       | `&amp;amp;`
     /// | `&#39;`       | `&amp;apos;`
     /// | `&quot;`       | `&amp;quot;`
-    </span><span class="kw">pub fn </span>escape(<span class="self">self</span>) -&gt; BytesText&lt;<span class="lifetime">&#39;a</span>&gt; {
-        BytesText::from_escaped(<span class="kw">match </span>escape(<span class="kw-2">&amp;</span><span class="self">self</span>.content) {
-            Cow::Borrowed(<span class="kw">_</span>) =&gt; <span class="self">self</span>.content,
-            Cow::Owned(escaped) =&gt; Cow::Owned(escaped),
-        })
+    </span><span class="kw">pub fn </span>escape(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;BytesText&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
+        <span class="kw">let </span>decoded = <span class="self">self</span>.decode()<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(BytesText::wrap(
+            <span class="kw">match </span>escape(<span class="kw-2">&amp;</span>decoded) {
+                <span class="comment">// Because result is borrowed, no replacements was done and we can use original content
+                </span>Cow::Borrowed(<span class="kw">_</span>) =&gt; <span class="self">self</span>.content,
+                Cow::Owned(escaped) =&gt; Cow::Owned(escaped.into_bytes()),
+            },
+            Decoder::utf8(),
+        ))
     }
 
     <span class="doccomment">/// Converts this CDATA content to an escaped version, that can be written
@@ -2242,54 +2033,61 @@
     /// | `&lt;`       | `&amp;lt;`
     /// | `&gt;`       | `&amp;gt;`
     /// | `&amp;`       | `&amp;amp;`
-    </span><span class="kw">pub fn </span>partial_escape(<span class="self">self</span>) -&gt; BytesText&lt;<span class="lifetime">&#39;a</span>&gt; {
-        BytesText::from_escaped(<span class="kw">match </span>partial_escape(<span class="kw-2">&amp;</span><span class="self">self</span>.content) {
-            Cow::Borrowed(<span class="kw">_</span>) =&gt; <span class="self">self</span>.content,
-            Cow::Owned(escaped) =&gt; Cow::Owned(escaped),
-        })
+    </span><span class="kw">pub fn </span>partial_escape(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;BytesText&lt;<span class="lifetime">&#39;a</span>&gt;&gt; {
+        <span class="kw">let </span>decoded = <span class="self">self</span>.decode()<span class="question-mark">?</span>;
+        <span class="prelude-val">Ok</span>(BytesText::wrap(
+            <span class="kw">match </span>partial_escape(<span class="kw-2">&amp;</span>decoded) {
+                <span class="comment">// Because result is borrowed, no replacements was done and we can use original content
+                </span>Cow::Borrowed(<span class="kw">_</span>) =&gt; <span class="self">self</span>.content,
+                Cow::Owned(escaped) =&gt; Cow::Owned(escaped.into_bytes()),
+            },
+            Decoder::utf8(),
+        ))
     }
 
     <span class="doccomment">/// Gets content of this text buffer in the specified encoding
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;serialize&quot;</span>)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>decode(<span class="kw-2">&amp;</span><span class="self">self</span>, decoder: <span class="kw">crate</span>::reader::Decoder) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt; {
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>decode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt; {
         <span class="prelude-val">Ok</span>(<span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.content {
-            Cow::Borrowed(bytes) =&gt; {
-                <span class="attr">#[cfg(feature = <span class="string">&quot;encoding&quot;</span>)]
-                </span>{
-                    decoder.decode(bytes)
-                }
-                <span class="attr">#[cfg(not(feature = <span class="string">&quot;encoding&quot;</span>))]
-                </span>{
-                    decoder.decode(bytes)<span class="question-mark">?</span>.into()
-                }
-            }
-            Cow::Owned(bytes) =&gt; {
-                <span class="attr">#[cfg(feature = <span class="string">&quot;encoding&quot;</span>)]
-                </span><span class="kw">let </span>decoded = decoder.decode(bytes).into_owned();
-
-                <span class="attr">#[cfg(not(feature = <span class="string">&quot;encoding&quot;</span>))]
-                </span><span class="kw">let </span>decoded = decoder.decode(bytes)<span class="question-mark">?</span>.to_string();
-
-                decoded.into()
-            }
+            Cow::Borrowed(bytes) =&gt; <span class="self">self</span>.decoder.decode(bytes)<span class="question-mark">?</span>,
+            <span class="comment">// Convert to owned, because otherwise Cow will be bound with wrong lifetime
+            </span>Cow::Owned(bytes) =&gt; <span class="self">self</span>.decoder.decode(bytes)<span class="question-mark">?</span>.into_owned().into(),
         })
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; std::fmt::Debug <span class="kw">for </span>BytesCData&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter) -&gt; std::fmt::Result {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Debug <span class="kw">for </span>BytesCData&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter) -&gt; fmt::Result {
         <span class="macro">write!</span>(f, <span class="string">&quot;BytesCData {{ content: &quot;</span>)<span class="question-mark">?</span>;
         write_cow_string(f, <span class="kw-2">&amp;</span><span class="self">self</span>.content)<span class="question-mark">?</span>;
         <span class="macro">write!</span>(f, <span class="string">&quot; }}&quot;</span>)
     }
 }
 
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Deref <span class="kw">for </span>BytesCData&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">type </span>Target = [u8];
+
+    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.content
+    }
+}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;arbitrary&quot;</span>)]
+</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; arbitrary::Arbitrary&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>BytesCData&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>arbitrary(u: <span class="kw-2">&amp;mut </span>arbitrary::Unstructured&lt;<span class="lifetime">&#39;a</span>&gt;) -&gt; arbitrary::Result&lt;<span class="self">Self</span>&gt; {
+        <span class="prelude-val">Ok</span>(<span class="self">Self</span>::new(&lt;<span class="kw-2">&amp;</span>str&gt;::arbitrary(u)<span class="question-mark">?</span>))
+    }
+    <span class="kw">fn </span>size_hint(depth: usize) -&gt; (usize, <span class="prelude-ty">Option</span>&lt;usize&gt;) {
+        <span class="kw">return </span>&lt;<span class="kw-2">&amp;</span>str <span class="kw">as </span>arbitrary::Arbitrary&gt;::size_hint(depth);
+    }
+}
+
 <span class="comment">////////////////////////////////////////////////////////////////////////////////////////////////////
 
-</span><span class="doccomment">/// Event emitted by [`Reader::read_event`].
+</span><span class="doccomment">/// Event emitted by [`Reader::read_event_into`].
 ///
-/// [`Reader::read_event`]: ../reader/struct.Reader.html#method.read_event
+/// [`Reader::read_event_into`]: crate::reader::Reader::read_event_into
 </span><span class="attr">#[derive(Clone, Debug, Eq, PartialEq)]
+#[cfg_attr(feature = <span class="string">&quot;arbitrary&quot;</span>, derive(arbitrary::Arbitrary))]
 </span><span class="kw">pub enum </span>Event&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="doccomment">/// Start tag (with attributes) `&lt;tag attr=&quot;value&quot;&gt;`.
     </span>Start(BytesStart&lt;<span class="lifetime">&#39;a</span>&gt;),
@@ -2297,17 +2095,17 @@
     </span>End(BytesEnd&lt;<span class="lifetime">&#39;a</span>&gt;),
     <span class="doccomment">/// Empty element tag (with attributes) `&lt;tag attr=&quot;value&quot; /&gt;`.
     </span>Empty(BytesStart&lt;<span class="lifetime">&#39;a</span>&gt;),
-    <span class="doccomment">/// Character data between `Start` and `End` element.
+    <span class="doccomment">/// Escaped character data between tags.
     </span>Text(BytesText&lt;<span class="lifetime">&#39;a</span>&gt;),
     <span class="doccomment">/// Comment `&lt;!-- ... --&gt;`.
     </span>Comment(BytesText&lt;<span class="lifetime">&#39;a</span>&gt;),
-    <span class="doccomment">/// CData `&lt;![CDATA[...]]&gt;`.
+    <span class="doccomment">/// Unescaped character data stored in `&lt;![CDATA[...]]&gt;`.
     </span>CData(BytesCData&lt;<span class="lifetime">&#39;a</span>&gt;),
     <span class="doccomment">/// XML declaration `&lt;?xml ...?&gt;`.
     </span>Decl(BytesDecl&lt;<span class="lifetime">&#39;a</span>&gt;),
     <span class="doccomment">/// Processing instruction `&lt;?...?&gt;`.
     </span>PI(BytesText&lt;<span class="lifetime">&#39;a</span>&gt;),
-    <span class="doccomment">/// Doctype `&lt;!DOCTYPE ...&gt;`.
+    <span class="doccomment">/// Document type definition data (DTD) stored in `&lt;!DOCTYPE ...&gt;`.
     </span>DocType(BytesText&lt;<span class="lifetime">&#39;a</span>&gt;),
     <span class="doccomment">/// End of XML document.
     </span>Eof,
@@ -2330,58 +2128,38 @@
             Event::Eof =&gt; Event::Eof,
         }
     }
-}
 
-<span class="comment">////////////////////////////////////////////////////////////////////////////////////////////////////
-
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Deref <span class="kw">for </span>BytesStart&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">type </span>Target = [u8];
-    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
-        <span class="kw-2">&amp;*</span><span class="self">self</span>.buf
-    }
-}
-
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Deref <span class="kw">for </span>BytesDecl&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">type </span>Target = [u8];
-    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
-        <span class="kw-2">&amp;*</span><span class="self">self</span>.element
-    }
-}
-
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Deref <span class="kw">for </span>BytesEnd&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">type </span>Target = [u8];
-    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
-        <span class="kw-2">&amp;*</span><span class="self">self</span>.name
-    }
-}
-
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Deref <span class="kw">for </span>BytesText&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">type </span>Target = [u8];
-    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
-        <span class="kw-2">&amp;*</span><span class="self">self</span>.content
-    }
-}
-
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Deref <span class="kw">for </span>BytesCData&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">type </span>Target = [u8];
-
-    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
-        <span class="kw-2">&amp;*</span><span class="self">self</span>.content
+    <span class="doccomment">/// Converts the event into a borrowed event.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Event {
+        <span class="kw">match </span><span class="self">self </span>{
+            Event::Start(e) =&gt; Event::Start(e.borrow()),
+            Event::End(e) =&gt; Event::End(e.borrow()),
+            Event::Empty(e) =&gt; Event::Empty(e.borrow()),
+            Event::Text(e) =&gt; Event::Text(e.borrow()),
+            Event::Comment(e) =&gt; Event::Comment(e.borrow()),
+            Event::CData(e) =&gt; Event::CData(e.borrow()),
+            Event::Decl(e) =&gt; Event::Decl(e.borrow()),
+            Event::PI(e) =&gt; Event::PI(e.borrow()),
+            Event::DocType(e) =&gt; Event::DocType(e.borrow()),
+            Event::Eof =&gt; Event::Eof,
+        }
     }
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Deref <span class="kw">for </span>Event&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="kw">type </span>Target = [u8];
+
     <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
         <span class="kw">match </span><span class="kw-2">*</span><span class="self">self </span>{
-            Event::Start(<span class="kw-2">ref </span>e) | Event::Empty(<span class="kw-2">ref </span>e) =&gt; <span class="kw-2">&amp;*</span>e,
-            Event::End(<span class="kw-2">ref </span>e) =&gt; <span class="kw-2">&amp;*</span>e,
-            Event::Text(<span class="kw-2">ref </span>e) =&gt; <span class="kw-2">&amp;*</span>e,
-            Event::Decl(<span class="kw-2">ref </span>e) =&gt; <span class="kw-2">&amp;*</span>e,
-            Event::PI(<span class="kw-2">ref </span>e) =&gt; <span class="kw-2">&amp;*</span>e,
-            Event::CData(<span class="kw-2">ref </span>e) =&gt; <span class="kw-2">&amp;*</span>e,
-            Event::Comment(<span class="kw-2">ref </span>e) =&gt; <span class="kw-2">&amp;*</span>e,
-            Event::DocType(<span class="kw-2">ref </span>e) =&gt; <span class="kw-2">&amp;*</span>e,
+            Event::Start(<span class="kw-2">ref </span>e) | Event::Empty(<span class="kw-2">ref </span>e) =&gt; e,
+            Event::End(<span class="kw-2">ref </span>e) =&gt; e,
+            Event::Text(<span class="kw-2">ref </span>e) =&gt; e,
+            Event::Decl(<span class="kw-2">ref </span>e) =&gt; e,
+            Event::PI(<span class="kw-2">ref </span>e) =&gt; e,
+            Event::CData(<span class="kw-2">ref </span>e) =&gt; e,
+            Event::Comment(<span class="kw-2">ref </span>e) =&gt; e,
+            Event::DocType(<span class="kw-2">ref </span>e) =&gt; e,
             Event::Eof =&gt; <span class="kw-2">&amp;</span>[],
         }
     }
@@ -2395,80 +2173,97 @@
 
 <span class="comment">////////////////////////////////////////////////////////////////////////////////////////////////////
 
-</span><span class="attr">#[cfg(test)]
+</span><span class="attr">#[inline]
+</span><span class="kw">fn </span>str_cow_to_bytes&lt;<span class="lifetime">&#39;a</span>, C: Into&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt;&gt;(content: C) -&gt; Cow&lt;<span class="lifetime">&#39;a</span>, [u8]&gt; {
+    <span class="kw">match </span>content.into() {
+        Cow::Borrowed(s) =&gt; Cow::Borrowed(s.as_bytes()),
+        Cow::Owned(s) =&gt; Cow::Owned(s.into_bytes()),
+    }
+}
+
+<span class="doccomment">/// Returns a byte slice with leading XML whitespace bytes removed.
+///
+/// &#39;Whitespace&#39; refers to the definition used by [`is_whitespace`].
+</span><span class="kw">const fn </span>trim_xml_start(<span class="kw-2">mut </span>bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="kw-2">&amp;</span>[u8] {
+    <span class="comment">// Note: A pattern matching based approach (instead of indexing) allows
+    // making the function const.
+    </span><span class="kw">while let </span>[first, rest @ ..] = bytes {
+        <span class="kw">if </span>is_whitespace(<span class="kw-2">*</span>first) {
+            bytes = rest;
+        } <span class="kw">else </span>{
+            <span class="kw">break</span>;
+        }
+    }
+    bytes
+}
+
+<span class="doccomment">/// Returns a byte slice with trailing XML whitespace bytes removed.
+///
+/// &#39;Whitespace&#39; refers to the definition used by [`is_whitespace`].
+</span><span class="kw">const fn </span>trim_xml_end(<span class="kw-2">mut </span>bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="kw-2">&amp;</span>[u8] {
+    <span class="comment">// Note: A pattern matching based approach (instead of indexing) allows
+    // making the function const.
+    </span><span class="kw">while let </span>[rest @ .., last] = bytes {
+        <span class="kw">if </span>is_whitespace(<span class="kw-2">*</span>last) {
+            bytes = rest;
+        } <span class="kw">else </span>{
+            <span class="kw">break</span>;
+        }
+    }
+    bytes
+}
+
+<span class="kw">fn </span>trim_cow&lt;<span class="lifetime">&#39;a</span>, F&gt;(value: Cow&lt;<span class="lifetime">&#39;a</span>, [u8]&gt;, trim: F) -&gt; Cow&lt;<span class="lifetime">&#39;a</span>, [u8]&gt;
+<span class="kw">where
+    </span>F: FnOnce(<span class="kw-2">&amp;</span>[u8]) -&gt; <span class="kw-2">&amp;</span>[u8],
+{
+    <span class="kw">match </span>value {
+        Cow::Borrowed(bytes) =&gt; Cow::Borrowed(trim(bytes)),
+        Cow::Owned(<span class="kw-2">mut </span>bytes) =&gt; {
+            <span class="kw">let </span>trimmed = trim(<span class="kw-2">&amp;</span>bytes);
+            <span class="kw">if </span>trimmed.len() != bytes.len() {
+                bytes = trimmed.to_vec();
+            }
+            Cow::Owned(bytes)
+        }
+    }
+}
+
+<span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>test {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span>pretty_assertions::assert_eq;
 
     <span class="attr">#[test]
-    </span><span class="kw">fn </span>local_name() {
-        <span class="kw">use </span>std::str::from_utf8;
-        <span class="kw">let </span>xml = <span class="string">r#&quot;
-            &lt;foo:bus attr=&#39;bar&#39;&gt;foobusbar&lt;/foo:bus&gt;
-            &lt;foo: attr=&#39;bar&#39;&gt;foobusbar&lt;/foo:&gt;
-            &lt;:foo attr=&#39;bar&#39;&gt;foobusbar&lt;/:foo&gt;
-            &lt;foo:bus:baz attr=&#39;bar&#39;&gt;foobusbar&lt;/foo:bus:baz&gt;
-            &quot;#</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>rdr = Reader::from_str(xml);
-        <span class="kw">let </span><span class="kw-2">mut </span>buf = Vec::new();
-        <span class="kw">let </span><span class="kw-2">mut </span>parsed_local_names = Vec::new();
-        <span class="kw">loop </span>{
-            <span class="kw">match </span>rdr.read_event(<span class="kw-2">&amp;mut </span>buf).expect(<span class="string">&quot;unable to read xml event&quot;</span>) {
-                Event::Start(<span class="kw-2">ref </span>e) =&gt; parsed_local_names.push(
-                    from_utf8(e.local_name())
-                        .expect(<span class="string">&quot;unable to build str from local_name&quot;</span>)
-                        .to_string(),
-                ),
-                Event::End(<span class="kw-2">ref </span>e) =&gt; parsed_local_names.push(
-                    from_utf8(e.local_name())
-                        .expect(<span class="string">&quot;unable to build str from local_name&quot;</span>)
-                        .to_string(),
-                ),
-                Event::Eof =&gt; <span class="kw">break</span>,
-                <span class="kw">_ </span>=&gt; {}
-            }
-        }
-        <span class="macro">assert_eq!</span>(parsed_local_names[<span class="number">0</span>], <span class="string">&quot;bus&quot;</span>.to_string());
-        <span class="macro">assert_eq!</span>(parsed_local_names[<span class="number">1</span>], <span class="string">&quot;bus&quot;</span>.to_string());
-        <span class="macro">assert_eq!</span>(parsed_local_names[<span class="number">2</span>], <span class="string">&quot;&quot;</span>.to_string());
-        <span class="macro">assert_eq!</span>(parsed_local_names[<span class="number">3</span>], <span class="string">&quot;&quot;</span>.to_string());
-        <span class="macro">assert_eq!</span>(parsed_local_names[<span class="number">4</span>], <span class="string">&quot;foo&quot;</span>.to_string());
-        <span class="macro">assert_eq!</span>(parsed_local_names[<span class="number">5</span>], <span class="string">&quot;foo&quot;</span>.to_string());
-        <span class="macro">assert_eq!</span>(parsed_local_names[<span class="number">6</span>], <span class="string">&quot;bus:baz&quot;</span>.to_string());
-        <span class="macro">assert_eq!</span>(parsed_local_names[<span class="number">7</span>], <span class="string">&quot;bus:baz&quot;</span>.to_string());
-    }
-
-    <span class="attr">#[test]
     </span><span class="kw">fn </span>bytestart_create() {
-        <span class="kw">let </span>b = BytesStart::owned_name(<span class="string">&quot;test&quot;</span>);
+        <span class="kw">let </span>b = BytesStart::new(<span class="string">&quot;test&quot;</span>);
         <span class="macro">assert_eq!</span>(b.len(), <span class="number">4</span>);
-        <span class="macro">assert_eq!</span>(b.name(), <span class="string">b&quot;test&quot;</span>);
+        <span class="macro">assert_eq!</span>(b.name(), QName(<span class="string">b&quot;test&quot;</span>));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>bytestart_set_name() {
-        <span class="kw">let </span><span class="kw-2">mut </span>b = BytesStart::owned_name(<span class="string">&quot;test&quot;</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>b = BytesStart::new(<span class="string">&quot;test&quot;</span>);
         <span class="macro">assert_eq!</span>(b.len(), <span class="number">4</span>);
-        <span class="macro">assert_eq!</span>(b.name(), <span class="string">b&quot;test&quot;</span>);
+        <span class="macro">assert_eq!</span>(b.name(), QName(<span class="string">b&quot;test&quot;</span>));
         <span class="macro">assert_eq!</span>(b.attributes_raw(), <span class="string">b&quot;&quot;</span>);
         b.push_attribute((<span class="string">&quot;x&quot;</span>, <span class="string">&quot;a&quot;</span>));
         <span class="macro">assert_eq!</span>(b.len(), <span class="number">10</span>);
         <span class="macro">assert_eq!</span>(b.attributes_raw(), <span class="string">b&quot; x=\&quot;a\&quot;&quot;</span>);
         b.set_name(<span class="string">b&quot;g&quot;</span>);
         <span class="macro">assert_eq!</span>(b.len(), <span class="number">7</span>);
-        <span class="macro">assert_eq!</span>(b.name(), <span class="string">b&quot;g&quot;</span>);
+        <span class="macro">assert_eq!</span>(b.name(), QName(<span class="string">b&quot;g&quot;</span>));
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>bytestart_clear_attributes() {
-        <span class="kw">let </span><span class="kw-2">mut </span>b = BytesStart::owned_name(<span class="string">&quot;test&quot;</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>b = BytesStart::new(<span class="string">&quot;test&quot;</span>);
         b.push_attribute((<span class="string">&quot;x&quot;</span>, <span class="string">&quot;y\&quot;z&quot;</span>));
         b.push_attribute((<span class="string">&quot;x&quot;</span>, <span class="string">&quot;y\&quot;z&quot;</span>));
         b.clear_attributes();
         <span class="macro">assert!</span>(b.attributes().next().is_none());
         <span class="macro">assert_eq!</span>(b.len(), <span class="number">4</span>);
-        <span class="macro">assert_eq!</span>(b.name(), <span class="string">b&quot;test&quot;</span>);
+        <span class="macro">assert_eq!</span>(b.name(), QName(<span class="string">b&quot;test&quot;</span>));
     }
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="quick_xml" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0 (84c898d65 2023-04-16)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

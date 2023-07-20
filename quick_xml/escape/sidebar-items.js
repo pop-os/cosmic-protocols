@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["escape","partial_escape","unescape","unescape_with"]};
+window.SIDEBAR_ITEMS = {"enum":["EscapeError"],"fn":["escape","partial_escape","unescape","unescape_with"]};

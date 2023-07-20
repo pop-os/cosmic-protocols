@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/quick-xml-0.23.1/src/events/attributes.rs`."><title>attributes.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../quick_xml/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quick-xml-0.28.2/src/events/attributes.rs`."><title>attributes.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="quick_xml" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0 (8ede3aae2 2023-07-12)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../quick_xml/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2241,350 +2241,119 @@
 <a href="#2241" id="2241">2241</a>
 <a href="#2242" id="2242">2242</a>
 <a href="#2243" id="2243">2243</a>
-<a href="#2244" id="2244">2244</a>
-<a href="#2245" id="2245">2245</a>
-<a href="#2246" id="2246">2246</a>
-<a href="#2247" id="2247">2247</a>
-<a href="#2248" id="2248">2248</a>
-<a href="#2249" id="2249">2249</a>
-<a href="#2250" id="2250">2250</a>
-<a href="#2251" id="2251">2251</a>
-<a href="#2252" id="2252">2252</a>
-<a href="#2253" id="2253">2253</a>
-<a href="#2254" id="2254">2254</a>
-<a href="#2255" id="2255">2255</a>
-<a href="#2256" id="2256">2256</a>
-<a href="#2257" id="2257">2257</a>
-<a href="#2258" id="2258">2258</a>
-<a href="#2259" id="2259">2259</a>
-<a href="#2260" id="2260">2260</a>
-<a href="#2261" id="2261">2261</a>
-<a href="#2262" id="2262">2262</a>
-<a href="#2263" id="2263">2263</a>
-<a href="#2264" id="2264">2264</a>
-<a href="#2265" id="2265">2265</a>
-<a href="#2266" id="2266">2266</a>
-<a href="#2267" id="2267">2267</a>
-<a href="#2268" id="2268">2268</a>
-<a href="#2269" id="2269">2269</a>
-<a href="#2270" id="2270">2270</a>
-<a href="#2271" id="2271">2271</a>
-<a href="#2272" id="2272">2272</a>
-<a href="#2273" id="2273">2273</a>
-<a href="#2274" id="2274">2274</a>
-<a href="#2275" id="2275">2275</a>
-<a href="#2276" id="2276">2276</a>
-<a href="#2277" id="2277">2277</a>
-<a href="#2278" id="2278">2278</a>
-<a href="#2279" id="2279">2279</a>
-<a href="#2280" id="2280">2280</a>
-<a href="#2281" id="2281">2281</a>
-<a href="#2282" id="2282">2282</a>
-<a href="#2283" id="2283">2283</a>
-<a href="#2284" id="2284">2284</a>
-<a href="#2285" id="2285">2285</a>
-<a href="#2286" id="2286">2286</a>
-<a href="#2287" id="2287">2287</a>
-<a href="#2288" id="2288">2288</a>
-<a href="#2289" id="2289">2289</a>
-<a href="#2290" id="2290">2290</a>
-<a href="#2291" id="2291">2291</a>
-<a href="#2292" id="2292">2292</a>
-<a href="#2293" id="2293">2293</a>
-<a href="#2294" id="2294">2294</a>
-<a href="#2295" id="2295">2295</a>
-<a href="#2296" id="2296">2296</a>
-<a href="#2297" id="2297">2297</a>
-<a href="#2298" id="2298">2298</a>
-<a href="#2299" id="2299">2299</a>
-<a href="#2300" id="2300">2300</a>
-<a href="#2301" id="2301">2301</a>
-<a href="#2302" id="2302">2302</a>
-<a href="#2303" id="2303">2303</a>
-<a href="#2304" id="2304">2304</a>
-<a href="#2305" id="2305">2305</a>
-<a href="#2306" id="2306">2306</a>
-<a href="#2307" id="2307">2307</a>
-<a href="#2308" id="2308">2308</a>
-<a href="#2309" id="2309">2309</a>
-<a href="#2310" id="2310">2310</a>
-<a href="#2311" id="2311">2311</a>
-<a href="#2312" id="2312">2312</a>
-<a href="#2313" id="2313">2313</a>
-<a href="#2314" id="2314">2314</a>
-<a href="#2315" id="2315">2315</a>
-<a href="#2316" id="2316">2316</a>
-<a href="#2317" id="2317">2317</a>
-<a href="#2318" id="2318">2318</a>
-<a href="#2319" id="2319">2319</a>
-<a href="#2320" id="2320">2320</a>
-<a href="#2321" id="2321">2321</a>
-<a href="#2322" id="2322">2322</a>
-<a href="#2323" id="2323">2323</a>
-<a href="#2324" id="2324">2324</a>
-<a href="#2325" id="2325">2325</a>
-<a href="#2326" id="2326">2326</a>
-<a href="#2327" id="2327">2327</a>
-<a href="#2328" id="2328">2328</a>
-<a href="#2329" id="2329">2329</a>
-<a href="#2330" id="2330">2330</a>
-<a href="#2331" id="2331">2331</a>
-<a href="#2332" id="2332">2332</a>
-<a href="#2333" id="2333">2333</a>
-<a href="#2334" id="2334">2334</a>
-<a href="#2335" id="2335">2335</a>
-<a href="#2336" id="2336">2336</a>
-<a href="#2337" id="2337">2337</a>
-<a href="#2338" id="2338">2338</a>
-<a href="#2339" id="2339">2339</a>
-<a href="#2340" id="2340">2340</a>
-<a href="#2341" id="2341">2341</a>
-<a href="#2342" id="2342">2342</a>
-<a href="#2343" id="2343">2343</a>
-<a href="#2344" id="2344">2344</a>
-<a href="#2345" id="2345">2345</a>
-<a href="#2346" id="2346">2346</a>
-<a href="#2347" id="2347">2347</a>
-<a href="#2348" id="2348">2348</a>
-<a href="#2349" id="2349">2349</a>
-<a href="#2350" id="2350">2350</a>
-<a href="#2351" id="2351">2351</a>
-<a href="#2352" id="2352">2352</a>
-<a href="#2353" id="2353">2353</a>
-<a href="#2354" id="2354">2354</a>
-<a href="#2355" id="2355">2355</a>
-</pre><pre class="rust"><code><span class="doccomment">//! Xml Attributes module
+</pre></div><pre class="rust"><code><span class="doccomment">//! Xml Attributes module
 //!
 //! Provides an iterator over attributes key/value pairs
 
-</span><span class="kw">use </span><span class="kw">crate</span>::errors::{Error, <span class="prelude-ty">Result </span><span class="kw">as </span>XmlResult};
-<span class="kw">use </span><span class="kw">crate</span>::escape::{do_unescape, escape};
+</span><span class="kw">use </span><span class="kw">crate</span>::errors::Result <span class="kw">as </span>XmlResult;
+<span class="kw">use </span><span class="kw">crate</span>::escape::{escape, unescape_with};
+<span class="kw">use </span><span class="kw">crate</span>::name::QName;
 <span class="kw">use </span><span class="kw">crate</span>::reader::{is_whitespace, Reader};
 <span class="kw">use </span><span class="kw">crate</span>::utils::{write_byte_string, write_cow_string, Bytes};
 <span class="kw">use </span>std::fmt::{<span class="self">self</span>, Debug, Display, Formatter};
 <span class="kw">use </span>std::iter::FusedIterator;
-<span class="kw">use </span>std::{borrow::Cow, collections::HashMap, io::BufRead, ops::Range};
+<span class="kw">use </span>std::{borrow::Cow, ops::Range};
 
 <span class="doccomment">/// A struct representing a key/value XML attribute.
 ///
 /// Field `value` stores raw bytes, possibly containing escape-sequences. Most users will likely
-/// want to access the value using one of the [`unescaped_value`] and [`unescape_and_decode_value`]
+/// want to access the value using one of the [`unescape_value`] and [`decode_and_unescape_value`]
 /// functions.
 ///
-/// [`unescaped_value`]: #method.unescaped_value
-/// [`unescape_and_decode_value`]: #method.unescape_and_decode_value
-</span><span class="attr">#[derive(Clone, PartialEq)]
+/// [`unescape_value`]: Self::unescape_value
+/// [`decode_and_unescape_value`]: Self::decode_and_unescape_value
+</span><span class="attr">#[derive(Clone, Eq, PartialEq)]
 </span><span class="kw">pub struct </span>Attribute&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="doccomment">/// The key to uniquely define the attribute.
     ///
     /// If [`Attributes::with_checks`] is turned off, the key might not be unique.
-    ///
-    /// [`Attributes::with_checks`]: struct.Attributes.html#method.with_checks
-    </span><span class="kw">pub </span>key: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8],
+    </span><span class="kw">pub </span>key: QName&lt;<span class="lifetime">&#39;a</span>&gt;,
     <span class="doccomment">/// The raw value of the attribute.
     </span><span class="kw">pub </span>value: Cow&lt;<span class="lifetime">&#39;a</span>, [u8]&gt;,
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Attribute&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="doccomment">/// Returns the unescaped value.
+    <span class="doccomment">/// Decodes using UTF-8 then unescapes the value.
     ///
     /// This is normally the value you are interested in. Escape sequences such as `&amp;gt;` are
     /// replaced with their unescaped equivalents such as `&gt;`.
     ///
     /// This will allocate if the value contains any escape sequences.
     ///
-    /// See also [`unescaped_value_with_custom_entities()`](#method.unescaped_value_with_custom_entities)
-    </span><span class="kw">pub fn </span>unescaped_value(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; XmlResult&lt;Cow&lt;[u8]&gt;&gt; {
-        <span class="self">self</span>.make_unescaped_value(<span class="prelude-val">None</span>)
+    /// See also [`unescape_value_with()`](Self::unescape_value_with)
+    ///
+    /// This method is available only if `encoding` feature is **not** enabled.
+    </span><span class="attr">#[cfg(any(doc, not(feature = <span class="string">&quot;encoding&quot;</span>)))]
+    </span><span class="kw">pub fn </span>unescape_value(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; XmlResult&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt; {
+        <span class="self">self</span>.unescape_value_with(|<span class="kw">_</span>| <span class="prelude-val">None</span>)
     }
 
-    <span class="doccomment">/// Returns the unescaped value, using custom entities.
+    <span class="doccomment">/// Decodes using UTF-8 then unescapes the value, using custom entities.
     ///
     /// This is normally the value you are interested in. Escape sequences such as `&amp;gt;` are
     /// replaced with their unescaped equivalents such as `&gt;`.
-    /// Additional entities can be provided in `custom_entities`.
+    /// A fallback resolver for additional custom entities can be provided via
+    /// `resolve_entity`.
     ///
     /// This will allocate if the value contains any escape sequences.
     ///
-    /// See also [`unescaped_value()`](#method.unescaped_value)
+    /// See also [`unescape_value()`](Self::unescape_value)
     ///
-    /// # Pre-condition
-    ///
-    /// The keys and values of `custom_entities`, if any, must be valid UTF-8.
-    </span><span class="kw">pub fn </span>unescaped_value_with_custom_entities(
+    /// This method is available only if `encoding` feature is **not** enabled.
+    </span><span class="attr">#[cfg(any(doc, not(feature = <span class="string">&quot;encoding&quot;</span>)))]
+    </span><span class="kw">pub fn </span>unescape_value_with&lt;<span class="lifetime">&#39;entity</span>&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        custom_entities: <span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;,
-    ) -&gt; XmlResult&lt;Cow&lt;[u8]&gt;&gt; {
-        <span class="self">self</span>.make_unescaped_value(<span class="prelude-val">Some</span>(custom_entities))
+        resolve_entity: <span class="kw">impl </span>FnMut(<span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;entity </span>str&gt;,
+    ) -&gt; XmlResult&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt; {
+        <span class="comment">// from_utf8 should never fail because content is always UTF-8 encoded
+        </span><span class="kw">let </span>decoded = <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.value {
+            Cow::Borrowed(bytes) =&gt; Cow::Borrowed(std::str::from_utf8(bytes)<span class="question-mark">?</span>),
+            <span class="comment">// Convert to owned, because otherwise Cow will be bound with wrong lifetime
+            </span>Cow::Owned(bytes) =&gt; Cow::Owned(std::str::from_utf8(bytes)<span class="question-mark">?</span>.to_string()),
+        };
+
+        <span class="kw">match </span>unescape_with(<span class="kw-2">&amp;</span>decoded, resolve_entity)<span class="question-mark">? </span>{
+            <span class="comment">// Because result is borrowed, no replacements was done and we can use original string
+            </span>Cow::Borrowed(<span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(decoded),
+            Cow::Owned(s) =&gt; <span class="prelude-val">Ok</span>(s.into()),
+        }
     }
 
-    <span class="kw">fn </span>make_unescaped_value(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        custom_entities: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;&gt;,
-    ) -&gt; XmlResult&lt;Cow&lt;[u8]&gt;&gt; {
-        do_unescape(<span class="kw-2">&amp;*</span><span class="self">self</span>.value, custom_entities).map_err(Error::EscapeError)
+    <span class="doccomment">/// Decodes then unescapes the value.
+    ///
+    /// This will allocate if the value contains any escape sequences or in
+    /// non-UTF-8 encoding.
+    </span><span class="kw">pub fn </span>decode_and_unescape_value&lt;B&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;) -&gt; XmlResult&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt; {
+        <span class="self">self</span>.decode_and_unescape_value_with(reader, |<span class="kw">_</span>| <span class="prelude-val">None</span>)
     }
 
-    <span class="doccomment">/// Decode then unescapes the value
+    <span class="doccomment">/// Decodes then unescapes the value with custom entities.
     ///
-    /// This allocates a `String` in all cases. For performance reasons it might be a better idea to
-    /// instead use one of:
-    ///
-    /// * [`Reader::decode()`], as it only allocates when the decoding can&#39;t be performed otherwise.
-    /// * [`unescaped_value()`], as it doesn&#39;t allocate when no escape sequences are used.
-    ///
-    /// [`unescaped_value()`]: #method.unescaped_value
-    /// [`Reader::decode()`]: ../../reader/struct.Reader.html#method.decode
-    </span><span class="kw">pub fn </span>unescape_and_decode_value&lt;B: BufRead&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;) -&gt; XmlResult&lt;String&gt; {
-        <span class="self">self</span>.do_unescape_and_decode_value(reader, <span class="prelude-val">None</span>)
-    }
-
-    <span class="doccomment">/// Decode then unescapes the value with custom entities
-    ///
-    /// This allocates a `String` in all cases. For performance reasons it might be a better idea to
-    /// instead use one of:
-    ///
-    /// * [`Reader::decode()`], as it only allocates when the decoding can&#39;t be performed otherwise.
-    /// * [`unescaped_value_with_custom_entities()`], as it doesn&#39;t allocate when no escape sequences are used.
-    ///
-    /// [`unescaped_value_with_custom_entities()`]: #method.unescaped_value_with_custom_entities
-    /// [`Reader::decode()`]: ../../reader/struct.Reader.html#method.decode
-    ///
-    /// # Pre-condition
-    ///
-    /// The keys and values of `custom_entities`, if any, must be valid UTF-8.
-    </span><span class="kw">pub fn </span>unescape_and_decode_value_with_custom_entities&lt;B: BufRead&gt;(
+    /// This will allocate if the value contains any escape sequences or in
+    /// non-UTF-8 encoding.
+    </span><span class="kw">pub fn </span>decode_and_unescape_value_with&lt;<span class="lifetime">&#39;entity</span>, B&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;,
-        custom_entities: <span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;,
-    ) -&gt; XmlResult&lt;String&gt; {
-        <span class="self">self</span>.do_unescape_and_decode_value(reader, <span class="prelude-val">Some</span>(custom_entities))
-    }
+        resolve_entity: <span class="kw">impl </span>FnMut(<span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;entity </span>str&gt;,
+    ) -&gt; XmlResult&lt;Cow&lt;<span class="lifetime">&#39;a</span>, str&gt;&gt; {
+        <span class="kw">let </span>decoded = <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.value {
+            Cow::Borrowed(bytes) =&gt; reader.decoder().decode(bytes)<span class="question-mark">?</span>,
+            <span class="comment">// Convert to owned, because otherwise Cow will be bound with wrong lifetime
+            </span>Cow::Owned(bytes) =&gt; reader.decoder().decode(bytes)<span class="question-mark">?</span>.into_owned().into(),
+        };
 
-    <span class="doccomment">/// The keys and values of `custom_entities`, if any, must be valid UTF-8.
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;encoding&quot;</span>)]
-    </span><span class="kw">fn </span>do_unescape_and_decode_value&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;,
-        custom_entities: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;&gt;,
-    ) -&gt; XmlResult&lt;String&gt; {
-        <span class="kw">let </span>decoded = reader.decode(<span class="kw-2">&amp;*</span><span class="self">self</span>.value);
-        <span class="kw">let </span>unescaped =
-            do_unescape(decoded.as_bytes(), custom_entities).map_err(Error::EscapeError)<span class="question-mark">?</span>;
-        String::from_utf8(unescaped.into_owned()).map_err(|e| Error::Utf8(e.utf8_error()))
-    }
-
-    <span class="attr">#[cfg(not(feature = <span class="string">&quot;encoding&quot;</span>))]
-    </span><span class="kw">fn </span>do_unescape_and_decode_value&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;,
-        custom_entities: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;&gt;,
-    ) -&gt; XmlResult&lt;String&gt; {
-        <span class="kw">let </span>decoded = reader.decode(<span class="kw-2">&amp;*</span><span class="self">self</span>.value)<span class="question-mark">?</span>;
-        <span class="kw">let </span>unescaped =
-            do_unescape(decoded.as_bytes(), custom_entities).map_err(Error::EscapeError)<span class="question-mark">?</span>;
-        String::from_utf8(unescaped.into_owned()).map_err(|e| Error::Utf8(e.utf8_error()))
-    }
-
-    <span class="doccomment">/// helper method to unescape then decode self using the reader encoding
-    /// but without BOM (Byte order mark)
-    ///
-    /// for performance reasons (could avoid allocating a `String`),
-    /// it might be wiser to manually use
-    /// 1. BytesText::unescaped()
-    /// 2. Reader::decode(...)
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;encoding&quot;</span>)]
-    </span><span class="kw">pub fn </span>unescape_and_decode_without_bom&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;mut </span>Reader&lt;B&gt;,
-    ) -&gt; XmlResult&lt;String&gt; {
-        <span class="self">self</span>.do_unescape_and_decode_without_bom(reader, <span class="prelude-val">None</span>)
-    }
-
-    <span class="doccomment">/// helper method to unescape then decode self using the reader encoding
-    /// but without BOM (Byte order mark)
-    ///
-    /// for performance reasons (could avoid allocating a `String`),
-    /// it might be wiser to manually use
-    /// 1. BytesText::unescaped()
-    /// 2. Reader::decode(...)
-    </span><span class="attr">#[cfg(not(feature = <span class="string">&quot;encoding&quot;</span>))]
-    </span><span class="kw">pub fn </span>unescape_and_decode_without_bom&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;,
-    ) -&gt; XmlResult&lt;String&gt; {
-        <span class="self">self</span>.do_unescape_and_decode_without_bom(reader, <span class="prelude-val">None</span>)
-    }
-
-    <span class="doccomment">/// helper method to unescape then decode self using the reader encoding with custom entities
-    /// but without BOM (Byte order mark)
-    ///
-    /// for performance reasons (could avoid allocating a `String`),
-    /// it might be wiser to manually use
-    /// 1. BytesText::unescaped()
-    /// 2. Reader::decode(...)
-    ///
-    /// # Pre-condition
-    ///
-    /// The keys and values of `custom_entities`, if any, must be valid UTF-8.
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;encoding&quot;</span>)]
-    </span><span class="kw">pub fn </span>unescape_and_decode_without_bom_with_custom_entities&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;mut </span>Reader&lt;B&gt;,
-        custom_entities: <span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;,
-    ) -&gt; XmlResult&lt;String&gt; {
-        <span class="self">self</span>.do_unescape_and_decode_without_bom(reader, <span class="prelude-val">Some</span>(custom_entities))
-    }
-
-    <span class="doccomment">/// helper method to unescape then decode self using the reader encoding with custom entities
-    /// but without BOM (Byte order mark)
-    ///
-    /// for performance reasons (could avoid allocating a `String`),
-    /// it might be wiser to manually use
-    /// 1. BytesText::unescaped()
-    /// 2. Reader::decode(...)
-    ///
-    /// # Pre-condition
-    ///
-    /// The keys and values of `custom_entities`, if any, must be valid UTF-8.
-    </span><span class="attr">#[cfg(not(feature = <span class="string">&quot;encoding&quot;</span>))]
-    </span><span class="kw">pub fn </span>unescape_and_decode_without_bom_with_custom_entities&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;,
-        custom_entities: <span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;,
-    ) -&gt; XmlResult&lt;String&gt; {
-        <span class="self">self</span>.do_unescape_and_decode_without_bom(reader, <span class="prelude-val">Some</span>(custom_entities))
-    }
-
-    <span class="attr">#[cfg(feature = <span class="string">&quot;encoding&quot;</span>)]
-    </span><span class="kw">fn </span>do_unescape_and_decode_without_bom&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;mut </span>Reader&lt;B&gt;,
-        custom_entities: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;&gt;,
-    ) -&gt; XmlResult&lt;String&gt; {
-        <span class="kw">let </span>decoded = reader.decode_without_bom(<span class="kw-2">&amp;*</span><span class="self">self</span>.value);
-        <span class="kw">let </span>unescaped =
-            do_unescape(decoded.as_bytes(), custom_entities).map_err(Error::EscapeError)<span class="question-mark">?</span>;
-        String::from_utf8(unescaped.into_owned()).map_err(|e| Error::Utf8(e.utf8_error()))
-    }
-
-    <span class="attr">#[cfg(not(feature = <span class="string">&quot;encoding&quot;</span>))]
-    </span><span class="kw">fn </span>do_unescape_and_decode_without_bom&lt;B: BufRead&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        reader: <span class="kw-2">&amp;</span>Reader&lt;B&gt;,
-        custom_entities: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;&gt;,
-    ) -&gt; XmlResult&lt;String&gt; {
-        <span class="kw">let </span>decoded = reader.decode_without_bom(<span class="kw-2">&amp;*</span><span class="self">self</span>.value)<span class="question-mark">?</span>;
-        <span class="kw">let </span>unescaped =
-            do_unescape(decoded.as_bytes(), custom_entities).map_err(Error::EscapeError)<span class="question-mark">?</span>;
-        String::from_utf8(unescaped.into_owned()).map_err(|e| Error::Utf8(e.utf8_error()))
+        <span class="kw">match </span>unescape_with(<span class="kw-2">&amp;</span>decoded, resolve_entity)<span class="question-mark">? </span>{
+            <span class="comment">// Because result is borrowed, no replacements was done and we can use original string
+            </span>Cow::Borrowed(<span class="kw">_</span>) =&gt; <span class="prelude-val">Ok</span>(decoded),
+            Cow::Owned(s) =&gt; <span class="prelude-val">Ok</span>(s.into()),
+        }
     }
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Debug <span class="kw">for </span>Attribute&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>Formatter) -&gt; fmt::Result {
         <span class="macro">write!</span>(f, <span class="string">&quot;Attribute {{ key: &quot;</span>)<span class="question-mark">?</span>;
-        write_byte_string(f, <span class="self">self</span>.key)<span class="question-mark">?</span>;
+        write_byte_string(f, <span class="self">self</span>.key.as_ref())<span class="question-mark">?</span>;
         <span class="macro">write!</span>(f, <span class="string">&quot;, value: &quot;</span>)<span class="question-mark">?</span>;
         write_cow_string(f, <span class="kw-2">&amp;</span><span class="self">self</span>.value)<span class="question-mark">?</span>;
         <span class="macro">write!</span>(f, <span class="string">&quot; }}&quot;</span>)
@@ -2606,7 +2375,7 @@
     /// ```
     </span><span class="kw">fn </span>from(val: (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8], <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8])) -&gt; Attribute&lt;<span class="lifetime">&#39;a</span>&gt; {
         Attribute {
-            key: val.<span class="number">0</span>,
+            key: QName(val.<span class="number">0</span>),
             value: Cow::from(val.<span class="number">1</span>),
         }
     }
@@ -2627,8 +2396,11 @@
     /// ```
     </span><span class="kw">fn </span>from(val: (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str)) -&gt; Attribute&lt;<span class="lifetime">&#39;a</span>&gt; {
         Attribute {
-            key: val.<span class="number">0</span>.as_bytes(),
-            value: escape(val.<span class="number">1</span>.as_bytes()),
+            key: QName(val.<span class="number">0</span>.as_bytes()),
+            value: <span class="kw">match </span>escape(val.<span class="number">1</span>) {
+                Cow::Borrowed(s) =&gt; Cow::Borrowed(s.as_bytes()),
+                Cow::Owned(s) =&gt; Cow::Owned(s.into_bytes()),
+            },
         }
     }
 }
@@ -2650,30 +2422,33 @@
 /// Yields `Result&lt;Attribute&gt;`. An `Err` will be yielded if an attribute is malformed or duplicated.
 /// The duplicate check can be turned off by calling [`with_checks(false)`].
 ///
-/// [`with_checks(false)`]: #method.with_checks
+/// [`with_checks(false)`]: Self::with_checks
 </span><span class="attr">#[derive(Clone, Debug)]
 </span><span class="kw">pub struct </span>Attributes&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="doccomment">/// slice of `Element` corresponding to attributes
+    <span class="doccomment">/// Slice of `BytesStart` corresponding to attributes
     </span>bytes: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8],
     <span class="doccomment">/// Iterator state, independent from the actual source of bytes
     </span>state: IterState,
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Attributes&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="doccomment">/// Creates a new attribute iterator from a buffer.
-    </span><span class="kw">pub fn </span>new(buf: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8], pos: usize) -&gt; <span class="self">Self </span>{
+    <span class="doccomment">/// Internal constructor, used by `BytesStart`. Supplies data in reader&#39;s encoding
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>wrap(buf: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8], pos: usize, html: bool) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             bytes: buf,
-            state: IterState::new(pos, <span class="bool-val">false</span>),
+            state: IterState::new(pos, html),
         }
     }
 
+    <span class="doccomment">/// Creates a new attribute iterator from a buffer.
+    </span><span class="kw">pub fn </span>new(buf: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, pos: usize) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::wrap(buf.as_bytes(), pos, <span class="bool-val">false</span>)
+    }
+
     <span class="doccomment">/// Creates a new attribute iterator from a buffer, allowing HTML attribute syntax.
-    </span><span class="kw">pub fn </span>html(buf: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8], pos: usize) -&gt; <span class="self">Self </span>{
-        <span class="self">Self </span>{
-            bytes: buf,
-            state: IterState::new(pos, <span class="bool-val">true</span>),
-        }
+    </span><span class="kw">pub fn </span>html(buf: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str, pos: usize) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>::wrap(buf.as_bytes(), pos, <span class="bool-val">true</span>)
     }
 
     <span class="doccomment">/// Changes whether attributes should be checked for uniqueness.
@@ -2709,7 +2484,7 @@
 ///
 /// Recovery position in examples shows the position from which parsing of the
 /// next attribute will be attempted.
-</span><span class="attr">#[derive(Debug, PartialEq)]
+</span><span class="attr">#[derive(Clone, Debug, PartialEq, Eq)]
 </span><span class="kw">pub enum </span>AttrError {
     <span class="doccomment">/// Attribute key was not followed by `=`, position relative to the start of
     /// the owning tag is provided.
@@ -2880,13 +2655,13 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Attr&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt; {
     <span class="doccomment">/// Returns the key value
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>key(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8] {
-        <span class="kw">match </span><span class="self">self </span>{
+    </span><span class="kw">pub fn </span>key(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; QName&lt;<span class="lifetime">&#39;a</span>&gt; {
+        QName(<span class="kw">match </span><span class="self">self </span>{
             Attr::DoubleQ(key, <span class="kw">_</span>) =&gt; key,
             Attr::SingleQ(key, <span class="kw">_</span>) =&gt; key,
             Attr::Empty(key) =&gt; key,
             Attr::Unquoted(key, <span class="kw">_</span>) =&gt; key,
-        }
+        })
     }
     <span class="doccomment">/// Returns the attribute value. For [`Self::Empty`] variant an empty slice
     /// is returned according to the [HTML specification].
@@ -3005,6 +2780,7 @@
 
     <span class="doccomment">/// Skip all characters up to first space symbol or end-of-input
     </span><span class="attr">#[inline]
+    #[allow(clippy::manual_map)]
     </span><span class="kw">fn </span>skip_value(<span class="kw-2">&amp;</span><span class="self">self</span>, slice: <span class="kw-2">&amp;</span>[u8], offset: usize) -&gt; <span class="prelude-ty">Option</span>&lt;usize&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>iter = (offset..).zip(slice[offset..].iter());
 
@@ -3244,7 +3020,7 @@
             </span><span class="prelude-val">None </span>=&gt; {
                 <span class="comment">// Because we reach end-of-input, stop iteration on next call
                 </span><span class="self">self</span>.state = State::Done;
-                <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(AttrError::ExpectedQuote(slice.len(), quote)));
+                <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(AttrError::ExpectedQuote(slice.len(), quote)))
             }
         }
     }
@@ -3267,12 +3043,12 @@
         <span class="doccomment">/// Attribute have a value enclosed in single quotes
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>single_quoted() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key=&#39;value&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key=&#39;value&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
@@ -3283,12 +3059,12 @@
         <span class="doccomment">/// Attribute have a value enclosed in double quotes
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>double_quoted() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key=&quot;value&quot;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key=&quot;value&quot;&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
@@ -3299,8 +3075,8 @@
         <span class="doccomment">/// Attribute have a value, not enclosed in quotes
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>unquoted() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key=value&quot;#</span>, <span class="number">3</span>);
-            <span class="comment">//                                 0       ^ = 8
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key=value&quot;#</span>, <span class="number">3</span>);
+            <span class="comment">//                                0       ^ = 8
 
             </span><span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(AttrError::UnquotedValue(<span class="number">8</span>))));
             <span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">None</span>);
@@ -3310,8 +3086,8 @@
         <span class="doccomment">/// Only attribute key is present
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>key_only() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key&quot;#</span>, <span class="number">3</span>);
-            <span class="comment">//                                 0      ^ = 7
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key&quot;#</span>, <span class="number">3</span>);
+            <span class="comment">//                                0      ^ = 7
 
             </span><span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(AttrError::ExpectedEq(<span class="number">7</span>))));
             <span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">None</span>);
@@ -3323,12 +3099,12 @@
         /// that invalid attribute will be returned
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>key_start_invalid() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag &#39;key&#39;=&#39;value&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag &#39;key&#39;=&#39;value&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;&#39;key&#39;&quot;</span>,
+                    key: QName(<span class="string">b&quot;&#39;key&#39;&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
@@ -3341,12 +3117,12 @@
         /// that invalid attribute will be returned
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>key_contains_invalid() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key&amp;jey=&#39;value&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key&amp;jey=&#39;value&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&amp;jey&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&amp;jey&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
@@ -3357,8 +3133,8 @@
         <span class="doccomment">/// Attribute value is missing after `=`
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>missed_value() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key=&quot;#</span>, <span class="number">3</span>);
-            <span class="comment">//                                 0       ^ = 8
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key=&quot;#</span>, <span class="number">3</span>);
+            <span class="comment">//                                0       ^ = 8
 
             </span><span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(AttrError::ExpectedValue(<span class="number">8</span>))));
             <span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">None</span>);
@@ -3374,19 +3150,19 @@
         <span class="doccomment">/// Attribute have a value enclosed in single quotes
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>single_quoted() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key=&#39;value&#39; regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key=&#39;value&#39; regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;regular&quot;</span>,
+                    key: QName(<span class="string">b&quot;regular&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;attribute&quot;</span>),
                 }))
             );
@@ -3397,19 +3173,19 @@
         <span class="doccomment">/// Attribute have a value enclosed in double quotes
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>double_quoted() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key=&quot;value&quot; regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key=&quot;value&quot; regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;regular&quot;</span>,
+                    key: QName(<span class="string">b&quot;regular&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;attribute&quot;</span>),
                 }))
             );
@@ -3420,15 +3196,15 @@
         <span class="doccomment">/// Attribute have a value, not enclosed in quotes
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>unquoted() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key=value regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
-            <span class="comment">//                                 0       ^ = 8
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key=value regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="comment">//                                0       ^ = 8
 
             </span><span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(AttrError::UnquotedValue(<span class="number">8</span>))));
             <span class="comment">// check error recovery
             </span><span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;regular&quot;</span>,
+                    key: QName(<span class="string">b&quot;regular&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;attribute&quot;</span>),
                 }))
             );
@@ -3439,15 +3215,15 @@
         <span class="doccomment">/// Only attribute key is present
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>key_only() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
-            <span class="comment">//                                 0       ^ = 8
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="comment">//                                0       ^ = 8
 
             </span><span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(AttrError::ExpectedEq(<span class="number">8</span>))));
             <span class="comment">// check error recovery
             </span><span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;regular&quot;</span>,
+                    key: QName(<span class="string">b&quot;regular&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;attribute&quot;</span>),
                 }))
             );
@@ -3460,19 +3236,19 @@
         /// that invalid attribute will be returned
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>key_start_invalid() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag &#39;key&#39;=&#39;value&#39; regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag &#39;key&#39;=&#39;value&#39; regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;&#39;key&#39;&quot;</span>,
+                    key: QName(<span class="string">b&quot;&#39;key&#39;&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;regular&quot;</span>,
+                    key: QName(<span class="string">b&quot;regular&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;attribute&quot;</span>),
                 }))
             );
@@ -3485,19 +3261,19 @@
         /// that invalid attribute will be returned
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>key_contains_invalid() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key&amp;jey=&#39;value&#39; regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key&amp;jey=&#39;value&#39; regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&amp;jey&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&amp;jey&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;regular&quot;</span>,
+                    key: QName(<span class="string">b&quot;regular&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;attribute&quot;</span>),
                 }))
             );
@@ -3508,8 +3284,8 @@
         <span class="doccomment">/// Attribute value is missing after `=`.
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>missed_value() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key= regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
-            <span class="comment">//                                 0        ^ = 9
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key= regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="comment">//                                0        ^ = 9
 
             </span><span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(AttrError::UnquotedValue(<span class="number">9</span>))));
             <span class="comment">// Because we do not check validity of keys and values during parsing,
@@ -3520,8 +3296,8 @@
 
             <span class="comment">////////////////////////////////////////////////////////////////////
 
-            </span><span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key= regular= &#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
-            <span class="comment">//                                 0        ^ = 9               ^ = 29
+            </span><span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key= regular= &#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="comment">//                                0        ^ = 9               ^ = 29
 
             // In that case &quot;regular=&quot; considered as unquoted value
             </span><span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(AttrError::UnquotedValue(<span class="number">9</span>))));
@@ -3533,8 +3309,8 @@
 
             <span class="comment">////////////////////////////////////////////////////////////////////
 
-            </span><span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key= regular =&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
-            <span class="comment">//                                 0        ^ = 9               ^ = 29
+            </span><span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key= regular =&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="comment">//                                0        ^ = 9               ^ = 29
 
             // In that case &quot;regular&quot; considered as unquoted value
             </span><span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(AttrError::UnquotedValue(<span class="number">9</span>))));
@@ -3546,8 +3322,8 @@
 
             <span class="comment">////////////////////////////////////////////////////////////////////
 
-            </span><span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key= regular = &#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
-            <span class="comment">//                                 0        ^ = 9     ^ = 19     ^ = 30
+            </span><span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key= regular = &#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="comment">//                                0        ^ = 9     ^ = 19     ^ = 30
 
             </span><span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(AttrError::UnquotedValue(<span class="number">9</span>))));
             <span class="comment">// In that case second &quot;=&quot; considered as a key, because we do not check
@@ -3569,12 +3345,12 @@
         <span class="doccomment">/// Attribute have a value enclosed in single quotes
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>single_quoted() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key = &#39;value&#39; &quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key = &#39;value&#39; &quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
@@ -3585,12 +3361,12 @@
         <span class="doccomment">/// Attribute have a value enclosed in double quotes
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>double_quoted() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key = &quot;value&quot; &quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key = &quot;value&quot; &quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
@@ -3601,8 +3377,8 @@
         <span class="doccomment">/// Attribute have a value, not enclosed in quotes
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>unquoted() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key = value &quot;#</span>, <span class="number">3</span>);
-            <span class="comment">//                                 0         ^ = 10
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key = value &quot;#</span>, <span class="number">3</span>);
+            <span class="comment">//                                0         ^ = 10
 
             </span><span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(AttrError::UnquotedValue(<span class="number">10</span>))));
             <span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">None</span>);
@@ -3612,8 +3388,8 @@
         <span class="doccomment">/// Only attribute key is present
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>key_only() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key &quot;#</span>, <span class="number">3</span>);
-            <span class="comment">//                                 0       ^ = 8
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key &quot;#</span>, <span class="number">3</span>);
+            <span class="comment">//                                0       ^ = 8
 
             </span><span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(AttrError::ExpectedEq(<span class="number">8</span>))));
             <span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">None</span>);
@@ -3625,12 +3401,12 @@
         /// that invalid attribute will be returned
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>key_start_invalid() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag &#39;key&#39; = &#39;value&#39; &quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag &#39;key&#39; = &#39;value&#39; &quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;&#39;key&#39;&quot;</span>,
+                    key: QName(<span class="string">b&quot;&#39;key&#39;&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
@@ -3643,12 +3419,12 @@
         /// that invalid attribute will be returned
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>key_contains_invalid() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key&amp;jey = &#39;value&#39; &quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key&amp;jey = &#39;value&#39; &quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&amp;jey&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&amp;jey&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
@@ -3659,8 +3435,8 @@
         <span class="doccomment">/// Attribute value is missing after `=`
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>missed_value() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key = &quot;#</span>, <span class="number">3</span>);
-            <span class="comment">//                                 0         ^ = 10
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key = &quot;#</span>, <span class="number">3</span>);
+            <span class="comment">//                                0         ^ = 10
 
             </span><span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(AttrError::ExpectedValue(<span class="number">10</span>))));
             <span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">None</span>);
@@ -3680,13 +3456,13 @@
             <span class="doccomment">/// Attribute have a value enclosed in single quotes
             </span><span class="attr">#[test]
             </span><span class="kw">fn </span>single_quoted() {
-                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key=&#39;value&#39; key=&#39;dup&#39; another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
-                <span class="comment">//                                 0   ^ = 4       ^ = 16
+                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key=&#39;value&#39; key=&#39;dup&#39; another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
+                <span class="comment">//                                0   ^ = 4       ^ = 16
 
                 </span><span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                     }))
                 );
@@ -3694,7 +3470,7 @@
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;another&quot;</span>,
+                        key: QName(<span class="string">b&quot;another&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;&quot;</span>),
                     }))
                 );
@@ -3705,13 +3481,13 @@
             <span class="doccomment">/// Attribute have a value enclosed in double quotes
             </span><span class="attr">#[test]
             </span><span class="kw">fn </span>double_quoted() {
-                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key=&#39;value&#39; key=&quot;dup&quot; another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
-                <span class="comment">//                                 0   ^ = 4       ^ = 16
+                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key=&#39;value&#39; key=&quot;dup&quot; another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
+                <span class="comment">//                                0   ^ = 4       ^ = 16
 
                 </span><span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                     }))
                 );
@@ -3719,7 +3495,7 @@
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;another&quot;</span>,
+                        key: QName(<span class="string">b&quot;another&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;&quot;</span>),
                     }))
                 );
@@ -3730,13 +3506,13 @@
             <span class="doccomment">/// Attribute have a value, not enclosed in quotes
             </span><span class="attr">#[test]
             </span><span class="kw">fn </span>unquoted() {
-                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key=&#39;value&#39; key=dup another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
-                <span class="comment">//                                 0   ^ = 4       ^ = 16
+                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key=&#39;value&#39; key=dup another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
+                <span class="comment">//                                0   ^ = 4       ^ = 16
 
                 </span><span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                     }))
                 );
@@ -3744,7 +3520,7 @@
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;another&quot;</span>,
+                        key: QName(<span class="string">b&quot;another&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;&quot;</span>),
                     }))
                 );
@@ -3755,13 +3531,13 @@
             <span class="doccomment">/// Only attribute key is present
             </span><span class="attr">#[test]
             </span><span class="kw">fn </span>key_only() {
-                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key=&#39;value&#39; key another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
-                <span class="comment">//                                 0                   ^ = 20
+                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key=&#39;value&#39; key another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
+                <span class="comment">//                                0                   ^ = 20
 
                 </span><span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                     }))
                 );
@@ -3769,7 +3545,7 @@
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;another&quot;</span>,
+                        key: QName(<span class="string">b&quot;another&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;&quot;</span>),
                     }))
                 );
@@ -3786,27 +3562,27 @@
             <span class="doccomment">/// Attribute have a value enclosed in single quotes
             </span><span class="attr">#[test]
             </span><span class="kw">fn </span>single_quoted() {
-                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key=&#39;value&#39; key=&#39;dup&#39; another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
+                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key=&#39;value&#39; key=&#39;dup&#39; another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
                 iter.with_checks(<span class="bool-val">false</span>);
 
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                     }))
                 );
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;dup&quot;</span>),
                     }))
                 );
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;another&quot;</span>,
+                        key: QName(<span class="string">b&quot;another&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;&quot;</span>),
                     }))
                 );
@@ -3817,27 +3593,27 @@
             <span class="doccomment">/// Attribute have a value enclosed in double quotes
             </span><span class="attr">#[test]
             </span><span class="kw">fn </span>double_quoted() {
-                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key=&#39;value&#39; key=&quot;dup&quot; another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
+                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key=&#39;value&#39; key=&quot;dup&quot; another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
                 iter.with_checks(<span class="bool-val">false</span>);
 
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                     }))
                 );
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;dup&quot;</span>),
                     }))
                 );
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;another&quot;</span>,
+                        key: QName(<span class="string">b&quot;another&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;&quot;</span>),
                     }))
                 );
@@ -3848,14 +3624,14 @@
             <span class="doccomment">/// Attribute have a value, not enclosed in quotes
             </span><span class="attr">#[test]
             </span><span class="kw">fn </span>unquoted() {
-                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key=&#39;value&#39; key=dup another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
-                <span class="comment">//                                 0                   ^ = 20
+                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key=&#39;value&#39; key=dup another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
+                <span class="comment">//                                0                   ^ = 20
                 </span>iter.with_checks(<span class="bool-val">false</span>);
 
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                     }))
                 );
@@ -3863,7 +3639,7 @@
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;another&quot;</span>,
+                        key: QName(<span class="string">b&quot;another&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;&quot;</span>),
                     }))
                 );
@@ -3874,14 +3650,14 @@
             <span class="doccomment">/// Only attribute key is present
             </span><span class="attr">#[test]
             </span><span class="kw">fn </span>key_only() {
-                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag key=&#39;value&#39; key another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
-                <span class="comment">//                                 0                   ^ = 20
+                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag key=&#39;value&#39; key another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
+                <span class="comment">//                                0                   ^ = 20
                 </span>iter.with_checks(<span class="bool-val">false</span>);
 
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                     }))
                 );
@@ -3889,7 +3665,7 @@
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;another&quot;</span>,
+                        key: QName(<span class="string">b&quot;another&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;&quot;</span>),
                     }))
                 );
@@ -3901,33 +3677,33 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>mixed_quote() {
-        <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">br#&quot;tag a=&#39;a&#39; b = &quot;b&quot; c=&#39;cc&quot;cc&#39; d=&quot;dd&#39;dd&quot;&quot;#</span>, <span class="number">3</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::new(<span class="string">r#&quot;tag a=&#39;a&#39; b = &quot;b&quot; c=&#39;cc&quot;cc&#39; d=&quot;dd&#39;dd&quot;&quot;#</span>, <span class="number">3</span>);
 
         <span class="macro">assert_eq!</span>(
             iter.next(),
             <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                key: <span class="string">b&quot;a&quot;</span>,
+                key: QName(<span class="string">b&quot;a&quot;</span>),
                 value: Cow::Borrowed(<span class="string">b&quot;a&quot;</span>),
             }))
         );
         <span class="macro">assert_eq!</span>(
             iter.next(),
             <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                key: <span class="string">b&quot;b&quot;</span>,
+                key: QName(<span class="string">b&quot;b&quot;</span>),
                 value: Cow::Borrowed(<span class="string">b&quot;b&quot;</span>),
             }))
         );
         <span class="macro">assert_eq!</span>(
             iter.next(),
             <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                key: <span class="string">b&quot;c&quot;</span>,
+                key: QName(<span class="string">b&quot;c&quot;</span>),
                 value: Cow::Borrowed(<span class="string">br#&quot;cc&quot;cc&quot;#</span>),
             }))
         );
         <span class="macro">assert_eq!</span>(
             iter.next(),
             <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                key: <span class="string">b&quot;d&quot;</span>,
+                key: QName(<span class="string">b&quot;d&quot;</span>),
                 value: Cow::Borrowed(<span class="string">b&quot;dd&#39;dd&quot;</span>),
             }))
         );
@@ -3954,12 +3730,12 @@
         <span class="doccomment">/// Attribute have a value enclosed in single quotes
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>single_quoted() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key=&#39;value&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key=&#39;value&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
@@ -3970,12 +3746,12 @@
         <span class="doccomment">/// Attribute have a value enclosed in double quotes
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>double_quoted() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key=&quot;value&quot;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key=&quot;value&quot;&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
@@ -3986,12 +3762,12 @@
         <span class="doccomment">/// Attribute have a value, not enclosed in quotes
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>unquoted() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key=value&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key=value&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
@@ -4002,12 +3778,12 @@
         <span class="doccomment">/// Only attribute key is present
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>key_only() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="kw-2">&amp;</span>[]),
                 }))
             );
@@ -4020,12 +3796,12 @@
         /// that invalid attribute will be returned
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>key_start_invalid() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag &#39;key&#39;=&#39;value&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag &#39;key&#39;=&#39;value&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;&#39;key&#39;&quot;</span>,
+                    key: QName(<span class="string">b&quot;&#39;key&#39;&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
@@ -4038,12 +3814,12 @@
         /// that invalid attribute will be returned
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>key_contains_invalid() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key&amp;jey=&#39;value&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key&amp;jey=&#39;value&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&amp;jey&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&amp;jey&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
@@ -4054,8 +3830,8 @@
         <span class="doccomment">/// Attribute value is missing after `=`
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>missed_value() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key=&quot;#</span>, <span class="number">3</span>);
-            <span class="comment">//                                  0       ^ = 8
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key=&quot;#</span>, <span class="number">3</span>);
+            <span class="comment">//                                0       ^ = 8
 
             </span><span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(AttrError::ExpectedValue(<span class="number">8</span>))));
             <span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">None</span>);
@@ -4071,19 +3847,19 @@
         <span class="doccomment">/// Attribute have a value enclosed in single quotes
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>single_quoted() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key=&#39;value&#39; regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key=&#39;value&#39; regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;regular&quot;</span>,
+                    key: QName(<span class="string">b&quot;regular&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;attribute&quot;</span>),
                 }))
             );
@@ -4094,19 +3870,19 @@
         <span class="doccomment">/// Attribute have a value enclosed in double quotes
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>double_quoted() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key=&quot;value&quot; regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key=&quot;value&quot; regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;regular&quot;</span>,
+                    key: QName(<span class="string">b&quot;regular&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;attribute&quot;</span>),
                 }))
             );
@@ -4117,19 +3893,19 @@
         <span class="doccomment">/// Attribute have a value, not enclosed in quotes
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>unquoted() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key=value regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key=value regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;regular&quot;</span>,
+                    key: QName(<span class="string">b&quot;regular&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;attribute&quot;</span>),
                 }))
             );
@@ -4140,19 +3916,19 @@
         <span class="doccomment">/// Only attribute key is present
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>key_only() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="kw-2">&amp;</span>[]),
                 }))
             );
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;regular&quot;</span>,
+                    key: QName(<span class="string">b&quot;regular&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;attribute&quot;</span>),
                 }))
             );
@@ -4165,19 +3941,19 @@
         /// that invalid attribute will be returned
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>key_start_invalid() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag &#39;key&#39;=&#39;value&#39; regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag &#39;key&#39;=&#39;value&#39; regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;&#39;key&#39;&quot;</span>,
+                    key: QName(<span class="string">b&quot;&#39;key&#39;&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;regular&quot;</span>,
+                    key: QName(<span class="string">b&quot;regular&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;attribute&quot;</span>),
                 }))
             );
@@ -4190,19 +3966,19 @@
         /// that invalid attribute will be returned
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>key_contains_invalid() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key&amp;jey=&#39;value&#39; regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key&amp;jey=&#39;value&#39; regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&amp;jey&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&amp;jey&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;regular&quot;</span>,
+                    key: QName(<span class="string">b&quot;regular&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;attribute&quot;</span>),
                 }))
             );
@@ -4213,14 +3989,14 @@
         <span class="doccomment">/// Attribute value is missing after `=`
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>missed_value() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key= regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key= regular=&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="comment">// Because we do not check validity of keys and values during parsing,
             // &quot;regular=&#39;attribute&#39;&quot; is considered as unquoted attribute value
             </span><span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;regular=&#39;attribute&#39;&quot;</span>),
                 }))
             );
@@ -4229,14 +4005,14 @@
 
             <span class="comment">////////////////////////////////////////////////////////////////////
 
-            </span><span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key= regular= &#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            </span><span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key= regular= &#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="comment">// Because we do not check validity of keys and values during parsing,
             // &quot;regular=&quot; is considered as unquoted attribute value
             </span><span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;regular=&quot;</span>),
                 }))
             );
@@ -4245,7 +4021,7 @@
             </span><span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;&#39;attribute&#39;&quot;</span>,
+                    key: QName(<span class="string">b&quot;&#39;attribute&#39;&quot;</span>),
                     value: Cow::Borrowed(<span class="kw-2">&amp;</span>[]),
                 }))
             );
@@ -4254,14 +4030,14 @@
 
             <span class="comment">////////////////////////////////////////////////////////////////////
 
-            </span><span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key= regular =&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            </span><span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key= regular =&#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
 
             <span class="comment">// Because we do not check validity of keys and values during parsing,
             // &quot;regular&quot; is considered as unquoted attribute value
             </span><span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;regular&quot;</span>),
                 }))
             );
@@ -4270,7 +4046,7 @@
             </span><span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;=&#39;attribute&#39;&quot;</span>,
+                    key: QName(<span class="string">b&quot;=&#39;attribute&#39;&quot;</span>),
                     value: Cow::Borrowed(<span class="kw-2">&amp;</span>[]),
                 }))
             );
@@ -4279,15 +4055,15 @@
 
             <span class="comment">////////////////////////////////////////////////////////////////////
 
-            </span><span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key= regular = &#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
-            <span class="comment">//                                  0        ^ = 9     ^ = 19     ^ = 30
+            </span><span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key= regular = &#39;attribute&#39;&quot;#</span>, <span class="number">3</span>);
+            <span class="comment">//                                 0        ^ = 9     ^ = 19     ^ = 30
 
             // Because we do not check validity of keys and values during parsing,
             // &quot;regular&quot; is considered as unquoted attribute value
             </span><span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;regular&quot;</span>),
                 }))
             );
@@ -4296,7 +4072,7 @@
             </span><span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;=&quot;</span>,
+                    key: QName(<span class="string">b&quot;=&quot;</span>),
                     value: Cow::Borrowed(<span class="kw-2">&amp;</span>[]),
                 }))
             );
@@ -4305,7 +4081,7 @@
             </span><span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;&#39;attribute&#39;&quot;</span>,
+                    key: QName(<span class="string">b&quot;&#39;attribute&#39;&quot;</span>),
                     value: Cow::Borrowed(<span class="kw-2">&amp;</span>[]),
                 }))
             );
@@ -4322,12 +4098,12 @@
         <span class="doccomment">/// Attribute have a value enclosed in single quotes
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>single_quoted() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key = &#39;value&#39; &quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key = &#39;value&#39; &quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
@@ -4338,12 +4114,12 @@
         <span class="doccomment">/// Attribute have a value enclosed in double quotes
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>double_quoted() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key = &quot;value&quot; &quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key = &quot;value&quot; &quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
@@ -4354,12 +4130,12 @@
         <span class="doccomment">/// Attribute have a value, not enclosed in quotes
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>unquoted() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key = value &quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key = value &quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
@@ -4370,12 +4146,12 @@
         <span class="doccomment">/// Only attribute key is present
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>key_only() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key &quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key &quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&quot;</span>),
                     value: Cow::Borrowed(<span class="kw-2">&amp;</span>[]),
                 }))
             );
@@ -4388,12 +4164,12 @@
         /// that invalid attribute will be returned
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>key_start_invalid() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag &#39;key&#39; = &#39;value&#39; &quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag &#39;key&#39; = &#39;value&#39; &quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;&#39;key&#39;&quot;</span>,
+                    key: QName(<span class="string">b&quot;&#39;key&#39;&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
@@ -4406,12 +4182,12 @@
         /// that invalid attribute will be returned
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>key_contains_invalid() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key&amp;jey = &#39;value&#39; &quot;#</span>, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key&amp;jey = &#39;value&#39; &quot;#</span>, <span class="number">3</span>);
 
             <span class="macro">assert_eq!</span>(
                 iter.next(),
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                    key: <span class="string">b&quot;key&amp;jey&quot;</span>,
+                    key: QName(<span class="string">b&quot;key&amp;jey&quot;</span>),
                     value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                 }))
             );
@@ -4422,8 +4198,8 @@
         <span class="doccomment">/// Attribute value is missing after `=`
         </span><span class="attr">#[test]
         </span><span class="kw">fn </span>missed_value() {
-            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key = &quot;#</span>, <span class="number">3</span>);
-            <span class="comment">//                                  0         ^ = 10
+            <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key = &quot;#</span>, <span class="number">3</span>);
+            <span class="comment">//                                 0         ^ = 10
 
             </span><span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(AttrError::ExpectedValue(<span class="number">10</span>))));
             <span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">None</span>);
@@ -4443,13 +4219,13 @@
             <span class="doccomment">/// Attribute have a value enclosed in single quotes
             </span><span class="attr">#[test]
             </span><span class="kw">fn </span>single_quoted() {
-                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key=&#39;value&#39; key=&#39;dup&#39; another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
-                <span class="comment">//                                  0   ^ = 4       ^ = 16
+                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key=&#39;value&#39; key=&#39;dup&#39; another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
+                <span class="comment">//                                 0   ^ = 4       ^ = 16
 
                 </span><span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                     }))
                 );
@@ -4457,7 +4233,7 @@
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;another&quot;</span>,
+                        key: QName(<span class="string">b&quot;another&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;&quot;</span>),
                     }))
                 );
@@ -4468,13 +4244,13 @@
             <span class="doccomment">/// Attribute have a value enclosed in double quotes
             </span><span class="attr">#[test]
             </span><span class="kw">fn </span>double_quoted() {
-                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key=&#39;value&#39; key=&quot;dup&quot; another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
-                <span class="comment">//                                  0   ^ = 4       ^ = 16
+                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key=&#39;value&#39; key=&quot;dup&quot; another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
+                <span class="comment">//                                 0   ^ = 4       ^ = 16
 
                 </span><span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                     }))
                 );
@@ -4482,7 +4258,7 @@
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;another&quot;</span>,
+                        key: QName(<span class="string">b&quot;another&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;&quot;</span>),
                     }))
                 );
@@ -4493,13 +4269,13 @@
             <span class="doccomment">/// Attribute have a value, not enclosed in quotes
             </span><span class="attr">#[test]
             </span><span class="kw">fn </span>unquoted() {
-                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key=&#39;value&#39; key=dup another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
-                <span class="comment">//                                  0   ^ = 4       ^ = 16
+                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key=&#39;value&#39; key=dup another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
+                <span class="comment">//                                 0   ^ = 4       ^ = 16
 
                 </span><span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                     }))
                 );
@@ -4507,7 +4283,7 @@
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;another&quot;</span>,
+                        key: QName(<span class="string">b&quot;another&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;&quot;</span>),
                     }))
                 );
@@ -4518,13 +4294,13 @@
             <span class="doccomment">/// Only attribute key is present
             </span><span class="attr">#[test]
             </span><span class="kw">fn </span>key_only() {
-                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key=&#39;value&#39; key another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
-                <span class="comment">//                                  0   ^ = 4       ^ = 16
+                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key=&#39;value&#39; key another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
+                <span class="comment">//                                 0   ^ = 4       ^ = 16
 
                 </span><span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                     }))
                 );
@@ -4532,7 +4308,7 @@
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;another&quot;</span>,
+                        key: QName(<span class="string">b&quot;another&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;&quot;</span>),
                     }))
                 );
@@ -4549,27 +4325,27 @@
             <span class="doccomment">/// Attribute have a value enclosed in single quotes
             </span><span class="attr">#[test]
             </span><span class="kw">fn </span>single_quoted() {
-                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key=&#39;value&#39; key=&#39;dup&#39; another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
+                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key=&#39;value&#39; key=&#39;dup&#39; another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
                 iter.with_checks(<span class="bool-val">false</span>);
 
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                     }))
                 );
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;dup&quot;</span>),
                     }))
                 );
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;another&quot;</span>,
+                        key: QName(<span class="string">b&quot;another&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;&quot;</span>),
                     }))
                 );
@@ -4580,27 +4356,27 @@
             <span class="doccomment">/// Attribute have a value enclosed in double quotes
             </span><span class="attr">#[test]
             </span><span class="kw">fn </span>double_quoted() {
-                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key=&#39;value&#39; key=&quot;dup&quot; another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
+                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key=&#39;value&#39; key=&quot;dup&quot; another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
                 iter.with_checks(<span class="bool-val">false</span>);
 
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                     }))
                 );
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;dup&quot;</span>),
                     }))
                 );
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;another&quot;</span>,
+                        key: QName(<span class="string">b&quot;another&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;&quot;</span>),
                     }))
                 );
@@ -4611,27 +4387,27 @@
             <span class="doccomment">/// Attribute have a value, not enclosed in quotes
             </span><span class="attr">#[test]
             </span><span class="kw">fn </span>unquoted() {
-                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key=&#39;value&#39; key=dup another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
+                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key=&#39;value&#39; key=dup another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
                 iter.with_checks(<span class="bool-val">false</span>);
 
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                     }))
                 );
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;dup&quot;</span>),
                     }))
                 );
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;another&quot;</span>,
+                        key: QName(<span class="string">b&quot;another&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;&quot;</span>),
                     }))
                 );
@@ -4642,27 +4418,27 @@
             <span class="doccomment">/// Only attribute key is present
             </span><span class="attr">#[test]
             </span><span class="kw">fn </span>key_only() {
-                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag key=&#39;value&#39; key another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
+                <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag key=&#39;value&#39; key another=&#39;&#39;&quot;#</span>, <span class="number">3</span>);
                 iter.with_checks(<span class="bool-val">false</span>);
 
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;value&quot;</span>),
                     }))
                 );
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;key&quot;</span>,
+                        key: QName(<span class="string">b&quot;key&quot;</span>),
                         value: Cow::Borrowed(<span class="kw-2">&amp;</span>[]),
                     }))
                 );
                 <span class="macro">assert_eq!</span>(
                     iter.next(),
                     <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                        key: <span class="string">b&quot;another&quot;</span>,
+                        key: QName(<span class="string">b&quot;another&quot;</span>),
                         value: Cow::Borrowed(<span class="string">b&quot;&quot;</span>),
                     }))
                 );
@@ -4674,33 +4450,33 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>mixed_quote() {
-        <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">br#&quot;tag a=&#39;a&#39; b = &quot;b&quot; c=&#39;cc&quot;cc&#39; d=&quot;dd&#39;dd&quot;&quot;#</span>, <span class="number">3</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>iter = Attributes::html(<span class="string">r#&quot;tag a=&#39;a&#39; b = &quot;b&quot; c=&#39;cc&quot;cc&#39; d=&quot;dd&#39;dd&quot;&quot;#</span>, <span class="number">3</span>);
 
         <span class="macro">assert_eq!</span>(
             iter.next(),
             <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                key: <span class="string">b&quot;a&quot;</span>,
+                key: QName(<span class="string">b&quot;a&quot;</span>),
                 value: Cow::Borrowed(<span class="string">b&quot;a&quot;</span>),
             }))
         );
         <span class="macro">assert_eq!</span>(
             iter.next(),
             <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                key: <span class="string">b&quot;b&quot;</span>,
+                key: QName(<span class="string">b&quot;b&quot;</span>),
                 value: Cow::Borrowed(<span class="string">b&quot;b&quot;</span>),
             }))
         );
         <span class="macro">assert_eq!</span>(
             iter.next(),
             <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                key: <span class="string">b&quot;c&quot;</span>,
+                key: QName(<span class="string">b&quot;c&quot;</span>),
                 value: Cow::Borrowed(<span class="string">br#&quot;cc&quot;cc&quot;#</span>),
             }))
         );
         <span class="macro">assert_eq!</span>(
             iter.next(),
             <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(Attribute {
-                key: <span class="string">b&quot;d&quot;</span>,
+                key: QName(<span class="string">b&quot;d&quot;</span>),
                 value: Cow::Borrowed(<span class="string">b&quot;dd&#39;dd&quot;</span>),
             }))
         );
@@ -4708,5 +4484,4 @@
         <span class="macro">assert_eq!</span>(iter.next(), <span class="prelude-val">None</span>);
     }
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="quick_xml" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0 (84c898d65 2023-04-16)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

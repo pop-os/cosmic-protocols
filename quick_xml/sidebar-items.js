@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Error"],"mod":["escape","events"],"struct":["ElementWriter","Reader","Writer"],"type":["Result"]};
+window.SIDEBAR_ITEMS = {"enum":["Error"],"mod":["encoding","escape","events","name","reader","writer"],"type":["Result"]};

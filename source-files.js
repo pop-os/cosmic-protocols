@@ -12,7 +12,7 @@ var sourcesIndex = JSON.parse('{\
 "memoffset":["",[],["lib.rs","offset_of.rs","raw_field.rs","span_of.rs"]],\
 "nix":["",[["sys",[["socket",[],["addr.rs","mod.rs","sockopt.rs"]]],["epoll.rs","eventfd.rs","memfd.rs","mod.rs","select.rs","signal.rs","stat.rs","statfs.rs","statvfs.rs","sysinfo.rs","time.rs","uio.rs"]]],["errno.rs","fcntl.rs","lib.rs","macros.rs","poll.rs","unistd.rs"]],\
 "proc_macro2":["",[],["detection.rs","extra.rs","fallback.rs","lib.rs","marker.rs","parse.rs","rcvec.rs","wrapper.rs"]],\
-"quick_xml":["",[["events",[],["attributes.rs","mod.rs"]]],["errors.rs","escapei.rs","lib.rs","reader.rs","utils.rs","writer.rs"]],\
+"quick_xml":["",[["events",[],["attributes.rs","mod.rs"]],["reader",[],["buffered_reader.rs","mod.rs","ns_reader.rs","parser.rs","slice_reader.rs"]]],["encoding.rs","errors.rs","escapei.rs","lib.rs","name.rs","utils.rs","writer.rs"]],\
 "quote":["",[],["ext.rs","format.rs","ident_fragment.rs","lib.rs","runtime.rs","spanned.rs","to_tokens.rs"]],\
 "scoped_tls":["",[],["lib.rs"]],\
 "smallvec":["",[],["lib.rs"]],\

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/quick-xml-0.23.1/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../quick_xml/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quick-xml-0.28.2/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="quick_xml" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0 (8ede3aae2 2023-07-12)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../quick_xml/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -74,243 +74,80 @@
 <a href="#74" id="74">74</a>
 <a href="#75" id="75">75</a>
 <a href="#76" id="76">76</a>
-<a href="#77" id="77">77</a>
-<a href="#78" id="78">78</a>
-<a href="#79" id="79">79</a>
-<a href="#80" id="80">80</a>
-<a href="#81" id="81">81</a>
-<a href="#82" id="82">82</a>
-<a href="#83" id="83">83</a>
-<a href="#84" id="84">84</a>
-<a href="#85" id="85">85</a>
-<a href="#86" id="86">86</a>
-<a href="#87" id="87">87</a>
-<a href="#88" id="88">88</a>
-<a href="#89" id="89">89</a>
-<a href="#90" id="90">90</a>
-<a href="#91" id="91">91</a>
-<a href="#92" id="92">92</a>
-<a href="#93" id="93">93</a>
-<a href="#94" id="94">94</a>
-<a href="#95" id="95">95</a>
-<a href="#96" id="96">96</a>
-<a href="#97" id="97">97</a>
-<a href="#98" id="98">98</a>
-<a href="#99" id="99">99</a>
-<a href="#100" id="100">100</a>
-<a href="#101" id="101">101</a>
-<a href="#102" id="102">102</a>
-<a href="#103" id="103">103</a>
-<a href="#104" id="104">104</a>
-<a href="#105" id="105">105</a>
-<a href="#106" id="106">106</a>
-<a href="#107" id="107">107</a>
-<a href="#108" id="108">108</a>
-<a href="#109" id="109">109</a>
-<a href="#110" id="110">110</a>
-<a href="#111" id="111">111</a>
-<a href="#112" id="112">112</a>
-<a href="#113" id="113">113</a>
-<a href="#114" id="114">114</a>
-<a href="#115" id="115">115</a>
-<a href="#116" id="116">116</a>
-<a href="#117" id="117">117</a>
-<a href="#118" id="118">118</a>
-<a href="#119" id="119">119</a>
-<a href="#120" id="120">120</a>
-<a href="#121" id="121">121</a>
-<a href="#122" id="122">122</a>
-<a href="#123" id="123">123</a>
-<a href="#124" id="124">124</a>
-<a href="#125" id="125">125</a>
-<a href="#126" id="126">126</a>
-<a href="#127" id="127">127</a>
-<a href="#128" id="128">128</a>
-<a href="#129" id="129">129</a>
-<a href="#130" id="130">130</a>
-<a href="#131" id="131">131</a>
-<a href="#132" id="132">132</a>
-<a href="#133" id="133">133</a>
-<a href="#134" id="134">134</a>
-<a href="#135" id="135">135</a>
-<a href="#136" id="136">136</a>
-<a href="#137" id="137">137</a>
-<a href="#138" id="138">138</a>
-<a href="#139" id="139">139</a>
-<a href="#140" id="140">140</a>
-<a href="#141" id="141">141</a>
-<a href="#142" id="142">142</a>
-<a href="#143" id="143">143</a>
-<a href="#144" id="144">144</a>
-<a href="#145" id="145">145</a>
-<a href="#146" id="146">146</a>
-<a href="#147" id="147">147</a>
-<a href="#148" id="148">148</a>
-<a href="#149" id="149">149</a>
-<a href="#150" id="150">150</a>
-<a href="#151" id="151">151</a>
-<a href="#152" id="152">152</a>
-<a href="#153" id="153">153</a>
-<a href="#154" id="154">154</a>
-<a href="#155" id="155">155</a>
-<a href="#156" id="156">156</a>
-<a href="#157" id="157">157</a>
-</pre><pre class="rust"><code><span class="doccomment">//! High performance XML reader/writer.
+</pre></div><pre class="rust"><code><span class="doccomment">//! High performance XML reader/writer.
 //!
-//! ## Description
+//! # Description
 //!
 //! quick-xml contains two modes of operation:
 //!
 //! A streaming API based on the [StAX] model. This is suited for larger XML documents which
 //! cannot completely read into memory at once.
 //!
-//! The user has to expicitely _ask_ for the next XML event, similar
-//! to a database cursor.
+//! The user has to explicitly _ask_ for the next XML event, similar to a database cursor.
 //! This is achieved by the following two structs:
 //!
 //! - [`Reader`]: A low level XML pull-reader where buffer allocation/clearing is left to user.
 //! - [`Writer`]: A XML writer. Can be nested with readers if you want to transform XMLs.
 //!
-//! Especially for nested XML elements, the user must keep track _where_ (how deep) in the XML document
-//! the current event is located. This is needed as the
+//! Especially for nested XML elements, the user must keep track _where_ (how deep)
+//! in the XML document the current event is located.
 //!
-//! Furthermore, quick-xml also contains optional [Serde] support to directly serialize and deserialize from
-//! structs, without having to deal with the XML events.
+//! quick-xml contains optional support of asynchronous reading and writing using [tokio].
+//! To get it enable the `async-tokio` feature.
 //!
-//! ## Examples
+//! Furthermore, quick-xml also contains optional [Serde] support to directly
+//! serialize and deserialize from structs, without having to deal with the XML events.
+//! To get it enable the `serialize` feature. Read more about mapping Rust types
+//! to XML in the documentation of [`de`] module.
 //!
-//! ### Reader
+//! # Examples
 //!
-//! ```rust
-//! use quick_xml::Reader;
-//! use quick_xml::events::Event;
-//!
-//! let xml = r#&quot;&lt;tag1 att1 = &quot;test&quot;&gt;
-//!                 &lt;tag2&gt;&lt;!--Test comment--&gt;Test&lt;/tag2&gt;
-//!                 &lt;tag2&gt;
-//!                     Test 2
-//!                 &lt;/tag2&gt;
-//!             &lt;/tag1&gt;&quot;#;
-//!
-//! let mut reader = Reader::from_str(xml);
-//! reader.trim_text(true);
-//!
-//! let mut count = 0;
-//! let mut txt = Vec::new();
-//! let mut buf = Vec::new();
-//!
-//! // The `Reader` does not implement `Iterator` because it outputs borrowed data (`Cow`s)
-//! loop {
-//!     match reader.read_event(&amp;mut buf) {
-//!     // for triggering namespaced events, use this instead:
-//!     // match reader.read_namespaced_event(&amp;mut buf) {
-//!         Ok(Event::Start(ref e)) =&gt; {
-//!         // for namespaced:
-//!         // Ok((ref namespace_value, Event::Start(ref e)))
-//!             match e.name() {
-//!                 b&quot;tag1&quot; =&gt; println!(&quot;attributes values: {:?}&quot;,
-//!                                     e.attributes().map(|a| a.unwrap().value)
-//!                                     .collect::&lt;Vec&lt;_&gt;&gt;()),
-//!                 b&quot;tag2&quot; =&gt; count += 1,
-//!                 _ =&gt; (),
-//!             }
-//!         },
-//!         // unescape and decode the text event using the reader encoding
-//!         Ok(Event::Text(e)) =&gt; txt.push(e.unescape_and_decode(&amp;reader).unwrap()),
-//!         Ok(Event::Eof) =&gt; break, // exits the loop when reaching end of file
-//!         Err(e) =&gt; panic!(&quot;Error at position {}: {:?}&quot;, reader.buffer_position(), e),
-//!         _ =&gt; (), // There are several other `Event`s we do not consider here
-//!     }
-//!
-//!     // if we don&#39;t keep a borrow elsewhere, we can clear the buffer to keep memory usage low
-//!     buf.clear();
-//! }
-//! ```
-//!
-//! ### Writer
-//!
-//! ```rust
-//! # use pretty_assertions::assert_eq;
-//! use quick_xml::Writer;
-//! use quick_xml::events::{Event, BytesEnd, BytesStart};
-//! use quick_xml::Reader;
-//! use std::io::Cursor;
-//! use std::iter;
-//!
-//! let xml = r#&quot;&lt;this_tag k1=&quot;v1&quot; k2=&quot;v2&quot;&gt;&lt;child&gt;text&lt;/child&gt;&lt;/this_tag&gt;&quot;#;
-//! let mut reader = Reader::from_str(xml);
-//! reader.trim_text(true);
-//! let mut writer = Writer::new(Cursor::new(Vec::new()));
-//! let mut buf = Vec::new();
-//! loop {
-//!     match reader.read_event(&amp;mut buf) {
-//!         Ok(Event::Start(ref e)) if e.name() == b&quot;this_tag&quot; =&gt; {
-//!
-//!             // crates a new element ... alternatively we could reuse `e` by calling
-//!             // `e.into_owned()`
-//!             let mut elem = BytesStart::owned(b&quot;my_elem&quot;.to_vec(), &quot;my_elem&quot;.len());
-//!
-//!             // collect existing attributes
-//!             elem.extend_attributes(e.attributes().map(|attr| attr.unwrap()));
-//!
-//!             // copy existing attributes, adds a new my-key=&quot;some value&quot; attribute
-//!             elem.push_attribute((&quot;my-key&quot;, &quot;some value&quot;));
-//!
-//!             // writes the event to the writer
-//!             assert!(writer.write_event(Event::Start(elem)).is_ok());
-//!         },
-//!         Ok(Event::End(ref e)) if e.name() == b&quot;this_tag&quot; =&gt; {
-//!             assert!(writer.write_event(Event::End(BytesEnd::borrowed(b&quot;my_elem&quot;))).is_ok());
-//!         },
-//!         Ok(Event::Eof) =&gt; break,
-//!         Ok(e) =&gt; assert!(writer.write_event(e).is_ok()),
-//!         // or using the buffer
-//!         // Ok(e) =&gt; assert!(writer.write(&amp;buf).is_ok()),
-//!         Err(e) =&gt; panic!(&quot;Error at position {}: {:?}&quot;, reader.buffer_position(), e),
-//!     }
-//!     buf.clear();
-//! }
-//!
-//! let result = writer.into_inner().into_inner();
-//! let expected = r#&quot;&lt;my_elem k1=&quot;v1&quot; k2=&quot;v2&quot; my-key=&quot;some value&quot;&gt;&lt;child&gt;text&lt;/child&gt;&lt;/my_elem&gt;&quot;#;
-//! assert_eq!(result, expected.as_bytes());
-//! ```
+//! - For a reading example see [`Reader`]
+//! - For a writing example see [`Writer`]
 //!
 //! # Features
 //!
-//! quick-xml supports 2 additional features, non activated by default:
-//! - `encoding`: support non utf8 XMLs
-//! - `serialize`: support serde `Serialize`/`Deserialize`
+//! `quick-xml` supports the following features:
 //!
 //! [StAX]: https://en.wikipedia.org/wiki/StAX
+//! [tokio]: https://tokio.rs/
 //! [Serde]: https://serde.rs/
-</span><span class="attr">#![forbid(unsafe_code)]
+//! [`de`]: ./de/index.html
+</span><span class="attr">#![cfg_attr(
+    feature = <span class="string">&quot;document-features&quot;</span>,
+    cfg_attr(doc, doc = <span class="macro">::document_features::document_features!</span>())
+)]
+#![forbid(unsafe_code)]
 #![deny(missing_docs)]
 #![recursion_limit = <span class="string">&quot;1024&quot;</span>]
+</span><span class="comment">// Enable feature requirements in the docs from 1.57
+// See https://stackoverflow.com/questions/61417452
+</span><span class="attr">#![cfg_attr(docs_rs, feature(doc_auto_cfg))]
 
 #[cfg(feature = <span class="string">&quot;serialize&quot;</span>)]
 </span><span class="kw">pub mod </span>de;
+<span class="kw">pub mod </span>encoding;
 <span class="kw">mod </span>errors;
 <span class="kw">mod </span>escapei;
 <span class="kw">pub mod </span>escape {
     <span class="doccomment">//! Manage xml character escapes
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span><span class="kw">crate</span>::escapei::{do_unescape, EscapeError};
-    <span class="kw">pub use </span><span class="kw">crate</span>::escapei::{escape, partial_escape, unescape, unescape_with};
+    </span><span class="kw">pub use </span><span class="kw">crate</span>::escapei::{escape, partial_escape, unescape, unescape_with, EscapeError};
 }
 <span class="kw">pub mod </span>events;
-<span class="kw">mod </span>reader;
+<span class="kw">pub mod </span>name;
+<span class="kw">pub mod </span>reader;
 <span class="attr">#[cfg(feature = <span class="string">&quot;serialize&quot;</span>)]
 </span><span class="kw">pub mod </span>se;
 <span class="doccomment">/// Not an official API, public for integration tests
 </span><span class="attr">#[doc(hidden)]
 </span><span class="kw">pub mod </span>utils;
-<span class="kw">mod </span>writer;
+<span class="kw">pub mod </span>writer;
 
 <span class="comment">// reexports
-</span><span class="attr">#[cfg(feature = <span class="string">&quot;serialize&quot;</span>)]
+</span><span class="kw">pub use </span><span class="kw">crate</span>::encoding::Decoder;
+<span class="attr">#[cfg(feature = <span class="string">&quot;serialize&quot;</span>)]
 </span><span class="kw">pub use </span><span class="kw">crate</span>::errors::serialize::DeError;
 <span class="kw">pub use </span><span class="kw">crate</span>::errors::{Error, <span class="prelude-ty">Result</span>};
-<span class="kw">pub use </span><span class="kw">crate</span>::reader::Reader;
+<span class="kw">pub use </span><span class="kw">crate</span>::reader::{NsReader, Reader};
 <span class="kw">pub use </span><span class="kw">crate</span>::writer::{ElementWriter, Writer};
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="quick_xml" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0 (84c898d65 2023-04-16)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

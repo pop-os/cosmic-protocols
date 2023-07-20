@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/github.com-1ecc6299db9ec823/quick-xml-0.23.1/src/escapei.rs`."><title>escapei.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../quick_xml/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quick-xml-0.28.2/src/escapei.rs`."><title>escapei.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="quick_xml" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0 (8ede3aae2 2023-07-12)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../quick_xml/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1777,28 +1777,59 @@
 <a href="#1777" id="1777">1777</a>
 <a href="#1778" id="1778">1778</a>
 <a href="#1779" id="1779">1779</a>
-</pre><pre class="rust"><code><span class="doccomment">//! Manage xml character escapes
+<a href="#1780" id="1780">1780</a>
+<a href="#1781" id="1781">1781</a>
+<a href="#1782" id="1782">1782</a>
+<a href="#1783" id="1783">1783</a>
+<a href="#1784" id="1784">1784</a>
+<a href="#1785" id="1785">1785</a>
+<a href="#1786" id="1786">1786</a>
+<a href="#1787" id="1787">1787</a>
+<a href="#1788" id="1788">1788</a>
+<a href="#1789" id="1789">1789</a>
+<a href="#1790" id="1790">1790</a>
+<a href="#1791" id="1791">1791</a>
+<a href="#1792" id="1792">1792</a>
+<a href="#1793" id="1793">1793</a>
+<a href="#1794" id="1794">1794</a>
+<a href="#1795" id="1795">1795</a>
+<a href="#1796" id="1796">1796</a>
+<a href="#1797" id="1797">1797</a>
+<a href="#1798" id="1798">1798</a>
+<a href="#1799" id="1799">1799</a>
+<a href="#1800" id="1800">1800</a>
+<a href="#1801" id="1801">1801</a>
+<a href="#1802" id="1802">1802</a>
+<a href="#1803" id="1803">1803</a>
+<a href="#1804" id="1804">1804</a>
+<a href="#1805" id="1805">1805</a>
+<a href="#1806" id="1806">1806</a>
+<a href="#1807" id="1807">1807</a>
+<a href="#1808" id="1808">1808</a>
+<a href="#1809" id="1809">1809</a>
+<a href="#1810" id="1810">1810</a>
+<a href="#1811" id="1811">1811</a>
+<a href="#1812" id="1812">1812</a>
+<a href="#1813" id="1813">1813</a>
+<a href="#1814" id="1814">1814</a>
+</pre></div><pre class="rust"><code><span class="doccomment">//! Manage xml character escapes
 
-</span><span class="kw">use </span>memchr;
+</span><span class="kw">use </span>memchr::memchr2_iter;
 <span class="kw">use </span>std::borrow::Cow;
-<span class="kw">use </span>std::collections::HashMap;
 <span class="kw">use </span>std::ops::Range;
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">use </span>pretty_assertions::assert_eq;
 
-<span class="doccomment">/// Error for XML escape/unescqpe.
-</span><span class="attr">#[derive(Debug)]
+<span class="doccomment">/// Error for XML escape / unescape.
+</span><span class="attr">#[derive(Clone, Debug)]
 </span><span class="kw">pub enum </span>EscapeError {
     <span class="doccomment">/// Entity with Null character
-    </span>EntityWithNull(::std::ops::Range&lt;usize&gt;),
+    </span>EntityWithNull(Range&lt;usize&gt;),
     <span class="doccomment">/// Unrecognized escape symbol
-    </span>UnrecognizedSymbol(
-        ::std::ops::Range&lt;usize&gt;,
-        ::std::result::Result&lt;String, ::std::string::FromUtf8Error&gt;,
-    ),
+    </span>UnrecognizedSymbol(Range&lt;usize&gt;, String),
     <span class="doccomment">/// Cannot find `;` after `&amp;`
-    </span>UnterminatedEntity(::std::ops::Range&lt;usize&gt;),
+    </span>UnterminatedEntity(Range&lt;usize&gt;),
     <span class="doccomment">/// Cannot convert Hexa to utf8
     </span>TooLongHexadecimal,
     <span class="doccomment">/// Character is not a valid hexadecimal value
@@ -1842,124 +1873,139 @@
 
 <span class="kw">impl </span>std::error::Error <span class="kw">for </span>EscapeError {}
 
-<span class="doccomment">/// Escapes a `&amp;[u8]` and replaces all xml special characters (&lt;, &gt;, &amp;, &#39;, &quot;) with their
-/// corresponding xml escaped value.
-</span><span class="kw">pub fn </span>escape(raw: <span class="kw-2">&amp;</span>[u8]) -&gt; Cow&lt;[u8]&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>to_escape(b: u8) -&gt; bool {
-        <span class="kw">match </span>b {
-            <span class="string">b&#39;&lt;&#39; </span>| <span class="string">b&#39;&gt;&#39; </span>| <span class="string">b&#39;\&#39;&#39; </span>| <span class="string">b&#39;&amp;&#39; </span>| <span class="string">b&#39;&quot;&#39; </span>=&gt; <span class="bool-val">true</span>,
-            <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
-        }
-    }
-
-    _escape(raw, to_escape)
+<span class="doccomment">/// Escapes an `&amp;str` and replaces all xml special characters (`&lt;`, `&gt;`, `&amp;`, `&#39;`, `&quot;`)
+/// with their corresponding xml escaped value.
+///
+/// This function performs following replacements:
+///
+/// | Character | Replacement
+/// |-----------|------------
+/// | `&lt;`       | `&amp;lt;`
+/// | `&gt;`       | `&amp;gt;`
+/// | `&amp;`       | `&amp;amp;`
+/// | `&#39;`       | `&amp;apos;`
+/// | `&quot;`       | `&amp;quot;`
+</span><span class="kw">pub fn </span>escape(raw: <span class="kw-2">&amp;</span>str) -&gt; Cow&lt;str&gt; {
+    _escape(raw, |ch| <span class="macro">matches!</span>(ch, <span class="string">b&#39;&lt;&#39; </span>| <span class="string">b&#39;&gt;&#39; </span>| <span class="string">b&#39;&amp;&#39; </span>| <span class="string">b&#39;\&#39;&#39; </span>| <span class="string">b&#39;\&quot;&#39;</span>))
 }
 
-<span class="doccomment">/// Should only be used for escaping text content. In xml text content, it is allowed
-/// (though not recommended) to leave the quote special characters &quot; and &#39; unescaped.
-/// This function escapes a `&amp;[u8]` and replaces xml special characters (&lt;, &gt;, &amp;) with
-/// their corresponding xml escaped value, but does not escape quote characters.
-</span><span class="kw">pub fn </span>partial_escape(raw: <span class="kw-2">&amp;</span>[u8]) -&gt; Cow&lt;[u8]&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>to_escape(b: u8) -&gt; bool {
-        <span class="kw">match </span>b {
-            <span class="string">b&#39;&lt;&#39; </span>| <span class="string">b&#39;&gt;&#39; </span>| <span class="string">b&#39;&amp;&#39; </span>=&gt; <span class="bool-val">true</span>,
-            <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
-        }
-    }
-
-    _escape(raw, to_escape)
+<span class="doccomment">/// Escapes an `&amp;str` and replaces xml special characters (`&lt;`, `&gt;`, `&amp;`)
+/// with their corresponding xml escaped value.
+///
+/// Should only be used for escaping text content. In XML text content, it is allowed
+/// (though not recommended) to leave the quote special characters `&quot;` and `&#39;` unescaped.
+///
+/// This function performs following replacements:
+///
+/// | Character | Replacement
+/// |-----------|------------
+/// | `&lt;`       | `&amp;lt;`
+/// | `&gt;`       | `&amp;gt;`
+/// | `&amp;`       | `&amp;amp;`
+</span><span class="kw">pub fn </span>partial_escape(raw: <span class="kw-2">&amp;</span>str) -&gt; Cow&lt;str&gt; {
+    _escape(raw, |ch| <span class="macro">matches!</span>(ch, <span class="string">b&#39;&lt;&#39; </span>| <span class="string">b&#39;&gt;&#39; </span>| <span class="string">b&#39;&amp;&#39;</span>))
 }
 
-<span class="doccomment">/// Escapes a `&amp;[u8]` and replaces a subset of xml special characters (&lt;, &gt;, &amp;, &#39;, &quot;) with their
-/// corresponding xml escaped value.
-</span><span class="kw">fn </span>_escape&lt;F: Fn(u8) -&gt; bool&gt;(raw: <span class="kw-2">&amp;</span>[u8], escape_chars: F) -&gt; Cow&lt;[u8]&gt; {
+<span class="doccomment">/// Escapes an `&amp;str` and replaces a subset of xml special characters (`&lt;`, `&gt;`,
+/// `&amp;`, `&#39;`, `&quot;`) with their corresponding xml escaped value.
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>_escape&lt;F: Fn(u8) -&gt; bool&gt;(raw: <span class="kw-2">&amp;</span>str, escape_chars: F) -&gt; Cow&lt;str&gt; {
+    <span class="kw">let </span>bytes = raw.as_bytes();
     <span class="kw">let </span><span class="kw-2">mut </span>escaped = <span class="prelude-val">None</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>bytes = raw.iter();
+    <span class="kw">let </span><span class="kw-2">mut </span>iter = bytes.iter();
     <span class="kw">let </span><span class="kw-2">mut </span>pos = <span class="number">0</span>;
-    <span class="kw">while let </span><span class="prelude-val">Some</span>(i) = bytes.position(|<span class="kw-2">&amp;</span>b| escape_chars(b)) {
+    <span class="kw">while let </span><span class="prelude-val">Some</span>(i) = iter.position(|<span class="kw-2">&amp;</span>b| escape_chars(b)) {
         <span class="kw">if </span>escaped.is_none() {
             escaped = <span class="prelude-val">Some</span>(Vec::with_capacity(raw.len()));
         }
         <span class="kw">let </span>escaped = escaped.as_mut().expect(<span class="string">&quot;initialized&quot;</span>);
         <span class="kw">let </span>new_pos = pos + i;
-        escaped.extend_from_slice(<span class="kw-2">&amp;</span>raw[pos..new_pos]);
-        <span class="kw">match </span>raw[new_pos] {
+        escaped.extend_from_slice(<span class="kw-2">&amp;</span>bytes[pos..new_pos]);
+        <span class="kw">match </span>bytes[new_pos] {
             <span class="string">b&#39;&lt;&#39; </span>=&gt; escaped.extend_from_slice(<span class="string">b&quot;&amp;lt;&quot;</span>),
             <span class="string">b&#39;&gt;&#39; </span>=&gt; escaped.extend_from_slice(<span class="string">b&quot;&amp;gt;&quot;</span>),
             <span class="string">b&#39;\&#39;&#39; </span>=&gt; escaped.extend_from_slice(<span class="string">b&quot;&amp;apos;&quot;</span>),
             <span class="string">b&#39;&amp;&#39; </span>=&gt; escaped.extend_from_slice(<span class="string">b&quot;&amp;amp;&quot;</span>),
             <span class="string">b&#39;&quot;&#39; </span>=&gt; escaped.extend_from_slice(<span class="string">b&quot;&amp;quot;&quot;</span>),
-            <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(<span class="string">&quot;Only &#39;&lt;&#39;, &#39;&gt;&#39;,&#39;\&#39;, &#39;&amp;&#39; and &#39;\&quot;&#39; are escaped&quot;</span>),
+
+            <span class="comment">// This set of escapes handles characters that should be escaped
+            // in elements of xs:lists, because those characters works as
+            // delimiters of list elements
+            </span><span class="string">b&#39;\t&#39; </span>=&gt; escaped.extend_from_slice(<span class="string">b&quot;&amp;#9;&quot;</span>),
+            <span class="string">b&#39;\n&#39; </span>=&gt; escaped.extend_from_slice(<span class="string">b&quot;&amp;#10;&quot;</span>),
+            <span class="string">b&#39;\r&#39; </span>=&gt; escaped.extend_from_slice(<span class="string">b&quot;&amp;#13;&quot;</span>),
+            <span class="string">b&#39; &#39; </span>=&gt; escaped.extend_from_slice(<span class="string">b&quot;&amp;#32;&quot;</span>),
+            <span class="kw">_ </span>=&gt; <span class="macro">unreachable!</span>(
+                <span class="string">&quot;Only &#39;&lt;&#39;, &#39;&gt;&#39;,&#39;\&#39;, &#39;&amp;&#39;, &#39;\&quot;&#39;, &#39;\\t&#39;, &#39;\\r&#39;, &#39;\\n&#39;, and &#39; &#39; are escaped&quot;
+            </span>),
         }
         pos = new_pos + <span class="number">1</span>;
     }
 
     <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">mut </span>escaped) = escaped {
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(raw) = raw.get(pos..) {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(raw) = bytes.get(pos..) {
             escaped.extend_from_slice(raw);
         }
-        Cow::Owned(escaped)
+        <span class="comment">// SAFETY: we operate on UTF-8 input and search for an one byte chars only,
+        // so all slices that was put to the `escaped` is a valid UTF-8 encoded strings
+        // TODO: Can be replaced with `unsafe { String::from_utf8_unchecked() }`
+        // if unsafe code will be allowed
+        </span>Cow::Owned(String::from_utf8(escaped).unwrap())
     } <span class="kw">else </span>{
         Cow::Borrowed(raw)
     }
 }
 
-<span class="doccomment">/// Unescape a `&amp;[u8]` and replaces all xml escaped characters (&#39;&amp;...;&#39;) into their corresponding
-/// value
-</span><span class="kw">pub fn </span>unescape(raw: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;[u8]&gt;, EscapeError&gt; {
-    do_unescape(raw, <span class="prelude-val">None</span>)
+<span class="doccomment">/// Unescape an `&amp;str` and replaces all xml escaped characters (`&amp;...;`) into
+/// their corresponding value.
+///
+/// If feature `escape-html` is enabled, then recognizes all [HTML5 escapes].
+///
+/// [HTML5 escapes]: https://dev.w3.org/html5/html-author/charref
+</span><span class="kw">pub fn </span>unescape(raw: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;str&gt;, EscapeError&gt; {
+    unescape_with(raw, |<span class="kw">_</span>| <span class="prelude-val">None</span>)
 }
 
-<span class="doccomment">/// Unescape a `&amp;[u8]` and replaces all xml escaped characters (&#39;&amp;...;&#39;) into their corresponding
-/// value, using a dictionnary of custom entities.
+<span class="doccomment">/// Unescape an `&amp;str` and replaces all xml escaped characters (`&amp;...;`) into
+/// their corresponding value, using a resolver function for custom entities.
 ///
-/// # Pre-condition
+/// If feature `escape-html` is enabled, then recognizes all [HTML5 escapes].
 ///
-/// The keys and values of `custom_entities`, if any, must be valid UTF-8.
-</span><span class="kw">pub fn </span>unescape_with&lt;<span class="lifetime">&#39;a</span>&gt;(
-    raw: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8],
-    custom_entities: <span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;,
-) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;<span class="lifetime">&#39;a</span>, [u8]&gt;, EscapeError&gt; {
-    do_unescape(raw, <span class="prelude-val">Some</span>(custom_entities))
-}
-
-<span class="doccomment">/// Unescape a `&amp;[u8]` and replaces all xml escaped characters (&#39;&amp;...;&#39;) into their corresponding
-/// value, using an optional dictionary of custom entities.
-///
-/// # Pre-condition
-///
-/// The keys and values of `custom_entities`, if any, must be valid UTF-8.
-</span><span class="kw">pub fn </span>do_unescape&lt;<span class="lifetime">&#39;a</span>&gt;(
-    raw: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8],
-    custom_entities: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>HashMap&lt;Vec&lt;u8&gt;, Vec&lt;u8&gt;&gt;&gt;,
-) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;<span class="lifetime">&#39;a</span>, [u8]&gt;, EscapeError&gt; {
+/// [HTML5 escapes]: https://dev.w3.org/html5/html-author/charref
+</span><span class="kw">pub fn </span>unescape_with&lt;<span class="lifetime">&#39;input</span>, <span class="lifetime">&#39;entity</span>, F&gt;(
+    raw: <span class="kw-2">&amp;</span><span class="lifetime">&#39;input </span>str,
+    <span class="kw-2">mut </span>resolve_entity: F,
+) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;<span class="lifetime">&#39;input</span>, str&gt;, EscapeError&gt;
+<span class="kw">where
+    </span><span class="comment">// the lifetime of the output comes from a capture or is `&#39;static`
+    </span>F: FnMut(<span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;entity </span>str&gt;,
+{
+    <span class="kw">let </span>bytes = raw.as_bytes();
     <span class="kw">let </span><span class="kw-2">mut </span>unescaped = <span class="prelude-val">None</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>last_end = <span class="number">0</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>iter = memchr::memchr2_iter(<span class="string">b&#39;&amp;&#39;</span>, <span class="string">b&#39;;&#39;</span>, raw);
-    <span class="kw">while let </span><span class="prelude-val">Some</span>(start) = iter.by_ref().find(|p| raw[<span class="kw-2">*</span>p] == <span class="string">b&#39;&amp;&#39;</span>) {
+    <span class="kw">let </span><span class="kw-2">mut </span>iter = memchr2_iter(<span class="string">b&#39;&amp;&#39;</span>, <span class="string">b&#39;;&#39;</span>, bytes);
+    <span class="kw">while let </span><span class="prelude-val">Some</span>(start) = iter.by_ref().find(|p| bytes[<span class="kw-2">*</span>p] == <span class="string">b&#39;&amp;&#39;</span>) {
         <span class="kw">match </span>iter.next() {
-            <span class="prelude-val">Some</span>(end) <span class="kw">if </span>raw[end] == <span class="string">b&#39;;&#39; </span>=&gt; {
+            <span class="prelude-val">Some</span>(end) <span class="kw">if </span>bytes[end] == <span class="string">b&#39;;&#39; </span>=&gt; {
                 <span class="comment">// append valid data
                 </span><span class="kw">if </span>unescaped.is_none() {
-                    unescaped = <span class="prelude-val">Some</span>(Vec::with_capacity(raw.len()));
+                    unescaped = <span class="prelude-val">Some</span>(String::with_capacity(raw.len()));
                 }
                 <span class="kw">let </span>unescaped = unescaped.as_mut().expect(<span class="string">&quot;initialized&quot;</span>);
-                unescaped.extend_from_slice(<span class="kw-2">&amp;</span>raw[last_end..start]);
+                unescaped.push_str(<span class="kw-2">&amp;</span>raw[last_end..start]);
 
                 <span class="comment">// search for character correctness
                 </span><span class="kw">let </span>pat = <span class="kw-2">&amp;</span>raw[start + <span class="number">1</span>..end];
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(s) = named_entity(pat) {
-                    unescaped.extend_from_slice(s.as_bytes());
-                } <span class="kw">else if </span>pat.starts_with(<span class="string">b&quot;#&quot;</span>) {
-                    push_utf8(unescaped, parse_number(<span class="kw-2">&amp;</span>pat[<span class="number">1</span>..], start..end)<span class="question-mark">?</span>);
-                } <span class="kw">else if let </span><span class="prelude-val">Some</span>(value) = custom_entities.and_then(|hm| hm.get(pat)) {
-                    unescaped.extend_from_slice(<span class="kw-2">&amp;</span>value);
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(entity) = pat.strip_prefix(<span class="string">&#39;#&#39;</span>) {
+                    <span class="kw">let </span>codepoint = parse_number(entity, start..end)<span class="question-mark">?</span>;
+                    unescaped.push_str(codepoint.encode_utf8(<span class="kw-2">&amp;mut </span>[<span class="number">0u8</span>; <span class="number">4</span>]));
+                } <span class="kw">else if let </span><span class="prelude-val">Some</span>(value) = named_entity(pat) {
+                    unescaped.push_str(value);
+                } <span class="kw">else if let </span><span class="prelude-val">Some</span>(value) = resolve_entity(pat) {
+                    unescaped.push_str(value);
                 } <span class="kw">else </span>{
                     <span class="kw">return </span><span class="prelude-val">Err</span>(EscapeError::UnrecognizedSymbol(
                         start + <span class="number">1</span>..end,
-                        String::from_utf8(pat.to_vec()),
+                        pat.to_string(),
                     ));
                 }
 
@@ -1971,7 +2017,7 @@
 
     <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">mut </span>unescaped) = unescaped {
         <span class="kw">if let </span><span class="prelude-val">Some</span>(raw) = raw.get(last_end..) {
-            unescaped.extend_from_slice(raw);
+            unescaped.push_str(raw);
         }
         <span class="prelude-val">Ok</span>(Cow::Owned(unescaped))
     } <span class="kw">else </span>{
@@ -1980,8 +2026,9 @@
 }
 
 <span class="attr">#[cfg(not(feature = <span class="string">&quot;escape-html&quot;</span>))]
-</span><span class="kw">const fn </span>named_entity(name: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt; {
-    <span class="kw">let </span>s = <span class="kw">match </span>name {
+</span><span class="kw">fn </span>named_entity(name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt; {
+    <span class="comment">// match over strings are not allowed in const functions
+    </span><span class="kw">let </span>s = <span class="kw">match </span>name.as_bytes() {
         <span class="string">b&quot;lt&quot; </span>=&gt; <span class="string">&quot;&lt;&quot;</span>,
         <span class="string">b&quot;gt&quot; </span>=&gt; <span class="string">&quot;&gt;&quot;</span>,
         <span class="string">b&quot;amp&quot; </span>=&gt; <span class="string">&quot;&amp;&quot;</span>,
@@ -1992,9 +2039,11 @@
     <span class="prelude-val">Some</span>(s)
 }
 <span class="attr">#[cfg(feature = <span class="string">&quot;escape-html&quot;</span>)]
-</span><span class="kw">const fn </span>named_entity(name: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt; {
+</span><span class="kw">fn </span>named_entity(name: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>str&gt; {
     <span class="comment">// imported from https://dev.w3.org/html5/html-author/charref
-    </span><span class="kw">let </span>s = <span class="kw">match </span>name {
+    // match over strings are not allowed in const functions
+    //TODO: automate up-to-dating using https://html.spec.whatwg.org/entities.json
+    </span><span class="kw">let </span>s = <span class="kw">match </span>name.as_bytes() {
         <span class="string">b&quot;Tab&quot; </span>=&gt; <span class="string">&quot;\u{09}&quot;</span>,
         <span class="string">b&quot;NewLine&quot; </span>=&gt; <span class="string">&quot;\u{0A}&quot;</span>,
         <span class="string">b&quot;excl&quot; </span>=&gt; <span class="string">&quot;\u{21}&quot;</span>,
@@ -3454,16 +3503,11 @@
     <span class="prelude-val">Some</span>(s)
 }
 
-<span class="kw">fn </span>push_utf8(out: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;, code: char) {
-    <span class="kw">let </span><span class="kw-2">mut </span>buf = [<span class="number">0u8</span>; <span class="number">4</span>];
-    out.extend_from_slice(code.encode_utf8(<span class="kw-2">&amp;mut </span>buf).as_bytes());
-}
-
-<span class="kw">fn </span>parse_number(bytes: <span class="kw-2">&amp;</span>[u8], range: Range&lt;usize&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;char, EscapeError&gt; {
-    <span class="kw">let </span>code = <span class="kw">if </span>bytes.starts_with(<span class="string">b&quot;x&quot;</span>) {
-        parse_hexadecimal(<span class="kw-2">&amp;</span>bytes[<span class="number">1</span>..])
+<span class="kw">fn </span>parse_number(bytes: <span class="kw-2">&amp;</span>str, range: Range&lt;usize&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;char, EscapeError&gt; {
+    <span class="kw">let </span>code = <span class="kw">if let </span><span class="prelude-val">Some</span>(hex_digits) = bytes.strip_prefix(<span class="string">&#39;x&#39;</span>) {
+        parse_hexadecimal(hex_digits)
     } <span class="kw">else </span>{
-        parse_decimal(<span class="kw-2">&amp;</span>bytes)
+        parse_decimal(bytes)
     }<span class="question-mark">?</span>;
     <span class="kw">if </span>code == <span class="number">0 </span>{
         <span class="kw">return </span><span class="prelude-val">Err</span>(EscapeError::EntityWithNull(range));
@@ -3474,13 +3518,13 @@
     }
 }
 
-<span class="kw">fn </span>parse_hexadecimal(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;u32, EscapeError&gt; {
+<span class="kw">fn </span>parse_hexadecimal(bytes: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;u32, EscapeError&gt; {
     <span class="comment">// maximum code is 0x10FFFF =&gt; 6 characters
     </span><span class="kw">if </span>bytes.len() &gt; <span class="number">6 </span>{
         <span class="kw">return </span><span class="prelude-val">Err</span>(EscapeError::TooLongHexadecimal);
     }
     <span class="kw">let </span><span class="kw-2">mut </span>code = <span class="number">0</span>;
-    <span class="kw">for </span><span class="kw-2">&amp;</span>b <span class="kw">in </span>bytes {
+    <span class="kw">for </span>b <span class="kw">in </span>bytes.bytes() {
         code &lt;&lt;= <span class="number">4</span>;
         code += <span class="kw">match </span>b {
             <span class="string">b&#39;0&#39;</span>..=<span class="string">b&#39;9&#39; </span>=&gt; b - <span class="string">b&#39;0&#39;</span>,
@@ -3492,13 +3536,13 @@
     <span class="prelude-val">Ok</span>(code)
 }
 
-<span class="kw">fn </span>parse_decimal(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;u32, EscapeError&gt; {
+<span class="kw">fn </span>parse_decimal(bytes: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;u32, EscapeError&gt; {
     <span class="comment">// maximum code is 0x10FFFF = 1114111 =&gt; 7 characters
     </span><span class="kw">if </span>bytes.len() &gt; <span class="number">7 </span>{
         <span class="kw">return </span><span class="prelude-val">Err</span>(EscapeError::TooLongDecimal);
     }
     <span class="kw">let </span><span class="kw-2">mut </span>code = <span class="number">0</span>;
-    <span class="kw">for </span><span class="kw-2">&amp;</span>b <span class="kw">in </span>bytes {
+    <span class="kw">for </span>b <span class="kw">in </span>bytes.bytes() {
         code <span class="kw-2">*</span>= <span class="number">10</span>;
         code += <span class="kw">match </span>b {
             <span class="string">b&#39;0&#39;</span>..=<span class="string">b&#39;9&#39; </span>=&gt; b - <span class="string">b&#39;0&#39;</span>,
@@ -3510,51 +3554,76 @@
 
 <span class="attr">#[test]
 </span><span class="kw">fn </span>test_unescape() {
-    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;*</span>unescape(<span class="string">b&quot;test&quot;</span>).unwrap(), <span class="string">b&quot;test&quot;</span>);
-    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;*</span>unescape(<span class="string">b&quot;&amp;lt;test&amp;gt;&quot;</span>).unwrap(), <span class="string">b&quot;&lt;test&gt;&quot;</span>);
-    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;*</span>unescape(<span class="string">b&quot;&amp;#x30;&quot;</span>).unwrap(), <span class="string">b&quot;0&quot;</span>);
-    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;*</span>unescape(<span class="string">b&quot;&amp;#48;&quot;</span>).unwrap(), <span class="string">b&quot;0&quot;</span>);
-    <span class="macro">assert!</span>(unescape(<span class="string">b&quot;&amp;foo;&quot;</span>).is_err());
+    <span class="kw">let </span>unchanged = unescape(<span class="string">&quot;test&quot;</span>).unwrap();
+    <span class="comment">// assert_eq does not check that Cow is borrowed, but we explicitly use Cow
+    // because it influences diff
+    // TODO: use assert_matches! when stabilized and other features will bump MSRV
+    </span><span class="macro">assert_eq!</span>(unchanged, Cow::Borrowed(<span class="string">&quot;test&quot;</span>));
+    <span class="macro">assert!</span>(<span class="macro">matches!</span>(unchanged, Cow::Borrowed(<span class="kw">_</span>)));
+
+    <span class="macro">assert_eq!</span>(unescape(<span class="string">&quot;&amp;lt;test&amp;gt;&quot;</span>).unwrap(), <span class="string">&quot;&lt;test&gt;&quot;</span>);
+    <span class="macro">assert_eq!</span>(unescape(<span class="string">&quot;&amp;#x30;&quot;</span>).unwrap(), <span class="string">&quot;0&quot;</span>);
+    <span class="macro">assert_eq!</span>(unescape(<span class="string">&quot;&amp;#48;&quot;</span>).unwrap(), <span class="string">&quot;0&quot;</span>);
+    <span class="macro">assert!</span>(unescape(<span class="string">&quot;&amp;foo;&quot;</span>).is_err());
 }
 
 <span class="attr">#[test]
 </span><span class="kw">fn </span>test_unescape_with() {
-    <span class="kw">let </span>custom_entities = <span class="macro">vec!</span>[(<span class="string">b&quot;foo&quot;</span>.to_vec(), <span class="string">b&quot;BAR&quot;</span>.to_vec())]
-        .into_iter()
-        .collect();
-    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;*</span>unescape_with(<span class="string">b&quot;test&quot;</span>, <span class="kw-2">&amp;</span>custom_entities).unwrap(), <span class="string">b&quot;test&quot;</span>);
+    <span class="kw">let </span>custom_entities = |ent: <span class="kw-2">&amp;</span>str| <span class="kw">match </span>ent {
+        <span class="string">&quot;foo&quot; </span>=&gt; <span class="prelude-val">Some</span>(<span class="string">&quot;BAR&quot;</span>),
+        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+    };
+
+    <span class="kw">let </span>unchanged = unescape_with(<span class="string">&quot;test&quot;</span>, custom_entities).unwrap();
+    <span class="comment">// assert_eq does not check that Cow is borrowed, but we explicitly use Cow
+    // because it influences diff
+    // TODO: use assert_matches! when stabilized and other features will bump MSRV
+    </span><span class="macro">assert_eq!</span>(unchanged, Cow::Borrowed(<span class="string">&quot;test&quot;</span>));
+    <span class="macro">assert!</span>(<span class="macro">matches!</span>(unchanged, Cow::Borrowed(<span class="kw">_</span>)));
+
     <span class="macro">assert_eq!</span>(
-        <span class="kw-2">&amp;*</span>unescape_with(<span class="string">b&quot;&amp;lt;test&amp;gt;&quot;</span>, <span class="kw-2">&amp;</span>custom_entities).unwrap(),
-        <span class="string">b&quot;&lt;test&gt;&quot;
+        unescape_with(<span class="string">&quot;&amp;lt;test&amp;gt;&quot;</span>, custom_entities).unwrap(),
+        <span class="string">&quot;&lt;test&gt;&quot;
     </span>);
-    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;*</span>unescape_with(<span class="string">b&quot;&amp;#x30;&quot;</span>, <span class="kw-2">&amp;</span>custom_entities).unwrap(), <span class="string">b&quot;0&quot;</span>);
-    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;*</span>unescape_with(<span class="string">b&quot;&amp;#48;&quot;</span>, <span class="kw-2">&amp;</span>custom_entities).unwrap(), <span class="string">b&quot;0&quot;</span>);
-    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;*</span>unescape_with(<span class="string">b&quot;&amp;foo;&quot;</span>, <span class="kw-2">&amp;</span>custom_entities).unwrap(), <span class="string">b&quot;BAR&quot;</span>);
-    <span class="macro">assert!</span>(unescape_with(<span class="string">b&quot;&amp;fop;&quot;</span>, <span class="kw-2">&amp;</span>custom_entities).is_err());
+    <span class="macro">assert_eq!</span>(unescape_with(<span class="string">&quot;&amp;#x30;&quot;</span>, custom_entities).unwrap(), <span class="string">&quot;0&quot;</span>);
+    <span class="macro">assert_eq!</span>(unescape_with(<span class="string">&quot;&amp;#48;&quot;</span>, custom_entities).unwrap(), <span class="string">&quot;0&quot;</span>);
+    <span class="macro">assert_eq!</span>(unescape_with(<span class="string">&quot;&amp;foo;&quot;</span>, custom_entities).unwrap(), <span class="string">&quot;BAR&quot;</span>);
+    <span class="macro">assert!</span>(unescape_with(<span class="string">&quot;&amp;fop;&quot;</span>, custom_entities).is_err());
 }
 
 <span class="attr">#[test]
 </span><span class="kw">fn </span>test_escape() {
-    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;*</span>escape(<span class="string">b&quot;test&quot;</span>), <span class="string">b&quot;test&quot;</span>);
-    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;*</span>escape(<span class="string">b&quot;&lt;test&gt;&quot;</span>), <span class="string">b&quot;&amp;lt;test&amp;gt;&quot;</span>);
-    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;*</span>escape(<span class="string">b&quot;\&quot;a\&quot;bc&quot;</span>), <span class="string">b&quot;&amp;quot;a&amp;quot;bc&quot;</span>);
-    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;*</span>escape(<span class="string">b&quot;\&quot;a\&quot;b&amp;c&quot;</span>), <span class="string">b&quot;&amp;quot;a&amp;quot;b&amp;amp;c&quot;</span>);
+    <span class="kw">let </span>unchanged = escape(<span class="string">&quot;test&quot;</span>);
+    <span class="comment">// assert_eq does not check that Cow is borrowed, but we explicitly use Cow
+    // because it influences diff
+    // TODO: use assert_matches! when stabilized and other features will bump MSRV
+    </span><span class="macro">assert_eq!</span>(unchanged, Cow::Borrowed(<span class="string">&quot;test&quot;</span>));
+    <span class="macro">assert!</span>(<span class="macro">matches!</span>(unchanged, Cow::Borrowed(<span class="kw">_</span>)));
+
+    <span class="macro">assert_eq!</span>(escape(<span class="string">&quot;&lt;test&gt;&quot;</span>), <span class="string">&quot;&amp;lt;test&amp;gt;&quot;</span>);
+    <span class="macro">assert_eq!</span>(escape(<span class="string">&quot;\&quot;a\&quot;bc&quot;</span>), <span class="string">&quot;&amp;quot;a&amp;quot;bc&quot;</span>);
+    <span class="macro">assert_eq!</span>(escape(<span class="string">&quot;\&quot;a\&quot;b&amp;c&quot;</span>), <span class="string">&quot;&amp;quot;a&amp;quot;b&amp;amp;c&quot;</span>);
     <span class="macro">assert_eq!</span>(
-        <span class="kw-2">&amp;*</span>escape(<span class="string">b&quot;prefix_\&quot;a\&quot;b&amp;&lt;&gt;c&quot;</span>),
-        <span class="string">&quot;prefix_&amp;quot;a&amp;quot;b&amp;amp;&amp;lt;&amp;gt;c&quot;</span>.as_bytes()
-    );
+        escape(<span class="string">&quot;prefix_\&quot;a\&quot;b&amp;&lt;&gt;c&quot;</span>),
+        <span class="string">&quot;prefix_&amp;quot;a&amp;quot;b&amp;amp;&amp;lt;&amp;gt;c&quot;
+    </span>);
 }
 
 <span class="attr">#[test]
 </span><span class="kw">fn </span>test_partial_escape() {
-    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;*</span>partial_escape(<span class="string">b&quot;test&quot;</span>), <span class="string">b&quot;test&quot;</span>);
-    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;*</span>partial_escape(<span class="string">b&quot;&lt;test&gt;&quot;</span>), <span class="string">b&quot;&amp;lt;test&amp;gt;&quot;</span>);
-    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;*</span>partial_escape(<span class="string">b&quot;\&quot;a\&quot;bc&quot;</span>), <span class="string">b&quot;\&quot;a\&quot;bc&quot;</span>);
-    <span class="macro">assert_eq!</span>(<span class="kw-2">&amp;*</span>partial_escape(<span class="string">b&quot;\&quot;a\&quot;b&amp;c&quot;</span>), <span class="string">b&quot;\&quot;a\&quot;b&amp;amp;c&quot;</span>);
+    <span class="kw">let </span>unchanged = partial_escape(<span class="string">&quot;test&quot;</span>);
+    <span class="comment">// assert_eq does not check that Cow is borrowed, but we explicitly use Cow
+    // because it influences diff
+    // TODO: use assert_matches! when stabilized and other features will bump MSRV
+    </span><span class="macro">assert_eq!</span>(unchanged, Cow::Borrowed(<span class="string">&quot;test&quot;</span>));
+    <span class="macro">assert!</span>(<span class="macro">matches!</span>(unchanged, Cow::Borrowed(<span class="kw">_</span>)));
+
+    <span class="macro">assert_eq!</span>(partial_escape(<span class="string">&quot;&lt;test&gt;&quot;</span>), <span class="string">&quot;&amp;lt;test&amp;gt;&quot;</span>);
+    <span class="macro">assert_eq!</span>(partial_escape(<span class="string">&quot;\&quot;a\&quot;bc&quot;</span>), <span class="string">&quot;\&quot;a\&quot;bc&quot;</span>);
+    <span class="macro">assert_eq!</span>(partial_escape(<span class="string">&quot;\&quot;a\&quot;b&amp;c&quot;</span>), <span class="string">&quot;\&quot;a\&quot;b&amp;amp;c&quot;</span>);
     <span class="macro">assert_eq!</span>(
-        <span class="kw-2">&amp;*</span>partial_escape(<span class="string">b&quot;prefix_\&quot;a\&quot;b&amp;&lt;&gt;c&quot;</span>),
-        <span class="string">&quot;prefix_\&quot;a\&quot;b&amp;amp;&amp;lt;&amp;gt;c&quot;</span>.as_bytes()
-    );
+        partial_escape(<span class="string">&quot;prefix_\&quot;a\&quot;b&amp;&lt;&gt;c&quot;</span>),
+        <span class="string">&quot;prefix_\&quot;a\&quot;b&amp;amp;&amp;lt;&amp;gt;c&quot;
+    </span>);
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="quick_xml" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0 (84c898d65 2023-04-16)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

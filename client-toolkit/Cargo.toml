@@ -5,8 +5,8 @@ edition = "2021"
 
 [dependencies]
 cosmic-protocols = { path = "../" }
-sctk = { package = "smithay-client-toolkit", git = "https://github.com/smithay/client-toolkit", rev = "c9940f4" }
-wayland-client = { version = "0.30.1" }
+sctk = { package = "smithay-client-toolkit", git = "https://github.com/smithay/client-toolkit", rev = "dc8c4a0" }
+wayland-client = { version = "0.31.1" }
 smithay = { git = "https://github.com/Smithay/smithay", rev = "c35bc3e", default-features = false, features = ["backend_egl", "renderer_gl", "renderer_multi"], optional = true }
 
 [build-dependencies]
@@ -15,17 +15,17 @@ gl_generator = { version = "0.14.0", optional = true }
 [dev-dependencies]
 futures = "0.3.24"
 cascade = "1"
-env_logger = "0.9.1"
-gdk-pixbuf = "0.17.0"
-glow = "0.11.2"
+env_logger = "0.10.0"
+gdk-pixbuf = "0.18.0"
+glow = "0.12.0"
 glutin = "0.30.0"
-gtk4 = { version = "0.6.4", features = ["v4_6"] }
-gdk4-wayland = { version = "0.6.3", features = ["wayland_crate", "v4_4", "egl"] }
-iced = { version = "0.5.2", features = ["image"] }
-nix = "0.25.0"
+gtk4 = { version = "0.7.3", features = ["v4_6"] }
+gdk4-wayland = { version = "0.7.2", features = ["wayland_crate", "v4_4", "egl"] }
+iced = { version = "0.10.0", features = ["image"] }
+nix = { version = "0.27.0", features = ["fs"] }
 raw-window-handle = "0.5.0"
-wayland-backend = { version = "0.1.0", features = ["client_system"] }
-winit = "0.27.4"
+wayland-backend = { version = "0.3.2", features = ["client_system"] }
+winit = "0.28.0"
 
 [features]
 default = []

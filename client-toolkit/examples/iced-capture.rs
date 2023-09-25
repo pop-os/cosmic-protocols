@@ -349,9 +349,11 @@ impl iced::Application for App {
             }),
         );
         let output_subscription =
-            iced::subscription::run("output-img", output_img_stream.map(Message::Image));
-        let workspace_subscription =
-            iced::subscription::run("workspace-img", workspace_img_stream.map(Message::Image));
+            iced::subscription::run_with_id("output-img", output_img_stream.map(Message::Image));
+        let workspace_subscription = iced::subscription::run_with_id(
+            "workspace-img",
+            workspace_img_stream.map(Message::Image),
+        );
         iced::Subscription::batch([output_subscription, workspace_subscription])
     }
 }

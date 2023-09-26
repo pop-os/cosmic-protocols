@@ -25,7 +25,7 @@ use sctk::{
     delegate_compositor, delegate_keyboard, delegate_output, delegate_pointer, delegate_registry,
     delegate_seat, delegate_shm, delegate_xdg_shell, delegate_xdg_window,
     output::{OutputHandler, OutputState},
-    registry::{ProvidesRegistryState, RegistryState},
+    registry::{ProvidesRegistryState, RegistryState, SimpleGlobal},
     registry_handlers,
     seat::{
         keyboard::{KeyEvent, KeyboardHandler, Keysym, Modifiers},
@@ -46,13 +46,31 @@ use sctk::{
 };
 use wayland_client::{
     globals::registry_queue_init,
-    protocol::{wl_buffer, wl_keyboard, wl_output, wl_pointer, wl_seat, wl_shm, wl_surface},
-    Connection, Proxy, QueueHandle, WEnum,
+    protocol::{wl_buffer, wl_keyboard, wl_output, wl_pointer, wl_seat, wl_shm, wl_surface, wl_subsurface},
+    Connection, Proxy, QueueHandle, WEnum, Dispatch,
 };
 use wayland_protocols::wp::linux_dmabuf::zv1::client::{
     zwp_linux_buffer_params_v1::{self, ZwpLinuxBufferParamsV1},
     zwp_linux_dmabuf_feedback_v1::ZwpLinuxDmabufFeedbackV1,
 };
+use wayland_protocols::wp::viewporter::client::{
+    wp_viewport::{self, WpViewport},
+    wp_viewporter::{self, WpViewporter},
+};
+
+struct Subsurface {
+    wl_surface: wl_surface::WlSurface,
+    wl_subsurface: wl_subsurface::WlSubsurface,
+    wp_viewport: WpViewport,
+}
+
+impl Subsurface {
+    // XXX preserve ratio?
+    fn set_position(&self, x: i32, y: i32, width: i32, height: i32) {
+        self.wl_subsurface.set_position(x, y);
+        self.wp_viewport.set_destination(width, height);
+    }
+}
 
 fn main() {
     env_logger::init();
@@ -82,22 +100,31 @@ fn main() {
 
     let dmabuf_state = DmabufState::new(&globals, &qh);
     dmabuf_state.get_surface_feedback(&surface, &qh);
-    // XXX get_surface_feeedback
+
+    let wp_viewporter = SimpleGlobal::<wp_viewporter::WpViewporter, 1>::bind(&globals, &qh).unwrap().get().unwrap().clone();
+
+    let viewport = wp_viewporter.get_viewport(&surface, &qh, ());
+
+    let registry_state =  RegistryState::new(&globals);
 
     let mut simple_window = AppData {
-        registry_state: RegistryState::new(&globals),
         seat_state: SeatState::new(&globals, &qh),
         output_state: OutputState::new(&globals, &qh),
         shm,
         dmabuf_state,
         screencopy_state: ScreencopyState::new(&globals, &qh),
+        device: Mutex::new(None),
+        wl_buffer: None,
+        wp_viewporter,
+        viewport,
+        workspace_state: WorkspaceState::new(&registry_state, &qh),
+        registry_state,
 
         exit: false,
         first_configure: true,
         pool,
         width: 256,
         height: 256,
-        shift: None,
         buffer: None,
         window,
         keyboard: None,
@@ -123,13 +150,17 @@ struct AppData {
     shm: Shm,
     dmabuf_state: DmabufState,
     screencopy_state: ScreencopyState,
+    device: Mutex<Option<gbm::Device<fs::File>>>,
+    wl_buffer: Option<wl_buffer::WlBuffer>,
+    wp_viewporter: WpViewporter,
+    viewport: WpViewport,
+    workspace_state: WorkspaceState,
 
     exit: bool,
     first_configure: bool,
     pool: SlotPool,
     width: u32,
     height: u32,
-    shift: Option<u32>,
     buffer: Option<Buffer>,
     window: Window,
     keyboard: Option<wl_keyboard::WlKeyboard>,
@@ -298,10 +329,6 @@ impl KeyboardHandler for AppData {
         _: &[u32],
         keysyms: &[Keysym],
     ) {
-        if self.window.wl_surface() == surface {
-            println!("Keyboard focus on window with pressed syms: {keysyms:?}");
-            self.keyboard_focus = true;
-        }
     }
 
     fn leave(
@@ -312,10 +339,6 @@ impl KeyboardHandler for AppData {
         surface: &wl_surface::WlSurface,
         _: u32,
     ) {
-        if self.window.wl_surface() == surface {
-            println!("Release keyboard focus on window");
-            self.keyboard_focus = false;
-        }
     }
 
     fn press_key(
@@ -326,7 +349,6 @@ impl KeyboardHandler for AppData {
         _: u32,
         event: KeyEvent,
     ) {
-        println!("Key press: {event:?}");
     }
 
     fn release_key(
@@ -337,7 +359,6 @@ impl KeyboardHandler for AppData {
         _: u32,
         event: KeyEvent,
     ) {
-        println!("Key release: {event:?}");
     }
 
     fn update_modifiers(
@@ -348,7 +369,6 @@ impl KeyboardHandler for AppData {
         _serial: u32,
         modifiers: Modifiers,
     ) {
-        println!("Update modifiers: {modifiers:?}");
     }
 }
 
@@ -360,33 +380,6 @@ impl PointerHandler for AppData {
         _pointer: &wl_pointer::WlPointer,
         events: &[PointerEvent],
     ) {
-        use PointerEventKind::*;
-        for event in events {
-            // Ignore events for other surfaces
-            if &event.surface != self.window.wl_surface() {
-                continue;
-            }
-
-            match event.kind {
-                Enter { .. } => {
-                    println!("Pointer entered @{:?}", event.position);
-                }
-                Leave { .. } => {
-                    println!("Pointer left");
-                }
-                Motion { .. } => {}
-                Press { button, .. } => {
-                    println!("Press {:x} @ {:?}", button, event.position);
-                    self.shift = self.shift.xor(Some(0));
-                }
-                Release { button, .. } => {
-                    println!("Release {:x} @ {:?}", button, event.position);
-                }
-                Axis { horizontal, vertical, .. } => {
-                    println!("Scroll H:{horizontal:?}, V:{vertical:?}");
-                }
-            }
-        }
     }
 }
 
@@ -428,36 +421,21 @@ impl AppData {
             }
         };
 
-        // Draw to the window:
-        {
-            let shift = self.shift.unwrap_or(0);
-            canvas.chunks_exact_mut(4).enumerate().for_each(|(index, chunk)| {
-                let x = ((index + shift as usize) % width as usize) as u32;
-                let y = (index / width as usize) as u32;
+        canvas.chunks_exact_mut(4).enumerate().for_each(|(index, chunk)| {
+            let array: &mut [u8; 4] = chunk.try_into().unwrap();
+            *array = [0, 0, 0, 255];
+        });
 
-                let a = 0xFF;
-                let r = u32::min(((width - x) * 0xFF) / width, ((height - y) * 0xFF) / height);
-                let g = u32::min((x * 0xFF) / width, ((height - y) * 0xFF) / height);
-                let b = u32::min(((width - x) * 0xFF) / width, (y * 0xFF) / height);
-                let color = (a << 24) + (r << 16) + (g << 8) + b;
-
-                let array: &mut [u8; 4] = chunk.try_into().unwrap();
-                *array = color.to_le_bytes();
-            });
-
-            if let Some(shift) = &mut self.shift {
-                *shift = (*shift + 1) % width;
-            }
-        }
-
-        // Damage the entire window
         self.window.wl_surface().damage_buffer(0, 0, self.width as i32, self.height as i32);
 
-        // Request our next frame
         self.window.wl_surface().frame(qh, self.window.wl_surface().clone());
 
-        // Attach and commit to present.
-        buffer.attach_to(self.window.wl_surface()).expect("buffer attach");
+        if let Some(wl_buffer) = self.wl_buffer.as_ref() {
+            self.viewport.set_destination(self.width as i32, self.height as i32);
+            self.window.wl_surface().attach(Some(wl_buffer), 0, 0);
+        } else {
+            buffer.attach_to(self.window.wl_surface()).expect("buffer attach");
+        }
         self.window.commit();
     }
 }
@@ -473,8 +451,26 @@ impl DmabufHandler for AppData {
         proxy: &ZwpLinuxDmabufFeedbackV1,
         feedback: DmabufFeedback,
     ) {
-        dbg!(feedback);
-        // XXX main_device?
+        // TODO device per surface; multi-monitor. per sub-surface?
+        // - so, should be using device that output is rendered with? but that can change?
+        let mut device = self.device.lock().unwrap();
+        if device.is_none() {
+            *device = Some(gbm_device(feedback.main_device()).unwrap()); // XXX
+
+            let output = self.output_state.outputs().next().unwrap();
+            self.screencopy_state.screencopy_manager.capture_output(
+                &output,
+                zcosmic_screencopy_manager_v1::CursorMode::Hidden,
+                &qh,
+                SessionData {
+                    session_data: ScreencopySessionData::default(),
+                    buffer: Mutex::new(None),
+                },
+            );
+
+            println!("CAPTURED");
+        }
+        //dbg!(feedback);
         // Or get feedback for subsurface?
     }
     fn created(
@@ -521,7 +517,8 @@ impl ScreencopyHandler for AppData {
             })
             .unwrap();
         let session_data = SessionData::for_session(session).unwrap();
-        let gbm = session_data.device.lock().unwrap();
+        let mut gbm = self.device.lock().unwrap();
+        let gbm = gbm.as_mut().unwrap();
         let buffer = gbm
             .create_buffer_object::<()>(
                 buffer_info.width,
@@ -546,6 +543,7 @@ impl ScreencopyHandler for AppData {
             zwp_linux_buffer_params_v1::Flags::empty(),
             qh,
         );
+        *session_data.buffer.lock().unwrap() = Some(wl_buffer.clone());
         session.attach_buffer(&wl_buffer, None, 0);
         session.commit(zcosmic_screencopy_session_v1::Options::empty());
         dbg!(buffer_info);
@@ -557,6 +555,9 @@ impl ScreencopyHandler for AppData {
         qh: &QueueHandle<Self>,
         session: &zcosmic_screencopy_session_v1::ZcosmicScreencopySessionV1,
     ) {
+        println!("READY!");
+        let session_data = SessionData::for_session(session).unwrap();
+        self.wl_buffer = Some(session_data.buffer.lock().unwrap().as_ref().unwrap().clone());
     }
 
     fn failed(
@@ -566,12 +567,14 @@ impl ScreencopyHandler for AppData {
         session: &zcosmic_screencopy_session_v1::ZcosmicScreencopySessionV1,
         reason: WEnum<zcosmic_screencopy_session_v1::FailureReason>,
     ) {
+        println!("FAILED!");
     }
 }
 
 struct SessionData {
     session_data: ScreencopySessionData,
-    device: Arc<Mutex<gbm::Device<fs::File>>>,
+    buffer: Mutex<Option<wl_buffer::WlBuffer>>,
+    // device: Arc<Mutex<gbm::Device<fs::File>>>,
 }
 
 impl SessionData {
@@ -585,6 +588,15 @@ impl SessionData {
 impl ScreencopySessionDataExt for SessionData {
     fn screencopy_session_data(&self) -> &ScreencopySessionData {
         &self.session_data
+    }
+}
+
+impl WorkspaceHandler for AppData {
+    fn workspace_state(&mut self) -> &mut WorkspaceState {
+        &mut self.workspace_state
+    }
+
+    fn done(&mut self) {
     }
 }
 
@@ -603,6 +615,7 @@ delegate_registry!(AppData);
 
 sctk::delegate_dmabuf!(AppData);
 cosmic_client_toolkit::delegate_screencopy!(AppData, session: [SessionData]);
+cosmic_client_toolkit::delegate_workspace!(AppData);
 
 impl ProvidesRegistryState for AppData {
     fn registry(&mut self) -> &mut RegistryState {
@@ -611,14 +624,11 @@ impl ProvidesRegistryState for AppData {
     registry_handlers![OutputState, SeatState,];
 }
 
-fn gbm_devices() -> impl Iterator<Item = gbm::Device<fs::File>> {
-    fs::read_dir("/dev/dri").unwrap().filter_map(|i| {
+// XXX
+fn gbm_device(rdev: u64) -> Option<gbm::Device<fs::File>> {
+    fs::read_dir("/dev/dri").unwrap().find_map(|i| {
         let i = i.unwrap();
-        i.metadata().unwrap().rdev();
-        if str::from_utf8(i.file_name().as_bytes())
-            .unwrap()
-            .starts_with("card")
-        {
+        if i.metadata().unwrap().rdev() == rdev {
             let file = fs::File::options()
                 .read(true)
                 .write(true)
@@ -629,4 +639,19 @@ fn gbm_devices() -> impl Iterator<Item = gbm::Device<fs::File>> {
             None
         }
     })
+}
+
+sctk::delegate_simple!(AppData, WpViewporter, 1);
+
+impl Dispatch<WpViewport, ()> for AppData {
+    fn event(
+        _: &mut AppData,
+        _: &WpViewport,
+        _: wp_viewport::Event,
+        _: &(),
+        _: &Connection,
+        _: &QueueHandle<AppData>,
+    ) {
+        unreachable!("wp_viewport::Event is empty in version 1")
+    }
 }

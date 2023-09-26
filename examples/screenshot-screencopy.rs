@@ -164,8 +164,9 @@ impl Dispatch<zcosmic_screencopy_session_v1::ZcosmicScreencopySessionV1, String>
             } => {
                 let _ = node;
                 if _type == WEnum::Value(zcosmic_screencopy_session_v1::BufferType::WlShm)
-                    && (format == wl_shm::Format::Abgr8888 as u32
-                        || format == wl_shm::Format::Xbgr8888 as u32)
+                    && format == wl_shm::Format::Abgr8888 as u32
+                    //&& format == wl_shm::Format::Argb8888 as u32
+ //                       || format == wl_shm::Format::Xbgr8888 as u32)
                     && stride == width * 4
                 {
                     app_data.formats.insert(

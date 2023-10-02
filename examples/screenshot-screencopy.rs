@@ -6,7 +6,7 @@ use std::{
     collections::HashMap,
     fs,
     io::{self, Read, Seek, SeekFrom},
-    os::unix::io::AsRawFd,
+    os::unix::io::AsFd,
 };
 use wayland_client::{
     protocol::{
@@ -188,7 +188,7 @@ impl Dispatch<zcosmic_screencopy_session_v1::ZcosmicScreencopySessionV1, String>
                     .set_len(size.0 as u64 * size.1 as u64 * 4)
                     .expect("Failed to resize memfd");
                 let pool = app_data.wl_shm.as_ref().unwrap().create_pool(
-                    fd.as_raw_fd(),
+                    fd.as_file().as_fd(),
                     (size.0 * size.1 * 4) as i32,
                     qh,
                     (),

@@ -9,7 +9,7 @@ use smithay::{
         },
         drm::node::DrmNode,
         renderer::{
-            gles2::{Gles2Renderer, Gles2Texture},
+            gles::GlesRenderer,
             multigpu::{egl::EglGlesBackend, GpuManager},
             Bind, ExportMem,
         },
@@ -123,7 +123,7 @@ impl Dispatch<zcosmic_export_dmabuf_frame_v1::ZcosmicExportDmabufFrameV1, String
         _: &Connection,
         _: &QueueHandle<AppData>,
     ) {
-        let mut frame = app_data.frames.entry(output_name.clone()).or_default();
+        let frame = app_data.frames.entry(output_name.clone()).or_default();
 
         match event {
             zcosmic_export_dmabuf_frame_v1::Event::Device { ref node } => {
@@ -193,8 +193,7 @@ fn main() {
         event_queue.blocking_dispatch(&mut app_data).unwrap();
     }
 
-    let mut gpu_manager =
-        GpuManager::new(EglGlesBackend::<Gles2Renderer>::default(), None).unwrap();
+    let mut gpu_manager = GpuManager::new(EglGlesBackend::<GlesRenderer>::default()).unwrap();
 
     for (k, v) in app_data.frames {
         let mut builder = Dmabuf::builder(
@@ -214,15 +213,15 @@ fn main() {
         let dmabuf = builder.build().unwrap();
 
         let drm_node = v.node.as_ref().unwrap();
-        let mut renderer = gpu_manager
-            .renderer::<Gles2Texture>(drm_node, drm_node)
-            .unwrap();
+        let mut renderer = gpu_manager.single_renderer(drm_node).unwrap();
         renderer.bind(dmabuf).unwrap();
         let rectangle = Rectangle {
             loc: Point::default(),
             size: Size::from((v.width as i32, v.height as i32)),
         };
-        let mapping = renderer.copy_framebuffer(rectangle).unwrap();
+        let mapping = renderer
+            .copy_framebuffer(rectangle, Fourcc::Argb8888)
+            .unwrap();
         let data = renderer.map_texture(&mapping).unwrap();
 
         let path = format!("{}.png", k);

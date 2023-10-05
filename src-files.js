@@ -1,4 +1,4 @@
-var sourcesIndex = JSON.parse('{\
+var srcIndex = JSON.parse('{\
 "bitflags":["",[],["external.rs","internal.rs","iter.rs","lib.rs","parser.rs","public.rs","traits.rs"]],\
 "cfg_if":["",[],["lib.rs"]],\
 "cosmic_protocols":["",[],["lib.rs","protocol_macro.rs"]],\
@@ -24,4 +24,4 @@ var sourcesIndex = JSON.parse('{\
 "wayland_server":["",[],["client.rs","dispatch.rs","display.rs","global.rs","lib.rs","socket.rs"]],\
 "wayland_sys":["",[],["client.rs","common.rs","lib.rs","server.rs"]]\
 }');
-createSourceSidebar();
+createSrcSidebar();

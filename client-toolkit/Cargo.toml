@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 cosmic-protocols = { path = "../" }
-sctk = { package = "smithay-client-toolkit", git = "https://github.com/smithay/client-toolkit", rev = "dc8c4a0" }
+sctk = { package = "smithay-client-toolkit", git = "https://github.com/smithay/client-toolkit", rev = "d851b66" }
 wayland-client = { version = "0.31.1" }
 smithay = { git = "https://github.com/Smithay/smithay", rev = "c35bc3e", default-features = false, features = ["backend_egl", "renderer_gl", "renderer_multi"], optional = true }
 

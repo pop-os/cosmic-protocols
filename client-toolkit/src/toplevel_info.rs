@@ -1,17 +1,19 @@
+use std::collections::HashSet;
+
 use cosmic_protocols::{
     toplevel_info::v1::client::{zcosmic_toplevel_handle_v1, zcosmic_toplevel_info_v1},
     workspace::v1::client::zcosmic_workspace_handle_v1,
 };
-use sctk::registry::{ProvidesRegistryState, RegistryState};
+use sctk::registry::RegistryState;
 use wayland_client::{protocol::wl_output, Connection, Dispatch, QueueHandle};
 
 #[derive(Clone, Debug, Default)]
 pub struct ToplevelInfo {
     pub title: String,
     pub app_id: String,
-    pub state: Vec<u8>,
-    pub output: Option<wl_output::WlOutput>,
-    pub workspace: Option<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1>,
+    pub state: HashSet<zcosmic_toplevel_handle_v1::State>,
+    pub output: HashSet<wl_output::WlOutput>,
+    pub workspace: HashSet<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1>,
 }
 
 #[derive(Debug, Default)]
@@ -139,7 +141,6 @@ where
         conn: &Connection,
         qh: &QueueHandle<D>,
     ) {
-        use wayland_client::Proxy;
         let data = &mut state
             .toplevel_info_state()
             .toplevels
@@ -155,19 +156,28 @@ where
                 data.pending_info.title = title;
             }
             zcosmic_toplevel_handle_v1::Event::OutputEnter { output } => {
-                data.pending_info.output = Some(output);
+                data.pending_info.output.insert(output);
             }
-            zcosmic_toplevel_handle_v1::Event::OutputLeave { output: _ } => {
-                data.pending_info.output = None;
+            zcosmic_toplevel_handle_v1::Event::OutputLeave { output } => {
+                data.pending_info.output.remove(&output);
             }
             zcosmic_toplevel_handle_v1::Event::WorkspaceEnter { workspace } => {
-                data.pending_info.workspace = Some(workspace);
+                data.pending_info.workspace.insert(workspace);
             }
-            zcosmic_toplevel_handle_v1::Event::WorkspaceLeave { workspace: _ } => {
-                data.pending_info.workspace = None;
+            zcosmic_toplevel_handle_v1::Event::WorkspaceLeave { workspace } => {
+                data.pending_info.workspace.remove(&workspace);
             }
             zcosmic_toplevel_handle_v1::Event::State { state } => {
-                data.pending_info.state = state;
+                data.pending_info.state.clear();
+                for value in state.chunks_exact(4) {
+                    if let Some(state) = zcosmic_toplevel_handle_v1::State::try_from(
+                        u32::from_ne_bytes(value[0..4].try_into().unwrap()),
+                    )
+                    .ok()
+                    {
+                        data.pending_info.state.insert(state);
+                    }
+                }
             }
             zcosmic_toplevel_handle_v1::Event::Done => {
                 let is_new = data.current_info.is_none();

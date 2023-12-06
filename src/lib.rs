@@ -58,7 +58,7 @@ pub mod toplevel_management {
     pub mod v1 {
         wayland_protocol!(
             "./unstable/cosmic-toplevel-management-unstable-v1.xml",
-            [crate::toplevel_info::v1]
+            [crate::toplevel_info::v1, crate::workspace::v1]
         );
     }
 }

@@ -12,7 +12,7 @@ impl ToplevelManagerState {
         D: Dispatch<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, ()> + 'static,
     {
         let manager = registry
-            .bind_one::<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, _, _>(qh, 1..=1, ())
+            .bind_one::<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, _, _>(qh, 1..=2, ())
             .unwrap();
 
         Self { manager }

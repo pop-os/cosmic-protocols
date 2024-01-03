@@ -213,7 +213,7 @@
     </request>
   </interface>
 
-  <interface name="zcosmic_workspace_handle_v1" version="1">
+  <interface name="zcosmic_workspace_handle_v1" version="2">
     <description summary="a workspace handing a group of surfaces">
       A zcosmic_workspace_handle_v1 object represents a a workspace that handles a
       group of surfaces.
@@ -291,6 +291,8 @@
       <entry name="activate" value="1" summary="activate request is available"/>
       <entry name="deactivate" value="2" summary="deactivate request is available"/>
       <entry name="remove" value="3" summary="remove request is available"/>
+      <entry name="rename" value="4" since="2" summary="rename request is available"/>
+      <entry name="set_tiling_state" value="5" since="2" summary="set_tiling_state request is available"/>
     </enum>
 
     <event name="capabilities">
@@ -359,6 +361,40 @@
 
         There is no guarantee the workspace will be actually removed.
       </description>
+    </request>
+
+    <event name="tiling_state" since="2">
+      <description summary="indicates if tiling behavior is enabled for this workspace">
+        This event is emitted immediately after the zcosmic_workspace_handle_v1 is created
+        and each time the workspace tiling state changes, either because of a
+        compositor action or because of a request in this protocol.
+      </description>
+      <arg name="state" type="uint" enum="tiling_state"/>
+    </event>
+
+    <enum name="tiling_state" since="2">
+      <description summary="types of tiling state a workspace may have"/>
+
+      <entry name="floating_only" value="0" summary="The workspace has no active tiling properties"/>
+      <entry name="tiling_enabled" value="1" summary="Tiling behavior is enabled for the workspace"/>
+    </enum>
+
+    <request name="rename" since="2">
+      <description summary="rename this workspace">
+        Request that this workspace is renamed.
+
+        There is no guarantee the workspace will actually be renamed.
+      </description>
+      <arg name="name" type="string" summary="new name of the workspace"/>
+    </request>
+
+    <request name="set_tiling_state" since="2">
+      <description summary="change the tiling state of this workspace">
+        Request that this workspace's tiling state is changed.
+
+        There is no guarantee the workspace will actually change it's tiling state.
+      </description>
+      <arg name="state" type="uint" enum="tiling_state" summary="the new tiling state of the workspace"/>
     </request>
   </interface>
 </protocol>

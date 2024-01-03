@@ -20,6 +20,7 @@ pub struct Workspace {
     pub coordinates: Vec<u32>,
     pub state: Vec<WEnum<zcosmic_workspace_handle_v1::State>>,
     pub capabilities: Vec<WEnum<zcosmic_workspace_handle_v1::ZcosmicWorkspaceCapabilitiesV1>>,
+    pub tiling: Option<WEnum<zcosmic_workspace_handle_v1::TilingState>>,
 }
 
 #[derive(Debug)]
@@ -35,7 +36,7 @@ impl WorkspaceState {
     {
         Self {
             workspace_groups: Vec::new(),
-            manager: GlobalProxy::from(registry.bind_one(qh, 1..=1, ())),
+            manager: GlobalProxy::from(registry.bind_one(qh, 1..=2, ())),
         }
     }
 
@@ -141,6 +142,7 @@ where
                     coordinates: Vec::new(),
                     state: Vec::new(),
                     capabilities: Vec::new(),
+                    tiling: None,
                 });
             }
             zcosmic_workspace_group_handle_v1::Event::Remove => {
@@ -201,6 +203,9 @@ where
                     .chunks(4)
                     .map(|chunk| WEnum::from(u32::from_ne_bytes(chunk.try_into().unwrap())))
                     .collect();
+            }
+            zcosmic_workspace_handle_v1::Event::TilingState { state } => {
+                workspace.tiling_enabled = Some(state);
             }
             zcosmic_workspace_handle_v1::Event::Remove => {
                 for group in state.workspace_state().workspace_groups.iter_mut() {

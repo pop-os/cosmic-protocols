@@ -71,11 +71,12 @@ impl WorkspaceHandler for AppData {
             );
             for workspace in &group.workspaces {
                 println!(
-                    "  Workspace: name: {}, coordinates: {:?}, capabilties: {:?}, state: {:?}",
+                    "  Workspace: name: {}, coordinates: {:?}, capabilties: {:?}, state: {:?}, tiling: {:?}",
                     &workspace.name,
                     &workspace.coordinates,
                     &workspace.capabilities,
-                    &workspace.state
+                    &workspace.state,
+                    &workspace.tiling,
                 );
             }
         }

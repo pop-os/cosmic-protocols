@@ -205,7 +205,7 @@ where
                     .collect();
             }
             zcosmic_workspace_handle_v1::Event::TilingState { state } => {
-                workspace.tiling_enabled = Some(state);
+                workspace.tiling = Some(state);
             }
             zcosmic_workspace_handle_v1::Event::Remove => {
                 for group in state.workspace_state().workspace_groups.iter_mut() {

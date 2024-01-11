@@ -27,7 +27,7 @@
     THIS SOFTWARE.
   </copyright>
 
-  <interface name="zcosmic_workspace_manager_v1" version="1">
+  <interface name="zcosmic_workspace_manager_v1" version="2">
     <description summary="list and control workspaces">
       Workspaces, also called virtual desktops, are groups of surfaces. A
       compositor with a concept of workspaces may only show some such groups of
@@ -110,7 +110,7 @@
     </request>
   </interface>
 
-  <interface name="zcosmic_workspace_group_handle_v1" version="1">
+  <interface name="zcosmic_workspace_group_handle_v1" version="2">
     <description summary="a workspace group assigned to a set of outputs">
       A zcosmic_workspace_group_handle_v1 object represents a a workspace group
       that is assigned a set of outputs and contains a number of workspaces.

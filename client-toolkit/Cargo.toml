@@ -18,9 +18,6 @@ cascade = "1"
 env_logger = "0.10.0"
 gdk-pixbuf = "0.18.0"
 glow = "0.12.0"
-glutin = "0.30.0"
-gtk4 = { version = "0.7.3", features = ["v4_6"] }
-gdk4-wayland = { version = "0.7.2", features = ["wayland_crate", "v4_4", "egl"] }
 iced = { version = "0.10.0", features = ["image"] }
 nix = { version = "0.27.0", features = ["fs"] }
 raw-window-handle = "0.5.0"
@@ -30,11 +27,3 @@ winit = "0.28.0"
 [features]
 default = []
 gl = ["gl_generator"]
-
-[[example]]
-name = "gtk-capture"
-required-features = ["gl", "smithay"]
-
-[[example]]
-name = "glutin-capture"
-required-features = ["gl"]

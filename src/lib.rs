@@ -13,17 +13,30 @@
 #![cfg_attr(docsrs, feature(doc_auto_cfg))]
 #![cfg_attr(rustfmt, rustfmt_skip)]
 
+
 #[macro_use]
 mod protocol_macro;
 
-pub mod screencopy {
+pub mod image_source {
     //! Capture interface.
 
     #[allow(missing_docs)]
     pub mod v1 {
         wayland_protocol!(
-            "./unstable/cosmic-screencopy-unstable-v1.xml",
+            "./unstable/cosmic-image-source-unstable-v1.xml",
             [crate::workspace::v1, crate::toplevel_info::v1]
+        );
+    }
+}
+
+pub mod screencopy {
+    //! Capture interface.
+
+    #[allow(missing_docs)]
+    pub mod v2 {
+        wayland_protocol!(
+            "./unstable/cosmic-screencopy-unstable-v2.xml",
+            [crate::image_source::v1]
         );
     }
 }

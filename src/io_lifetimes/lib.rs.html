@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/io-lifetimes-2.0.3/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="io_lifetimes" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0 (82e1608df 2023-12-21)" data-channel="1.75.0" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/io-lifetimes-2.0.3/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="io_lifetimes" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.0 (aedd173a2 2024-03-17)" data-channel="1.77.0" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+            <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../io_lifetimes/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -157,8 +159,8 @@
 //!  - Easier to understand ownership.
 //!
 //!  - It avoids the inconsistency where `AsRawFd` and `IntoRawFd` return
-//!    `RawFd` values that users ought to be able to trust, but aren&#39;t unsafe,
-//!    so it&#39;s possible to fail to uphold this trust in purely safe Rust.
+//!    `RawFd` values that users ought to be able to trust, but aren't unsafe,
+//!    so it's possible to fail to uphold this trust in purely safe Rust.
 //!
 //!  - It enables a number of safe and portable convenience features, such as
 //!    [safe typed views] and [from+into conversions].
@@ -168,26 +170,26 @@
 
 </span><span class="attr">#![deny(missing_docs)]
 </span><span class="comment">// Work around &lt;https://github.com/rust-lang/rust/issues/103306&gt;.
-</span><span class="attr">#![cfg_attr(all(wasi_ext, target_os = <span class="string">&quot;wasi&quot;</span>), feature(wasi_ext))]
+</span><span class="attr">#![cfg_attr(all(wasi_ext, target_os = <span class="string">"wasi"</span>), feature(wasi_ext))]
 </span><span class="comment">// Currently supported platforms.
-</span><span class="attr">#![cfg(any(unix, windows, target_os = <span class="string">&quot;wasi&quot;</span>, target_os = <span class="string">&quot;hermit&quot;</span>))]
+</span><span class="attr">#![cfg(any(unix, windows, target_os = <span class="string">"wasi"</span>, target_os = <span class="string">"hermit"</span>))]
 #![cfg_attr(doc_cfg, feature(doc_cfg))]
 
 </span><span class="kw">mod </span>portability;
 <span class="kw">mod </span>traits;
 
-<span class="attr">#[cfg(any(unix, target_os = <span class="string">&quot;wasi&quot;</span>, target_os = <span class="string">&quot;hermit&quot;</span>))]
+<span class="attr">#[cfg(any(unix, target_os = <span class="string">"wasi"</span>, target_os = <span class="string">"hermit"</span>))]
 #[allow(deprecated)]
 </span><span class="kw">pub use </span>traits::{FromFd, IntoFd};
 <span class="attr">#[cfg(windows)]
 #[allow(deprecated)]
 </span><span class="kw">pub use </span>traits::{FromHandle, FromSocket, IntoHandle, IntoSocket};
 
-<span class="attr">#[cfg(target_os = <span class="string">&quot;hermit&quot;</span>)]
+<span class="attr">#[cfg(target_os = <span class="string">"hermit"</span>)]
 </span><span class="kw">pub use </span>std::os::hermit::io::{AsFd, BorrowedFd, OwnedFd};
 <span class="attr">#[cfg(unix)]
 </span><span class="kw">pub use </span>std::os::unix::io::{AsFd, BorrowedFd, OwnedFd};
-<span class="attr">#[cfg(target_os = <span class="string">&quot;wasi&quot;</span>)]
+<span class="attr">#[cfg(target_os = <span class="string">"wasi"</span>)]
 </span><span class="kw">pub use </span>std::os::wasi::io::{AsFd, BorrowedFd, OwnedFd};
 <span class="attr">#[cfg(windows)]
 </span><span class="kw">pub use </span>std::os::windows::io::{
@@ -200,13 +202,13 @@
 // including std types like File and TcpStream, and popular third-party types.
 //
 // std just uses `From`/`Into`, because it defines those traits itself so it
-// can implement them for std types itself, and std won&#39;t be implementing them
+// can implement them for std types itself, and std won't be implementing them
 // for third-party types. However, this means that until `OwnedFd` et al are
 // stabilized, there will be no impls for third-party traits.
 //
 // So we define `FromFd`/`IntoFd` traits, and implement them in terms of
 // `From`/`Into`,
-</span><span class="attr">#[cfg(any(unix, target_os = <span class="string">&quot;wasi&quot;</span>, target_os = <span class="string">&quot;hermit&quot;</span>))]
+</span><span class="attr">#[cfg(any(unix, target_os = <span class="string">"wasi"</span>, target_os = <span class="string">"hermit"</span>))]
 #[allow(deprecated)]
 </span><span class="kw">impl</span>&lt;T: From&lt;OwnedFd&gt;&gt; FromFd <span class="kw">for </span>T {
     <span class="attr">#[inline]
@@ -214,7 +216,7 @@
         owned_fd.into()
     }
 }
-<span class="attr">#[cfg(any(unix, target_os = <span class="string">&quot;wasi&quot;</span>, target_os = <span class="string">&quot;hermit&quot;</span>))]
+<span class="attr">#[cfg(any(unix, target_os = <span class="string">"wasi"</span>, target_os = <span class="string">"hermit"</span>))]
 #[allow(deprecated)]
 </span><span class="kw">impl</span>&lt;T&gt; IntoFd <span class="kw">for </span>T
 <span class="kw">where
@@ -271,8 +273,8 @@
     IntoFilelike, IntoSocketlike, OwnedFilelike, OwnedSocketlike,
 };
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;close&quot;</span>)]
-#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">&quot;close&quot;</span>)))]
+<span class="attr">#[cfg(feature = <span class="string">"close"</span>)]
+#[cfg_attr(doc_cfg, doc(cfg(feature = <span class="string">"close"</span>)))]
 </span><span class="kw">pub mod </span>example_ffi;
 <span class="kw">pub mod </span>raw;
 <span class="kw">pub mod </span>views;

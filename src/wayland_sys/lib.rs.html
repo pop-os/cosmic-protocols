@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/wayland-sys-0.31.1/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="wayland_sys" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0 (82e1608df 2023-12-21)" data-channel="1.75.0" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/wayland-sys-0.31.1/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="wayland_sys" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.0 (aedd173a2 2024-03-17)" data-channel="1.77.0" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+            <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../wayland_sys/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -103,14 +105,14 @@
 //! if the feature `dlopen` is absent, as we link against the library directly in that case.
 </span><span class="attr">#![allow(non_camel_case_types)]
 #![forbid(improper_ctypes, unsafe_op_in_unsafe_fn)]
-</span><span class="comment">// Doc feature labels can be tested locally by running RUSTDOCFLAGS=&quot;--cfg=docsrs&quot; cargo +nightly doc -p &lt;crate&gt;
+</span><span class="comment">// Doc feature labels can be tested locally by running RUSTDOCFLAGS="--cfg=docsrs" cargo +nightly doc -p &lt;crate&gt;
 </span><span class="attr">#![cfg_attr(docsrs, feature(doc_auto_cfg))]
 
 </span><span class="comment">// If compiling with neither the `client` or `server` feature (non-sensical but
-// it&#39;s what happens when running `cargo test --all` from the workspace root),
-// dlib isn&#39;t actually used. This is not an issue, so don&#39;t warn about it.
+// it's what happens when running `cargo test --all` from the workspace root),
+// dlib isn't actually used. This is not an issue, so don't warn about it.
 </span><span class="attr">#[allow(unused_imports)]
-#[cfg(any(feature = <span class="string">&quot;client&quot;</span>, feature = <span class="string">&quot;server&quot;</span>))]
+#[cfg(any(feature = <span class="string">"client"</span>, feature = <span class="string">"server"</span>))]
 #[macro_use]
 </span><span class="kw">extern crate </span>dlib;
 
@@ -120,20 +122,20 @@
 
 <span class="kw">pub mod </span>server;
 
-<span class="attr">#[cfg(all(feature = <span class="string">&quot;egl&quot;</span>, feature = <span class="string">&quot;client&quot;</span>))]
+<span class="attr">#[cfg(all(feature = <span class="string">"egl"</span>, feature = <span class="string">"client"</span>))]
 </span><span class="kw">pub mod </span>egl;
 
-<span class="attr">#[cfg(all(feature = <span class="string">&quot;cursor&quot;</span>, feature = <span class="string">&quot;client&quot;</span>))]
+<span class="attr">#[cfg(all(feature = <span class="string">"cursor"</span>, feature = <span class="string">"client"</span>))]
 </span><span class="kw">pub mod </span>cursor;
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;server&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"server"</span>)]
 </span><span class="kw">pub use </span>libc::{gid_t, pid_t, uid_t};
 
-<span class="comment">// We cannot just reexport dlib::ffi_dispatch, because it&#39;d then
-// use the &quot;dlopen&quot; feature *on the crate invoking it* rather than
-// the &quot;dlopen&quot; feature of wayland-sys.
+<span class="comment">// We cannot just reexport dlib::ffi_dispatch, because it'd then
+// use the "dlopen" feature *on the crate invoking it* rather than
+// the "dlopen" feature of wayland-sys.
 
-</span><span class="attr">#[cfg(feature = <span class="string">&quot;dlopen&quot;</span>)]
+</span><span class="attr">#[cfg(feature = <span class="string">"dlopen"</span>)]
 #[macro_export]
 </span><span class="macro">macro_rules! </span>ffi_dispatch(
     (<span class="macro-nonterminal">$handle</span>: expr, <span class="macro-nonterminal">$func</span>: ident $(, <span class="macro-nonterminal">$arg</span>: expr)* $(,)<span class="question-mark">?</span>) =&gt; (
@@ -141,7 +143,7 @@
     )
 );
 
-<span class="attr">#[cfg(not(feature = <span class="string">&quot;dlopen&quot;</span>))]
+<span class="attr">#[cfg(not(feature = <span class="string">"dlopen"</span>))]
 #[macro_export]
 </span><span class="macro">macro_rules! </span>ffi_dispatch(
     (<span class="macro-nonterminal">$handle</span>: expr, <span class="macro-nonterminal">$func</span>: ident $(, <span class="macro-nonterminal">$arg</span>: expr)* $(,)<span class="question-mark">?</span>) =&gt; (

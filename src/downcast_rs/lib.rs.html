@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/downcast-rs-1.2.0/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="downcast_rs" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0 (82e1608df 2023-12-21)" data-channel="1.75.0" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/downcast-rs-1.2.0/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="downcast_rs" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.0 (aedd173a2 2024-03-17)" data-channel="1.77.0" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+            <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../downcast_rs/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -691,7 +693,7 @@
 <a href="#691" id="691">691</a>
 <a href="#692" id="692">692</a>
 </pre></div><pre class="rust"><code><span class="attr">#![deny(unsafe_code)]
-#![cfg_attr(not(feature = <span class="string">&quot;std&quot;</span>), no_std)]
+#![cfg_attr(not(feature = <span class="string">"std"</span>), no_std)]
 </span><span class="doccomment">//! [![Build status](https://img.shields.io/github/workflow/status/marcianx/downcast-rs/CI/master)](https://github.com/marcianx/downcast-rs/actions)
 //! [![Latest version](https://img.shields.io/crates/v/downcast-rs.svg)](https://crates.io/crates/downcast-rs)
 //! [![Documentation](https://docs.rs/downcast-rs/badge.svg)](https://docs.rs/downcast-rs)
@@ -711,14 +713,14 @@
 //!
 //! ```toml
 //! [dependencies]
-//! downcast-rs = &quot;1.2.0&quot;
+//! downcast-rs = "1.2.0"
 //! ```
 //!
 //! This crate is `no_std` compatible. To use it without `std`:
 //!
 //! ```toml
 //! [dependencies]
-//! downcast-rs = { version = &quot;1.2.0&quot;, default-features = false }
+//! downcast-rs = { version = "1.2.0", default-features = false }
 //! ```
 //!
 //! To make a trait downcastable, make it extend either `downcast::Downcast` or
@@ -804,15 +806,15 @@
 //!     assert!(res.is_err());
 //!     let base = res.unwrap_err();
 //!     // Convert `Box&lt;Base&gt;` into `Box&lt;Foo&gt;`.
-//!     assert_eq!(42, base.downcast::&lt;Foo&gt;().map_err(|_| &quot;Shouldn&#39;t happen.&quot;).unwrap().0);
+//!     assert_eq!(42, base.downcast::&lt;Foo&gt;().map_err(|_| "Shouldn't happen.").unwrap().0);
 //!
 //!     // Also works with `Rc`.
 //!     let mut rc: Rc&lt;Base&gt; = Rc::new(Foo(42));
-//!     assert_eq!(42, rc.downcast_rc::&lt;Foo&gt;().map_err(|_| &quot;Shouldn&#39;t happen.&quot;).unwrap().0);
+//!     assert_eq!(42, rc.downcast_rc::&lt;Foo&gt;().map_err(|_| "Shouldn't happen.").unwrap().0);
 //!
 //!     // Since this trait is `Sync`, it also supports `Arc` downcasts.
 //!     let mut arc: Arc&lt;Base&gt; = Arc::new(Foo(42));
-//!     assert_eq!(42, arc.downcast_arc::&lt;Foo&gt;().map_err(|_| &quot;Shouldn&#39;t happen.&quot;).unwrap().0);
+//!     assert_eq!(42, arc.downcast_arc::&lt;Foo&gt;().map_err(|_| "Shouldn't happen.").unwrap().0);
 //! }
 //! ```
 //!
@@ -852,10 +854,10 @@
 
 </span><span class="comment">// for compatibility with no std and macros
 </span><span class="attr">#[doc(hidden)]
-#[cfg(not(feature = <span class="string">&quot;std&quot;</span>))]
+#[cfg(not(feature = <span class="string">"std"</span>))]
 </span><span class="kw">pub extern crate </span>core <span class="kw">as </span>__std;
 <span class="attr">#[doc(hidden)]
-#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
+#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">pub extern crate </span>std <span class="kw">as </span>__std;
 <span class="attr">#[doc(hidden)]
 </span><span class="kw">pub extern crate </span>alloc <span class="kw">as </span>__alloc;
@@ -872,10 +874,10 @@
     /// further `downcast` into `Rc&lt;ConcreteType&gt;` where `ConcreteType` implements `Trait`.
     </span><span class="kw">fn </span>into_any_rc(<span class="self">self</span>: Rc&lt;<span class="self">Self</span>&gt;) -&gt; Rc&lt;<span class="kw">dyn </span>Any&gt;;
     <span class="doccomment">/// Convert `&amp;Trait` (where `Trait: Downcast`) to `&amp;Any`. This is needed since Rust cannot
-    /// generate `&amp;Any`&#39;s vtable from `&amp;Trait`&#39;s.
+    /// generate `&amp;Any`'s vtable from `&amp;Trait`'s.
     </span><span class="kw">fn </span>as_any(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="kw">dyn </span>Any;
     <span class="doccomment">/// Convert `&amp;mut Trait` (where `Trait: Downcast`) to `&amp;Any`. This is needed since Rust cannot
-    /// generate `&amp;mut Any`&#39;s vtable from `&amp;mut Trait`&#39;s.
+    /// generate `&amp;mut Any`'s vtable from `&amp;mut Trait`'s.
     </span><span class="kw">fn </span>as_any_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>Any;
 }
 
@@ -944,7 +946,7 @@
             <span class="macro-nonterminal">$crate::Downcast::as_any</span>(<span class="self">self</span>).is::&lt;__T&gt;()
         }
         <span class="doccomment">/// Returns a boxed object from a boxed trait object if the underlying object is of type
-        /// `__T`. Returns the original boxed trait if it isn&#39;t.
+        /// `__T`. Returns the original boxed trait if it isn't.
         </span><span class="attr">#[inline]
         </span><span class="kw">pub fn </span>downcast&lt;__T: <span class="macro-nonterminal">$trait_</span>&lt;$(<span class="macro-nonterminal">$types</span>)<span class="kw-2">*</span>&gt;&gt;(
             <span class="self">self</span>: <span class="macro-nonterminal">$crate::__alloc::boxed::Box</span>&lt;<span class="self">Self</span>&gt;
@@ -956,7 +958,7 @@
             }
         }
         <span class="doccomment">/// Returns an `Rc`-ed object from an `Rc`-ed trait object if the underlying object is of
-        /// type `__T`. Returns the original `Rc`-ed trait if it isn&#39;t.
+        /// type `__T`. Returns the original `Rc`-ed trait if it isn't.
         </span><span class="attr">#[inline]
         </span><span class="kw">pub fn </span>downcast_rc&lt;__T: <span class="macro-nonterminal">$trait_</span>&lt;$(<span class="macro-nonterminal">$types</span>)<span class="kw-2">*</span>&gt;&gt;(
             <span class="self">self</span>: <span class="macro-nonterminal">$crate::__alloc::rc::Rc</span>&lt;<span class="self">Self</span>&gt;
@@ -968,13 +970,13 @@
             }
         }
         <span class="doccomment">/// Returns a reference to the object within the trait object if it is of type `__T`, or
-        /// `None` if it isn&#39;t.
+        /// `None` if it isn't.
         </span><span class="attr">#[inline]
         </span><span class="kw">pub fn </span>downcast_ref&lt;__T: <span class="macro-nonterminal">$trait_</span>&lt;$(<span class="macro-nonterminal">$types</span>)<span class="kw-2">*</span>&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="macro-nonterminal">$crate::__std::option::Option</span>&lt;<span class="kw-2">&amp;</span>__T&gt; {
             <span class="macro-nonterminal">$crate::Downcast::as_any</span>(<span class="self">self</span>).downcast_ref::&lt;__T&gt;()
         }
         <span class="doccomment">/// Returns a mutable reference to the object within the trait object if it is of type
-        /// `__T`, or `None` if it isn&#39;t.
+        /// `__T`, or `None` if it isn't.
         </span><span class="attr">#[inline]
         </span><span class="kw">pub fn </span>downcast_mut&lt;__T: <span class="macro-nonterminal">$trait_</span>&lt;$(<span class="macro-nonterminal">$types</span>)<span class="kw-2">*</span>&gt;&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="macro-nonterminal">$crate::__std::option::Option</span>&lt;<span class="kw-2">&amp;mut </span>__T&gt; {
             <span class="macro-nonterminal">$crate::Downcast::as_any_mut</span>(<span class="self">self</span>).downcast_mut::&lt;__T&gt;()
@@ -983,7 +985,7 @@
 
     (@impl_body_sync <span class="macro-nonterminal">$trait_</span>:ident [$(<span class="macro-nonterminal">$types</span>:tt)<span class="kw-2">*</span>]) =&gt; {
         <span class="doccomment">/// Returns an `Arc`-ed object from an `Arc`-ed trait object if the underlying object is of
-        /// type `__T`. Returns the original `Arc`-ed trait if it isn&#39;t.
+        /// type `__T`. Returns the original `Arc`-ed trait if it isn't.
         </span><span class="attr">#[inline]
         </span><span class="kw">pub fn </span>downcast_arc&lt;__T: <span class="macro-nonterminal">$trait_</span>&lt;$(<span class="macro-nonterminal">$types</span>)<span class="kw-2">*</span>&gt;&gt;(
             <span class="self">self</span>: <span class="macro-nonterminal">$crate::__alloc::sync::Arc</span>&lt;<span class="self">Self</span>&gt;,
@@ -1006,7 +1008,7 @@
         <span class="macro">impl_downcast! </span>{
             @as_item
                 $(<span class="macro-nonterminal">$before</span>)*
-                <span class="kw">where </span>$( <span class="macro-nonterminal">$types</span>: <span class="macro-nonterminal">$crate::__std::any::Any </span>+ <span class="lifetime">&#39;static </span>),*
+                <span class="kw">where </span>$( <span class="macro-nonterminal">$types</span>: <span class="macro-nonterminal">$crate::__std::any::Any </span>+ <span class="lifetime">'static </span>),*
                 $(<span class="macro-nonterminal">$after</span>)*
         }
     };
@@ -1015,7 +1017,7 @@
             @as_item
                 $(<span class="macro-nonterminal">$before</span>)*
                 <span class="kw">where
-                    </span>$( <span class="macro-nonterminal">$types</span>: <span class="macro-nonterminal">$crate::__std::any::Any </span>+ <span class="lifetime">&#39;static</span>, )*
+                    </span>$( <span class="macro-nonterminal">$types</span>: <span class="macro-nonterminal">$crate::__std::any::Any </span>+ <span class="lifetime">'static</span>, )*
                     $(<span class="macro-nonterminal">$preds</span>)*
                 $(<span class="macro-nonterminal">$after</span>)*
         }
@@ -1164,7 +1166,7 @@
                         <span class="kw">let </span>arc = res.unwrap_err();
                         <span class="comment">// Convert Arc&lt;Base&gt; into Arc&lt;Foo&gt;.
                         </span><span class="macro">assert_eq!</span>(
-                            <span class="number">42</span>, arc.downcast_arc::&lt;Foo&gt;().map_err(|<span class="kw">_</span>| <span class="string">&quot;Shouldn&#39;t happen.&quot;</span>).unwrap().<span class="number">0</span>);
+                            <span class="number">42</span>, arc.downcast_arc::&lt;Foo&gt;().map_err(|<span class="kw">_</span>| <span class="string">"Shouldn't happen."</span>).unwrap().<span class="number">0</span>);
                     }]);
             }
         };
@@ -1239,7 +1241,7 @@
                 <span class="kw">let </span>base = res.unwrap_err();
                 <span class="comment">// Convert Box&lt;Base&gt; into Box&lt;Foo&gt;.
                 </span><span class="macro">assert_eq!</span>(
-                    <span class="number">6</span><span class="kw-2">*</span><span class="number">9</span>, base.downcast::&lt;Foo&gt;().map_err(|<span class="kw">_</span>| <span class="string">&quot;Shouldn&#39;t happen.&quot;</span>).unwrap().<span class="number">0</span>);
+                    <span class="number">6</span><span class="kw-2">*</span><span class="number">9</span>, base.downcast::&lt;Foo&gt;().map_err(|<span class="kw">_</span>| <span class="string">"Shouldn't happen."</span>).unwrap().<span class="number">0</span>);
 
                 <span class="comment">// Fail to convert Rc&lt;Base&gt; into Rc&lt;Bar&gt;.
                 </span><span class="kw">let </span>rc: <span class="macro-nonterminal">$crate::__alloc::rc::Rc</span>&lt;<span class="macro-nonterminal">$base_type</span>&gt; = <span class="macro-nonterminal">$crate::__alloc::rc::Rc::new</span>(Foo(<span class="number">42</span>));
@@ -1248,7 +1250,7 @@
                 <span class="kw">let </span>rc = res.unwrap_err();
                 <span class="comment">// Convert Rc&lt;Base&gt; into Rc&lt;Foo&gt;.
                 </span><span class="macro">assert_eq!</span>(
-                    <span class="number">42</span>, rc.downcast_rc::&lt;Foo&gt;().map_err(|<span class="kw">_</span>| <span class="string">&quot;Shouldn&#39;t happen.&quot;</span>).unwrap().<span class="number">0</span>);
+                    <span class="number">42</span>, rc.downcast_rc::&lt;Foo&gt;().map_err(|<span class="kw">_</span>| <span class="string">"Shouldn't happen."</span>).unwrap().<span class="number">0</span>);
 
                 $(<span class="macro-nonterminal">$more_tests</span>)*
             }

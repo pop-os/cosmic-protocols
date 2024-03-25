@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["__interfaces","zcosmic_export_dmabuf_frame_v1","zcosmic_export_dmabuf_manager_v1"]};

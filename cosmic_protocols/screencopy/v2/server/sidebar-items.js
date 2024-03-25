@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["__interfaces","zcosmic_screencopy_cursor_session_v2","zcosmic_screencopy_frame_v2","zcosmic_screencopy_manager_v2","zcosmic_screencopy_session_v2"]};

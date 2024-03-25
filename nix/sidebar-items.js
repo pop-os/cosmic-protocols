@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"macro":["cmsg_space"],"mod":["errno","fcntl","poll","sys","unistd"],"trait":["NixPath"],"type":["Error","Result"]};

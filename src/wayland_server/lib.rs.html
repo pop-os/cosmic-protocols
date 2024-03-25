@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/wayland-server-0.31.0/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="wayland_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0 (82e1608df 2023-12-21)" data-channel="1.75.0" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/wayland-server-0.31.1/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="wayland_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.0 (aedd173a2 2024-03-17)" data-channel="1.77.0" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+            <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../wayland_server/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -326,7 +328,7 @@
 //! resources (objects implementing the [`Resource`] trait), and the [`Dispatch`] trait.
 //!
 //! The [`Display`] is the heart of this crate, it represents the protocol state of your Wayland server, and
-//! takes care of processing messages from clients. You&#39;ll need to integrate it in your event loop (see its
+//! takes care of processing messages from clients. You'll need to integrate it in your event loop (see its
 //! documentation for details). From it you can retrieve the [`DisplayHandle`], which is a clonable handle to
 //! the Wayland state and is the type used to actually interact with the protocol.
 //!
@@ -374,13 +376,13 @@
 //!
 //! ### Interaction with FFI
 //!
-//! It can happen that you&#39;ll need to interact with Wayland states accross FFI, such as for example when
+//! It can happen that you'll need to interact with Wayland states accross FFI, such as for example when
 //! interfacing with the graphics stack for enabling hardware acceleration for clients.
 //!
-//! In this case, you&#39;ll need to do it in two steps, by explicitly working with `wayland-backend`, adding
+//! In this case, you'll need to do it in two steps, by explicitly working with `wayland-backend`, adding
 //! it to your dependencies and enabling its `server_system` feature.
 //!
-//! Then, you&#39;ll generally need:
+//! Then, you'll generally need:
 //!
 //! - The `*mut wl_display` pointer, that you can retrieve by first retrieving the
 //!   [`Backend`](crate::backend::Backend) using [`Display::backend()`], and then invoke
@@ -392,7 +394,7 @@
 //! If you need to receive pointers from FFI, you can make [`ObjectId`]s from the `*mut wl_resource` pointers
 //! using `ObjectId::from_ptr()`, and then make the resources using [`Resource::from_id`].
 </span><span class="attr">#![forbid(improper_ctypes, unsafe_op_in_unsafe_fn)]
-</span><span class="comment">// Doc feature labels can be tested locally by running RUSTDOCFLAGS=&quot;--cfg=docsrs&quot; cargo +nightly doc -p &lt;crate&gt;
+</span><span class="comment">// Doc feature labels can be tested locally by running RUSTDOCFLAGS="--cfg=docsrs" cargo +nightly doc -p &lt;crate&gt;
 </span><span class="attr">#![cfg_attr(docsrs, feature(doc_auto_cfg))]
 
 </span><span class="kw">use </span>std::{
@@ -438,16 +440,16 @@
     <span class="kw">use </span><span class="self">self</span>::__interfaces::<span class="kw-2">*</span>;
     <span class="kw">use crate as </span>wayland_server;
     <span class="kw">pub mod </span>__interfaces {
-        <span class="macro">wayland_scanner::generate_interfaces!</span>(<span class="string">&quot;wayland.xml&quot;</span>);
+        <span class="macro">wayland_scanner::generate_interfaces!</span>(<span class="string">"wayland.xml"</span>);
     }
-    <span class="macro">wayland_scanner::generate_server_code!</span>(<span class="string">&quot;wayland.xml&quot;</span>);
+    <span class="macro">wayland_scanner::generate_server_code!</span>(<span class="string">"wayland.xml"</span>);
 }
 
 <span class="comment">// internal imports for dispatching logging depending on the `log` feature
-</span><span class="attr">#[cfg(feature = <span class="string">&quot;log&quot;</span>)]
+</span><span class="attr">#[cfg(feature = <span class="string">"log"</span>)]
 #[allow(unused_imports)]
 </span><span class="kw">use </span>log::{debug <span class="kw">as </span>log_debug, error <span class="kw">as </span>log_error, info <span class="kw">as </span>log_info, warn <span class="kw">as </span>log_warn};
-<span class="attr">#[cfg(not(feature = <span class="string">&quot;log&quot;</span>))]
+<span class="attr">#[cfg(not(feature = <span class="string">"log"</span>))]
 #[allow(unused_imports)]
 </span><span class="kw">use </span>std::{
     eprintln <span class="kw">as </span>log_error, eprintln <span class="kw">as </span>log_warn, eprintln <span class="kw">as </span>log_info, eprintln <span class="kw">as </span>log_debug,
@@ -456,12 +458,12 @@
 <span class="doccomment">/// Trait representing a Wayland interface
 </span><span class="kw">pub trait </span>Resource: Clone + std::fmt::Debug + Sized {
     <span class="doccomment">/// The event enum for this interface
-    </span><span class="kw">type </span>Event&lt;<span class="lifetime">&#39;a</span>&gt;;
+    </span><span class="kw">type </span>Event&lt;<span class="lifetime">'a</span>&gt;;
     <span class="doccomment">/// The request enum for this interface
     </span><span class="kw">type </span>Request;
 
     <span class="doccomment">/// The interface description
-    </span><span class="kw">fn </span>interface() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>Interface;
+    </span><span class="kw">fn </span>interface() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>Interface;
 
     <span class="doccomment">/// The ID of this object
     </span><span class="kw">fn </span>id(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ObjectId;
@@ -489,7 +491,7 @@
     }
 
     <span class="doccomment">/// Access the user-data associated with this object
-    </span><span class="kw">fn </span>data&lt;U: <span class="lifetime">&#39;static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>U&gt;;
+    </span><span class="kw">fn </span>data&lt;U: <span class="lifetime">'static</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>U&gt;;
 
     <span class="doccomment">/// Access the raw data associated with this object.
     ///
@@ -511,7 +513,7 @@
     </span><span class="kw">fn </span>from_id(dh: <span class="kw-2">&amp;</span>DisplayHandle, id: ObjectId) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, InvalidId&gt;;
 
     <span class="doccomment">/// Send an event to this object
-    </span><span class="kw">fn </span>send_event(<span class="kw-2">&amp;</span><span class="self">self</span>, evt: <span class="self">Self</span>::Event&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), InvalidId&gt;;
+    </span><span class="kw">fn </span>send_event(<span class="kw-2">&amp;</span><span class="self">self</span>, evt: <span class="self">Self</span>::Event&lt;<span class="lifetime">'_</span>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;(), InvalidId&gt;;
 
     <span class="doccomment">/// Trigger a protocol error on this object
     ///
@@ -538,11 +540,11 @@
     ///
     /// **Note:** This method is mostly meant as an implementation detail to be used by code generated by
     /// wayland-scanner.
-    </span><span class="kw">fn </span>write_event&lt;<span class="lifetime">&#39;a</span>&gt;(
+    </span><span class="kw">fn </span>write_event&lt;<span class="lifetime">'a</span>&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         dh: <span class="kw-2">&amp;</span>DisplayHandle,
-        req: <span class="self">Self</span>::Event&lt;<span class="lifetime">&#39;a</span>&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;Message&lt;ObjectId, std::os::unix::io::BorrowedFd&lt;<span class="lifetime">&#39;a</span>&gt;&gt;, InvalidId&gt;;
+        req: <span class="self">Self</span>::Event&lt;<span class="lifetime">'a</span>&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;Message&lt;ObjectId, std::os::unix::io::BorrowedFd&lt;<span class="lifetime">'a</span>&gt;&gt;, InvalidId&gt;;
 
     <span class="doccomment">/// Creates a weak handle to this object
     ///
@@ -558,19 +560,19 @@
     <span class="attr">#[doc(hidden)]
     </span><span class="kw">fn </span>__set_object_data(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-        odata: std::sync::Arc&lt;<span class="kw">dyn </span>std::any::Any + Send + Sync + <span class="lifetime">&#39;static</span>&gt;,
+        odata: std::sync::Arc&lt;<span class="kw">dyn </span>std::any::Any + Send + Sync + <span class="lifetime">'static</span>&gt;,
     );
 }
 
 <span class="doccomment">/// An error generated if an illegal request was received from a client
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub enum </span>DispatchError {
-    <span class="doccomment">/// The received message does not match the specification for the object&#39;s interface.
+    <span class="doccomment">/// The received message does not match the specification for the object's interface.
     </span>BadMessage {
         <span class="doccomment">/// The id of the target object
         </span>sender_id: ObjectId,
         <span class="doccomment">/// The interface of the target object
-        </span>interface: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str,
+        </span>interface: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
         <span class="doccomment">/// The opcode number
         </span>opcode: u16,
     },
@@ -582,7 +584,7 @@
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter) -&gt; fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
             DispatchError::BadMessage { sender_id, interface, opcode } =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;Bad message for object {interface}@{sender_id} on opcode {opcode}&quot;</span>,)
+                <span class="macro">write!</span>(f, <span class="string">"Bad message for object {interface}@{sender_id} on opcode {opcode}"</span>,)
             }
         }
     }

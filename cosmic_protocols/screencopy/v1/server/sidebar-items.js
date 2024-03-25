@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["__interfaces","zcosmic_screencopy_manager_v1","zcosmic_screencopy_session_v1"]};

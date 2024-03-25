@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/wayland-server-0.31.0/src/socket.rs`."><title>socket.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="wayland_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0 (82e1608df 2023-12-21)" data-channel="1.75.0" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-9dd44ab47b99a0fb.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/wayland-server-0.31.1/src/socket.rs`."><title>socket.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="wayland_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.0 (aedd173a2 2024-03-17)" data-channel="1.77.0" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+            <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../wayland_server/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -229,28 +231,24 @@
 <a href="#229" id="229">229</a>
 <a href="#230" id="230">230</a>
 <a href="#231" id="231">231</a>
-<a href="#232" id="232">232</a>
-<a href="#233" id="233">233</a>
-<a href="#234" id="234">234</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::{
     env,
     ffi::{OsStr, OsString},
     fs::{<span class="self">self</span>, File},
     io,
-    os::unix::io::{AsFd, BorrowedFd},
     os::unix::{
-        io::{AsRawFd, FromRawFd, RawFd},
+        fs::OpenOptionsExt,
+        io::{AsFd, BorrowedFd},
+    },
+    os::unix::{
+        io::{AsRawFd, RawFd},
         net::{UnixListener, UnixStream},
         prelude::MetadataExt,
     },
     path::PathBuf,
 };
 
-<span class="kw">use </span>nix::{
-    fcntl::{flock, open, FlockArg, OFlag},
-    sys::stat::{lstat, Mode},
-    unistd::unlink,
-};
+<span class="kw">use </span>rustix::fs::{flock, FlockOperation};
 
 <span class="doccomment">/// An utility representing a unix socket on which your compositor is listening for new clients
 </span><span class="attr">#[derive(Debug)]
@@ -269,7 +267,7 @@
     /// directory pointed to by the `XDG_RUNTIME_DIR` environment variable.
     </span><span class="kw">pub fn </span>bind&lt;S: AsRef&lt;OsStr&gt;&gt;(socket_name: S) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, BindError&gt; {
         <span class="kw">let </span>runtime_dir: PathBuf =
-            env::var(<span class="string">&quot;XDG_RUNTIME_DIR&quot;</span>).map_err(|<span class="kw">_</span>| BindError::RuntimeDirNotSet)<span class="question-mark">?</span>.into();
+            env::var(<span class="string">"XDG_RUNTIME_DIR"</span>).map_err(|<span class="kw">_</span>| BindError::RuntimeDirNotSet)<span class="question-mark">?</span>.into();
         <span class="kw">if </span>!runtime_dir.is_absolute() {
             <span class="kw">return </span><span class="prelude-val">Err</span>(BindError::RuntimeDirNotSet);
         }
@@ -292,7 +290,7 @@
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, BindError&gt; {
         <span class="kw">for </span>i <span class="kw">in </span>range {
             <span class="comment">// early return on any error except AlreadyInUse
-            </span><span class="kw">match </span><span class="self">Self</span>::bind(<span class="macro">format!</span>(<span class="string">&quot;{}-{}&quot;</span>, basename, i)) {
+            </span><span class="kw">match </span><span class="self">Self</span>::bind(<span class="macro">format!</span>(<span class="string">"{}-{}"</span>, basename, i)) {
                 <span class="prelude-val">Ok</span>(socket) =&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(socket),
                 <span class="prelude-val">Err</span>(BindError::RuntimeDirNotSet) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(BindError::RuntimeDirNotSet),
                 <span class="prelude-val">Err</span>(BindError::PermissionDenied) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(BindError::PermissionDenied),
@@ -308,7 +306,7 @@
     /// The socket will be created at the specified path, and this method will acquire an associatet lockfile
     /// alongside it.
     </span><span class="kw">pub fn </span>bind_absolute(socket_path: PathBuf) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, BindError&gt; {
-        <span class="kw">let </span>lock_path = socket_path.with_extension(<span class="string">&quot;lock&quot;</span>);
+        <span class="kw">let </span>lock_path = socket_path.with_extension(<span class="string">"lock"</span>);
         <span class="kw">let </span><span class="kw-2">mut </span>_lock;
 
         <span class="comment">// The locking code uses a loop to avoid an open()-flock() race condition, described in more
@@ -317,18 +315,16 @@
         // https://gitlab.freedesktop.org/libbsd/libbsd/-/blob/73b25a8f871b3a20f6ff76679358540f95d7dbfd/src/flopen.c#L71
         </span><span class="kw">loop </span>{
             <span class="comment">// open the lockfile
-            </span><span class="kw">let </span>lock_fd = open(
-                <span class="kw-2">&amp;</span>lock_path,
-                OFlag::O_CREAT | OFlag::O_CLOEXEC | OFlag::O_RDWR,
-                Mode::S_IRUSR | Mode::S_IWUSR | Mode::S_IRGRP | Mode::S_IWGRP,
-            )
-            .map_err(|<span class="kw">_</span>| BindError::PermissionDenied)<span class="question-mark">?</span>;
-
-            <span class="comment">// SAFETY: We have just opened the file descriptor.
-            </span>_lock = <span class="kw">unsafe </span>{ File::from_raw_fd(lock_fd) };
+            </span>_lock = File::options()
+                .create(<span class="bool-val">true</span>)
+                .read(<span class="bool-val">true</span>)
+                .write(<span class="bool-val">true</span>)
+                .mode(<span class="number">0o660</span>)
+                .open(<span class="kw-2">&amp;</span>lock_path)
+                .map_err(|<span class="kw">_</span>| BindError::PermissionDenied)<span class="question-mark">?</span>;
 
             <span class="comment">// lock the lockfile
-            </span><span class="kw">if </span>flock(lock_fd, FlockArg::LockExclusiveNonblock).is_err() {
+            </span><span class="kw">if </span>flock(<span class="kw-2">&amp;</span>_lock, FlockOperation::NonBlockingLockExclusive).is_err() {
                 <span class="kw">return </span><span class="prelude-val">Err</span>(BindError::AlreadyInUse);
             }
 
@@ -354,17 +350,17 @@
         }
 
         <span class="comment">// check if an old socket exists, and cleanup if relevant
-        </span><span class="kw">match </span>lstat(<span class="kw-2">&amp;</span>socket_path) {
-            <span class="prelude-val">Err</span>(nix::Error::ENOENT) =&gt; {
+        </span><span class="kw">match </span>socket_path.try_exists() {
+            <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>) =&gt; {
                 <span class="comment">// none exist, good
             </span>}
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; {
+            <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>) =&gt; {
                 <span class="comment">// one exist, remove it
-                </span>unlink(<span class="kw-2">&amp;</span>socket_path).map_err(|<span class="kw">_</span>| BindError::AlreadyInUse)<span class="question-mark">?</span>;
+                </span>fs::remove_file(<span class="kw-2">&amp;</span>socket_path).map_err(|<span class="kw">_</span>| BindError::AlreadyInUse)<span class="question-mark">?</span>;
             }
             <span class="prelude-val">Err</span>(e) =&gt; {
                 <span class="comment">// some error stat-ing the socket?
-                </span><span class="kw">return </span><span class="prelude-val">Err</span>(BindError::Io(e.into()));
+                </span><span class="kw">return </span><span class="prelude-val">Err</span>(BindError::Io(e));
             }
         }
 
@@ -379,7 +375,7 @@
     <span class="doccomment">/// Try to accept a new connection to the listening socket
     ///
     /// This method will never block, and return `Ok(None)` if no new connection is available.
-    </span><span class="attr">#[must_use = <span class="string">&quot;the client must be initialized by the display using `Display::insert_client` or else the client will hang forever&quot;</span>]
+    </span><span class="attr">#[must_use = <span class="string">"the client must be initialized by the display using `Display::insert_client` or else the client will hang forever"</span>]
     </span><span class="kw">pub fn </span>accept(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; io::Result&lt;<span class="prelude-ty">Option</span>&lt;UnixStream&gt;&gt; {
         <span class="kw">match </span><span class="self">self</span>.listener.accept() {
             <span class="prelude-val">Ok</span>((stream, <span class="kw">_</span>)) =&gt; <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(stream)),
@@ -418,15 +414,15 @@
     ///
     /// When the polling system reports the file descriptor is ready, you can use [`ListeningSocket::accept`]
     /// to get a stream to the new client.
-    </span><span class="kw">fn </span>as_fd(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BorrowedFd&lt;<span class="lifetime">&#39;_</span>&gt; {
+    </span><span class="kw">fn </span>as_fd(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BorrowedFd&lt;<span class="lifetime">'_</span>&gt; {
         <span class="self">self</span>.listener.as_fd()
     }
 }
 
 <span class="kw">impl </span>Drop <span class="kw">for </span>ListeningSocket {
     <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="kw">let _ </span>= unlink(<span class="kw-2">&amp;</span><span class="self">self</span>.socket_path);
-        <span class="kw">let _ </span>= unlink(<span class="kw-2">&amp;</span><span class="self">self</span>.lock_path);
+        <span class="kw">let _ </span>= fs::remove_file(<span class="kw-2">&amp;</span><span class="self">self</span>.socket_path);
+        <span class="kw">let _ </span>= fs::remove_file(<span class="kw-2">&amp;</span><span class="self">self</span>.lock_path);
     }
 }
 
@@ -444,7 +440,7 @@
 }
 
 <span class="kw">impl </span>std::error::Error <span class="kw">for </span>BindError {
-    <span class="kw">fn </span>source(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>(<span class="kw">dyn </span>std::error::Error + <span class="lifetime">&#39;static</span>)&gt; {
+    <span class="kw">fn </span>source(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>(<span class="kw">dyn </span>std::error::Error + <span class="lifetime">'static</span>)&gt; {
         <span class="kw">match </span><span class="self">self </span>{
             BindError::RuntimeDirNotSet =&gt; <span class="prelude-val">None</span>,
             BindError::PermissionDenied =&gt; <span class="prelude-val">None</span>,
@@ -458,11 +454,11 @@
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter) -&gt; std::fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
             BindError::RuntimeDirNotSet =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;Environment variable XDG_RUNTIME_DIR is not set or invalid&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"Environment variable XDG_RUNTIME_DIR is not set or invalid"</span>)
             }
-            BindError::PermissionDenied =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;Could not write to XDG_RUNTIME_DIR&quot;</span>),
-            BindError::AlreadyInUse =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;Requested socket name is already in use&quot;</span>),
-            BindError::Io(source) =&gt; <span class="macro">write!</span>(f, <span class="string">&quot;I/O error: {source}&quot;</span>),
+            BindError::PermissionDenied =&gt; <span class="macro">write!</span>(f, <span class="string">"Could not write to XDG_RUNTIME_DIR"</span>),
+            BindError::AlreadyInUse =&gt; <span class="macro">write!</span>(f, <span class="string">"Requested socket name is already in use"</span>),
+            BindError::Io(source) =&gt; <span class="macro">write!</span>(f, <span class="string">"I/O error: {source}"</span>),
         }
     }
 }

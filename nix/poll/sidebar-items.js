@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["poll"],"struct":["PollFd","PollFlags"]};

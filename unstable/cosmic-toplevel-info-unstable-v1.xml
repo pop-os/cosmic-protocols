@@ -169,6 +169,7 @@
       <entry name="minimized"  value="1" summary="the toplevel is minimized"/>
       <entry name="activated"  value="2" summary="the toplevel is active"/>
       <entry name="fullscreen" value="3" summary="the toplevel is fullscreen"/>
+      <entry name="focused"    value="4" summary="the toplevel is focused"/>
     </enum>
 
     <event name="state">

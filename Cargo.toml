@@ -15,6 +15,7 @@ readme = "README.md"
 wayland-scanner = "0.31.0"
 wayland-backend = "0.3.1"
 wayland-protocols = "0.31.0"
+wayland-protocols-wlr = "0.2.0"
 wayland-client = { version = "0.31.1", optional = true }
 wayland-server = { version = "0.31.0", optional = true }
 bitflags = "2.4"
@@ -30,8 +31,8 @@ memfd = "0.6.1"
 
 [features]
 default = ["client", "server"]
-client = ["wayland-client", "wayland-protocols/client"]
-server = ["wayland-server", "wayland-protocols/server"]
+client = ["wayland-client", "wayland-protocols/client", "wayland-protocols-wlr/client"]
+server = ["wayland-server", "wayland-protocols/server", "wayland-protocols-wlr/server"]
 
 [workspace]
 members = ["client-toolkit"]

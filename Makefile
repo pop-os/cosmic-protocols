@@ -3,7 +3,8 @@ DATADIR=$${datarootdir}
 DATAROOTDIR=$${prefix}/share
 
 unstable_protocols = \
-	unstable/cosmic-screencopy-unstable-v1.xml \
+	unstable/cosmic-image-source-unstable-v1.xml \
+	unstable/cosmic-screencopy-unstable-v2.xml \
 	unstable/cosmic-output-management-unstable-v1.xml \
 	unstable/cosmic-toplevel-info-unstable-v1.xml \
 	unstable/cosmic-toplevel-management-unstable-v1.xml \

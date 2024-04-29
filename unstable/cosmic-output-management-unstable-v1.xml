@@ -136,8 +136,8 @@
     <enum name="error">
       <entry name="already_finished" value="1"
         summary="underlying configuration has already been used"/>
-      <entry name="mirrored_head_disabled" value="2"
-        summary="mirrored head has been configured to be disabled"/>
+      <entry name="mirrored_head_busy" value="2"
+        summary="mirrored head is not enabled"/>
     </enum>
 
     <request name="mirror_head">
@@ -153,8 +153,8 @@
         All properties are still required to be set to the resulting `zwlr_output_configuration_head` by the client
         as denoted in the original protocol. Some like `set_position` however might be ignored in mirroring configurations.
 
-        Trying to set a disabled head as `mirroring` or calling `disable_head` after using a head as a `mirroring`
-        argument will raise a `mirrored_head_disabled` protocol error.
+        Trying to set a disabled or mirroring head as `mirroring` or calling `disable_head`/`mirror_head` after using a head
+        as a `mirroring` argument will raise a `mirrored_head_busy` protocol error.
       </description>
       <arg name="id" type="new_id" interface="zwlr_output_configuration_head_v1"
         summary="a new object to configure the head"/>

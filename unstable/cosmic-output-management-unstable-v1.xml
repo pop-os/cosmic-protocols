@@ -58,7 +58,7 @@
             "already_extended" error.
         </description>
         <arg name="extended" type="new_id" interface="zcosmic_output_head_v1"/>
-        <arg name="head" type="object" interface="zwlr_output_head_v1" />
+        <arg name="head" type="object" interface="zwlr_output_head_v1"/>
     </request>
 
     <request name="get_configuration">
@@ -69,7 +69,7 @@
             will raise an "already_extended" error.
         </description>
         <arg name="extended" type="new_id" interface="zcosmic_output_configuration_v1"/>
-        <arg name="config" type="object" interface="zwlr_output_configuration_v1" />
+        <arg name="config" type="object" interface="zwlr_output_configuration_v1"/>
     </request>
 
     <request name="get_configuration_head">
@@ -80,7 +80,7 @@
             zwlr_output_configuration_head_v1 will raise an "already_extended" error.
         </description>
         <arg name="extended" type="new_id" interface="zcosmic_output_configuration_head_v1"/>
-        <arg name="config_head" type="object" interface="zwlr_output_configuration_head_v1" />
+        <arg name="config_head" type="object" interface="zwlr_output_configuration_head_v1"/>
     </request>
 
     <request name="destroy" type="destructor">
@@ -101,6 +101,7 @@
 
         Calling `release` on the parent zwlr_output_head_v1 will also destroy this object.
     </description>
+
     <event name="scale_1000">
       <description summary="current scale">
         This events describes the scale of the head in the global compositor
@@ -109,6 +110,19 @@
         It is only sent if the output is enabled.
       </description>
       <arg name="scale_1000" type="int"/>
+    </event>
+
+    <event name="mirroring">
+      <description summary="mirroring other output">
+        This events describes that the head is mirroring another.
+        In these cases `name` contains the unique name of the matching `zwlr_output_head_v1`.
+        If the name is null, no head is being mirrored onto this one.
+
+        For mirrored heads the `position`-event is meaningless.
+
+        It is only sent if the output is enabled.
+      </description>
+      <arg name="name" type="string" allow-null="true"/>
     </event>
   </interface>
 

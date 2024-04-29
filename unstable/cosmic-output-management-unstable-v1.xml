@@ -38,6 +38,11 @@
         This interface provides extension points for wlr-output-management types.
     </description>
 
+    <enum name="error">
+      <entry name="already_extended" value="1"
+        summary="object already created"/>
+    </enum>
+
     <request name="get_head">
         <description summary="Get a zcosmic_output_head_v1 for an existing zwlr_output_head_v1">
             Gets an extension object for zwlr_output_head_v1.
@@ -48,6 +53,9 @@
             Any further updates will produce new events, if properties of the zcosmic_output_head_v1 change,
             just like for the original `zwlr_output_head_v1`. Events should be handled as atomic, as denoted
             by `zwlr_output_manager_v1::done`.
+
+            Trying to create more than one zcosmic_output_head_v1 per zwlr_output_head_v1 will raise an
+            "already_extended" error.
         </description>
         <arg name="extended" type="new_id" interface="zcosmic_output_head_v1"/>
         <arg name="head" type="object" interface="zwlr_output_head_v1" />
@@ -56,6 +64,9 @@
     <request name="get_configuration">
         <description summary="Get a zcosmic_output_configuration_v1 for an existing zwlr_output_configuration_v1">
             Gets an extension object for zwlr_output_configuration_v1.
+
+            Trying to create more than one zcosmic_output_configuration_v1 per zwlr_output_configuration_v1
+            will raise an "already_extended" error.
         </description>
         <arg name="extended" type="new_id" interface="zcosmic_output_configuration_v1"/>
         <arg name="config" type="object" interface="zwlr_output_configuration_v1" />
@@ -64,9 +75,18 @@
     <request name="get_configuration_head">
         <description summary="Get a zcosmic_output_configuration_head_v1 for an existing zwlr_output_configuration_head_v1">
             Gets an extension object for zwlr_output_configuration_head_v1.
+
+            Trying to create more than one zcosmic_output_configuration_head_v1 per
+            zwlr_output_configuration_head_v1 will raise an "already_extended" error.
         </description>
         <arg name="extended" type="new_id" interface="zcosmic_output_configuration_head_v1"/>
         <arg name="config_head" type="object" interface="zwlr_output_configuration_head_v1" />
+    </request>
+
+    <request name="destroy" type="destructor">
+      <description summary="Destroy this global">
+        Destroys this global. All previously created objects remain valid.
+      </description>
     </request>
   </interface>
 
@@ -78,6 +98,8 @@
 
         Properties sent via this interface are applied atomically via the wlr_output_manager.done event.
         No guarantees are made regarding the order in which properties are sent.
+
+        Calling `release` on the parent zwlr_output_head_v1 will also destroy this object.
     </description>
     <event name="scale_1000">
       <description summary="current scale">
@@ -88,21 +110,6 @@
       </description>
       <arg name="scale_1000" type="int"/>
     </event>
-
-    <event name="finished">
-      <description summary="the head has disappeared">
-        This event indicates that the head is no longer available. The head
-        object becomes inert. Clients should send a release request and release
-        any resources associated with it.
-      </description>
-    </event>
-
-    <request name="release" type="destructor">
-      <description summary="destroy the head object">
-        This request indicates that the client will no longer use this head
-        object.
-      </description>
-    </request>
   </interface>
 
   <interface name="zcosmic_output_configuration_v1" version="1">
@@ -173,7 +180,7 @@
 
         Adds additional/alternative parameters to the original zwlr_output_configuration_head_v1.
 
-        If the original `zwlr_output_configuration_head_v1` was destroyed this object will also be destroyed.
+        Once the original `zwlr_output_configuration_head_v1` is destroyed this object will also be destroyed.
     </description>
     <request name="set_scale_1000">
       <description summary="set the scale multiplied by 1000">

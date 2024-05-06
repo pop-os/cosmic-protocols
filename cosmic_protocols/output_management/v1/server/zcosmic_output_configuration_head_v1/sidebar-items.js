@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["REQ_RELEASE_OPCODE","REQ_RELEASE_SINCE","REQ_SET_SCALE_1000_OPCODE","REQ_SET_SCALE_1000_SINCE"],"enum":["Event","Request"],"struct":["ZcosmicOutputConfigurationHeadV1"]};

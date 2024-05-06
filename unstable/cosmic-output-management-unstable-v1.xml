@@ -83,7 +83,7 @@
         <arg name="config_head" type="object" interface="zwlr_output_configuration_head_v1"/>
     </request>
 
-    <request name="destroy" type="destructor">
+    <request name="release" type="destructor">
       <description summary="Destroy this global">
         Destroys this global. All previously created objects remain valid.
       </description>
@@ -98,8 +98,6 @@
 
         Properties sent via this interface are applied atomically via the wlr_output_manager.done event.
         No guarantees are made regarding the order in which properties are sent.
-
-        Calling `release` on the parent zwlr_output_head_v1 will also destroy this object.
     </description>
 
     <event name="scale_1000">
@@ -124,6 +122,13 @@
       </description>
       <arg name="name" type="string" allow-null="true"/>
     </event>
+
+    <request name="release" type="destructor">
+      <description summary="destroy the output head">
+        Using this request a client can tell the compositor that it is not interested
+        in the head object anymore.
+      </description>
+    </request>
   </interface>
 
   <interface name="zcosmic_output_configuration_v1" version="1">
@@ -176,14 +181,12 @@
       </description>
     </event>
 
-    <request name="destroy" type="destructor">
+    <request name="release" type="destructor">
       <description summary="destroy the output configuration">
         Using this request a client can tell the compositor that it is not going
         to use the configuration object anymore. Any changes to the outputs
-        that have not been applied will be discarded.
-
-        This request also destroys wlr_output_configuration_head objects created
-        via this object.
+        will still be attached to the original `zwlr_output_configuration_head_v1`
+        if it isn't destroyed.
       </description>
     </request>
   </interface>
@@ -196,6 +199,7 @@
 
         Once the original `zwlr_output_configuration_head_v1` is destroyed this object will also be destroyed.
     </description>
+
     <request name="set_scale_1000">
       <description summary="set the scale multiplied by 1000">
         This request sets the head's scale multiplied by 1000 for additional precision.
@@ -207,6 +211,15 @@
         Any request conflicting with `set_scale` will also conflict with `set_scale_1000`.
       </description>
       <arg name="scale_1000" type="int"/>
+    </request>
+
+    <request name="release" type="destructor">
+      <description summary="destroy the output configuration head">
+        Using this request a client can tell the compositor that it is not going
+        to use the configuration object anymore. Already issued requests will
+        still be attached to the original `zwlr_output_configuration_head_v1`
+        until it is destroyed.
+      </description>
     </request>
   </interface>
 </protocol>

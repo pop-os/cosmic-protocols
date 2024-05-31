@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"static":["ZCOSMIC_TOPLEVEL_HANDLE_V1_INTERFACE","ZCOSMIC_TOPLEVEL_INFO_V1_INTERFACE","zcosmic_toplevel_handle_v1_events","zcosmic_toplevel_handle_v1_interface","zcosmic_toplevel_handle_v1_requests","zcosmic_toplevel_info_v1_events","zcosmic_toplevel_info_v1_interface","zcosmic_toplevel_info_v1_requests"]};
+window.SIDEBAR_ITEMS = {"static":["ZCOSMIC_TOPLEVEL_HANDLE_V1_INTERFACE","ZCOSMIC_TOPLEVEL_INFO_V1_INTERFACE","zcosmic_toplevel_handle_v1_interface","zcosmic_toplevel_info_v1_interface"]};

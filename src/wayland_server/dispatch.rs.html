@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/wayland-server-0.31.1/src/dispatch.rs`."><title>dispatch.rs - source</title><script> if (window.location.protocol !== "file:") document.write(`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2">`)</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-e935ef01ae1c1829.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="wayland_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0 (9b00956e5 2024-04-29)" data-channel="1.78.0" data-search-js="search-42d8da7a6b9792c2.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-12cf3b4f4f9dc36d.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/wayland-server-0.31.2/src/dispatch.rs`."><title>dispatch.rs - source</title><script> if (window.location.protocol !== "file:") document.write(`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2">`)</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-e935ef01ae1c1829.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="wayland_server" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0 (9b00956e5 2024-04-29)" data-channel="1.78.0" data-search-js="search-42d8da7a6b9792c2.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-12cf3b4f4f9dc36d.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
             <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
     <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../wayland_server/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
@@ -371,6 +371,8 @@
 <a href="#369" id="369">369</a>
 <a href="#370" id="370">370</a>
 <a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>std::os::unix::io::OwnedFd;
 <span class="kw">use </span>std::sync::Arc;
 
@@ -387,14 +389,14 @@
 ///  ## General usage
 ///
 /// You need to implement this trait on your `State` for every type of Wayland object that will be processed
-/// by the [`Display`](crate::Display) working with your `State`.
+/// by the [`Display`][crate::Display] working with your `State`.
 ///
 /// You can have different implementations of the trait for the same interface but different `UserData` type,
 /// this way the events for a given object will be processed by the adequate implementation depending on
 /// which `UserData` was assigned to it at creation.
 ///
 /// The way this trait works is that the [`Dispatch::request()`] method will be invoked by the
-/// [`Display`](crate::Display) for every request received by an object. Your implementation can then match
+/// [`Display`][crate::Display] for every request received by an object. Your implementation can then match
 /// on the associated [`Resource::Request`] enum and do any processing needed with that event.
 ///
 /// If the request being processed created a new object, you'll receive it as a [`New&lt;I&gt;`]. When that is the
@@ -404,7 +406,9 @@
 ///
 /// To provide generic handlers for downstream usage, it is possible to make an implementation of the trait
 /// that is generic over the last type argument, as illustrated below. Users will then be able to
-/// automatically delegate their implementation to yours using the [`delegate_dispatch!`] macro.
+/// automatically delegate their implementation to yours using the [`delegate_dispatch!()`] macro.
+///
+/// [`delegate_dispatch!()`]: crate::delegate_dispatch!()
 ///
 /// As a result, when your implementation is instanciated, the last type parameter `State` will be the state
 /// struct of the app using your generic implementation. You can put additional trait constraints on it to
@@ -478,7 +482,7 @@
     /// Note this type only provides an immutable reference to the user data, you will need to use
     /// interior mutability to change it.
     ///
-    /// Typically a [`Mutex`](std::sync::Mutex) would be used to have interior mutability.
+    /// Typically a [`Mutex`][std::sync::Mutex] would be used to have interior mutability.
     ///
     /// You are given the [`ObjectId`] and [`ClientId`] associated with the destroyed object for cleanup
     /// convenience.
@@ -518,7 +522,7 @@
 
 <span class="doccomment">/// Helper to initialize client-created objects
 ///
-/// This helper is provided to you in your [`Dispatch`] and [`GlobalDispatch`](super::GlobalDispatch) to
+/// This helper is provided to you in your [`Dispatch`] and [`GlobalDispatch`][super::GlobalDispatch] to
 /// initialize objects created by the client, by assigning them their user-data (or [`ObjectData`] if you
 /// need to go this lower-level route).
 ///
@@ -549,8 +553,8 @@
     <span class="doccomment">/// Set a custom [`ObjectData`] for this object
     ///
     /// This object data is not managed by `wayland-server`, as a result you will not
-    /// be able to retreive it through [`Resource::data()`](Resource::data).
-    /// Instead, you'll need to retrieve it using [`Resource::object_data()`](Resource::object_data) and
+    /// be able to retreive it through [`Resource::data()`].
+    /// Instead, you'll need to retrieve it using [`Resource::object_data()`] and
     /// handle the downcasting yourself.
     </span><span class="kw">pub fn </span>custom_init&lt;I: Resource + <span class="lifetime">'static</span>&gt;(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
@@ -565,7 +569,7 @@
 
     <span class="doccomment">/// Post an error on an uninitialized object.
     ///
-    /// This is only meant to be used in [`GlobalDispatch`](crate::GlobalDispatch) where a global protocol
+    /// This is only meant to be used in [`GlobalDispatch`][crate::GlobalDispatch] where a global protocol
     /// object is instantiated.
     </span><span class="kw">pub fn </span>post_error&lt;I: Resource + <span class="lifetime">'static</span>&gt;(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
@@ -674,7 +678,7 @@
 ///
 /// # Usage
 ///
-/// For example, say you want to delegate events for [`WlOutput`](crate::protocol::wl_output::WlOutput)
+/// For example, say you want to delegate events for [`WlOutput`][crate::protocol::wl_output::WlOutput]
 /// to the `DelegateToMe` type from the [`Dispatch`] documentation.
 ///
 /// ```

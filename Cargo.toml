@@ -24,7 +24,6 @@ bitflags = "2.4"
 async-channel = "1.7.1"
 cascade = "1"
 env_logger = "0.10.0"
-png = "0.17.5"
 smithay = { git = "https://github.com/Smithay/smithay", rev = "298a3ec", default-features = false, features = ["backend_egl", "renderer_gl", "renderer_multi"]}
 wayland-backend = { version = "0.3.1", features = ["client_system"] }
 memfd = "0.6.1"

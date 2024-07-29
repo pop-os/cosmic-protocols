@@ -121,3 +121,15 @@ pub mod workspace {
         );
     }
 }
+
+pub mod keyboard_layout {
+    //! Set keymap group.
+
+    #[allow(missing_docs)]
+    pub mod v1 {
+        wayland_protocol!(
+            "./unstable/cosmic-keyboard-layout-unstable-v1.xml",
+            []
+        );
+    }
+}

@@ -22,6 +22,7 @@ smithay = { version = "0.7.0", default-features = false, features = [
     "renderer_gl",
     "backend_drm",
 ] }
+xkbcommon = "0.7.0"
 
 [features]
 default = []

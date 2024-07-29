@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocol name="cosmic_keyboard_layout_unstable_v1">
+  <copyright>
+    Copyright © 2026 System76, Inc
+
+    Permission to use, copy, modify, distribute, and sell this
+    software and its documentation for any purpose is hereby granted
+    without fee, provided that the above copyright notice appear in
+    all copies and that both that copyright notice and this permission
+    notice appear in supporting documentation, and that the name of
+    the copyright holders not be used in advertising or publicity
+    pertaining to distribution of the software without specific,
+    written prior permission.  The copyright holders make no
+    representations about the suitability of this software for any
+    purpose.  It is provided "as is" without express or implied
+    warranty.
+
+    THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS
+    SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+    FITNESS, IN NO EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+    WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN
+    AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+    ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+    THIS SOFTWARE.
+  </copyright>
+
+  <description summary="Protocol to control keyboard layout group">
+    This protocol notifies clients of the active keyboard layout group, and allows
+    setting a new value.
+
+    Warning! The protocol described in this file is currently in the testing
+    phase. Backward compatible changes may be added together with the
+    corresponding interface version bump. Backward incompatible changes can
+    only be done by creating a new major version of the extension.
+  </description>
+
+  <interface name="zcosmic_keyboard_layout_manager_v1" version="1">
+    <description summary="keyboard layout manager">
+      Manager for creating `zcosmic_keyboard_layout_v1` instances.
+    </description>
+
+    <request name="get_keyboard_layout">
+      <description summary="Get keyboard layout object">
+        Create a `zcosmic_keyboard_layout_v1` to get and set group for given keyboard.
+      </description>
+      <arg name="keyboard_layout" type="new_id" interface="zcosmic_keyboard_layout_v1"/>
+      <arg name="keyboard" type="object" interface="wl_keyboard"/>
+    </request>
+
+    <request name="destroy" type="destructor">
+      <description summary="delete this object">
+      </description>
+    </request>
+  </interface>
+
+  <interface name="zcosmic_keyboard_layout_v1" version="1">
+    <description summary="">
+      Object to get and set `group` for a particular `wl_keyboard`.
+    </description>
+
+    <event name="group">
+      <description summary="layout group changed">
+        Unlike `wl_keyboard::modifiers`, this event is received even when the client has no focused window.
+      </description>
+      <arg name="group" type="uint"/>
+    </event>
+
+    <request name="set_group">
+      <description summary="set layout group">
+        On success, the `group` event will be generated for all clients, and the focused client will
+        receive `wl_keyboard::modifiers` with the new group.
+
+        The request will be ignored if `group` is out of bounds.
+      </description>
+      <arg name="group" type="uint"/>
+    </request>
+
+    <request name="destroy" type="destructor">
+      <description summary="delete this object">
+      </description>
+    </request>
+  </interface>
+</protocol>

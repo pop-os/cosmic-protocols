@@ -7,6 +7,7 @@ pub use wayland_protocols;
 pub mod egl;
 #[cfg(feature = "gl")]
 pub mod gl;
+pub mod keymap;
 pub mod screencopy;
 pub mod toplevel_info;
 pub mod toplevel_management;

@@ -112,3 +112,15 @@ pub mod atspi {
         );
     }
 }
+
+pub mod keymap {
+    //! Set keymap group.
+
+    #[allow(missing_docs)]
+    pub mod v1 {
+        wayland_protocol!(
+            "./unstable/cosmic-keymap-unstable-v1.xml",
+            []
+        );
+    }
+}

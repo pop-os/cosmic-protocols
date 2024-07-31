@@ -1,9 +1,13 @@
 use cosmic_client_toolkit::toplevel_info::{ToplevelInfoHandler, ToplevelInfoState};
 use cosmic_protocols::toplevel_info::v1::client::zcosmic_toplevel_handle_v1;
-use sctk::registry::{ProvidesRegistryState, RegistryState};
-use wayland_client::{globals::registry_queue_init, Connection, QueueHandle};
+use sctk::{
+    output::{OutputHandler, OutputState},
+    registry::{ProvidesRegistryState, RegistryState},
+};
+use wayland_client::{globals::registry_queue_init, protocol::wl_output, Connection, QueueHandle};
 
 struct AppData {
+    output_state: OutputState,
     registry_state: RegistryState,
     toplevel_info_state: ToplevelInfoState,
 }
@@ -13,7 +17,38 @@ impl ProvidesRegistryState for AppData {
         &mut self.registry_state
     }
 
-    sctk::registry_handlers!();
+    sctk::registry_handlers!(OutputState);
+}
+
+// Need to bind output globals just so toplevel can get output events
+impl OutputHandler for AppData {
+    fn output_state(&mut self) -> &mut OutputState {
+        &mut self.output_state
+    }
+
+    fn new_output(
+        &mut self,
+        _conn: &Connection,
+        _qh: &QueueHandle<Self>,
+        output: wl_output::WlOutput,
+    ) {
+    }
+
+    fn update_output(
+        &mut self,
+        _conn: &Connection,
+        _qh: &QueueHandle<Self>,
+        _output: wl_output::WlOutput,
+    ) {
+    }
+
+    fn output_destroyed(
+        &mut self,
+        _conn: &Connection,
+        _qh: &QueueHandle<Self>,
+        output: wl_output::WlOutput,
+    ) {
+    }
 }
 
 impl ToplevelInfoHandler for AppData {
@@ -65,6 +100,7 @@ fn main() {
 
     let registry_state = RegistryState::new(&globals);
     let mut app_data = AppData {
+        output_state: OutputState::new(&globals, &qh),
         toplevel_info_state: ToplevelInfoState::new(&registry_state, &qh),
         registry_state,
     };
@@ -74,5 +110,6 @@ fn main() {
     }
 }
 
+sctk::delegate_output!(AppData);
 sctk::delegate_registry!(AppData);
 cosmic_client_toolkit::delegate_toplevel_info!(AppData);

@@ -90,6 +90,17 @@
       <arg name="cosmic_toplevel" type="new_id" interface="zcosmic_toplevel_handle_v1"/>
       <arg name="foreign_toplevel" type="object" interface="ext_foreign_toplevel_handle_v1"/>
     </request>
+
+    <event name="done" since="2">
+      <description summary="all information about active toplevels have been sent">
+        This event is sent after all changes for currently active
+        zcosmic_toplevel_handle_v1 have been sent.
+
+        This allows changes to multiple zcosmic_toplevel_handle_v1 handles
+        and their properties to be seen as atomic, even if they happen via
+        multiple events.
+      </description>
+    </event>
   </interface>
 
   <interface name="zcosmic_toplevel_handle_v1" version="2">

@@ -14,7 +14,7 @@ readme = "README.md"
 [dependencies]
 wayland-scanner = "0.31.0"
 wayland-backend = "0.3.1"
-wayland-protocols = "0.32.1"
+wayland-protocols = { version = "0.32.1", features = ["staging"] }
 wayland-protocols-wlr = "0.3.1"
 wayland-client = { version = "0.31.1", optional = true }
 wayland-server = { version = "0.31.0", optional = true }

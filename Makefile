@@ -8,6 +8,7 @@ unstable_protocols = \
 	unstable/cosmic-output-management-unstable-v1.xml \
 	unstable/cosmic-toplevel-info-unstable-v1.xml \
 	unstable/cosmic-toplevel-management-unstable-v1.xml \
+	unstable/cosmic-overlap-notify-unstable-v1.xml \
 	unstable/cosmic-workspace-unstable-v1.xml \
 
 check: $(unstable_protocols)

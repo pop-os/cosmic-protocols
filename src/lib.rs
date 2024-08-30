@@ -77,6 +77,18 @@ pub mod toplevel_management {
     }
 }
 
+pub mod overlap_notify {
+    //! Get overlap notifications for layer surfaces
+
+    #[allow(missing_docs)]
+    pub mod v1 {
+        wayland_protocol!(
+            "./unstable/cosmic-overlap-notify-unstable-v1.xml",
+            [wayland_protocols_wlr::layer_shell::v1, wayland_protocols::ext::foreign_toplevel_list::v1]
+        );
+    }
+}
+
 pub mod workspace {
     //! Receive information about and control workspaces.
 

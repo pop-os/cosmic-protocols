@@ -224,5 +224,21 @@
       </description>
       <arg name="state" type="array"/>
     </event>
+
+    <event name="geometry" since="2">
+      <description summary="the toplevel's position and/or size has changed">
+        Emitted when the geometry of a toplevel (it's position and/or size)
+        relative to the provided output has changed.
+
+        This event is emitted once on creation of the
+        zcosmic_toplevel_handle_v1 for every entered output and again
+        whenever the geometry of the toplevel changes relative to any output.
+      </description>
+      <arg name="output" type="object" interface="wl_output"/>
+      <arg name="x" type="int" summary="x coordinate of the upper-left corner"/>
+      <arg name="y" type="int" summary="y coordinate of the upper-left corner"/>
+      <arg name="width" type="int" summary="width of the toplevel"/>
+      <arg name="height" type="int" summary="height of the toplevel"/>
+    </event>
   </interface>
 </protocol>

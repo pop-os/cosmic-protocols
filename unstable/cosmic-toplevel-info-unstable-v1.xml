@@ -210,10 +210,11 @@
         The different states that a toplevel may have. These have the same
         meaning as the states with the same names defined in xdg-toplevel
       </description>
-      <entry name="maximized"  value="0" summary="the toplevel is maximized"/>
-      <entry name="minimized"  value="1" summary="the toplevel is minimized"/>
-      <entry name="activated"  value="2" summary="the toplevel is active"/>
-      <entry name="fullscreen" value="3" summary="the toplevel is fullscreen"/>
+      <entry name="maximized"  value="0" summary="the toplevel is maximized"  />
+      <entry name="minimized"  value="1" summary="the toplevel is minimized"  />
+      <entry name="activated"  value="2" summary="the toplevel is active"     />
+      <entry name="fullscreen" value="3" summary="the toplevel is fullscreen" />
+      <entry name="sticky"     value="4" summary="the toplevel is sticky"     since="2" />
     </enum>
 
     <event name="state">

@@ -150,7 +150,7 @@
     </span><span class="kw">pub mod </span>v1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">"./unstable/cosmic-toplevel-info-unstable-v1.xml"</span>,
-            [<span class="kw">crate</span>::workspace::v1]
+            [<span class="kw">crate</span>::workspace::v1, wayland_protocols::ext::foreign_toplevel_list::v1]
         );
     }
 }

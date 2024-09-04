@@ -100,3 +100,15 @@ pub mod workspace {
         );
     }
 }
+
+pub mod atspi {
+    //! Atspi accessibility support.
+
+    #[allow(missing_docs)]
+    pub mod v1 {
+        wayland_protocol!(
+            "./unstable/cosmic-atspi-unstable-v1.xml",
+            []
+        );
+    }
+}

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["activation","dialog","shell","toplevel_drag"]};
+window.SIDEBAR_ITEMS = {"mod":["activation","dialog","shell","toplevel_drag","toplevel_icon"]};

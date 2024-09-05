@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quick-xml-0.34.0/src/escape.rs`."><title>escape.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="quick_xml" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `/home/runner/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quick-xml-0.36.1/src/escape.rs`."><title>escape.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="quick_xml" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1840,160 +1840,86 @@
 <a href="#1840" id="1840">1840</a>
 <a href="#1841" id="1841">1841</a>
 <a href="#1842" id="1842">1842</a>
-<a href="#1843" id="1843">1843</a>
-<a href="#1844" id="1844">1844</a>
-<a href="#1845" id="1845">1845</a>
-<a href="#1846" id="1846">1846</a>
-<a href="#1847" id="1847">1847</a>
-<a href="#1848" id="1848">1848</a>
-<a href="#1849" id="1849">1849</a>
-<a href="#1850" id="1850">1850</a>
-<a href="#1851" id="1851">1851</a>
-<a href="#1852" id="1852">1852</a>
-<a href="#1853" id="1853">1853</a>
-<a href="#1854" id="1854">1854</a>
-<a href="#1855" id="1855">1855</a>
-<a href="#1856" id="1856">1856</a>
-<a href="#1857" id="1857">1857</a>
-<a href="#1858" id="1858">1858</a>
-<a href="#1859" id="1859">1859</a>
-<a href="#1860" id="1860">1860</a>
-<a href="#1861" id="1861">1861</a>
-<a href="#1862" id="1862">1862</a>
-<a href="#1863" id="1863">1863</a>
-<a href="#1864" id="1864">1864</a>
-<a href="#1865" id="1865">1865</a>
-<a href="#1866" id="1866">1866</a>
-<a href="#1867" id="1867">1867</a>
-<a href="#1868" id="1868">1868</a>
-<a href="#1869" id="1869">1869</a>
-<a href="#1870" id="1870">1870</a>
-<a href="#1871" id="1871">1871</a>
-<a href="#1872" id="1872">1872</a>
-<a href="#1873" id="1873">1873</a>
-<a href="#1874" id="1874">1874</a>
-<a href="#1875" id="1875">1875</a>
-<a href="#1876" id="1876">1876</a>
-<a href="#1877" id="1877">1877</a>
-<a href="#1878" id="1878">1878</a>
-<a href="#1879" id="1879">1879</a>
-<a href="#1880" id="1880">1880</a>
-<a href="#1881" id="1881">1881</a>
-<a href="#1882" id="1882">1882</a>
-<a href="#1883" id="1883">1883</a>
-<a href="#1884" id="1884">1884</a>
-<a href="#1885" id="1885">1885</a>
-<a href="#1886" id="1886">1886</a>
-<a href="#1887" id="1887">1887</a>
-<a href="#1888" id="1888">1888</a>
-<a href="#1889" id="1889">1889</a>
-<a href="#1890" id="1890">1890</a>
-<a href="#1891" id="1891">1891</a>
-<a href="#1892" id="1892">1892</a>
-<a href="#1893" id="1893">1893</a>
-<a href="#1894" id="1894">1894</a>
-<a href="#1895" id="1895">1895</a>
-<a href="#1896" id="1896">1896</a>
-<a href="#1897" id="1897">1897</a>
-<a href="#1898" id="1898">1898</a>
-<a href="#1899" id="1899">1899</a>
-<a href="#1900" id="1900">1900</a>
-<a href="#1901" id="1901">1901</a>
-<a href="#1902" id="1902">1902</a>
-<a href="#1903" id="1903">1903</a>
-<a href="#1904" id="1904">1904</a>
-<a href="#1905" id="1905">1905</a>
-<a href="#1906" id="1906">1906</a>
-<a href="#1907" id="1907">1907</a>
-<a href="#1908" id="1908">1908</a>
-<a href="#1909" id="1909">1909</a>
-<a href="#1910" id="1910">1910</a>
-<a href="#1911" id="1911">1911</a>
-<a href="#1912" id="1912">1912</a>
-<a href="#1913" id="1913">1913</a>
-<a href="#1914" id="1914">1914</a>
-<a href="#1915" id="1915">1915</a>
-<a href="#1916" id="1916">1916</a>
-<a href="#1917" id="1917">1917</a>
-<a href="#1918" id="1918">1918</a>
-<a href="#1919" id="1919">1919</a>
-<a href="#1920" id="1920">1920</a>
-<a href="#1921" id="1921">1921</a>
-<a href="#1922" id="1922">1922</a>
-<a href="#1923" id="1923">1923</a>
-<a href="#1924" id="1924">1924</a>
-<a href="#1925" id="1925">1925</a>
-<a href="#1926" id="1926">1926</a>
-<a href="#1927" id="1927">1927</a>
-<a href="#1928" id="1928">1928</a>
-<a href="#1929" id="1929">1929</a>
-<a href="#1930" id="1930">1930</a>
-<a href="#1931" id="1931">1931</a>
-<a href="#1932" id="1932">1932</a>
-<a href="#1933" id="1933">1933</a>
-<a href="#1934" id="1934">1934</a>
-<a href="#1935" id="1935">1935</a>
-<a href="#1936" id="1936">1936</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Manage xml character escapes
 
 </span><span class="kw">use </span>memchr::memchr2_iter;
 <span class="kw">use </span>std::borrow::Cow;
+<span class="kw">use </span>std::num::ParseIntError;
 <span class="kw">use </span>std::ops::Range;
 
-<span class="attr">#[cfg(test)]
-</span><span class="kw">use </span>pretty_assertions::assert_eq;
+<span class="doccomment">/// Error of parsing character reference (`&amp;#&lt;dec-number&gt;;` or `&amp;#x&lt;hex-number&gt;;`).
+</span><span class="attr">#[derive(Clone, Debug, PartialEq)]
+</span><span class="kw">pub enum </span>ParseCharRefError {
+    <span class="doccomment">/// Number contains sign character (`+` or `-`) which is not allowed.
+    </span>UnexpectedSign,
+    <span class="doccomment">/// Number cannot be parsed due to non-number characters or a numeric overflow.
+    </span>InvalidNumber(ParseIntError),
+    <span class="doccomment">/// Character reference represents not a valid unicode codepoint.
+    </span>InvalidCodepoint(u32),
+    <span class="doccomment">/// Character reference expanded to a not permitted character for an XML.
+    ///
+    /// Currently, only `0x0` character produces this error.
+    </span>IllegalCharacter(u32),
+}
+
+<span class="kw">impl </span>std::fmt::Display <span class="kw">for </span>ParseCharRefError {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter) -&gt; std::fmt::Result {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="self">Self</span>::UnexpectedSign =&gt; f.write_str(<span class="string">"unexpected number sign"</span>),
+            <span class="self">Self</span>::InvalidNumber(e) =&gt; e.fmt(f),
+            <span class="self">Self</span>::InvalidCodepoint(n) =&gt; <span class="macro">write!</span>(f, <span class="string">"`{}` is not a valid codepoint"</span>, n),
+            <span class="self">Self</span>::IllegalCharacter(n) =&gt; <span class="macro">write!</span>(f, <span class="string">"0x{:x} character is not permitted in XML"</span>, n),
+        }
+    }
+}
+
+<span class="kw">impl </span>std::error::Error <span class="kw">for </span>ParseCharRefError {
+    <span class="kw">fn </span>source(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>(<span class="kw">dyn </span>std::error::Error + <span class="lifetime">'static</span>)&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="self">Self</span>::InvalidNumber(e) =&gt; <span class="prelude-val">Some</span>(e),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
 
 <span class="doccomment">/// Error for XML escape / unescape.
-</span><span class="attr">#[derive(Clone, Debug)]
+</span><span class="attr">#[derive(Clone, Debug, PartialEq)]
 </span><span class="kw">pub enum </span>EscapeError {
-    <span class="doccomment">/// Entity with Null character
-    </span>EntityWithNull(Range&lt;usize&gt;),
-    <span class="doccomment">/// Unrecognized escape symbol
-    </span>UnrecognizedSymbol(Range&lt;usize&gt;, String),
+    <span class="doccomment">/// Referenced entity in unknown to the parser.
+    </span>UnrecognizedEntity(Range&lt;usize&gt;, String),
     <span class="doccomment">/// Cannot find `;` after `&amp;`
     </span>UnterminatedEntity(Range&lt;usize&gt;),
-    <span class="doccomment">/// Cannot convert Hexa to utf8
-    </span>TooLongHexadecimal,
-    <span class="doccomment">/// Character is not a valid hexadecimal value
-    </span>InvalidHexadecimal(char),
-    <span class="doccomment">/// Cannot convert decimal to hexa
-    </span>TooLongDecimal,
-    <span class="doccomment">/// Character is not a valid decimal value
-    </span>InvalidDecimal(char),
-    <span class="doccomment">/// Not a valid unicode codepoint
-    </span>InvalidCodepoint(u32),
+    <span class="doccomment">/// Attempt to parse character reference (`&amp;#&lt;dec-number&gt;;` or `&amp;#x&lt;hex-number&gt;;`)
+    /// was unsuccessful, not all characters are decimal or hexadecimal numbers.
+    </span>InvalidCharRef(ParseCharRefError),
 }
 
 <span class="kw">impl </span>std::fmt::Display <span class="kw">for </span>EscapeError {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter) -&gt; std::fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
-            EscapeError::EntityWithNull(e) =&gt; <span class="macro">write!</span>(
-                f,
-                <span class="string">"Error while escaping character at range {:?}: Null character entity not allowed"</span>,
-                e
-            ),
-            EscapeError::UnrecognizedSymbol(rge, res) =&gt; <span class="macro">write!</span>(
-                f,
-                <span class="string">"Error while escaping character at range {:?}: Unrecognized escape symbol: {:?}"</span>,
-                rge, res
-            ),
+            EscapeError::UnrecognizedEntity(rge, res) =&gt; {
+                <span class="macro">write!</span>(f, <span class="string">"at {:?}: unrecognized entity `{}`"</span>, rge, res)
+            }
             EscapeError::UnterminatedEntity(e) =&gt; <span class="macro">write!</span>(
                 f,
                 <span class="string">"Error while escaping character at range {:?}: Cannot find ';' after '&amp;'"</span>,
                 e
             ),
-            EscapeError::TooLongHexadecimal =&gt; <span class="macro">write!</span>(f, <span class="string">"Cannot convert hexadecimal to utf8"</span>),
-            EscapeError::InvalidHexadecimal(e) =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">"'{}' is not a valid hexadecimal character"</span>, e)
+            EscapeError::InvalidCharRef(e) =&gt; {
+                <span class="macro">write!</span>(f, <span class="string">"invalid character reference: {}"</span>, e)
             }
-            EscapeError::TooLongDecimal =&gt; <span class="macro">write!</span>(f, <span class="string">"Cannot convert decimal to utf8"</span>),
-            EscapeError::InvalidDecimal(e) =&gt; <span class="macro">write!</span>(f, <span class="string">"'{}' is not a valid decimal character"</span>, e),
-            EscapeError::InvalidCodepoint(n) =&gt; <span class="macro">write!</span>(f, <span class="string">"'{}' is not a valid codepoint"</span>, n),
         }
     }
 }
 
-<span class="kw">impl </span>std::error::Error <span class="kw">for </span>EscapeError {}
+<span class="kw">impl </span>std::error::Error <span class="kw">for </span>EscapeError {
+    <span class="kw">fn </span>source(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>(<span class="kw">dyn </span>std::error::Error + <span class="lifetime">'static</span>)&gt; {
+        <span class="kw">match </span><span class="self">self </span>{
+            <span class="self">Self</span>::InvalidCharRef(e) =&gt; <span class="prelude-val">Some</span>(e),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
 
 <span class="doccomment">/// Escapes an `&amp;str` and replaces all xml special characters (`&lt;`, `&gt;`, `&amp;`, `'`, `"`)
 /// with their corresponding xml escaped value.
@@ -2187,12 +2113,12 @@
                 <span class="comment">// search for character correctness
                 </span><span class="kw">let </span>pat = <span class="kw-2">&amp;</span>raw[start + <span class="number">1</span>..end];
                 <span class="kw">if let </span><span class="prelude-val">Some</span>(entity) = pat.strip_prefix(<span class="string">'#'</span>) {
-                    <span class="kw">let </span>codepoint = parse_number(entity, start..end)<span class="question-mark">?</span>;
+                    <span class="kw">let </span>codepoint = parse_number(entity).map_err(EscapeError::InvalidCharRef)<span class="question-mark">?</span>;
                     unescaped.push_str(codepoint.encode_utf8(<span class="kw-2">&amp;mut </span>[<span class="number">0u8</span>; <span class="number">4</span>]));
                 } <span class="kw">else if let </span><span class="prelude-val">Some</span>(value) = resolve_entity(pat) {
                     unescaped.push_str(value);
                 } <span class="kw">else </span>{
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(EscapeError::UnrecognizedSymbol(
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(EscapeError::UnrecognizedEntity(
                         start + <span class="number">1</span>..end,
                         pat.to_string(),
                     ));
@@ -3732,142 +3658,28 @@
     <span class="prelude-val">Some</span>(s)
 }
 
-<span class="kw">fn </span>parse_number(bytes: <span class="kw-2">&amp;</span>str, range: Range&lt;usize&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;char, EscapeError&gt; {
-    <span class="kw">let </span>code = <span class="kw">if let </span><span class="prelude-val">Some</span>(hex_digits) = bytes.strip_prefix(<span class="string">'x'</span>) {
-        parse_hexadecimal(hex_digits)
-    } <span class="kw">else </span>{
-        parse_decimal(bytes)
-    }<span class="question-mark">?</span>;
+<span class="kw">fn </span>parse_number(num: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;char, ParseCharRefError&gt; {
+    <span class="kw">let </span>code = <span class="kw">if let </span><span class="prelude-val">Some</span>(hex) = num.strip_prefix(<span class="string">'x'</span>) {
+        from_str_radix(hex, <span class="number">16</span>)<span class="question-mark">?
+    </span>} <span class="kw">else </span>{
+        from_str_radix(num, <span class="number">10</span>)<span class="question-mark">?
+    </span>};
     <span class="kw">if </span>code == <span class="number">0 </span>{
-        <span class="kw">return </span><span class="prelude-val">Err</span>(EscapeError::EntityWithNull(range));
+        <span class="kw">return </span><span class="prelude-val">Err</span>(ParseCharRefError::IllegalCharacter(code));
     }
     <span class="kw">match </span>std::char::from_u32(code) {
         <span class="prelude-val">Some</span>(c) =&gt; <span class="prelude-val">Ok</span>(c),
-        <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(EscapeError::InvalidCodepoint(code)),
+        <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(ParseCharRefError::InvalidCodepoint(code)),
     }
 }
 
-<span class="kw">fn </span>parse_hexadecimal(bytes: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;u32, EscapeError&gt; {
-    <span class="comment">// maximum code is 0x10FFFF =&gt; 6 characters
-    </span><span class="kw">if </span>bytes.len() &gt; <span class="number">6 </span>{
-        <span class="kw">return </span><span class="prelude-val">Err</span>(EscapeError::TooLongHexadecimal);
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>from_str_radix(src: <span class="kw-2">&amp;</span>str, radix: u32) -&gt; <span class="prelude-ty">Result</span>&lt;u32, ParseCharRefError&gt; {
+    <span class="kw">match </span>src.as_bytes().first().copied() {
+        <span class="comment">// We should not allow sign numbers, but u32::from_str_radix will accept `+`.
+        // We also handle `-` to be consistent in returned errors
+        </span><span class="prelude-val">Some</span>(<span class="string">b'+'</span>) | <span class="prelude-val">Some</span>(<span class="string">b'-'</span>) =&gt; <span class="prelude-val">Err</span>(ParseCharRefError::UnexpectedSign),
+        <span class="kw">_ </span>=&gt; u32::from_str_radix(src, radix).map_err(ParseCharRefError::InvalidNumber),
     }
-    <span class="kw">let </span><span class="kw-2">mut </span>code = <span class="number">0</span>;
-    <span class="kw">for </span>b <span class="kw">in </span>bytes.bytes() {
-        code &lt;&lt;= <span class="number">4</span>;
-        code += <span class="kw">match </span>b {
-            <span class="string">b'0'</span>..=<span class="string">b'9' </span>=&gt; b - <span class="string">b'0'</span>,
-            <span class="string">b'a'</span>..=<span class="string">b'f' </span>=&gt; b - <span class="string">b'a' </span>+ <span class="number">10</span>,
-            <span class="string">b'A'</span>..=<span class="string">b'F' </span>=&gt; b - <span class="string">b'A' </span>+ <span class="number">10</span>,
-            b =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(EscapeError::InvalidHexadecimal(b <span class="kw">as </span>char)),
-        } <span class="kw">as </span>u32;
-    }
-    <span class="prelude-val">Ok</span>(code)
-}
-
-<span class="kw">fn </span>parse_decimal(bytes: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;u32, EscapeError&gt; {
-    <span class="comment">// maximum code is 0x10FFFF = 1114111 =&gt; 7 characters
-    </span><span class="kw">if </span>bytes.len() &gt; <span class="number">7 </span>{
-        <span class="kw">return </span><span class="prelude-val">Err</span>(EscapeError::TooLongDecimal);
-    }
-    <span class="kw">let </span><span class="kw-2">mut </span>code = <span class="number">0</span>;
-    <span class="kw">for </span>b <span class="kw">in </span>bytes.bytes() {
-        code <span class="kw-2">*</span>= <span class="number">10</span>;
-        code += <span class="kw">match </span>b {
-            <span class="string">b'0'</span>..=<span class="string">b'9' </span>=&gt; b - <span class="string">b'0'</span>,
-            b =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(EscapeError::InvalidDecimal(b <span class="kw">as </span>char)),
-        } <span class="kw">as </span>u32;
-    }
-    <span class="prelude-val">Ok</span>(code)
-}
-
-<span class="attr">#[test]
-</span><span class="kw">fn </span>test_unescape() {
-    <span class="kw">let </span>unchanged = unescape(<span class="string">"test"</span>).unwrap();
-    <span class="comment">// assert_eq does not check that Cow is borrowed, but we explicitly use Cow
-    // because it influences diff
-    // TODO: use assert_matches! when stabilized and other features will bump MSRV
-    </span><span class="macro">assert_eq!</span>(unchanged, Cow::Borrowed(<span class="string">"test"</span>));
-    <span class="macro">assert!</span>(<span class="macro">matches!</span>(unchanged, Cow::Borrowed(<span class="kw">_</span>)));
-
-    <span class="macro">assert_eq!</span>(
-        unescape(<span class="string">"&amp;lt;&amp;amp;test&amp;apos;&amp;quot;&amp;gt;"</span>).unwrap(),
-        <span class="string">"&lt;&amp;test'\"&gt;"
-    </span>);
-    <span class="macro">assert_eq!</span>(unescape(<span class="string">"&amp;#x30;"</span>).unwrap(), <span class="string">"0"</span>);
-    <span class="macro">assert_eq!</span>(unescape(<span class="string">"&amp;#48;"</span>).unwrap(), <span class="string">"0"</span>);
-    <span class="macro">assert!</span>(unescape(<span class="string">"&amp;foo;"</span>).is_err());
-}
-
-<span class="attr">#[test]
-</span><span class="kw">fn </span>test_unescape_with() {
-    <span class="kw">let </span>custom_entities = |ent: <span class="kw-2">&amp;</span>str| <span class="kw">match </span>ent {
-        <span class="string">"foo" </span>=&gt; <span class="prelude-val">Some</span>(<span class="string">"BAR"</span>),
-        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-    };
-
-    <span class="kw">let </span>unchanged = unescape_with(<span class="string">"test"</span>, custom_entities).unwrap();
-    <span class="comment">// assert_eq does not check that Cow is borrowed, but we explicitly use Cow
-    // because it influences diff
-    // TODO: use assert_matches! when stabilized and other features will bump MSRV
-    </span><span class="macro">assert_eq!</span>(unchanged, Cow::Borrowed(<span class="string">"test"</span>));
-    <span class="macro">assert!</span>(<span class="macro">matches!</span>(unchanged, Cow::Borrowed(<span class="kw">_</span>)));
-
-    <span class="macro">assert!</span>(unescape_with(<span class="string">"&amp;lt;"</span>, custom_entities).is_err());
-    <span class="macro">assert_eq!</span>(unescape_with(<span class="string">"&amp;#x30;"</span>, custom_entities).unwrap(), <span class="string">"0"</span>);
-    <span class="macro">assert_eq!</span>(unescape_with(<span class="string">"&amp;#48;"</span>, custom_entities).unwrap(), <span class="string">"0"</span>);
-    <span class="macro">assert_eq!</span>(unescape_with(<span class="string">"&amp;foo;"</span>, custom_entities).unwrap(), <span class="string">"BAR"</span>);
-    <span class="macro">assert!</span>(unescape_with(<span class="string">"&amp;fop;"</span>, custom_entities).is_err());
-}
-
-<span class="attr">#[test]
-</span><span class="kw">fn </span>test_escape() {
-    <span class="kw">let </span>unchanged = escape(<span class="string">"test"</span>);
-    <span class="comment">// assert_eq does not check that Cow is borrowed, but we explicitly use Cow
-    // because it influences diff
-    // TODO: use assert_matches! when stabilized and other features will bump MSRV
-    </span><span class="macro">assert_eq!</span>(unchanged, Cow::Borrowed(<span class="string">"test"</span>));
-    <span class="macro">assert!</span>(<span class="macro">matches!</span>(unchanged, Cow::Borrowed(<span class="kw">_</span>)));
-
-    <span class="macro">assert_eq!</span>(escape(<span class="string">"&lt;&amp;\"'&gt;"</span>), <span class="string">"&amp;lt;&amp;amp;&amp;quot;&amp;apos;&amp;gt;"</span>);
-    <span class="macro">assert_eq!</span>(escape(<span class="string">"&lt;test&gt;"</span>), <span class="string">"&amp;lt;test&amp;gt;"</span>);
-    <span class="macro">assert_eq!</span>(escape(<span class="string">"\"a\"bc"</span>), <span class="string">"&amp;quot;a&amp;quot;bc"</span>);
-    <span class="macro">assert_eq!</span>(escape(<span class="string">"\"a\"b&amp;c"</span>), <span class="string">"&amp;quot;a&amp;quot;b&amp;amp;c"</span>);
-    <span class="macro">assert_eq!</span>(
-        escape(<span class="string">"prefix_\"a\"b&amp;&lt;&gt;c"</span>),
-        <span class="string">"prefix_&amp;quot;a&amp;quot;b&amp;amp;&amp;lt;&amp;gt;c"
-    </span>);
-}
-
-<span class="attr">#[test]
-</span><span class="kw">fn </span>test_partial_escape() {
-    <span class="kw">let </span>unchanged = partial_escape(<span class="string">"test"</span>);
-    <span class="comment">// assert_eq does not check that Cow is borrowed, but we explicitly use Cow
-    // because it influences diff
-    // TODO: use assert_matches! when stabilized and other features will bump MSRV
-    </span><span class="macro">assert_eq!</span>(unchanged, Cow::Borrowed(<span class="string">"test"</span>));
-    <span class="macro">assert!</span>(<span class="macro">matches!</span>(unchanged, Cow::Borrowed(<span class="kw">_</span>)));
-
-    <span class="macro">assert_eq!</span>(partial_escape(<span class="string">"&lt;&amp;\"'&gt;"</span>), <span class="string">"&amp;lt;&amp;amp;\"'&amp;gt;"</span>);
-    <span class="macro">assert_eq!</span>(partial_escape(<span class="string">"&lt;test&gt;"</span>), <span class="string">"&amp;lt;test&amp;gt;"</span>);
-    <span class="macro">assert_eq!</span>(partial_escape(<span class="string">"\"a\"bc"</span>), <span class="string">"\"a\"bc"</span>);
-    <span class="macro">assert_eq!</span>(partial_escape(<span class="string">"\"a\"b&amp;c"</span>), <span class="string">"\"a\"b&amp;amp;c"</span>);
-    <span class="macro">assert_eq!</span>(
-        partial_escape(<span class="string">"prefix_\"a\"b&amp;&lt;&gt;c"</span>),
-        <span class="string">"prefix_\"a\"b&amp;amp;&amp;lt;&amp;gt;c"
-    </span>);
-}
-
-<span class="attr">#[test]
-</span><span class="kw">fn </span>test_minimal_escape() {
-    <span class="macro">assert_eq!</span>(minimal_escape(<span class="string">"test"</span>), Cow::Borrowed(<span class="string">"test"</span>));
-    <span class="macro">assert_eq!</span>(minimal_escape(<span class="string">"&lt;&amp;\"'&gt;"</span>), <span class="string">"&amp;lt;&amp;amp;\"'&gt;"</span>);
-    <span class="macro">assert_eq!</span>(minimal_escape(<span class="string">"&lt;test&gt;"</span>), <span class="string">"&amp;lt;test&gt;"</span>);
-    <span class="macro">assert_eq!</span>(minimal_escape(<span class="string">"\"a\"bc"</span>), <span class="string">"\"a\"bc"</span>);
-    <span class="macro">assert_eq!</span>(minimal_escape(<span class="string">"\"a\"b&amp;c"</span>), <span class="string">"\"a\"b&amp;amp;c"</span>);
-    <span class="macro">assert_eq!</span>(
-        minimal_escape(<span class="string">"prefix_\"a\"b&amp;&lt;&gt;c"</span>),
-        <span class="string">"prefix_\"a\"b&amp;amp;&amp;lt;&gt;c"
-    </span>);
 }
 </code></pre></div></section></main></body></html>

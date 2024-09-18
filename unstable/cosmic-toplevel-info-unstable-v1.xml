@@ -78,7 +78,7 @@
       </description>
     </event>
 
-    <request name="get_cosmic_toplevel">
+    <request name="get_cosmic_toplevel" since="2">
       <description summary="get cosmic toplevel extension object">
         Request a zcosmic_toplevel_handle_v1 extension object for an existing
         ext_foreign_toplevel_handle_v1.

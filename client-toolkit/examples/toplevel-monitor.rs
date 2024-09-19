@@ -91,6 +91,10 @@ impl ToplevelInfoHandler for AppData {
             self.toplevel_info_state.info(toplevel).unwrap()
         );
     }
+
+    fn info_done(&mut self, conn: &Connection, qh: &QueueHandle<Self>) {
+        println!("Info done");
+    }
 }
 
 fn main() {

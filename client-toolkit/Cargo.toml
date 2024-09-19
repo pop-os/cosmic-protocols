@@ -9,6 +9,7 @@ sctk = { package = "smithay-client-toolkit", version = "0.19.1" }
 wayland-client = { version = "0.31.1" }
 smithay = { git = "https://github.com/Smithay/smithay", rev = "c35bc3e", default-features = false, features = ["backend_egl", "renderer_gl", "renderer_multi"], optional = true }
 libc = "0.2.153"
+wayland-protocols = { version = "0.32.4", features = ["client", "staging"] }
 
 [build-dependencies]
 gl_generator = { version = "0.14.0", optional = true }

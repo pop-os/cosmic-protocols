@@ -9,7 +9,7 @@ use cosmic_client_toolkit::{
 };
 use cosmic_protocols::{
     screencopy::v1::client::{zcosmic_screencopy_manager_v1, zcosmic_screencopy_session_v1},
-    workspace::v1::client::zcosmic_workspace_group_handle_v1,
+    workspace::v2::client::zcosmic_workspace_group_handle_v2,
 };
 use futures::{
     channel::mpsc,

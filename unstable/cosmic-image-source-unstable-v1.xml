@@ -82,7 +82,7 @@
     </request>
   </interface>
 
-  <interface name="zcosmic_workspace_image_source_manager_v1" version="1">
+  <interface name="zcosmic_workspace_image_source_manager_v2" version="1">
     <description summary="image source manager for outputs">
       A manager for creating image source objects for wl_output objects.
     </description>
@@ -95,7 +95,7 @@
         capturing.
       </description>
       <arg name="source" type="new_id" interface="zcosmic_image_source_v1"/>
-      <arg name="output" type="object" interface="zcosmic_workspace_handle_v1"/>
+      <arg name="output" type="object" interface="zcosmic_workspace_handle_v2"/>
     </request>
 
     <request name="destroy" type="destructor">
@@ -131,4 +131,3 @@
     </request>
   </interface>
 </protocol>
-

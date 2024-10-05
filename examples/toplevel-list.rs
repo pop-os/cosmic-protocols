@@ -1,8 +1,8 @@
 use cosmic_protocols::{
     toplevel_info::v1::client::{zcosmic_toplevel_handle_v1, zcosmic_toplevel_info_v1},
-    workspace::v1::client::{
-        zcosmic_workspace_group_handle_v1, zcosmic_workspace_handle_v1,
-        zcosmic_workspace_manager_v1,
+    workspace::v2::client::{
+        zcosmic_workspace_group_handle_v2, zcosmic_workspace_handle_v2,
+        zcosmic_workspace_manager_v2,
     },
 };
 use wayland_client::{
@@ -14,13 +14,13 @@ use wayland_client::{
 #[derive(Default)]
 struct AppData {
     toplevel_info: Option<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1>,
-    workspace_manager: Option<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1>,
+    workspace_manager: Option<zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2>,
     outputs: Vec<(wl_output::WlOutput, String)>,
     toplevels: Vec<Toplevel>,
     workspaces: Vec<(
-        zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
+        zcosmic_workspace_group_handle_v2::ZcosmicWorkspaceGroupHandleV2,
         Vec<(
-            zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1,
+            zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2,
             Option<String>,
         )>,
     )>,
@@ -31,7 +31,7 @@ struct Toplevel {
     title: Option<String>,
     app_id: Option<String>,
     outputs: Vec<wl_output::WlOutput>,
-    workspaces: Vec<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1>,
+    workspaces: Vec<zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2>,
     state: Vec<State>,
 }
 
@@ -83,10 +83,10 @@ impl Dispatch<wl_registry::WlRegistry, ()> for AppData {
                         ),
                     );
                 }
-                "zcosmic_workspace_manager_v1" => {
+                "zcosmic_workspace_manager_v2" => {
                     app_data.workspace_manager = Some(
                         registry
-                            .bind::<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, _, _>(
+                            .bind::<zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2, _, _>(
                                 name,
                                 1,
                                 qh,
@@ -236,17 +236,17 @@ impl Dispatch<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1, ()> for AppDa
     }
 }
 
-impl Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, ()> for AppData {
+impl Dispatch<zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2, ()> for AppData {
     fn event(
         app_data: &mut Self,
-        _: &zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1,
-        event: zcosmic_workspace_manager_v1::Event,
+        _: &zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2,
+        event: zcosmic_workspace_manager_v2::Event,
         _: &(),
         _: &Connection,
         _: &QueueHandle<AppData>,
     ) {
         match event {
-            zcosmic_workspace_manager_v1::Event::WorkspaceGroup { workspace_group } => {
+            zcosmic_workspace_manager_v2::Event::WorkspaceGroup { workspace_group } => {
                 app_data.workspaces.push((workspace_group, Vec::new()));
             }
             _ => {}
@@ -255,24 +255,24 @@ impl Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, ()> for A
 
     event_created_child!(
         AppData,
-        zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1,
+        zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2,
         [
-            zcosmic_workspace_manager_v1::EVT_WORKSPACE_GROUP_OPCODE => (zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, ()),
+            zcosmic_workspace_manager_v2::EVT_WORKSPACE_GROUP_OPCODE => (zcosmic_workspace_group_handle_v2::ZcosmicWorkspaceGroupHandleV2, ()),
         ]
     );
 }
 
-impl Dispatch<zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, ()> for AppData {
+impl Dispatch<zcosmic_workspace_group_handle_v2::ZcosmicWorkspaceGroupHandleV2, ()> for AppData {
     fn event(
         app_data: &mut AppData,
-        group: &zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
-        event: <zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1 as Proxy>::Event,
+        group: &zcosmic_workspace_group_handle_v2::ZcosmicWorkspaceGroupHandleV2,
+        event: <zcosmic_workspace_group_handle_v2::ZcosmicWorkspaceGroupHandleV2 as Proxy>::Event,
         _: &(),
         _: &Connection,
         _: &QueueHandle<Self>,
     ) {
         match event {
-            zcosmic_workspace_group_handle_v1::Event::Workspace { workspace } => {
+            zcosmic_workspace_group_handle_v2::Event::Workspace { workspace } => {
                 if let Some((_, spaces)) = app_data.workspaces.iter_mut().find(|(g, _)| g == group)
                 {
                     spaces.push((workspace, None));
@@ -284,24 +284,24 @@ impl Dispatch<zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, 
 
     event_created_child!(
         AppData,
-        zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
+        zcosmic_workspace_group_handle_v2::ZcosmicWorkspaceGroupHandleV2,
         [
-            zcosmic_workspace_group_handle_v1::EVT_WORKSPACE_OPCODE => (zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1, ()),
+            zcosmic_workspace_group_handle_v2::EVT_WORKSPACE_OPCODE => (zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2, ()),
         ]
     );
 }
 
-impl Dispatch<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1, ()> for AppData {
+impl Dispatch<zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2, ()> for AppData {
     fn event(
         app_data: &mut AppData,
-        workspace: &zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1,
-        event: <zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1 as Proxy>::Event,
+        workspace: &zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2,
+        event: <zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2 as Proxy>::Event,
         _: &(),
         _: &Connection,
         _: &QueueHandle<Self>,
     ) {
         match event {
-            zcosmic_workspace_handle_v1::Event::Name { name } => {
+            zcosmic_workspace_handle_v2::Event::Name { name } => {
                 if let Some((_, n)) = app_data
                     .workspaces
                     .iter_mut()

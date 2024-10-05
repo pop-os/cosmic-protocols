@@ -3,7 +3,7 @@
 use cosmic_protocols::{
     image_source::v1::client::{
         zcosmic_image_source_v1, zcosmic_output_image_source_manager_v1,
-        zcosmic_toplevel_image_source_manager_v1, zcosmic_workspace_image_source_manager_v1,
+        zcosmic_toplevel_image_source_manager_v1, zcosmic_workspace_image_source_manager_v2,
     },
     screencopy::v2::client::{
         zcosmic_screencopy_frame_v2, zcosmic_screencopy_manager_v2, zcosmic_screencopy_session_v2,
@@ -84,7 +84,7 @@ pub struct ScreencopyState {
     pub toplevel_source_manager:
         Option<zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1>,
     pub workspace_source_manager:
-        Option<zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1>,
+        Option<zcosmic_workspace_image_source_manager_v2::ZcosmicWorkspaceImageSourceManagerV2>,
 }
 
 impl ScreencopyState {
@@ -98,7 +98,7 @@ impl ScreencopyState {
             (),
         >,
         D: Dispatch<
-            zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1,
+            zcosmic_workspace_image_source_manager_v2::ZcosmicWorkspaceImageSourceManagerV2,
             (),
         >,
     {
@@ -357,18 +357,18 @@ where
 }
 
 impl<D>
-    Dispatch<zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1, (), D>
+    Dispatch<zcosmic_workspace_image_source_manager_v2::ZcosmicWorkspaceImageSourceManagerV2, (), D>
     for ScreencopyState
 where
     D: Dispatch<
-            zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1,
+            zcosmic_workspace_image_source_manager_v2::ZcosmicWorkspaceImageSourceManagerV2,
             (),
         > + ScreencopyHandler,
 {
     fn event(
         app_data: &mut D,
-        source: &zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1,
-        event: zcosmic_workspace_image_source_manager_v1::Event,
+        source: &zcosmic_workspace_image_source_manager_v2::ZcosmicWorkspaceImageSourceManagerV2,
+        event: zcosmic_workspace_image_source_manager_v2::Event,
         udata: &(),
         conn: &Connection,
         qh: &QueueHandle<D>,
@@ -391,7 +391,7 @@ macro_rules! delegate_screencopy {
             $crate::cosmic_protocols::image_source::v1::client::zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1: ()
         ] => $crate::screencopy::ScreencopyState);
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::image_source::v1::client::zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1: ()
+            $crate::cosmic_protocols::image_source::v1::client::zcosmic_workspace_image_source_manager_v2::ZcosmicWorkspaceImageSourceManagerV1: ()
         ] => $crate::screencopy::ScreencopyState);
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
             $crate::cosmic_protocols::image_source::v1::client::zcosmic_image_source_v1::ZcosmicImageSourceV1: ()

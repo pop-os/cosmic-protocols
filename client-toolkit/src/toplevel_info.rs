@@ -2,7 +2,7 @@ use std::collections::HashSet;
 
 use cosmic_protocols::{
     toplevel_info::v1::client::{zcosmic_toplevel_handle_v1, zcosmic_toplevel_info_v1},
-    workspace::v1::client::zcosmic_workspace_handle_v1,
+    workspace::v2::client::zcosmic_workspace_handle_v2,
 };
 use sctk::registry::RegistryState;
 use wayland_client::{protocol::wl_output, Connection, Dispatch, QueueHandle};
@@ -13,7 +13,7 @@ pub struct ToplevelInfo {
     pub app_id: String,
     pub state: HashSet<zcosmic_toplevel_handle_v1::State>,
     pub output: HashSet<wl_output::WlOutput>,
-    pub workspace: HashSet<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1>,
+    pub workspace: HashSet<zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2>,
 }
 
 #[derive(Debug, Default)]

@@ -24,7 +24,7 @@ pub mod image_source {
     pub mod v1 {
         wayland_protocol!(
             "./unstable/cosmic-image-source-unstable-v1.xml",
-            [crate::workspace::v1, crate::toplevel_info::v1]
+            [crate::workspace::v2, crate::toplevel_info::v1]
         );
     }
 }
@@ -60,7 +60,7 @@ pub mod toplevel_info {
     pub mod v1 {
         wayland_protocol!(
             "./unstable/cosmic-toplevel-info-unstable-v1.xml",
-            [crate::workspace::v1, wayland_protocols::ext::foreign_toplevel_list::v1]
+            [crate::workspace::v2, wayland_protocols::ext::foreign_toplevel_list::v1]
         );
     }
 }
@@ -72,7 +72,7 @@ pub mod toplevel_management {
     pub mod v1 {
         wayland_protocol!(
             "./unstable/cosmic-toplevel-management-unstable-v1.xml",
-            [crate::toplevel_info::v1, crate::workspace::v1]
+            [crate::toplevel_info::v1, crate::workspace::v2]
         );
     }
 }
@@ -93,9 +93,9 @@ pub mod workspace {
     //! Receive information about and control workspaces.
 
     #[allow(missing_docs)]
-    pub mod v1 {
+    pub mod v2 {
         wayland_protocol!(
-            "./unstable/cosmic-workspace-unstable-v1.xml",
+            "./unstable/cosmic-workspace-unstable-v2.xml",
             []
         );
     }

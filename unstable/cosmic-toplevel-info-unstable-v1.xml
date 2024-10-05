@@ -193,7 +193,7 @@
         This event is emitted whenever the toplevel becomes visible on the
         given workspace. A toplevel may be visible on multiple workspaces.
       </description>
-      <arg name="workspace" type="object" interface="zcosmic_workspace_handle_v1"/>
+      <arg name="workspace" type="object" interface="zcosmic_workspace_handle_v2"/>
     </event>
 
     <event name="workspace_leave">
@@ -202,7 +202,7 @@
         on a given workspace. It is guaranteed that an workspace_enter event with
         the same workspace has been emitted before this event.
       </description>
-      <arg name="workspace" type="object" interface="zcosmic_workspace_handle_v1"/>
+      <arg name="workspace" type="object" interface="zcosmic_workspace_handle_v2"/>
     </event>
 
     <enum name="state">

@@ -1,38 +1,38 @@
-use cosmic_protocols::workspace::v1::client::{
-    zcosmic_workspace_group_handle_v1, zcosmic_workspace_handle_v1, zcosmic_workspace_manager_v1,
+use cosmic_protocols::workspace::v2::client::{
+    zcosmic_workspace_group_handle_v2, zcosmic_workspace_handle_v2, zcosmic_workspace_manager_v2,
 };
 use sctk::registry::{GlobalProxy, RegistryState};
 use wayland_client::{protocol::wl_output, Connection, Dispatch, QueueHandle, WEnum};
 
 #[derive(Clone, Debug)]
 pub struct WorkspaceGroup {
-    pub handle: zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
+    pub handle: zcosmic_workspace_group_handle_v2::ZcosmicWorkspaceGroupHandleV2,
     pub capabilities:
-        Vec<WEnum<zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupCapabilitiesV1>>,
+        Vec<WEnum<zcosmic_workspace_group_handle_v2::ZcosmicWorkspaceGroupCapabilitiesV2>>,
     pub outputs: Vec<wl_output::WlOutput>,
     pub workspaces: Vec<Workspace>,
 }
 
 #[derive(Clone, Debug)]
 pub struct Workspace {
-    pub handle: zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1,
+    pub handle: zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2,
     pub name: String,
     pub coordinates: Vec<u32>,
-    pub state: Vec<WEnum<zcosmic_workspace_handle_v1::State>>,
-    pub capabilities: Vec<WEnum<zcosmic_workspace_handle_v1::ZcosmicWorkspaceCapabilitiesV1>>,
-    pub tiling: Option<WEnum<zcosmic_workspace_handle_v1::TilingState>>,
+    pub state: Vec<WEnum<zcosmic_workspace_handle_v2::State>>,
+    pub capabilities: Vec<WEnum<zcosmic_workspace_handle_v2::ZcosmicWorkspaceCapabilitiesV2>>,
+    pub tiling: Option<WEnum<zcosmic_workspace_handle_v2::TilingState>>,
 }
 
 #[derive(Debug)]
 pub struct WorkspaceState {
     workspace_groups: Vec<WorkspaceGroup>,
-    manager: GlobalProxy<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1>,
+    manager: GlobalProxy<zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2>,
 }
 
 impl WorkspaceState {
     pub fn new<D>(registry: &RegistryState, qh: &QueueHandle<D>) -> Self
     where
-        D: Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, ()> + 'static,
+        D: Dispatch<zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2, ()> + 'static,
     {
         Self {
             workspace_groups: Vec::new(),
@@ -42,7 +42,7 @@ impl WorkspaceState {
 
     pub fn workspace_manager(
         &self,
-    ) -> &GlobalProxy<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1> {
+    ) -> &GlobalProxy<zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2> {
         &self.manager
     }
 
@@ -58,23 +58,23 @@ pub trait WorkspaceHandler {
     fn done(&mut self);
 }
 
-impl<D> Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, (), D> for WorkspaceState
+impl<D> Dispatch<zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2, (), D> for WorkspaceState
 where
-    D: Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, ()>
-        + Dispatch<zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, ()>
+    D: Dispatch<zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2, ()>
+        + Dispatch<zcosmic_workspace_group_handle_v2::ZcosmicWorkspaceGroupHandleV2, ()>
         + WorkspaceHandler
         + 'static,
 {
     fn event(
         state: &mut D,
-        _: &zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1,
-        event: zcosmic_workspace_manager_v1::Event,
+        _: &zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2,
+        event: zcosmic_workspace_manager_v2::Event,
         _: &(),
         _: &Connection,
         _: &QueueHandle<D>,
     ) {
         match event {
-            zcosmic_workspace_manager_v1::Event::WorkspaceGroup { workspace_group } => {
+            zcosmic_workspace_manager_v2::Event::WorkspaceGroup { workspace_group } => {
                 state
                     .workspace_state()
                     .workspace_groups
@@ -85,31 +85,31 @@ where
                         workspaces: Vec::new(),
                     });
             }
-            zcosmic_workspace_manager_v1::Event::Done => {
+            zcosmic_workspace_manager_v2::Event::Done => {
                 state.done();
             }
-            zcosmic_workspace_manager_v1::Event::Finished => {}
+            zcosmic_workspace_manager_v2::Event::Finished => {}
             _ => unreachable!(),
         }
     }
 
-    wayland_client::event_created_child!(D, zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, [
-        zcosmic_workspace_manager_v1::EVT_WORKSPACE_GROUP_OPCODE => (zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, ())
+    wayland_client::event_created_child!(D, zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2, [
+        zcosmic_workspace_manager_v2::EVT_WORKSPACE_GROUP_OPCODE => (zcosmic_workspace_group_handle_v2::ZcosmicWorkspaceGroupHandleV2, ())
     ]);
 }
 
-impl<D> Dispatch<zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, (), D>
+impl<D> Dispatch<zcosmic_workspace_group_handle_v2::ZcosmicWorkspaceGroupHandleV2, (), D>
     for WorkspaceState
 where
-    D: Dispatch<zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, ()>
-        + Dispatch<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1, ()>
+    D: Dispatch<zcosmic_workspace_group_handle_v2::ZcosmicWorkspaceGroupHandleV2, ()>
+        + Dispatch<zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2, ()>
         + WorkspaceHandler
         + 'static,
 {
     fn event(
         state: &mut D,
-        handle: &zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
-        event: zcosmic_workspace_group_handle_v1::Event,
+        handle: &zcosmic_workspace_group_handle_v2::ZcosmicWorkspaceGroupHandleV2,
+        event: zcosmic_workspace_group_handle_v2::Event,
         _: &(),
         _: &Connection,
         _: &QueueHandle<D>,
@@ -121,21 +121,21 @@ where
             .find(|group| &group.handle == handle)
             .unwrap();
         match event {
-            zcosmic_workspace_group_handle_v1::Event::Capabilities { capabilities } => {
+            zcosmic_workspace_group_handle_v2::Event::Capabilities { capabilities } => {
                 group.capabilities = capabilities
                     .chunks(4)
                     .map(|chunk| WEnum::from(u32::from_ne_bytes(chunk.try_into().unwrap())))
                     .collect();
             }
-            zcosmic_workspace_group_handle_v1::Event::OutputEnter { output } => {
+            zcosmic_workspace_group_handle_v2::Event::OutputEnter { output } => {
                 group.outputs.push(output);
             }
-            zcosmic_workspace_group_handle_v1::Event::OutputLeave { output } => {
+            zcosmic_workspace_group_handle_v2::Event::OutputLeave { output } => {
                 if let Some(idx) = group.outputs.iter().position(|x| x == &output) {
                     group.outputs.remove(idx);
                 }
             }
-            zcosmic_workspace_group_handle_v1::Event::Workspace { workspace } => {
+            zcosmic_workspace_group_handle_v2::Event::Workspace { workspace } => {
                 group.workspaces.push(Workspace {
                     handle: workspace,
                     name: String::new(),
@@ -145,7 +145,7 @@ where
                     tiling: None,
                 });
             }
-            zcosmic_workspace_group_handle_v1::Event::Remove => {
+            zcosmic_workspace_group_handle_v2::Event::Destroyed => {
                 if let Some(idx) = state
                     .workspace_state()
                     .workspace_groups
@@ -159,19 +159,19 @@ where
         }
     }
 
-    wayland_client::event_created_child!(D, zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, [
-        zcosmic_workspace_group_handle_v1::EVT_WORKSPACE_OPCODE => (zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1, ())
+    wayland_client::event_created_child!(D, zcosmic_workspace_group_handle_v2::ZcosmicWorkspaceGroupHandleV2, [
+        zcosmic_workspace_group_handle_v2::EVT_WORKSPACE_OPCODE => (zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2, ())
     ]);
 }
 
-impl<D> Dispatch<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1, (), D> for WorkspaceState
+impl<D> Dispatch<zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2, (), D> for WorkspaceState
 where
-    D: Dispatch<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1, ()> + WorkspaceHandler,
+    D: Dispatch<zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2, ()> + WorkspaceHandler,
 {
     fn event(
         state: &mut D,
-        handle: &zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1,
-        event: zcosmic_workspace_handle_v1::Event,
+        handle: &zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2,
+        event: zcosmic_workspace_handle_v2::Event,
         _: &(),
         _: &Connection,
         _: &QueueHandle<D>,
@@ -183,31 +183,31 @@ where
             .find_map(|group| group.workspaces.iter_mut().find(|w| &w.handle == handle))
             .unwrap();
         match event {
-            zcosmic_workspace_handle_v1::Event::Name { name } => {
+            zcosmic_workspace_handle_v2::Event::Name { name } => {
                 workspace.name = name;
             }
-            zcosmic_workspace_handle_v1::Event::Coordinates { coordinates } => {
+            zcosmic_workspace_handle_v2::Event::Coordinates { coordinates } => {
                 workspace.coordinates = coordinates
                     .chunks(4)
                     .map(|chunk| u32::from_ne_bytes(chunk.try_into().unwrap()))
                     .collect();
             }
-            zcosmic_workspace_handle_v1::Event::State { state } => {
+            zcosmic_workspace_handle_v2::Event::State { state } => {
                 workspace.state = state
                     .chunks(4)
                     .map(|chunk| WEnum::from(u32::from_ne_bytes(chunk.try_into().unwrap())))
                     .collect();
             }
-            zcosmic_workspace_handle_v1::Event::Capabilities { capabilities } => {
+            zcosmic_workspace_handle_v2::Event::Capabilities { capabilities } => {
                 workspace.capabilities = capabilities
                     .chunks(4)
                     .map(|chunk| WEnum::from(u32::from_ne_bytes(chunk.try_into().unwrap())))
                     .collect();
             }
-            zcosmic_workspace_handle_v1::Event::TilingState { state } => {
+            zcosmic_workspace_handle_v2::Event::TilingState { state } => {
                 workspace.tiling = Some(state);
             }
-            zcosmic_workspace_handle_v1::Event::Remove => {
+            zcosmic_workspace_handle_v2::Event::Destroyed => {
                 for group in state.workspace_state().workspace_groups.iter_mut() {
                     if let Some(idx) = group.workspaces.iter().position(|w| &w.handle == handle) {
                         group.workspaces.remove(idx);
@@ -223,13 +223,13 @@ where
 macro_rules! delegate_workspace {
     ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty) => {
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::workspace::v1::client::zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1: ()
+            $crate::cosmic_protocols::workspace::v2::client::zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2: ()
         ] => $crate::workspace::WorkspaceState);
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::workspace::v1::client::zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1: ()
+            $crate::cosmic_protocols::workspace::v2::client::zcosmic_workspace_group_handle_v2::ZcosmicWorkspaceGroupHandleV2: ()
         ] => $crate::workspace::WorkspaceState);
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::workspace::v1::client::zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1: ()
+            $crate::cosmic_protocols::workspace::v2::client::zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2: ()
         ] => $crate::workspace::WorkspaceState);
     };
 }

@@ -37,6 +37,7 @@ pub struct ToplevelInfo {
 struct ToplevelData {
     current_info: Option<ToplevelInfo>,
     pending_info: ToplevelInfo,
+    has_cosmic_info: bool,
 }
 
 #[derive(Debug)]
@@ -208,6 +209,7 @@ where
                 data.pending_info.workspace.remove(&workspace);
             }
             zcosmic_toplevel_handle_v1::Event::State { state } => {
+                data.has_cosmic_info = true;
                 data.pending_info.state.clear();
                 for value in state.chunks_exact(4) {
                     if let Some(state) = zcosmic_toplevel_handle_v1::State::try_from(
@@ -330,7 +332,12 @@ where
                 }
             }
             ext_foreign_toplevel_handle_v1::Event::Done => {
-                // XXX
+                if !data.has_cosmic_info {
+                    // Don't call `new_toplevel` if we have the `ext_foreign_toplevel_handle_v1`,
+                    // but don't have any `zcosmic_toplevel_handle_v1` events yet.
+                    return;
+                }
+
                 let is_new = data.current_info.is_none();
                 data.current_info = Some(data.pending_info.clone());
                 let toplevel = toplevel.clone();

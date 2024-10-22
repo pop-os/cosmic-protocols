@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocol name="cosmic_atspi_v1">
+  <copyright>
+    foo bar
+  </copyright>
+  <description summary="">
+  </description>
+  <interface name="cosmic_atspi_manager_v1" version="1">
+    <description summary="">
+    </description>
+    <!-- per wl_seat interface -->
+    <request name="destroy" type="destructor">
+      <description summary="">
+      </description>
+    </request>
+    <request name="add_key_grab">
+      <description summary="">
+      </description>
+      <arg name="mods" type="uint" summary=""/>
+      <arg name="virtual_mods" type="array" summary=""/>
+      <arg name="key" type="uint" summary=""/>
+    </request>
+    <request name="remove_key_grab">
+      <description summary="">
+      </description>
+      <arg name="mods" type="uint" summary=""/>
+      <arg name="virtual_mods" type="array" summary=""/>
+      <arg name="key" type="uint" summary=""/>
+    </request>
+    <request name="grab_keyboard">
+      <description summary="">
+      </description>
+    </request>
+    <request name="ungrab_keyboard">
+      <description summary="">
+      </description>
+    </request>
+    <event name="key_events_eis">
+      <description summary="">
+      </description>
+      <arg name="fd" type="fd" summary="eis file descriptor"/>
+    </event>
+  </interface>
+</protocol>

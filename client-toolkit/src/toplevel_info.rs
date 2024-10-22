@@ -49,7 +49,7 @@ pub struct ToplevelInfoState {
 }
 
 impl ToplevelInfoState {
-    pub fn new<D>(registry: &RegistryState, qh: &QueueHandle<D>) -> Self
+    pub fn try_new<D>(registry: &RegistryState, qh: &QueueHandle<D>) -> Option<Self>
     where
         D: Dispatch<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, ()>
             + Dispatch<ext_foreign_toplevel_list_v1::ExtForeignToplevelListV1, ()>
@@ -57,20 +57,30 @@ impl ToplevelInfoState {
     {
         let cosmic_toplevel_info = registry
             .bind_one::<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, _, _>(qh, 1..=2, ())
-            .unwrap();
+            .ok()?;
         if cosmic_toplevel_info.version() >= 2 {
             let _ = registry
                 .bind_one::<ext_foreign_toplevel_list_v1::ExtForeignToplevelListV1, _, _>(
                     qh,
                     1..=1,
                     (),
-                );
+                )
+                .ok()?;
         }
 
-        Self {
+        Some(Self {
             cosmic_toplevel_info,
             toplevels: Vec::new(),
-        }
+        })
+    }
+
+    pub fn new<D>(registry: &RegistryState, qh: &QueueHandle<D>) -> Self
+    where
+        D: Dispatch<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, ()>
+            + Dispatch<ext_foreign_toplevel_list_v1::ExtForeignToplevelListV1, ()>
+            + 'static,
+    {
+        Self::try_new(registry, qh).unwrap()
     }
 
     pub fn info(

@@ -88,7 +88,7 @@ pub struct ScreencopyState {
 }
 
 impl ScreencopyState {
-    pub fn new<D>(globals: &GlobalList, qh: &QueueHandle<D>) -> Self
+    pub fn try_new<D>(globals: &GlobalList, qh: &QueueHandle<D>) -> Option<Self>
     where
         D: 'static,
         D: Dispatch<zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2, ()>,
@@ -103,16 +103,34 @@ impl ScreencopyState {
         >,
     {
         // TODO bind
-        let screencopy_manager = globals.bind(qh, 1..=1, ()).unwrap(); // XXX
+        let screencopy_manager = globals.bind(qh, 1..=1, ()).ok()?;
         let output_source_manager = globals.bind(qh, 1..=1, ()).ok();
         let toplevel_source_manager = globals.bind(qh, 1..=1, ()).ok();
         let workspace_source_manager = globals.bind(qh, 1..=1, ()).ok();
-        Self {
+
+        Some(Self {
             screencopy_manager,
             output_source_manager,
             toplevel_source_manager,
             workspace_source_manager,
-        }
+        })
+    }
+
+    pub fn new<D>(globals: &GlobalList, qh: &QueueHandle<D>) -> Self
+    where
+        D: 'static,
+        D: Dispatch<zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2, ()>,
+        D: Dispatch<zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1, ()>,
+        D: Dispatch<
+            zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1,
+            (),
+        >,
+        D: Dispatch<
+            zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1,
+            (),
+        >,
+    {
+        Self::try_new(globals, qh).unwrap()
     }
 }
 

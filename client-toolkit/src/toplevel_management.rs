@@ -7,15 +7,22 @@ pub struct ToplevelManagerState {
 }
 
 impl ToplevelManagerState {
-    pub fn new<D>(registry: &RegistryState, qh: &QueueHandle<D>) -> Self
+    pub fn try_new<D>(registry: &RegistryState, qh: &QueueHandle<D>) -> Option<Self>
     where
         D: Dispatch<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, ()> + 'static,
     {
         let manager = registry
             .bind_one::<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, _, _>(qh, 1..=2, ())
-            .unwrap();
+            .ok()?;
 
-        Self { manager }
+        Some(Self { manager })
+    }
+
+    pub fn new<D>(registry: &RegistryState, qh: &QueueHandle<D>) -> Self
+    where
+        D: Dispatch<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, ()> + 'static,
+    {
+        Self::try_new(registry, qh).unwrap()
     }
 }
 

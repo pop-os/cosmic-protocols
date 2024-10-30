@@ -100,6 +100,18 @@
 <a href="#100" id="100">100</a>
 <a href="#101" id="101">101</a>
 <a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
+<a href="#111" id="111">111</a>
+<a href="#112" id="112">112</a>
+<a href="#113" id="113">113</a>
+<a href="#114" id="114">114</a>
 </pre></div><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: GPL-3.0-only
 
 </span><span class="doccomment">//! This crate provides bindings to the COSMIC wayland protocol extensions.
@@ -198,6 +210,18 @@
     </span><span class="kw">pub mod </span>v1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">"./unstable/cosmic-workspace-unstable-v1.xml"</span>,
+            []
+        );
+    }
+}
+
+<span class="kw">pub mod </span>atspi {
+    <span class="doccomment">//! Atspi accessibility support.
+
+    </span><span class="attr">#[allow(missing_docs)]
+    </span><span class="kw">pub mod </span>v1 {
+        <span class="macro">wayland_protocol!</span>(
+            <span class="string">"./unstable/cosmic-atspi-unstable-v1.xml"</span>,
             []
         );
     }

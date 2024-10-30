@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["image_source","output_management","overlap_notify","screencopy","toplevel_info","toplevel_management","workspace"]};
+window.SIDEBAR_ITEMS = {"mod":["atspi","image_source","output_management","overlap_notify","screencopy","toplevel_info","toplevel_management","workspace"]};

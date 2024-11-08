@@ -33,7 +33,7 @@
     it's best to be forward compatible.
   </description>
 
-  <interface name="zcosmic_output_manager_v1" version="1">
+  <interface name="zcosmic_output_manager_v1" version="2">
     <description summary="Output configuration manager">
         This interface provides extension points for wlr-output-management types.
     </description>
@@ -90,7 +90,7 @@
     </request>
   </interface>
 
-  <interface name="zcosmic_output_head_v1" version="1">
+  <interface name="zcosmic_output_head_v1" version="2">
     <description summary="Output extension object">
         Extension to zwlr_output_head_v1.
 
@@ -129,6 +129,38 @@
         in the head object anymore.
       </description>
     </request>
+
+    <!-- version 2 additions -->
+
+    <event name="adaptive_sync_available" since="2">
+      <description summary="is adaptive_sync available for this head">
+        This events describes if adaptive_sync is available for this head.
+
+        It is only sent if the output is enabled.
+      </description>
+      <arg name="available" type="uint" enum="adaptive_sync_availability"/>
+    </event>
+
+    <enum name="adaptive_sync_availability" since="2">
+      <entry name="unsupported" value="0" summary="adaptive sync is not supported"/>
+      <entry name="requires_modeset" value="1" summary="automatic adaptive_sync is unavailable"/>
+      <entry name="supported" value="2" summary="adaptive sync is supported in all states"/>
+    </enum>
+
+    <event name="adaptive_sync_ext" since="2">
+      <description summary="current adaptive_sync state">
+        This events describes the adaptive_sync state of this head.
+
+        It is only sent if the output is enabled.
+      </description>
+      <arg name="state" type="uint" enum="adaptive_sync_state_ext"/>
+    </event>
+
+    <enum name="adaptive_sync_state_ext" since="2">
+      <entry name="disabled" value="0" summary="adaptive sync is disabled"/>
+      <entry name="automatic" value="1" summary="adaptive sync will be actived automatically"/>
+      <entry name="always" value="2" summary="adaptive sync is forced to be always active"/>
+    </enum>
   </interface>
 
   <interface name="zcosmic_output_configuration_v1" version="1">
@@ -191,13 +223,14 @@
     </request>
   </interface>
 
-  <interface name="zcosmic_output_configuration_head_v1" version="1">
+  <interface name="zcosmic_output_configuration_head_v1" version="2">
     <description summary="Output configuration head extension object">
         Extension to zwlr_output_configuration_head_v1.
 
         Adds additional/alternative parameters to the original zwlr_output_configuration_head_v1.
 
-        Once the original `zwlr_output_configuration_head_v1` is destroyed this object will also be destroyed.
+        Once the original `zwlr_output_configuration_head_v1` is destroyed this object will
+        become inert and all requests except `release` will be ignored.
     </description>
 
     <request name="set_scale_1000">
@@ -220,6 +253,21 @@
         still be attached to the original `zwlr_output_configuration_head_v1`
         until it is destroyed.
       </description>
+    </request>
+
+    <!-- version 2 additions -->
+
+    <request name="set_adaptive_sync_ext" since="2">
+      <description summary="set adaptive sync state">
+        This request requests a new adaptive sync state.
+
+        This request is meant to be used in place of `zwlr_output_configuration_head_v1::set_adaptive_sync`.
+        Using `set_adaptive_sync` and `set_adaptive_sync_ext` at once will thus raise an `already_set` error on the
+        original `zwlr_output_configuration_head_v1`.
+
+        Any request conflicting with `set_adaptive_sync` will also conflict with `set_adaptive_sync_ext`.
+      </description>
+      <arg name="state" type="uint" enum="zcosmic_output_head_v1.adaptive_sync_state_ext"/>
     </request>
   </interface>
 </protocol>

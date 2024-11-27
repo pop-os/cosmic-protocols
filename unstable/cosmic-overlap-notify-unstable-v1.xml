@@ -92,6 +92,7 @@
         used to create this notification object.
       </description>
       <arg name="identifier" type="string" summary="unique identifier for the overlapping layer-surface"/>
+      <arg name="namespace" type="string" summary="namespace for the layer surface"/>
       <arg name="exclusive" type="uint" summary="if the overlapping surface is requesting an exclusive area or not"/>
       <arg name="layer" type="uint" enum="zwlr_layer_shell_v1.layer" summary="layer the overlapping surface sits on"/>
       <arg name="x" type="int" summary="x coordinate of the upper-left corner of the overlapping area"/>

@@ -1,12 +1,9 @@
-use cosmic_client_toolkit::{
-    screencopy::{
-        capture, Formats, ScreencopyFrameData, ScreencopyFrameDataExt, ScreencopyHandler,
-        ScreencopySessionData, ScreencopySessionDataExt, ScreencopyState,
-    },
-    GlobalData,
+use cosmic_client_toolkit::screencopy::{
+    CaptureSession, CaptureSource, Formats, ScreencopyFrameData, ScreencopyFrameDataExt,
+    ScreencopyHandler, ScreencopySessionData, ScreencopySessionDataExt, ScreencopyState,
 };
 use cosmic_protocols::screencopy::v2::client::{
-    zcosmic_screencopy_frame_v2, zcosmic_screencopy_manager_v2, zcosmic_screencopy_session_v2,
+    zcosmic_screencopy_frame_v2, zcosmic_screencopy_manager_v2,
 };
 use sctk::{
     output::{OutputHandler, OutputState},
@@ -82,7 +79,7 @@ impl ScreencopyHandler for AppData {
         &mut self,
         _: &Connection,
         qh: &QueueHandle<Self>,
-        session: &zcosmic_screencopy_session_v2::ZcosmicScreencopySessionV2,
+        session: &CaptureSession,
         formats: &Formats,
     ) {
         let (width, height) = formats.buffer_size;
@@ -97,8 +94,7 @@ impl ScreencopyHandler for AppData {
             (),
             qh,
         );
-        capture(
-            session,
+        session.capture(
             &wl_buffer,
             &[],
             qh,
@@ -111,13 +107,7 @@ impl ScreencopyHandler for AppData {
         );
     }
 
-    fn stopped(
-        &mut self,
-        _: &Connection,
-        _: &QueueHandle<Self>,
-        _: &zcosmic_screencopy_session_v2::ZcosmicScreencopySessionV2,
-    ) {
-    }
+    fn stopped(&mut self, _: &Connection, _: &QueueHandle<Self>, _: &CaptureSession) {}
 
     fn ready(
         &mut self,
@@ -198,26 +188,27 @@ fn main() {
 
     event_queue.roundtrip(&mut data).unwrap();
 
-    let output_source_manager = data
-        .screencopy_state
-        .output_source_manager
-        .as_ref()
-        .unwrap();
     let mut num_outputs = 0;
-    for output in data.output_state.outputs() {
-        num_outputs += 1;
-        let info = data.output_state.info(&output).unwrap();
-        let source = output_source_manager.create_source(&output, &qh, GlobalData);
-        data.screencopy_state.screencopy_manager.create_session(
-            &source,
-            zcosmic_screencopy_manager_v2::Options::empty(),
-            &qh,
-            SessionData {
-                output_name: info.name.clone().unwrap(),
-                session_data: ScreencopySessionData::default(),
-            },
-        );
-    }
+    let _sessions = data
+        .output_state
+        .outputs()
+        .map(|output| {
+            num_outputs += 1;
+            let info = data.output_state.info(&output).unwrap();
+            data.screencopy_state
+                .capturer()
+                .create_session(
+                    &CaptureSource::Output(output),
+                    zcosmic_screencopy_manager_v2::Options::empty(),
+                    &qh,
+                    SessionData {
+                        output_name: info.name.clone().unwrap(),
+                        session_data: ScreencopySessionData::default(),
+                    },
+                )
+                .unwrap()
+        })
+        .collect::<Vec<_>>();
 
     while data.outputs_done < num_outputs {
         event_queue.blocking_dispatch(&mut data).unwrap();

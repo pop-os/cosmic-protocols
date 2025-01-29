@@ -117,7 +117,7 @@ where
         _: &Connection,
         _: &QueueHandle<D>,
     ) {
-        let mut group = &mut state
+        let group = &mut state
             .workspace_state()
             .workspace_groups
             .iter_mut()

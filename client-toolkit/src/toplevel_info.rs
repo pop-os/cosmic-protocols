@@ -141,7 +141,7 @@ pub trait ToplevelInfoHandler: Sized {
     );
 
     /// Only sent for zcosmic_toplevel_info_v1 version 2
-    fn info_done(&mut self, conn: &Connection, qh: &QueueHandle<Self>) {}
+    fn info_done(&mut self, _conn: &Connection, _qh: &QueueHandle<Self>) {}
 
     fn finished(&mut self, _conn: &Connection, _qh: &QueueHandle<Self>) {}
 }
@@ -156,7 +156,7 @@ where
 {
     fn event(
         state: &mut D,
-        proxy: &zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1,
+        _proxy: &zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1,
         event: zcosmic_toplevel_info_v1::Event,
         _: &GlobalData,
         conn: &Connection,
@@ -230,11 +230,9 @@ where
                 data.has_cosmic_info = true;
                 data.pending_info.state.clear();
                 for value in state.chunks_exact(4) {
-                    if let Some(state) = zcosmic_toplevel_handle_v1::State::try_from(
+                    if let Ok(state) = zcosmic_toplevel_handle_v1::State::try_from(
                         u32::from_ne_bytes(value[0..4].try_into().unwrap()),
-                    )
-                    .ok()
-                    {
+                    ) {
                         data.pending_info.state.insert(state);
                     }
                 }
@@ -328,7 +326,7 @@ where
         state: &mut D,
         handle: &ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
         event: ext_foreign_toplevel_handle_v1::Event,
-        data: &GlobalData,
+        _data: &GlobalData,
         conn: &Connection,
         qh: &QueueHandle<D>,
     ) {

@@ -70,7 +70,8 @@ impl Default for Frame {
     }
 }
 
-struct CursorInfo {}
+// TODO
+// struct CursorInfo {}
 
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 pub struct Formats {

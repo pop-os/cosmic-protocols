@@ -11,7 +11,8 @@ use std::time::Duration;
 use wayland_client::{protocol::wl_shm, Connection, Dispatch, QueueHandle};
 
 use super::{
-    Rect, ScreencopyFrameDataExt, ScreencopyHandler, ScreencopySessionDataExt, ScreencopyState,
+    CaptureSession, Rect, ScreencopyFrameDataExt, ScreencopyHandler, ScreencopySessionDataExt,
+    ScreencopyState,
 };
 use crate::GlobalData;
 
@@ -73,10 +74,28 @@ where
                     .push((format, modifiers));
             }
             zcosmic_screencopy_session_v2::Event::Done => {
-                app_data.init_done(conn, qh, session, &formats.lock().unwrap());
+                if let Some(session) = udata
+                    .screencopy_session_data()
+                    .session
+                    .get()
+                    .unwrap()
+                    .upgrade()
+                    .map(CaptureSession)
+                {
+                    app_data.init_done(conn, qh, &session, &formats.lock().unwrap());
+                }
             }
             zcosmic_screencopy_session_v2::Event::Stopped => {
-                app_data.stopped(conn, qh, session);
+                if let Some(session) = udata
+                    .screencopy_session_data()
+                    .session
+                    .get()
+                    .unwrap()
+                    .upgrade()
+                    .map(CaptureSession)
+                {
+                    app_data.stopped(conn, qh, &session);
+                }
                 session.destroy();
             }
             _ => unreachable!(),

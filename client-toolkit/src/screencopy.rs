@@ -16,6 +16,8 @@ use wayland_client::{
     Connection, Dispatch, QueueHandle, WEnum,
 };
 
+use crate::GlobalData;
+
 #[derive(Clone, Debug)]
 pub struct Rect {
     pub x: i32,
@@ -91,22 +93,25 @@ impl ScreencopyState {
     pub fn try_new<D>(globals: &GlobalList, qh: &QueueHandle<D>) -> Option<Self>
     where
         D: 'static,
-        D: Dispatch<zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2, ()>,
-        D: Dispatch<zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1, ()>,
+        D: Dispatch<zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2, GlobalData>,
+        D: Dispatch<
+            zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1,
+            GlobalData,
+        >,
         D: Dispatch<
             zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1,
-            (),
+            GlobalData,
         >,
         D: Dispatch<
             zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1,
-            (),
+            GlobalData,
         >,
     {
         // TODO bind
-        let screencopy_manager = globals.bind(qh, 1..=1, ()).ok()?;
-        let output_source_manager = globals.bind(qh, 1..=1, ()).ok();
-        let toplevel_source_manager = globals.bind(qh, 1..=1, ()).ok();
-        let workspace_source_manager = globals.bind(qh, 1..=1, ()).ok();
+        let screencopy_manager = globals.bind(qh, 1..=1, GlobalData).ok()?;
+        let output_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
+        let toplevel_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
+        let workspace_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
 
         Some(Self {
             screencopy_manager,
@@ -119,15 +124,18 @@ impl ScreencopyState {
     pub fn new<D>(globals: &GlobalList, qh: &QueueHandle<D>) -> Self
     where
         D: 'static,
-        D: Dispatch<zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2, ()>,
-        D: Dispatch<zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1, ()>,
+        D: Dispatch<zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2, GlobalData>,
+        D: Dispatch<
+            zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1,
+            GlobalData,
+        >,
         D: Dispatch<
             zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1,
-            (),
+            GlobalData,
         >,
         D: Dispatch<
             zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1,
-            (),
+            GlobalData,
         >,
     {
         Self::try_new(globals, qh).unwrap()
@@ -199,16 +207,17 @@ impl ScreencopyFrameDataExt for ScreencopyFrameData {
     }
 }
 
-impl<D> Dispatch<zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2, (), D>
+impl<D> Dispatch<zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2, GlobalData, D>
     for ScreencopyState
 where
-    D: Dispatch<zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2, ()> + ScreencopyHandler,
+    D: Dispatch<zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2, GlobalData>
+        + ScreencopyHandler,
 {
     fn event(
         state: &mut D,
         _: &zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2,
         event: zcosmic_screencopy_manager_v2::Event,
-        _: &(),
+        _: &GlobalData,
         _: &Connection,
         _: &QueueHandle<D>,
     ) {
@@ -323,15 +332,15 @@ where
     }
 }
 
-impl<D> Dispatch<zcosmic_image_source_v1::ZcosmicImageSourceV1, (), D> for ScreencopyState
+impl<D> Dispatch<zcosmic_image_source_v1::ZcosmicImageSourceV1, GlobalData, D> for ScreencopyState
 where
-    D: Dispatch<zcosmic_image_source_v1::ZcosmicImageSourceV1, ()> + ScreencopyHandler,
+    D: Dispatch<zcosmic_image_source_v1::ZcosmicImageSourceV1, GlobalData> + ScreencopyHandler,
 {
     fn event(
         app_data: &mut D,
         source: &zcosmic_image_source_v1::ZcosmicImageSourceV1,
         event: zcosmic_image_source_v1::Event,
-        udata: &(),
+        udata: &GlobalData,
         conn: &Connection,
         qh: &QueueHandle<D>,
     ) {
@@ -339,17 +348,23 @@ where
     }
 }
 
-impl<D> Dispatch<zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1, (), D>
-    for ScreencopyState
+impl<D>
+    Dispatch<
+        zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1,
+        GlobalData,
+        D,
+    > for ScreencopyState
 where
-    D: Dispatch<zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1, ()>
-        + ScreencopyHandler,
+    D: Dispatch<
+            zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1,
+            GlobalData,
+        > + ScreencopyHandler,
 {
     fn event(
         app_data: &mut D,
         source: &zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1,
         event: zcosmic_output_image_source_manager_v1::Event,
-        udata: &(),
+        udata: &GlobalData,
         conn: &Connection,
         qh: &QueueHandle<D>,
     ) {
@@ -358,17 +373,22 @@ where
 }
 
 impl<D>
-    Dispatch<zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1, (), D>
-    for ScreencopyState
+    Dispatch<
+        zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1,
+        GlobalData,
+        D,
+    > for ScreencopyState
 where
-    D: Dispatch<zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1, ()>
-        + ScreencopyHandler,
+    D: Dispatch<
+            zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1,
+            GlobalData,
+        > + ScreencopyHandler,
 {
     fn event(
         app_data: &mut D,
         source: &zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1,
         event: zcosmic_toplevel_image_source_manager_v1::Event,
-        udata: &(),
+        udata: &GlobalData,
         conn: &Connection,
         qh: &QueueHandle<D>,
     ) {
@@ -377,19 +397,22 @@ where
 }
 
 impl<D>
-    Dispatch<zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1, (), D>
-    for ScreencopyState
+    Dispatch<
+        zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1,
+        GlobalData,
+        D,
+    > for ScreencopyState
 where
     D: Dispatch<
             zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1,
-            (),
+            GlobalData,
         > + ScreencopyHandler,
 {
     fn event(
         app_data: &mut D,
         source: &zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1,
         event: zcosmic_workspace_image_source_manager_v1::Event,
-        udata: &(),
+        udata: &GlobalData,
         conn: &Connection,
         qh: &QueueHandle<D>,
     ) {
@@ -405,19 +428,19 @@ macro_rules! delegate_screencopy {
     };
     ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty, session: [$($session_data:ty),* $(,)?], frame: [$($frame_data:ty),* $(,)?]) => {
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::image_source::v1::client::zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1: ()
+            $crate::cosmic_protocols::image_source::v1::client::zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1: $crate::GlobalData
         ] => $crate::screencopy::ScreencopyState);
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::image_source::v1::client::zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1: ()
+            $crate::cosmic_protocols::image_source::v1::client::zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1: $crate::GlobalData
         ] => $crate::screencopy::ScreencopyState);
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::image_source::v1::client::zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1: ()
+            $crate::cosmic_protocols::image_source::v1::client::zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1: $crate::GlobalData
         ] => $crate::screencopy::ScreencopyState);
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::image_source::v1::client::zcosmic_image_source_v1::ZcosmicImageSourceV1: ()
+            $crate::cosmic_protocols::image_source::v1::client::zcosmic_image_source_v1::ZcosmicImageSourceV1: $crate::GlobalData
         ] => $crate::screencopy::ScreencopyState);
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::screencopy::v2::client::zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2: ()
+            $crate::cosmic_protocols::screencopy::v2::client::zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2: $crate::GlobalData
         ] => $crate::screencopy::ScreencopyState);
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
             $(

@@ -1,6 +1,9 @@
-use cosmic_client_toolkit::screencopy::{
-    capture, Formats, ScreencopyFrameData, ScreencopyFrameDataExt, ScreencopyHandler,
-    ScreencopySessionData, ScreencopySessionDataExt, ScreencopyState,
+use cosmic_client_toolkit::{
+    screencopy::{
+        capture, Formats, ScreencopyFrameData, ScreencopyFrameDataExt, ScreencopyHandler,
+        ScreencopySessionData, ScreencopySessionDataExt, ScreencopyState,
+    },
+    GlobalData,
 };
 use cosmic_protocols::screencopy::v2::client::{
     zcosmic_screencopy_frame_v2, zcosmic_screencopy_manager_v2, zcosmic_screencopy_session_v2,
@@ -204,7 +207,7 @@ fn main() {
     for output in data.output_state.outputs() {
         num_outputs += 1;
         let info = data.output_state.info(&output).unwrap();
-        let source = output_source_manager.create_source(&output, &qh, ());
+        let source = output_source_manager.create_source(&output, &qh, GlobalData);
         data.screencopy_state.screencopy_manager.create_session(
             &source,
             zcosmic_screencopy_manager_v2::Options::empty(),

@@ -22,16 +22,14 @@ where
         + ScreencopyHandler,
 {
     fn event(
-        state: &mut D,
+        _: &mut D,
         _: &zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2,
-        event: zcosmic_screencopy_manager_v2::Event,
+        _: zcosmic_screencopy_manager_v2::Event,
         _: &GlobalData,
         _: &Connection,
         _: &QueueHandle<D>,
     ) {
-        match event {
-            _ => unreachable!(),
-        }
+        unreachable!()
     }
 }
 
@@ -75,7 +73,7 @@ where
                     .push((format, modifiers));
             }
             zcosmic_screencopy_session_v2::Event::Done => {
-                app_data.init_done(conn, qh, session, &*formats.lock().unwrap());
+                app_data.init_done(conn, qh, session, &formats.lock().unwrap());
             }
             zcosmic_screencopy_session_v2::Event::Stopped => {
                 app_data.stopped(conn, qh, session);
@@ -145,12 +143,12 @@ where
     D: Dispatch<zcosmic_image_source_v1::ZcosmicImageSourceV1, GlobalData> + ScreencopyHandler,
 {
     fn event(
-        app_data: &mut D,
-        source: &zcosmic_image_source_v1::ZcosmicImageSourceV1,
-        event: zcosmic_image_source_v1::Event,
-        udata: &GlobalData,
-        conn: &Connection,
-        qh: &QueueHandle<D>,
+        _app_data: &mut D,
+        _source: &zcosmic_image_source_v1::ZcosmicImageSourceV1,
+        _event: zcosmic_image_source_v1::Event,
+        _udata: &GlobalData,
+        _conn: &Connection,
+        _qh: &QueueHandle<D>,
     ) {
         unreachable!()
     }
@@ -169,12 +167,12 @@ where
         > + ScreencopyHandler,
 {
     fn event(
-        app_data: &mut D,
-        source: &zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1,
-        event: zcosmic_output_image_source_manager_v1::Event,
-        udata: &GlobalData,
-        conn: &Connection,
-        qh: &QueueHandle<D>,
+        _app_data: &mut D,
+        _source: &zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1,
+        _event: zcosmic_output_image_source_manager_v1::Event,
+        _udata: &GlobalData,
+        _conn: &Connection,
+        _qh: &QueueHandle<D>,
     ) {
         unreachable!()
     }
@@ -193,12 +191,12 @@ where
         > + ScreencopyHandler,
 {
     fn event(
-        app_data: &mut D,
-        source: &zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1,
-        event: zcosmic_toplevel_image_source_manager_v1::Event,
-        udata: &GlobalData,
-        conn: &Connection,
-        qh: &QueueHandle<D>,
+        _app_data: &mut D,
+        _source: &zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1,
+        _event: zcosmic_toplevel_image_source_manager_v1::Event,
+        _udata: &GlobalData,
+        _conn: &Connection,
+        _qh: &QueueHandle<D>,
     ) {
         unreachable!()
     }
@@ -217,12 +215,12 @@ where
         > + ScreencopyHandler,
 {
     fn event(
-        app_data: &mut D,
-        source: &zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1,
-        event: zcosmic_workspace_image_source_manager_v1::Event,
-        udata: &GlobalData,
-        conn: &Connection,
-        qh: &QueueHandle<D>,
+        _app_data: &mut D,
+        _source: &zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1,
+        _event: zcosmic_workspace_image_source_manager_v1::Event,
+        _udata: &GlobalData,
+        _conn: &Connection,
+        _qh: &QueueHandle<D>,
     ) {
         unreachable!()
     }

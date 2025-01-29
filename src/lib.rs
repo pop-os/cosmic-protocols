@@ -29,6 +29,18 @@ pub mod image_source {
     }
 }
 
+pub mod image_capture_source {
+    //! Capture interface.
+
+    #[allow(missing_docs)]
+    pub mod v1 {
+        wayland_protocol!(
+            "./unstable/cosmic-image-capture-source-unstable-v1.xml",
+            [wayland_protocols::ext::image_capture_source::v1, crate::workspace::v1]
+        );
+    }
+}
+
 pub mod screencopy {
     //! Capture interface.
 

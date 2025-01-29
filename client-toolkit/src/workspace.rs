@@ -4,6 +4,8 @@ use cosmic_protocols::workspace::v1::client::{
 use sctk::registry::{GlobalProxy, RegistryState};
 use wayland_client::{protocol::wl_output, Connection, Dispatch, QueueHandle, WEnum};
 
+use crate::GlobalData;
+
 #[derive(Clone, Debug)]
 pub struct WorkspaceGroup {
     pub handle: zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
@@ -32,11 +34,11 @@ pub struct WorkspaceState {
 impl WorkspaceState {
     pub fn new<D>(registry: &RegistryState, qh: &QueueHandle<D>) -> Self
     where
-        D: Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, ()> + 'static,
+        D: Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, GlobalData> + 'static,
     {
         Self {
             workspace_groups: Vec::new(),
-            manager: GlobalProxy::from(registry.bind_one(qh, 1..=2, ())),
+            manager: GlobalProxy::from(registry.bind_one(qh, 1..=2, GlobalData)),
         }
     }
 
@@ -58,10 +60,11 @@ pub trait WorkspaceHandler {
     fn done(&mut self);
 }
 
-impl<D> Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, (), D> for WorkspaceState
+impl<D> Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, GlobalData, D>
+    for WorkspaceState
 where
-    D: Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, ()>
-        + Dispatch<zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, ()>
+    D: Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, GlobalData>
+        + Dispatch<zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, GlobalData>
         + WorkspaceHandler
         + 'static,
 {
@@ -69,7 +72,7 @@ where
         state: &mut D,
         _: &zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1,
         event: zcosmic_workspace_manager_v1::Event,
-        _: &(),
+        _: &GlobalData,
         _: &Connection,
         _: &QueueHandle<D>,
     ) {
@@ -94,15 +97,15 @@ where
     }
 
     wayland_client::event_created_child!(D, zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, [
-        zcosmic_workspace_manager_v1::EVT_WORKSPACE_GROUP_OPCODE => (zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, ())
+        zcosmic_workspace_manager_v1::EVT_WORKSPACE_GROUP_OPCODE => (zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, GlobalData)
     ]);
 }
 
-impl<D> Dispatch<zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, (), D>
+impl<D> Dispatch<zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, GlobalData, D>
     for WorkspaceState
 where
-    D: Dispatch<zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, ()>
-        + Dispatch<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1, ()>
+    D: Dispatch<zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, GlobalData>
+        + Dispatch<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1, GlobalData>
         + WorkspaceHandler
         + 'static,
 {
@@ -110,7 +113,7 @@ where
         state: &mut D,
         handle: &zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
         event: zcosmic_workspace_group_handle_v1::Event,
-        _: &(),
+        _: &GlobalData,
         _: &Connection,
         _: &QueueHandle<D>,
     ) {
@@ -160,19 +163,21 @@ where
     }
 
     wayland_client::event_created_child!(D, zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, [
-        zcosmic_workspace_group_handle_v1::EVT_WORKSPACE_OPCODE => (zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1, ())
+        zcosmic_workspace_group_handle_v1::EVT_WORKSPACE_OPCODE => (zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1, GlobalData)
     ]);
 }
 
-impl<D> Dispatch<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1, (), D> for WorkspaceState
+impl<D> Dispatch<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1, GlobalData, D>
+    for WorkspaceState
 where
-    D: Dispatch<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1, ()> + WorkspaceHandler,
+    D: Dispatch<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1, GlobalData>
+        + WorkspaceHandler,
 {
     fn event(
         state: &mut D,
         handle: &zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1,
         event: zcosmic_workspace_handle_v1::Event,
-        _: &(),
+        _: &GlobalData,
         _: &Connection,
         _: &QueueHandle<D>,
     ) {
@@ -223,13 +228,13 @@ where
 macro_rules! delegate_workspace {
     ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty) => {
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::workspace::v1::client::zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1: ()
+            $crate::cosmic_protocols::workspace::v1::client::zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1: $crate::GlobalData
         ] => $crate::workspace::WorkspaceState);
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::workspace::v1::client::zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1: ()
+            $crate::cosmic_protocols::workspace::v1::client::zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1: $crate::GlobalData
         ] => $crate::workspace::WorkspaceState);
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::workspace::v1::client::zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1: ()
+            $crate::cosmic_protocols::workspace::v1::client::zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1: $crate::GlobalData
         ] => $crate::workspace::WorkspaceState);
     };
 }

@@ -7,3 +7,7 @@ pub mod screencopy;
 pub mod toplevel_info;
 pub mod toplevel_management;
 pub mod workspace;
+
+#[doc(hidden)]
+#[derive(Debug, Default)]
+pub struct GlobalData;

@@ -12,7 +12,7 @@ use cosmic_protocols::{
 use std::{sync::Mutex, time::Duration};
 use wayland_client::{
     globals::GlobalList,
-    protocol::{wl_buffer, wl_output::Transform},
+    protocol::{wl_buffer, wl_output::Transform, wl_shm},
     Connection, Dispatch, QueueHandle, WEnum,
 };
 
@@ -71,7 +71,7 @@ struct CursorInfo {}
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 pub struct Formats {
     pub buffer_size: (u32, u32),
-    pub shm_formats: Vec<u32>,
+    pub shm_formats: Vec<wl_shm::Format>,
     pub dmabuf_device: Option<libc::dev_t>,
     pub dmabuf_formats: Vec<(u32, Vec<u64>)>,
 }
@@ -238,7 +238,9 @@ where
                 formats.lock().unwrap().buffer_size = (width, height);
             }
             zcosmic_screencopy_session_v2::Event::ShmFormat { format } => {
-                formats.lock().unwrap().shm_formats.push(format);
+                if let Ok(value) = wl_shm::Format::try_from(format) {
+                    formats.lock().unwrap().shm_formats.push(value);
+                }
             }
             zcosmic_screencopy_session_v2::Event::DmabufDevice { device } => {
                 let device = libc::dev_t::from_ne_bytes(device.try_into().unwrap());

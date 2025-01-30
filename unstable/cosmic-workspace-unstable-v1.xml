@@ -27,7 +27,7 @@
     THIS SOFTWARE.
   </copyright>
 
-  <interface name="zcosmic_workspace_manager_v1" version="2">
+  <interface name="zcosmic_workspace_manager_v1" version="3">
     <description summary="list and control workspaces">
       Workspaces, also called virtual desktops, are groups of surfaces. A
       compositor with a concept of workspaces may only show some such groups of
@@ -285,6 +285,7 @@
           display such workspaces.
         </description>
       </entry>
+      <entry name="pinned" value="3" since="3" summary="the workspace is pinned"/>
     </enum>
 
     <enum name="zcosmic_workspace_capabilities_v1">
@@ -293,6 +294,8 @@
       <entry name="remove" value="3" summary="remove request is available"/>
       <entry name="rename" value="4" since="2" summary="rename request is available"/>
       <entry name="set_tiling_state" value="5" since="2" summary="set_tiling_state request is available"/>
+      <entry name="pin" value="6" since="3" summary="pin and unpin requests are available"/>
+      <entry name="move" value="7" since="3" summary="move_before and move_after requests are available"/>
     </enum>
 
     <event name="capabilities">
@@ -357,6 +360,32 @@
 
     <request name="remove">
       <description summary="remove the workspace">
+        Request that this workspace be removed.
+
+        There is no guarantee the workspace will be actually removed.
+      </description>
+    </request>
+
+    <request name="move_before">
+      <arg name="other_workspace" type="object" interface="zcosmic_workspace_handle_v1"/>
+      <arg name="axis", type="uint"/>
+    </request>
+
+    <request name="move_after">
+      <arg name="other_workspace" type="object" interface="zcosmic_workspace_handle_v1"/>
+      <arg name="axis", type="uint"/>
+    </request>
+
+    <request name="pin", since="3">
+      <description summary="pin the workspace">
+        Request that this workspace be removed.
+
+        There is no guarantee the workspace will be actually removed.
+      </description>
+    </request>
+
+    <request name="unpin", since="3">
+      <description summary="pin the workspace">
         Request that this workspace be removed.
 
         There is no guarantee the workspace will be actually removed.

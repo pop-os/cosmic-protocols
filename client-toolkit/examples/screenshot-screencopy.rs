@@ -1,6 +1,7 @@
 use cosmic_client_toolkit::screencopy::{
-    CaptureSession, CaptureSource, Formats, ScreencopyFrameData, ScreencopyFrameDataExt,
-    ScreencopyHandler, ScreencopySessionData, ScreencopySessionDataExt, ScreencopyState,
+    CaptureFrame, CaptureSession, CaptureSource, Formats, ScreencopyFrameData,
+    ScreencopyFrameDataExt, ScreencopyHandler, ScreencopySessionData, ScreencopySessionDataExt,
+    ScreencopyState,
 };
 use cosmic_protocols::screencopy::v2::client::{
     zcosmic_screencopy_frame_v2, zcosmic_screencopy_manager_v2,
@@ -15,7 +16,7 @@ use wayland_client::{
     delegate_noop,
     globals::registry_queue_init,
     protocol::{wl_buffer, wl_output, wl_shm},
-    Connection, Proxy, QueueHandle, WEnum,
+    Connection, QueueHandle, WEnum,
 };
 
 struct AppData {
@@ -113,10 +114,10 @@ impl ScreencopyHandler for AppData {
         &mut self,
         _: &Connection,
         _: &QueueHandle<Self>,
-        cosmic_frame: &zcosmic_screencopy_frame_v2::ZcosmicScreencopyFrameV2,
+        capture_frame: &CaptureFrame,
         _: cosmic_client_toolkit::screencopy::Frame,
     ) {
-        let data = cosmic_frame.data::<FrameData>().unwrap();
+        let data = capture_frame.data::<FrameData>().unwrap();
         let mut pool = data.pool.lock().unwrap();
         let bytes = pool.mmap();
 
@@ -136,7 +137,7 @@ impl ScreencopyHandler for AppData {
         &mut self,
         _: &Connection,
         _: &QueueHandle<Self>,
-        _: &zcosmic_screencopy_frame_v2::ZcosmicScreencopyFrameV2,
+        _: &CaptureFrame,
         reason: WEnum<zcosmic_screencopy_frame_v2::FailureReason>,
     ) {
         println!("Failed to capture output: {:?}", reason);

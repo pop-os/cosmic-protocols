@@ -5,6 +5,10 @@ use cosmic_protocols::{
 };
 use std::{error::Error, fmt};
 use wayland_client::{protocol::wl_output, Dispatch, QueueHandle};
+use wayland_protocols::ext::{
+    foreign_toplevel_list::v1::client::ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
+    image_capture_source::v1::client::ext_image_capture_source_v1,
+};
 
 use super::Capturer;
 use crate::GlobalData;
@@ -23,6 +27,7 @@ impl Error for CaptureSourceError {}
 #[derive(Clone, Copy, Debug, Hash, PartialEq, Eq)]
 pub enum CaptureSourceKind {
     Output,
+    Toplevel,
     CosmicToplevel,
     CosmicWorkspace,
 }
@@ -30,8 +35,7 @@ pub enum CaptureSourceKind {
 #[derive(Clone, Debug, Hash, PartialEq, Eq)]
 pub enum CaptureSource {
     Output(wl_output::WlOutput),
-    // TODO: when adding ext protocol
-    // Toplevel(ExtForeignToplevelHandleV1),
+    Toplevel(ExtForeignToplevelHandleV1),
     CosmicToplevel(ZcosmicToplevelHandleV1),
     CosmicWorkspace(ZcosmicWorkspaceHandleV1),
 }
@@ -40,6 +44,7 @@ impl CaptureSource {
     pub fn kind(&self) -> CaptureSourceKind {
         match self {
             Self::Output(_) => CaptureSourceKind::Output,
+            Self::Toplevel(_) => CaptureSourceKind::Toplevel,
             Self::CosmicToplevel(_) => CaptureSourceKind::CosmicToplevel,
             Self::CosmicWorkspace(_) => CaptureSourceKind::CosmicWorkspace,
         }
@@ -53,28 +58,52 @@ impl CaptureSource {
     where
         D: 'static,
         D: Dispatch<zcosmic_image_source_v1::ZcosmicImageSourceV1, GlobalData>,
+        D: Dispatch<ext_image_capture_source_v1::ExtImageCaptureSourceV1, GlobalData>,
     {
-        match self {
-            CaptureSource::Output(output) => {
-                if let Some(manager) = &capturer.0.output_source_manager {
-                    return Ok(WlCaptureSource(
-                        manager.create_source(output, qh, GlobalData),
-                    ));
+        if let Some(image_copy_capture) = &capturer.0.image_copy_capture {
+            match self {
+                CaptureSource::Output(output) => {
+                    if let Some(manager) = &image_copy_capture.output_source_manager {
+                        return Ok(WlCaptureSource::Ext(
+                            manager.create_source(output, qh, GlobalData),
+                        ));
+                    }
                 }
+                CaptureSource::Toplevel(toplevel) => {
+                    if let Some(manager) = &image_copy_capture.foreign_toplevel_source_manager {
+                        return Ok(WlCaptureSource::Ext(
+                            manager.create_source(toplevel, qh, GlobalData),
+                        ));
+                    }
+                }
+                CaptureSource::CosmicToplevel(_) => {}
+                CaptureSource::CosmicWorkspace(_) => {}
             }
-            CaptureSource::CosmicToplevel(toplevel) => {
-                if let Some(manager) = &capturer.0.toplevel_source_manager {
-                    return Ok(WlCaptureSource(
-                        manager.create_source(toplevel, qh, GlobalData),
-                    ));
+        }
+        if let Some(cosmic_screencopy) = &capturer.0.cosmic_screencopy {
+            match self {
+                CaptureSource::Output(output) => {
+                    if let Some(manager) = &cosmic_screencopy.output_source_manager {
+                        return Ok(WlCaptureSource::Cosmic(
+                            manager.create_source(output, qh, GlobalData),
+                        ));
+                    }
                 }
-            }
-            CaptureSource::CosmicWorkspace(workspace) => {
-                if let Some(manager) = &capturer.0.workspace_source_manager {
-                    return Ok(WlCaptureSource(
-                        manager.create_source(workspace, qh, GlobalData),
-                    ));
+                CaptureSource::CosmicToplevel(toplevel) => {
+                    if let Some(manager) = &cosmic_screencopy.toplevel_source_manager {
+                        return Ok(WlCaptureSource::Cosmic(
+                            manager.create_source(toplevel, qh, GlobalData),
+                        ));
+                    }
                 }
+                CaptureSource::CosmicWorkspace(workspace) => {
+                    if let Some(manager) = &cosmic_screencopy.workspace_source_manager {
+                        return Ok(WlCaptureSource::Cosmic(
+                            manager.create_source(workspace, qh, GlobalData),
+                        ));
+                    }
+                }
+                CaptureSource::Toplevel(_) => {}
             }
         }
         Err(CaptureSourceError(self.kind()))
@@ -82,10 +111,16 @@ impl CaptureSource {
 }
 
 // TODO name?
-pub(crate) struct WlCaptureSource(pub(crate) zcosmic_image_source_v1::ZcosmicImageSourceV1);
+pub(crate) enum WlCaptureSource {
+    Cosmic(zcosmic_image_source_v1::ZcosmicImageSourceV1),
+    Ext(ext_image_capture_source_v1::ExtImageCaptureSourceV1),
+}
 
 impl Drop for WlCaptureSource {
     fn drop(&mut self) {
-        self.0.destroy();
+        match self {
+            Self::Cosmic(source) => source.destroy(),
+            Self::Ext(source) => source.destroy(),
+        }
     }
 }

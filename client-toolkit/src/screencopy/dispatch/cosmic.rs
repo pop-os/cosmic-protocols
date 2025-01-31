@@ -8,9 +8,9 @@ use cosmic_protocols::{
     },
 };
 use std::time::Duration;
-use wayland_client::{protocol::wl_shm, Connection, Dispatch, QueueHandle};
+use wayland_client::{protocol::wl_shm, Connection, Dispatch, QueueHandle, WEnum};
 
-use super::{
+use super::super::{
     CaptureFrame, CaptureSession, Rect, ScreencopyFrameDataExt, ScreencopyHandler,
     ScreencopySessionDataExt, ScreencopyState,
 };
@@ -145,11 +145,26 @@ where
             }
             zcosmic_screencopy_frame_v2::Event::Ready => {
                 let frame = frame.lock().unwrap().clone();
-                app_data.ready(conn, qh, &CaptureFrame(screencopy_frame.clone()), frame);
+                app_data.ready(
+                    conn,
+                    qh,
+                    &CaptureFrame::Cosmic(screencopy_frame.clone()),
+                    frame,
+                );
                 screencopy_frame.destroy();
             }
             zcosmic_screencopy_frame_v2::Event::Failed { reason } => {
-                app_data.failed(conn, qh, &CaptureFrame(screencopy_frame.clone()), reason);
+                // Convert to ext `FailureReason`, which has same definition
+                let reason = WEnum::from(match reason {
+                    WEnum::Value(value) => value as u32,
+                    WEnum::Unknown(value) => value,
+                });
+                app_data.failed(
+                    conn,
+                    qh,
+                    &CaptureFrame::Cosmic(screencopy_frame.clone()),
+                    reason,
+                );
                 screencopy_frame.destroy();
             }
             _ => unreachable!(),
@@ -243,4 +258,39 @@ where
     ) {
         unreachable!()
     }
+}
+
+#[macro_export]
+macro_rules! delegate_cosmic_screencopy {
+    ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty) => {
+        $crate::delegate_screencopy($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty,
+            session: $crate::screencopy::ScreencopySessionData, frame: $crate::screencopy::ScreencopyFrameData);
+    };
+    ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty, session: [$($session_data:ty),* $(,)?], frame: [$($frame_data:ty),* $(,)?]) => {
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
+            $crate::cosmic_protocols::image_source::v1::client::zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1: $crate::GlobalData
+        ] => $crate::screencopy::ScreencopyState);
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
+            $crate::cosmic_protocols::image_source::v1::client::zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1: $crate::GlobalData
+        ] => $crate::screencopy::ScreencopyState);
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
+            $crate::cosmic_protocols::image_source::v1::client::zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1: $crate::GlobalData
+        ] => $crate::screencopy::ScreencopyState);
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
+            $crate::cosmic_protocols::image_source::v1::client::zcosmic_image_source_v1::ZcosmicImageSourceV1: $crate::GlobalData
+        ] => $crate::screencopy::ScreencopyState);
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
+            $crate::cosmic_protocols::screencopy::v2::client::zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2: $crate::GlobalData
+        ] => $crate::screencopy::ScreencopyState);
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
+            $(
+                $crate::cosmic_protocols::screencopy::v2::client::zcosmic_screencopy_session_v2::ZcosmicScreencopySessionV2: $session_data
+            ),*
+        ] => $crate::screencopy::ScreencopyState);
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
+            $(
+                $crate::cosmic_protocols::screencopy::v2::client::zcosmic_screencopy_frame_v2::ZcosmicScreencopyFrameV2: $frame_data
+            ),*
+        ] => $crate::screencopy::ScreencopyState);
+    };
 }

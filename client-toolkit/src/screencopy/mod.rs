@@ -18,10 +18,21 @@ use wayland_client::{
     protocol::{wl_buffer, wl_output::Transform, wl_shm},
     Connection, Dispatch, Proxy, QueueHandle, WEnum,
 };
+use wayland_protocols::ext::{
+    image_capture_source::v1::client::{
+        ext_foreign_toplevel_image_capture_source_manager_v1, ext_image_capture_source_v1,
+        ext_output_image_capture_source_manager_v1,
+    },
+    image_copy_capture::v1::client::{
+        ext_image_copy_capture_frame_v1, ext_image_copy_capture_manager_v1,
+        ext_image_copy_capture_session_v1,
+    },
+};
 
 use crate::GlobalData;
 
 mod capture_source;
+use capture_source::WlCaptureSource;
 pub use capture_source::{CaptureSource, CaptureSourceError, CaptureSourceKind};
 mod dispatch;
 
@@ -63,8 +74,8 @@ pub struct Formats {
 }
 
 #[derive(Debug)]
-struct CapturerInner {
-    screencopy_manager: Option<zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2>,
+struct CosmicScreencopy {
+    screencopy_manager: zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2,
     output_source_manager:
         Option<zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1>,
     toplevel_source_manager:
@@ -73,19 +84,91 @@ struct CapturerInner {
         Option<zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1>,
 }
 
+impl CosmicScreencopy {
+    fn new<D>(globals: &GlobalList, qh: &QueueHandle<D>) -> Option<Self>
+    where
+        D: 'static,
+        D: Dispatch<zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2, GlobalData>,
+        D: Dispatch<
+            zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1,
+            GlobalData,
+        >,
+        D: Dispatch<
+            zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1,
+            GlobalData,
+        >,
+        D: Dispatch<
+            zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1,
+            GlobalData,
+        >,
+    {
+        let screencopy_manager = globals.bind(qh, 1..=1, GlobalData).ok()?;
+        let output_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
+        let toplevel_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
+        let workspace_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
+        Some(Self {
+            screencopy_manager,
+            output_source_manager,
+            toplevel_source_manager,
+            workspace_source_manager,
+        })
+    }
+}
+
+#[derive(Debug)]
+struct ImageCopyCapture {
+    image_copy_capture_manager: ext_image_copy_capture_manager_v1::ExtImageCopyCaptureManagerV1,
+    output_source_manager: Option<ext_output_image_capture_source_manager_v1::ExtOutputImageCaptureSourceManagerV1>,
+    foreign_toplevel_source_manager: Option<ext_foreign_toplevel_image_capture_source_manager_v1::ExtForeignToplevelImageCaptureSourceManagerV1>,
+}
+
+impl ImageCopyCapture {
+    fn new<D>(globals: &GlobalList, qh: &QueueHandle<D>) -> Option<Self>
+    where
+        D: 'static,
+        D: Dispatch<ext_image_copy_capture_manager_v1::ExtImageCopyCaptureManagerV1, GlobalData>,
+        D: Dispatch<ext_output_image_capture_source_manager_v1::ExtOutputImageCaptureSourceManagerV1, GlobalData>,
+        D: Dispatch<ext_foreign_toplevel_image_capture_source_manager_v1::ExtForeignToplevelImageCaptureSourceManagerV1, GlobalData>,
+    {
+        let image_copy_capture_manager = globals.bind(qh, 1..=1, GlobalData).ok()?;
+        let output_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
+        let foreign_toplevel_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
+        Some(Self {
+            image_copy_capture_manager,
+            output_source_manager,
+            foreign_toplevel_source_manager,
+        })
+    }
+}
+
+#[derive(Debug)]
+struct CapturerInner {
+    cosmic_screencopy: Option<CosmicScreencopy>,
+    image_copy_capture: Option<ImageCopyCapture>,
+}
+
 impl Drop for CapturerInner {
     fn drop(&mut self) {
-        if let Some(manager) = &self.screencopy_manager {
-            manager.destroy();
+        if let Some(cosmic_screencopy) = &self.cosmic_screencopy {
+            cosmic_screencopy.screencopy_manager.destroy();
+            if let Some(manager) = &cosmic_screencopy.output_source_manager {
+                manager.destroy();
+            }
+            if let Some(manager) = &cosmic_screencopy.toplevel_source_manager {
+                manager.destroy();
+            }
+            if let Some(manager) = &cosmic_screencopy.workspace_source_manager {
+                manager.destroy();
+            }
         }
-        if let Some(manager) = &self.output_source_manager {
-            manager.destroy();
-        }
-        if let Some(manager) = &self.toplevel_source_manager {
-            manager.destroy();
-        }
-        if let Some(manager) = &self.workspace_source_manager {
-            manager.destroy();
+        if let Some(image_copy_capture) = &self.image_copy_capture {
+            image_copy_capture.image_copy_capture_manager.destroy();
+            if let Some(manager) = &image_copy_capture.output_source_manager {
+                manager.destroy();
+            }
+            if let Some(manager) = &image_copy_capture.foreign_toplevel_source_manager {
+                manager.destroy();
+            }
         }
     }
 }
@@ -99,7 +182,7 @@ impl Capturer {
     pub fn create_session<D, U>(
         &self,
         source: &CaptureSource,
-        options: zcosmic_screencopy_manager_v2::Options,
+        options: ext_image_copy_capture_manager_v1::Options,
         qh: &QueueHandle<D>,
         udata: U,
     ) -> Result<CaptureSession, CaptureSourceError>
@@ -107,6 +190,8 @@ impl Capturer {
         D: 'static,
         D: Dispatch<zcosmic_image_source_v1::ZcosmicImageSourceV1, GlobalData>,
         D: Dispatch<zcosmic_screencopy_session_v2::ZcosmicScreencopySessionV2, U>,
+        D: Dispatch<ext_image_capture_source_v1::ExtImageCaptureSourceV1, GlobalData>,
+        D: Dispatch<ext_image_copy_capture_session_v1::ExtImageCopyCaptureSessionV1, U>,
         U: ScreencopySessionDataExt + Send + Sync + 'static,
     {
         let source = source.create_source(self, qh)?;
@@ -116,23 +201,49 @@ impl Capturer {
                 .session
                 .set(weak_session.clone())
                 .unwrap();
-            CaptureSessionInner(
-                self.0
-                    .screencopy_manager
-                    .as_ref()
-                    .unwrap()
-                    .create_session(&source.0, options, qh, udata),
-            )
+            match &source {
+                WlCaptureSource::Cosmic(source) => {
+                    let options = if options
+                        .contains(ext_image_copy_capture_manager_v1::Options::PaintCursors)
+                    {
+                        zcosmic_screencopy_manager_v2::Options::PaintCursors
+                    } else {
+                        zcosmic_screencopy_manager_v2::Options::empty()
+                    };
+                    CaptureSessionInner::Cosmic(
+                        self.0
+                            .cosmic_screencopy
+                            .as_ref()
+                            .expect("cosmic capture source with no cosmic screencopy manager")
+                            .screencopy_manager
+                            .create_session(source, options, qh, udata),
+                    )
+                }
+                WlCaptureSource::Ext(source) => CaptureSessionInner::Ext(
+                    self.0
+                        .image_copy_capture
+                        .as_ref()
+                        .expect("ext capture source with no image capture copy manager")
+                        .image_copy_capture_manager
+                        .create_session(source, options, qh, udata),
+                ),
+            }
         })))
     }
 }
 
 #[derive(Debug, PartialEq, Eq, Hash)]
-struct CaptureSessionInner(zcosmic_screencopy_session_v2::ZcosmicScreencopySessionV2);
+enum CaptureSessionInner {
+    Cosmic(zcosmic_screencopy_session_v2::ZcosmicScreencopySessionV2),
+    Ext(ext_image_copy_capture_session_v1::ExtImageCopyCaptureSessionV1),
+}
 
 impl Drop for CaptureSessionInner {
     fn drop(&mut self) {
-        self.0.destroy();
+        match self {
+            Self::Cosmic(session) => session.destroy(),
+            Self::Ext(session) => session.destroy(),
+        }
     }
 }
 
@@ -146,9 +257,11 @@ impl CaptureSession {
         buffer_damage: &[Rect],
         qh: &QueueHandle<D>,
         udata: U,
-    ) -> zcosmic_screencopy_frame_v2::ZcosmicScreencopyFrameV2
+    ) -> CaptureFrame
     where
-        D: Dispatch<zcosmic_screencopy_frame_v2::ZcosmicScreencopyFrameV2, U> + 'static,
+        D: 'static,
+        D: Dispatch<zcosmic_screencopy_frame_v2::ZcosmicScreencopyFrameV2, U>,
+        D: Dispatch<ext_image_copy_capture_frame_v1::ExtImageCopyCaptureFrameV1, U>,
         U: ScreencopyFrameDataExt + Send + Sync + 'static,
     {
         udata
@@ -156,28 +269,53 @@ impl CaptureSession {
             .session
             .set(Arc::downgrade(&self.0))
             .unwrap();
-        let frame = self.0 .0.create_frame(qh, udata);
-        frame.attach_buffer(buffer);
-        for Rect {
-            x,
-            y,
-            width,
-            height,
-        } in buffer_damage
-        {
-            frame.damage_buffer(*x, *y, *width, *height);
+        match &*self.0 {
+            CaptureSessionInner::Cosmic(session) => {
+                let frame = session.create_frame(qh, udata);
+                frame.attach_buffer(buffer);
+                for Rect {
+                    x,
+                    y,
+                    width,
+                    height,
+                } in buffer_damage
+                {
+                    frame.damage_buffer(*x, *y, *width, *height);
+                }
+                frame.capture();
+                CaptureFrame::Cosmic(frame)
+            }
+            CaptureSessionInner::Ext(session) => {
+                let frame = session.create_frame(qh, udata);
+                frame.attach_buffer(buffer);
+                for Rect {
+                    x,
+                    y,
+                    width,
+                    height,
+                } in buffer_damage
+                {
+                    frame.damage_buffer(*x, *y, *width, *height);
+                }
+                frame.capture();
+                CaptureFrame::Ext(frame)
+            }
         }
-        frame.capture();
-        frame
     }
 
     pub fn data<U: Send + Sync + 'static>(&self) -> Option<&U> {
-        self.0 .0.data()
+        match &*self.0 {
+            CaptureSessionInner::Cosmic(session) => session.data(),
+            CaptureSessionInner::Ext(session) => session.data(),
+        }
     }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
-pub struct CaptureFrame(zcosmic_screencopy_frame_v2::ZcosmicScreencopyFrameV2);
+pub enum CaptureFrame {
+    Cosmic(zcosmic_screencopy_frame_v2::ZcosmicScreencopyFrameV2),
+    Ext(ext_image_copy_capture_frame_v1::ExtImageCopyCaptureFrameV1),
+}
 
 impl CaptureFrame {
     pub fn session<U: ScreencopyFrameDataExt + Send + Sync + 'static>(
@@ -194,7 +332,10 @@ impl CaptureFrame {
     }
 
     pub fn data<U: Send + Sync + 'static>(&self) -> Option<&U> {
-        self.0.data()
+        match self {
+            Self::Cosmic(frame) => frame.data(),
+            Self::Ext(frame) => frame.data(),
+        }
     }
 }
 
@@ -220,17 +361,13 @@ impl ScreencopyState {
             zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1,
             GlobalData,
         >,
+        D: Dispatch<ext_image_copy_capture_manager_v1::ExtImageCopyCaptureManagerV1, GlobalData>,
+        D: Dispatch<ext_output_image_capture_source_manager_v1::ExtOutputImageCaptureSourceManagerV1, GlobalData>,
+        D: Dispatch<ext_foreign_toplevel_image_capture_source_manager_v1::ExtForeignToplevelImageCaptureSourceManagerV1, GlobalData>,
     {
-        let screencopy_manager = globals.bind(qh, 1..=1, GlobalData).ok();
-        let output_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
-        let toplevel_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
-        let workspace_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
-
         let capturer = Capturer(Arc::new(CapturerInner {
-            screencopy_manager,
-            output_source_manager,
-            toplevel_source_manager,
-            workspace_source_manager,
+            cosmic_screencopy: CosmicScreencopy::new(globals, qh),
+            image_copy_capture: ImageCopyCapture::new(globals, qh),
         }));
 
         Self { capturer }
@@ -267,7 +404,7 @@ pub trait ScreencopyHandler: Sized {
         conn: &Connection,
         qh: &QueueHandle<Self>,
         screencopy_frame: &CaptureFrame,
-        reason: WEnum<zcosmic_screencopy_frame_v2::FailureReason>,
+        reason: WEnum<ext_image_copy_capture_frame_v1::FailureReason>,
     );
 }
 
@@ -306,34 +443,13 @@ impl ScreencopyFrameDataExt for ScreencopyFrameData {
 #[macro_export]
 macro_rules! delegate_screencopy {
     ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty) => {
-        $crate::delegate_screencopy($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty,
+        $crate::delegate_screencopy!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty,
             session: $crate::screencopy::ScreencopySessionData, frame: $crate::screencopy::ScreencopyFrameData);
     };
     ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty, session: [$($session_data:ty),* $(,)?], frame: [$($frame_data:ty),* $(,)?]) => {
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::image_source::v1::client::zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1: $crate::GlobalData
-        ] => $crate::screencopy::ScreencopyState);
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::image_source::v1::client::zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1: $crate::GlobalData
-        ] => $crate::screencopy::ScreencopyState);
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::image_source::v1::client::zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1: $crate::GlobalData
-        ] => $crate::screencopy::ScreencopyState);
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::image_source::v1::client::zcosmic_image_source_v1::ZcosmicImageSourceV1: $crate::GlobalData
-        ] => $crate::screencopy::ScreencopyState);
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::screencopy::v2::client::zcosmic_screencopy_manager_v2::ZcosmicScreencopyManagerV2: $crate::GlobalData
-        ] => $crate::screencopy::ScreencopyState);
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $(
-                $crate::cosmic_protocols::screencopy::v2::client::zcosmic_screencopy_session_v2::ZcosmicScreencopySessionV2: $session_data
-            ),*
-        ] => $crate::screencopy::ScreencopyState);
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $(
-                $crate::cosmic_protocols::screencopy::v2::client::zcosmic_screencopy_frame_v2::ZcosmicScreencopyFrameV2: $frame_data
-            ),*
-        ] => $crate::screencopy::ScreencopyState);
+        $crate::delegate_cosmic_screencopy!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty,
+            session: [$($session_data),*], frame: [$($frame_data),*]);
+        $crate::delegate_ext_image_capture!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty,
+            session: [$($session_data),*], frame: [$($frame_data),*]);
     };
 }

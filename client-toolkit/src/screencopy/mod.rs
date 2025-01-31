@@ -151,6 +151,11 @@ impl CaptureSession {
         D: Dispatch<zcosmic_screencopy_frame_v2::ZcosmicScreencopyFrameV2, U> + 'static,
         U: ScreencopyFrameDataExt + Send + Sync + 'static,
     {
+        udata
+            .screencopy_frame_data()
+            .session
+            .set(Arc::downgrade(&self.0))
+            .unwrap();
         let frame = self.0 .0.create_frame(qh, udata);
         frame.attach_buffer(buffer);
         for Rect {
@@ -168,6 +173,28 @@ impl CaptureSession {
 
     pub fn data<U: Send + Sync + 'static>(&self) -> Option<&U> {
         self.0 .0.data()
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+pub struct CaptureFrame(zcosmic_screencopy_frame_v2::ZcosmicScreencopyFrameV2);
+
+impl CaptureFrame {
+    pub fn session<U: ScreencopyFrameDataExt + Send + Sync + 'static>(
+        &self,
+    ) -> Option<CaptureSession> {
+        Some(CaptureSession(
+            self.data::<U>()?
+                .screencopy_frame_data()
+                .session
+                .get()
+                .unwrap()
+                .upgrade()?,
+        ))
+    }
+
+    pub fn data<U: Send + Sync + 'static>(&self) -> Option<&U> {
+        self.0.data()
     }
 }
 
@@ -231,7 +258,7 @@ pub trait ScreencopyHandler: Sized {
         &mut self,
         conn: &Connection,
         qh: &QueueHandle<Self>,
-        screencopy_frame: &zcosmic_screencopy_frame_v2::ZcosmicScreencopyFrameV2,
+        screencopy_frame: &CaptureFrame,
         frame: Frame,
     );
 
@@ -239,7 +266,7 @@ pub trait ScreencopyHandler: Sized {
         &mut self,
         conn: &Connection,
         qh: &QueueHandle<Self>,
-        screencopy_frame: &zcosmic_screencopy_frame_v2::ZcosmicScreencopyFrameV2,
+        screencopy_frame: &CaptureFrame,
         reason: WEnum<zcosmic_screencopy_frame_v2::FailureReason>,
     );
 }
@@ -263,6 +290,7 @@ impl ScreencopySessionDataExt for ScreencopySessionData {
 #[derive(Default)]
 pub struct ScreencopyFrameData {
     frame: Mutex<Frame>,
+    session: OnceLock<Weak<CaptureSessionInner>>,
 }
 
 pub trait ScreencopyFrameDataExt {

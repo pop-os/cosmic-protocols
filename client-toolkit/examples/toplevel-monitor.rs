@@ -1,10 +1,10 @@
 use cosmic_client_toolkit::toplevel_info::{ToplevelInfoHandler, ToplevelInfoState};
-use cosmic_protocols::toplevel_info::v1::client::zcosmic_toplevel_handle_v1;
 use sctk::{
     output::{OutputHandler, OutputState},
     registry::{ProvidesRegistryState, RegistryState},
 };
 use wayland_client::{globals::registry_queue_init, protocol::wl_output, Connection, QueueHandle};
+use wayland_protocols::ext::foreign_toplevel_list::v1::client::ext_foreign_toplevel_handle_v1;
 
 struct AppData {
     output_state: OutputState,
@@ -60,7 +60,7 @@ impl ToplevelInfoHandler for AppData {
         &mut self,
         _conn: &Connection,
         _qh: &QueueHandle<Self>,
-        toplevel: &zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1,
+        toplevel: &ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
     ) {
         println!(
             "New toplevel: {:?}",
@@ -72,7 +72,7 @@ impl ToplevelInfoHandler for AppData {
         &mut self,
         _conn: &Connection,
         _qh: &QueueHandle<Self>,
-        toplevel: &zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1,
+        toplevel: &ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
     ) {
         println!(
             "Update toplevel: {:?}",
@@ -84,7 +84,7 @@ impl ToplevelInfoHandler for AppData {
         &mut self,
         _conn: &Connection,
         _qh: &QueueHandle<Self>,
-        toplevel: &zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1,
+        toplevel: &ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
     ) {
         println!(
             "Closed toplevel: {:?}",

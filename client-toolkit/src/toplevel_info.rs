@@ -24,11 +24,16 @@ pub struct ToplevelGeometry {
 pub struct ToplevelInfo {
     pub title: String,
     pub app_id: String,
-    pub identifier: Option<String>,
+    pub identifier: String,
+    /// Requires zcosmic_toplevel_info_v1 version 2
     pub state: HashSet<zcosmic_toplevel_handle_v1::State>,
+    /// Requires zcosmic_toplevel_info_v1 version 2
     pub output: HashSet<wl_output::WlOutput>,
+    /// Requires zcosmic_toplevel_info_v1 version 2
     pub geometry: HashMap<wl_output::WlOutput, ToplevelGeometry>,
+    /// Requires zcosmic_toplevel_info_v1 version 2
     pub workspace: HashSet<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1>,
+    pub cosmic_toplevel: Option<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1>,
     pub foreign_toplevel: ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
 }
 
@@ -44,11 +49,12 @@ impl ToplevelData {
         let pending_info = ToplevelInfo {
             title: String::new(),
             app_id: String::new(),
-            identifier: None,
+            identifier: String::new(),
             state: HashSet::new(),
             output: HashSet::new(),
             geometry: HashMap::new(),
             workspace: HashSet::new(),
+            cosmic_toplevel: None,
             foreign_toplevel,
         };
         Self {
@@ -57,16 +63,23 @@ impl ToplevelData {
             has_cosmic_info: false,
         }
     }
+
+    fn cosmic_toplevel(&self) -> Option<&zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1> {
+        self.pending_info.cosmic_toplevel.as_ref()
+    }
+
+    fn foreign_toplevel(&self) -> &ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1 {
+        &self.pending_info.foreign_toplevel
+    }
 }
 
+/// Handler for `ext-foreign-toplevel-list-v1`, and optionally
+/// `cosmic-toplevel-info-unstable-v1` which extends it with additional information.
 #[derive(Debug)]
 pub struct ToplevelInfoState {
     pub foreign_toplevel_list: ext_foreign_toplevel_list_v1::ExtForeignToplevelListV1,
-    pub cosmic_toplevel_info: zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1,
-    toplevels: Vec<(
-        zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1,
-        ToplevelData,
-    )>,
+    pub cosmic_toplevel_info: Option<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1>,
+    toplevels: Vec<ToplevelData>,
 }
 
 impl ToplevelInfoState {
@@ -89,7 +102,7 @@ impl ToplevelInfoState {
                 2..=2,
                 GlobalData,
             )
-            .ok()?;
+            .ok();
 
         Some(Self {
             foreign_toplevel_list,
@@ -109,12 +122,11 @@ impl ToplevelInfoState {
 
     pub fn info(
         &self,
-        toplevel: &zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1,
+        toplevel: &ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
     ) -> Option<&ToplevelInfo> {
         self.toplevels
             .iter()
-            .find(|(x, _)| x == toplevel)?
-            .1
+            .find(|data| data.foreign_toplevel() == toplevel)?
             .current_info
             .as_ref()
     }
@@ -123,13 +135,13 @@ impl ToplevelInfoState {
         &self,
     ) -> impl Iterator<
         Item = (
-            &zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1,
+            &ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
             Option<&ToplevelInfo>,
         ),
     > {
         self.toplevels
             .iter()
-            .map(|(toplevel, data)| (toplevel, data.current_info.as_ref()))
+            .map(|data| (data.foreign_toplevel(), data.current_info.as_ref()))
     }
 }
 
@@ -140,21 +152,21 @@ pub trait ToplevelInfoHandler: Sized {
         &mut self,
         conn: &Connection,
         qh: &QueueHandle<Self>,
-        toplevel: &zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1,
+        toplevel: &ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
     );
 
     fn update_toplevel(
         &mut self,
         conn: &Connection,
         qh: &QueueHandle<Self>,
-        toplevel: &zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1,
+        toplevel: &ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
     );
 
     fn toplevel_closed(
         &mut self,
         conn: &Connection,
         qh: &QueueHandle<Self>,
-        toplevel: &zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1,
+        toplevel: &ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
     );
 
     fn info_done(&mut self, _conn: &Connection, _qh: &QueueHandle<Self>) {}
@@ -213,9 +225,8 @@ where
             .toplevel_info_state()
             .toplevels
             .iter_mut()
-            .find(|(x, _)| x == toplevel)
-            .expect("Received event for dead toplevel")
-            .1;
+            .find(|data| data.cosmic_toplevel() == Some(toplevel))
+            .expect("Received event for dead toplevel");
         match event {
             zcosmic_toplevel_handle_v1::Event::OutputEnter { output } => {
                 data.pending_info.output.insert(output);
@@ -288,11 +299,13 @@ where
         match event {
             ext_foreign_toplevel_list_v1::Event::Toplevel { toplevel } => {
                 let info_state = state.toplevel_info_state();
-                let cosmic_toplevel = info_state
-                    .cosmic_toplevel_info
-                    .get_cosmic_toplevel(&toplevel, qh, GlobalData);
-                let toplevel_data = ToplevelData::new(toplevel);
-                info_state.toplevels.push((cosmic_toplevel, toplevel_data));
+                let mut toplevel_data = ToplevelData::new(toplevel.clone());
+                if let Some(cosmic_toplevel_info) = &info_state.cosmic_toplevel_info {
+                    let cosmic_toplevel =
+                        cosmic_toplevel_info.get_cosmic_toplevel(&toplevel, qh, GlobalData);
+                    toplevel_data.pending_info.cosmic_toplevel = Some(cosmic_toplevel);
+                }
+                info_state.toplevels.push(toplevel_data);
             }
             ext_foreign_toplevel_list_v1::Event::Finished => {
                 state.finished(conn, qh);
@@ -321,24 +334,26 @@ where
         conn: &Connection,
         qh: &QueueHandle<D>,
     ) {
-        let (toplevel, data) = &mut state
+        let data = &mut state
             .toplevel_info_state()
             .toplevels
             .iter_mut()
-            .find(|(_, data)| data.pending_info.foreign_toplevel == *handle)
+            .find(|data| data.foreign_toplevel() == handle)
             .expect("Received event for dead toplevel");
         match event {
             ext_foreign_toplevel_handle_v1::Event::Closed => {
-                let toplevel = toplevel.clone();
-                state.toplevel_closed(conn, qh, &toplevel);
+                state.toplevel_closed(conn, qh, handle);
 
                 let toplevels = &mut state.toplevel_info_state().toplevels;
-                if let Some(idx) = toplevels.iter().position(|(handle, _)| handle == &toplevel) {
+                if let Some(idx) = toplevels
+                    .iter()
+                    .position(|data| data.foreign_toplevel() == handle)
+                {
                     toplevels.remove(idx);
                 }
             }
             ext_foreign_toplevel_handle_v1::Event::Done => {
-                if !data.has_cosmic_info {
+                if data.cosmic_toplevel().is_some() && !data.has_cosmic_info {
                     // Don't call `new_toplevel` if we have the `ext_foreign_toplevel_handle_v1`,
                     // but don't have any `zcosmic_toplevel_handle_v1` events yet.
                     return;
@@ -346,11 +361,10 @@ where
 
                 let is_new = data.current_info.is_none();
                 data.current_info = Some(data.pending_info.clone());
-                let toplevel = toplevel.clone();
                 if is_new {
-                    state.new_toplevel(conn, qh, &toplevel);
+                    state.new_toplevel(conn, qh, handle);
                 } else {
-                    state.update_toplevel(conn, qh, &toplevel);
+                    state.update_toplevel(conn, qh, handle);
                 }
             }
             ext_foreign_toplevel_handle_v1::Event::Title { title } => {
@@ -360,7 +374,7 @@ where
                 data.pending_info.app_id = app_id;
             }
             ext_foreign_toplevel_handle_v1::Event::Identifier { identifier } => {
-                data.pending_info.identifier = Some(identifier);
+                data.pending_info.identifier = identifier;
             }
             _ => unreachable!(),
         }

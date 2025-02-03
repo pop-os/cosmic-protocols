@@ -1,7 +1,7 @@
 use cosmic_client_toolkit::screencopy::{
-    CaptureFrame, CaptureSession, CaptureSource, Formats, ScreencopyFrameData,
-    ScreencopyFrameDataExt, ScreencopyHandler, ScreencopySessionData, ScreencopySessionDataExt,
-    ScreencopyState,
+    CaptureFrame, CaptureOptions, CaptureSession, CaptureSource, FailureReason, Formats,
+    ScreencopyFrameData, ScreencopyFrameDataExt, ScreencopyHandler, ScreencopySessionData,
+    ScreencopySessionDataExt, ScreencopyState,
 };
 use sctk::{
     output::{OutputHandler, OutputState},
@@ -14,9 +14,6 @@ use wayland_client::{
     globals::registry_queue_init,
     protocol::{wl_buffer, wl_output, wl_shm},
     Connection, QueueHandle, WEnum,
-};
-use wayland_protocols::ext::image_copy_capture::v1::client::{
-    ext_image_copy_capture_frame_v1, ext_image_copy_capture_manager_v1,
 };
 
 struct AppData {
@@ -138,7 +135,7 @@ impl ScreencopyHandler for AppData {
         _: &Connection,
         _: &QueueHandle<Self>,
         _: &CaptureFrame,
-        reason: WEnum<ext_image_copy_capture_frame_v1::FailureReason>,
+        reason: WEnum<FailureReason>,
     ) {
         println!("Failed to capture output: {:?}", reason);
         self.outputs_done += 1;
@@ -200,7 +197,7 @@ fn main() {
                 .capturer()
                 .create_session(
                     &CaptureSource::Output(output),
-                    ext_image_copy_capture_manager_v1::Options::empty(),
+                    CaptureOptions::empty(),
                     &qh,
                     SessionData {
                         output_name: info.name.clone().unwrap(),

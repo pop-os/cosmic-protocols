@@ -29,6 +29,9 @@ use wayland_protocols::ext::{
     },
 };
 
+pub use ext_image_copy_capture_frame_v1::FailureReason;
+pub use ext_image_copy_capture_manager_v1::Options as CaptureOptions;
+
 use crate::GlobalData;
 
 mod capture_source;
@@ -182,7 +185,7 @@ impl Capturer {
     pub fn create_session<D, U>(
         &self,
         source: &CaptureSource,
-        options: ext_image_copy_capture_manager_v1::Options,
+        options: CaptureOptions,
         qh: &QueueHandle<D>,
         udata: U,
     ) -> Result<CaptureSession, CaptureSourceError>
@@ -404,7 +407,7 @@ pub trait ScreencopyHandler: Sized {
         conn: &Connection,
         qh: &QueueHandle<Self>,
         screencopy_frame: &CaptureFrame,
-        reason: WEnum<ext_image_copy_capture_frame_v1::FailureReason>,
+        reason: WEnum<FailureReason>,
     );
 }
 

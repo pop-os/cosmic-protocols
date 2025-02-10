@@ -196,6 +196,16 @@ where
                     .chunks(4)
                     .map(|chunk| u32::from_ne_bytes(chunk.try_into().unwrap()))
                     .collect();
+                // Keep `.workspaces` sorted by `coordinates`
+                let group = state
+                    .workspace_state()
+                    .workspace_groups
+                    .iter_mut()
+                    .find(|group| group.workspaces.iter().any(|w| &w.handle == handle))
+                    .unwrap();
+                group
+                    .workspaces
+                    .sort_by(|w1, w2| w1.coordinates.cmp(&w2.coordinates));
             }
             zcosmic_workspace_handle_v1::Event::State { state } => {
                 workspace.state = state

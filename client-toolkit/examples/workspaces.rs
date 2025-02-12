@@ -29,7 +29,7 @@ impl OutputHandler for AppData {
         &mut self,
         _conn: &Connection,
         _qh: &QueueHandle<Self>,
-        output: wl_output::WlOutput,
+        _output: wl_output::WlOutput,
     ) {
     }
 
@@ -45,7 +45,7 @@ impl OutputHandler for AppData {
         &mut self,
         _conn: &Connection,
         _qh: &QueueHandle<Self>,
-        output: wl_output::WlOutput,
+        _output: wl_output::WlOutput,
     ) {
     }
 }

@@ -30,7 +30,7 @@ impl OutputHandler for AppData {
         &mut self,
         _conn: &Connection,
         _qh: &QueueHandle<Self>,
-        output: wl_output::WlOutput,
+        _output: wl_output::WlOutput,
     ) {
     }
 
@@ -46,7 +46,7 @@ impl OutputHandler for AppData {
         &mut self,
         _conn: &Connection,
         _qh: &QueueHandle<Self>,
-        output: wl_output::WlOutput,
+        _output: wl_output::WlOutput,
     ) {
     }
 }
@@ -92,7 +92,7 @@ impl ToplevelInfoHandler for AppData {
         );
     }
 
-    fn info_done(&mut self, conn: &Connection, qh: &QueueHandle<Self>) {
+    fn info_done(&mut self, _conn: &Connection, _qh: &QueueHandle<Self>) {
         println!("Info done");
     }
 }

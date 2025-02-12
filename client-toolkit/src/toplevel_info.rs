@@ -131,17 +131,10 @@ impl ToplevelInfoState {
             .as_ref()
     }
 
-    pub fn toplevels(
-        &self,
-    ) -> impl Iterator<
-        Item = (
-            &ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
-            Option<&ToplevelInfo>,
-        ),
-    > {
+    pub fn toplevels(&self) -> impl Iterator<Item = &ToplevelInfo> {
         self.toplevels
             .iter()
-            .map(|data| (data.foreign_toplevel(), data.current_info.as_ref()))
+            .filter_map(|data| data.current_info.as_ref())
     }
 }
 

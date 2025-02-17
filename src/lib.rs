@@ -17,6 +17,30 @@
 #[macro_use]
 mod protocol_macro;
 
+pub mod a11y {
+    //! Accessibility support.
+
+    #[allow(missing_docs)]
+    pub mod v1 {
+        wayland_protocol!(
+            "./unstable/cosmic-a11y-unstable-v1.xml",
+            []
+        );
+    }
+}
+
+pub mod atspi {
+    //! Atspi accessibility support.
+
+    #[allow(missing_docs)]
+    pub mod v1 {
+        wayland_protocol!(
+            "./unstable/cosmic-atspi-unstable-v1.xml",
+            []
+        );
+    }
+}
+
 pub mod image_source {
     //! Capture interface.
 
@@ -96,18 +120,6 @@ pub mod workspace {
     pub mod v1 {
         wayland_protocol!(
             "./unstable/cosmic-workspace-unstable-v1.xml",
-            []
-        );
-    }
-}
-
-pub mod atspi {
-    //! Atspi accessibility support.
-
-    #[allow(missing_docs)]
-    pub mod v1 {
-        wayland_protocol!(
-            "./unstable/cosmic-atspi-unstable-v1.xml",
             []
         );
     }

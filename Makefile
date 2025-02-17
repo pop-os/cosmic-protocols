@@ -3,12 +3,14 @@ DATADIR=$${datarootdir}
 DATAROOTDIR=$${prefix}/share
 
 unstable_protocols = \
+	unstable/cosmic-a11y-unstable-v1.xml \
+	unstable/cosmic-atspi-unstable-v1.xml \
 	unstable/cosmic-image-source-unstable-v1.xml \
-	unstable/cosmic-screencopy-unstable-v2.xml \
 	unstable/cosmic-output-management-unstable-v1.xml \
+	unstable/cosmic-overlap-notify-unstable-v1.xml \
+	unstable/cosmic-screencopy-unstable-v2.xml \
 	unstable/cosmic-toplevel-info-unstable-v1.xml \
 	unstable/cosmic-toplevel-management-unstable-v1.xml \
-	unstable/cosmic-overlap-notify-unstable-v1.xml \
 	unstable/cosmic-workspace-unstable-v1.xml \
 
 check: $(unstable_protocols)

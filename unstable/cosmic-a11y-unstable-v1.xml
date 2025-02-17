@@ -1,0 +1,50 @@
+<protocol name="cosmic_a11y_v1">
+  <copyright>
+    Copyright © 2025 System76
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice (including the next
+    paragraph) shall be included in all copies or substantial portions of the
+    Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+  </copyright>
+
+  <description summary="toggle various accessibility features">
+    This protocols provides way to toggle various accessibility features
+    in the COSMIC desktop environment for shell components.
+  </description>
+
+  <interface name="cosmic_a11y_manager_v1" version="1">
+    <description summary="a11y global">
+      Manager to toggle accessibility features.
+    </description>
+
+    <event name="magnifier">
+      <description summary="State of the screen magnifier"/>
+      <arg name="active" type="uint" enum="active_state" summary="If the screen magnifier is enabled"/>
+    </event>
+
+    <request name="set_magnifier">
+      <description summary="Set the screen magnifier on or off"/>
+      <arg name="active" type="uint" enum="active_state" summary="If the screen magnifier should be enabled"/>
+    </request>
+
+    <enum name="active_state">
+        <entry name="disabled" value="0" summary="function is disabled"/>
+        <entry name="enabled" value="1" summary="function is enabled"/>
+    </enum>
+  </interface>
+</protocol>

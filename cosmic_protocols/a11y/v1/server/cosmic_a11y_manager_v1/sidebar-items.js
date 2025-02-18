@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["EVT_MAGNIFIER_OPCODE","EVT_MAGNIFIER_SINCE","REQ_SET_MAGNIFIER_OPCODE","REQ_SET_MAGNIFIER_SINCE"],"enum":["ActiveState","Event","Request"],"struct":["CosmicA11yManagerV1"]};

@@ -112,7 +112,19 @@
 <a href="#111" id="111">111</a>
 <a href="#112" id="112">112</a>
 <a href="#113" id="113">113</a>
-<a href="#114" id="114">114</a></pre></div><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: GPL-3.0-only
+<a href="#114" id="114">114</a>
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
+<a href="#121" id="121">121</a>
+<a href="#122" id="122">122</a>
+<a href="#123" id="123">123</a>
+<a href="#124" id="124">124</a>
+<a href="#125" id="125">125</a>
+<a href="#126" id="126">126</a></pre></div><pre class="rust"><code><span class="comment">// SPDX-License-Identifier: GPL-3.0-only
 
 </span><span class="doccomment">//! This crate provides bindings to the COSMIC wayland protocol extensions.
 //!
@@ -130,6 +142,30 @@
 
 #[macro_use]
 </span><span class="kw">mod </span>protocol_macro;
+
+<span class="kw">pub mod </span>a11y {
+    <span class="doccomment">//! Accessibility support.
+
+    </span><span class="attr">#[allow(missing_docs)]
+    </span><span class="kw">pub mod </span>v1 {
+        <span class="macro">wayland_protocol!</span>(
+            <span class="string">"./unstable/cosmic-a11y-unstable-v1.xml"</span>,
+            []
+        );
+    }
+}
+
+<span class="kw">pub mod </span>atspi {
+    <span class="doccomment">//! Atspi accessibility support.
+
+    </span><span class="attr">#[allow(missing_docs)]
+    </span><span class="kw">pub mod </span>v1 {
+        <span class="macro">wayland_protocol!</span>(
+            <span class="string">"./unstable/cosmic-atspi-unstable-v1.xml"</span>,
+            []
+        );
+    }
+}
 
 <span class="kw">pub mod </span>image_source {
     <span class="doccomment">//! Capture interface.
@@ -210,18 +246,6 @@
     </span><span class="kw">pub mod </span>v1 {
         <span class="macro">wayland_protocol!</span>(
             <span class="string">"./unstable/cosmic-workspace-unstable-v1.xml"</span>,
-            []
-        );
-    }
-}
-
-<span class="kw">pub mod </span>atspi {
-    <span class="doccomment">//! Atspi accessibility support.
-
-    </span><span class="attr">#[allow(missing_docs)]
-    </span><span class="kw">pub mod </span>v1 {
-        <span class="macro">wayland_protocol!</span>(
-            <span class="string">"./unstable/cosmic-atspi-unstable-v1.xml"</span>,
             []
         );
     }

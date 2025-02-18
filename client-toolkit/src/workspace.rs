@@ -38,7 +38,7 @@ impl WorkspaceState {
     {
         Self {
             workspace_groups: Vec::new(),
-            manager: GlobalProxy::from(registry.bind_one(qh, 1..=2, GlobalData)),
+            manager: GlobalProxy::from(registry.bind_one(qh, 1..=3, GlobalData)),
         }
     }
 

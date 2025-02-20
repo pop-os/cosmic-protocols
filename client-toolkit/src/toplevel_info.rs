@@ -9,8 +9,11 @@ use cosmic_protocols::{
 };
 use sctk::registry::RegistryState;
 use wayland_client::{protocol::wl_output, Connection, Dispatch, Proxy, QueueHandle, Weak};
-use wayland_protocols::ext::foreign_toplevel_list::v1::client::{
-    ext_foreign_toplevel_handle_v1, ext_foreign_toplevel_list_v1,
+use wayland_protocols::ext::{
+    foreign_toplevel_list::v1::client::{
+        ext_foreign_toplevel_handle_v1, ext_foreign_toplevel_list_v1,
+    },
+    workspace::v1::client::ext_workspace_handle_v1,
 };
 
 use crate::GlobalData;
@@ -36,6 +39,7 @@ pub struct ToplevelInfo {
     pub geometry: HashMap<wl_output::WlOutput, ToplevelGeometry>,
     /// Requires zcosmic_toplevel_info_v1 version 2
     pub workspace: HashSet<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1>,
+    pub ext_workspace: HashSet<ext_workspace_handle_v1::ExtWorkspaceHandleV1>,
     pub cosmic_toplevel: Option<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1>,
     pub foreign_toplevel: ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
 }
@@ -57,6 +61,7 @@ impl ToplevelData {
             output: HashSet::new(),
             geometry: HashMap::new(),
             workspace: HashSet::new(),
+            ext_workspace: HashSet::new(),
             cosmic_toplevel: None,
             foreign_toplevel,
         };
@@ -116,7 +121,7 @@ impl ToplevelInfoState {
         let cosmic_toplevel_info = registry
             .bind_one::<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, _, _>(
                 qh,
-                2..=2,
+                2..=3,
                 GlobalData,
             )
             .ok();
@@ -250,6 +255,12 @@ where
             }
             zcosmic_toplevel_handle_v1::Event::WorkspaceLeave { workspace } => {
                 data.pending_info.workspace.remove(&workspace);
+            }
+            zcosmic_toplevel_handle_v1::Event::ExtWorkspaceEnter { workspace } => {
+                data.pending_info.ext_workspace.insert(workspace);
+            }
+            zcosmic_toplevel_handle_v1::Event::ExtWorkspaceLeave { workspace } => {
+                data.pending_info.ext_workspace.remove(&workspace);
             }
             zcosmic_toplevel_handle_v1::Event::State { state } => {
                 data.has_cosmic_info = true;

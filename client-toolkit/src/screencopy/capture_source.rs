@@ -1,17 +1,16 @@
 use cosmic_protocols::{
     image_source::v1::client::zcosmic_image_source_v1,
-    toplevel_info::v1::client::zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1,
     workspace::v1::client::zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1,
 };
 use std::{error::Error, fmt};
-use wayland_client::{protocol::wl_output, Dispatch, QueueHandle};
+use wayland_client::{protocol::wl_output, Dispatch, Proxy, QueueHandle};
 use wayland_protocols::ext::{
     foreign_toplevel_list::v1::client::ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
     image_capture_source::v1::client::ext_image_capture_source_v1,
 };
 
 use super::Capturer;
-use crate::GlobalData;
+use crate::{toplevel_info::ToplevelUserData, GlobalData};
 
 #[derive(Debug)]
 pub struct CaptureSourceError(CaptureSourceKind);
@@ -28,7 +27,6 @@ impl Error for CaptureSourceError {}
 pub enum CaptureSourceKind {
     Output,
     Toplevel,
-    CosmicToplevel,
     CosmicWorkspace,
 }
 
@@ -36,7 +34,6 @@ pub enum CaptureSourceKind {
 pub enum CaptureSource {
     Output(wl_output::WlOutput),
     Toplevel(ExtForeignToplevelHandleV1),
-    CosmicToplevel(ZcosmicToplevelHandleV1),
     CosmicWorkspace(ZcosmicWorkspaceHandleV1),
 }
 
@@ -45,7 +42,6 @@ impl CaptureSource {
         match self {
             Self::Output(_) => CaptureSourceKind::Output,
             Self::Toplevel(_) => CaptureSourceKind::Toplevel,
-            Self::CosmicToplevel(_) => CaptureSourceKind::CosmicToplevel,
             Self::CosmicWorkspace(_) => CaptureSourceKind::CosmicWorkspace,
         }
     }
@@ -76,7 +72,6 @@ impl CaptureSource {
                         ));
                     }
                 }
-                CaptureSource::CosmicToplevel(_) => {}
                 CaptureSource::CosmicWorkspace(_) => {}
             }
         }
@@ -89,11 +84,18 @@ impl CaptureSource {
                         ));
                     }
                 }
-                CaptureSource::CosmicToplevel(toplevel) => {
-                    if let Some(manager) = &cosmic_screencopy.toplevel_source_manager {
-                        return Ok(WlCaptureSource::Cosmic(
-                            manager.create_source(toplevel, qh, GlobalData),
-                        ));
+                CaptureSource::Toplevel(toplevel) => {
+                    if let Some(cosmic_toplevel) = toplevel
+                        .data::<ToplevelUserData>()
+                        .and_then(|data| data.cosmic_toplevel())
+                    {
+                        if let Some(manager) = &cosmic_screencopy.toplevel_source_manager {
+                            return Ok(WlCaptureSource::Cosmic(manager.create_source(
+                                &cosmic_toplevel,
+                                qh,
+                                GlobalData,
+                            )));
+                        }
                     }
                 }
                 CaptureSource::CosmicWorkspace(workspace) => {
@@ -103,7 +105,6 @@ impl CaptureSource {
                         ));
                     }
                 }
-                CaptureSource::Toplevel(_) => {}
             }
         }
         Err(CaptureSourceError(self.kind()))

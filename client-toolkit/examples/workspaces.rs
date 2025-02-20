@@ -69,12 +69,20 @@ impl WorkspaceHandler for AppData {
                 "Group: outputs: {:?}, capabilities: {:?}",
                 output_names, group.capabilities,
             );
-            for workspace in &group.workspaces {
+            let mut workspaces = self
+                .workspace_state
+                .workspaces()
+                .iter()
+                .filter(|w| group.workspaces.contains(&w.handle))
+                .collect::<Vec<_>>();
+            workspaces.sort_by(|w1, w2| w1.coordinates.cmp(&w2.coordinates));
+            for workspace in workspaces {
                 println!(
-                    "  Workspace: name: {}, coordinates: {:?}, capabilties: {:?}, state: {:?}, tiling: {:?}",
+                    "  Workspace: name: {}, coordinates: {:?}, capabilties: {:?}, cosmic capabilities: {:?}, state: {:?}, tiling: {:?}",
                     &workspace.name,
                     &workspace.coordinates,
                     &workspace.capabilities,
+                    &workspace.cosmic_capabilities,
                     &workspace.state,
                     &workspace.tiling,
                 );

@@ -135,4 +135,13 @@ pub mod workspace {
             []
         );
     }
+
+
+    #[allow(missing_docs)]
+    pub mod v2 {
+        wayland_protocol!(
+            "./unstable/cosmic-workspace-unstable-v2.xml",
+            [wayland_protocols::ext::workspace::v1]
+        );
+    }
 }

@@ -41,6 +41,18 @@ pub mod atspi {
     }
 }
 
+pub mod image_capture_source {
+    //! Capture source interface extending `ext-image-capture-source-v1`.
+
+    #[allow(missing_docs)]
+    pub mod v1 {
+        wayland_protocol!(
+            "./unstable/cosmic-image-capture-source-unstable-v1.xml",
+            [wayland_protocols::ext::image_capture_source::v1, wayland_protocols::ext::workspace::v1]
+        );
+    }
+}
+
 pub mod image_source {
     //! Capture interface.
 
@@ -48,7 +60,7 @@ pub mod image_source {
     pub mod v1 {
         wayland_protocol!(
             "./unstable/cosmic-image-source-unstable-v1.xml",
-            [crate::workspace::v1, crate::toplevel_info::v1]
+            [crate::workspace::v1, crate::toplevel_info::v1, wayland_protocols::ext::workspace::v1]
         );
     }
 }

@@ -3,9 +3,8 @@ use std::{
     sync::OnceLock,
 };
 
-use cosmic_protocols::{
-    toplevel_info::v1::client::{zcosmic_toplevel_handle_v1, zcosmic_toplevel_info_v1},
-    workspace::v1::client::zcosmic_workspace_handle_v1,
+use cosmic_protocols::toplevel_info::v1::client::{
+    zcosmic_toplevel_handle_v1, zcosmic_toplevel_info_v1,
 };
 use sctk::registry::RegistryState;
 use wayland_client::{protocol::wl_output, Connection, Dispatch, Proxy, QueueHandle, Weak};
@@ -37,9 +36,9 @@ pub struct ToplevelInfo {
     pub output: HashSet<wl_output::WlOutput>,
     /// Requires zcosmic_toplevel_info_v1 version 2
     pub geometry: HashMap<wl_output::WlOutput, ToplevelGeometry>,
+    /// Requires zcosmic_toplevel_info_v1 version 3
+    pub workspace: HashSet<ext_workspace_handle_v1::ExtWorkspaceHandleV1>,
     /// Requires zcosmic_toplevel_info_v1 version 2
-    pub workspace: HashSet<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1>,
-    pub ext_workspace: HashSet<ext_workspace_handle_v1::ExtWorkspaceHandleV1>,
     pub cosmic_toplevel: Option<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1>,
     pub foreign_toplevel: ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
 }
@@ -61,7 +60,6 @@ impl ToplevelData {
             output: HashSet::new(),
             geometry: HashMap::new(),
             workspace: HashSet::new(),
-            ext_workspace: HashSet::new(),
             cosmic_toplevel: None,
             foreign_toplevel,
         };
@@ -250,17 +248,14 @@ where
                 data.pending_info.output.remove(&output);
                 data.pending_info.geometry.remove(&output);
             }
-            zcosmic_toplevel_handle_v1::Event::WorkspaceEnter { workspace } => {
+            // Ignore legacy workspace handle events
+            zcosmic_toplevel_handle_v1::Event::WorkspaceEnter { .. }
+            | zcosmic_toplevel_handle_v1::Event::WorkspaceLeave { .. } => {}
+            zcosmic_toplevel_handle_v1::Event::ExtWorkspaceEnter { workspace } => {
                 data.pending_info.workspace.insert(workspace);
             }
-            zcosmic_toplevel_handle_v1::Event::WorkspaceLeave { workspace } => {
-                data.pending_info.workspace.remove(&workspace);
-            }
-            zcosmic_toplevel_handle_v1::Event::ExtWorkspaceEnter { workspace } => {
-                data.pending_info.ext_workspace.insert(workspace);
-            }
             zcosmic_toplevel_handle_v1::Event::ExtWorkspaceLeave { workspace } => {
-                data.pending_info.ext_workspace.remove(&workspace);
+                data.pending_info.workspace.remove(&workspace);
             }
             zcosmic_toplevel_handle_v1::Event::State { state } => {
                 data.has_cosmic_info = true;

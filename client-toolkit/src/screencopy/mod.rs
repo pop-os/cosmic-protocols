@@ -5,7 +5,6 @@ use cosmic_protocols::{
     image_source::v1::client::{
         zcosmic_ext_workspace_image_source_manager_v1, zcosmic_image_source_v1,
         zcosmic_output_image_source_manager_v1, zcosmic_toplevel_image_source_manager_v1,
-        zcosmic_workspace_image_source_manager_v1,
     },
     screencopy::v2::client::{
         zcosmic_screencopy_frame_v2, zcosmic_screencopy_manager_v2, zcosmic_screencopy_session_v2,
@@ -85,8 +84,6 @@ struct CosmicScreencopy {
         Option<zcosmic_output_image_source_manager_v1::ZcosmicOutputImageSourceManagerV1>,
     toplevel_source_manager:
         Option<zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1>,
-    workspace_source_manager:
-        Option<zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1>,
     ext_workspace_source_manager: Option<
         zcosmic_ext_workspace_image_source_manager_v1::ZcosmicExtWorkspaceImageSourceManagerV1,
     >,
@@ -106,10 +103,6 @@ impl CosmicScreencopy {
             GlobalData,
         >,
         D: Dispatch<
-            zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1,
-            GlobalData,
-        >,
-        D: Dispatch<
             zcosmic_ext_workspace_image_source_manager_v1::ZcosmicExtWorkspaceImageSourceManagerV1,
             GlobalData,
         >,
@@ -117,13 +110,11 @@ impl CosmicScreencopy {
         let screencopy_manager = globals.bind(qh, 1..=1, GlobalData).ok()?;
         let output_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
         let toplevel_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
-        let workspace_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
         let ext_workspace_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
         Some(Self {
             screencopy_manager,
             output_source_manager,
             toplevel_source_manager,
-            workspace_source_manager,
             ext_workspace_source_manager,
         })
     }
@@ -173,9 +164,6 @@ impl Drop for CapturerInner {
                 manager.destroy();
             }
             if let Some(manager) = &cosmic_screencopy.toplevel_source_manager {
-                manager.destroy();
-            }
-            if let Some(manager) = &cosmic_screencopy.workspace_source_manager {
                 manager.destroy();
             }
             if let Some(manager) = &cosmic_screencopy.ext_workspace_source_manager {
@@ -379,10 +367,6 @@ impl ScreencopyState {
         >,
         D: Dispatch<
             zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1,
-            GlobalData,
-        >,
-        D: Dispatch<
-            zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1,
             GlobalData,
         >,
         D: Dispatch<ext_image_copy_capture_manager_v1::ExtImageCopyCaptureManagerV1, GlobalData>,

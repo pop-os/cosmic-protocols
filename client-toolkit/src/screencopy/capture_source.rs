@@ -1,7 +1,4 @@
-use cosmic_protocols::{
-    image_source::v1::client::zcosmic_image_source_v1,
-    workspace::v1::client::zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1,
-};
+use cosmic_protocols::image_source::v1::client::zcosmic_image_source_v1;
 use std::{error::Error, fmt};
 use wayland_client::{protocol::wl_output, Dispatch, Proxy, QueueHandle};
 use wayland_protocols::ext::{
@@ -29,7 +26,6 @@ pub enum CaptureSourceKind {
     Output,
     Toplevel,
     Workspace,
-    CosmicWorkspace,
 }
 
 #[derive(Clone, Debug, Hash, PartialEq, Eq)]
@@ -37,7 +33,6 @@ pub enum CaptureSource {
     Output(wl_output::WlOutput),
     Toplevel(ExtForeignToplevelHandleV1),
     Workspace(ExtWorkspaceHandleV1),
-    CosmicWorkspace(ZcosmicWorkspaceHandleV1),
 }
 
 impl CaptureSource {
@@ -46,7 +41,6 @@ impl CaptureSource {
             Self::Output(_) => CaptureSourceKind::Output,
             Self::Toplevel(_) => CaptureSourceKind::Toplevel,
             Self::Workspace(_) => CaptureSourceKind::Workspace,
-            Self::CosmicWorkspace(_) => CaptureSourceKind::CosmicWorkspace,
         }
     }
 
@@ -83,7 +77,6 @@ impl CaptureSource {
                         ));
                     }
                 }
-                CaptureSource::CosmicWorkspace(_) => {}
             }
         }
         if let Some(cosmic_screencopy) = &capturer.0.cosmic_screencopy {
@@ -111,13 +104,6 @@ impl CaptureSource {
                 }
                 CaptureSource::Workspace(workspace) => {
                     if let Some(manager) = &cosmic_screencopy.ext_workspace_source_manager {
-                        return Ok(WlCaptureSource::Cosmic(
-                            manager.create_source(workspace, qh, GlobalData),
-                        ));
-                    }
-                }
-                CaptureSource::CosmicWorkspace(workspace) => {
-                    if let Some(manager) = &cosmic_screencopy.workspace_source_manager {
                         return Ok(WlCaptureSource::Cosmic(
                             manager.create_source(workspace, qh, GlobalData),
                         ));

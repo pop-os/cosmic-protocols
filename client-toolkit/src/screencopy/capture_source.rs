@@ -7,6 +7,7 @@ use wayland_client::{protocol::wl_output, Dispatch, Proxy, QueueHandle};
 use wayland_protocols::ext::{
     foreign_toplevel_list::v1::client::ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
     image_capture_source::v1::client::ext_image_capture_source_v1,
+    workspace::v1::client::ext_workspace_handle_v1::ExtWorkspaceHandleV1,
 };
 
 use super::Capturer;
@@ -27,6 +28,7 @@ impl Error for CaptureSourceError {}
 pub enum CaptureSourceKind {
     Output,
     Toplevel,
+    Workspace,
     CosmicWorkspace,
 }
 
@@ -34,6 +36,7 @@ pub enum CaptureSourceKind {
 pub enum CaptureSource {
     Output(wl_output::WlOutput),
     Toplevel(ExtForeignToplevelHandleV1),
+    Workspace(ExtWorkspaceHandleV1),
     CosmicWorkspace(ZcosmicWorkspaceHandleV1),
 }
 
@@ -42,6 +45,7 @@ impl CaptureSource {
         match self {
             Self::Output(_) => CaptureSourceKind::Output,
             Self::Toplevel(_) => CaptureSourceKind::Toplevel,
+            Self::Workspace(_) => CaptureSourceKind::Workspace,
             Self::CosmicWorkspace(_) => CaptureSourceKind::CosmicWorkspace,
         }
     }
@@ -72,6 +76,13 @@ impl CaptureSource {
                         ));
                     }
                 }
+                CaptureSource::Workspace(workspace) => {
+                    if let Some(manager) = &image_copy_capture.workspace_source_manager {
+                        return Ok(WlCaptureSource::Ext(
+                            manager.create_source(workspace, qh, GlobalData),
+                        ));
+                    }
+                }
                 CaptureSource::CosmicWorkspace(_) => {}
             }
         }
@@ -96,6 +107,13 @@ impl CaptureSource {
                                 GlobalData,
                             )));
                         }
+                    }
+                }
+                CaptureSource::Workspace(workspace) => {
+                    if let Some(manager) = &cosmic_screencopy.ext_workspace_source_manager {
+                        return Ok(WlCaptureSource::Cosmic(
+                            manager.create_source(workspace, qh, GlobalData),
+                        ));
                     }
                 }
                 CaptureSource::CosmicWorkspace(workspace) => {

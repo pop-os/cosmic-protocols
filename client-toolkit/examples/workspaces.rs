@@ -72,7 +72,6 @@ impl WorkspaceHandler for AppData {
             let mut workspaces = self
                 .workspace_state
                 .workspaces()
-                .iter()
                 .filter(|w| group.workspaces.contains(&w.handle))
                 .collect::<Vec<_>>();
             workspaces.sort_by(|w1, w2| w1.coordinates.cmp(&w2.coordinates));

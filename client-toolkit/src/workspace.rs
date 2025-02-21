@@ -18,6 +18,33 @@ pub struct WorkspaceGroup {
     pub workspaces: HashSet<ext_workspace_handle_v1::ExtWorkspaceHandleV1>,
 }
 
+#[derive(Debug)]
+struct WorkspaceGroupData {
+    handle: ext_workspace_group_handle_v1::ExtWorkspaceGroupHandleV1,
+    current: Option<WorkspaceGroup>,
+    pending: Option<WorkspaceGroup>,
+}
+
+impl WorkspaceGroupData {
+    fn pending(&mut self) -> &mut WorkspaceGroup {
+        if self.pending.is_none() {
+            self.pending = Some(self.current.clone().unwrap_or(WorkspaceGroup {
+                handle: self.handle.clone(),
+                capabilities: ext_workspace_group_handle_v1::GroupCapabilities::empty(),
+                outputs: Vec::new(),
+                workspaces: HashSet::new(),
+            }));
+        }
+        self.pending.as_mut().unwrap()
+    }
+
+    fn commit_pending(&mut self) {
+        if let Some(pending) = self.pending.take() {
+            self.current = Some(pending);
+        }
+    }
+}
+
 #[derive(Clone, Debug)]
 pub struct Workspace {
     pub handle: ext_workspace_handle_v1::ExtWorkspaceHandleV1,
@@ -31,9 +58,41 @@ pub struct Workspace {
 }
 
 #[derive(Debug)]
+struct WorkspaceData {
+    handle: ext_workspace_handle_v1::ExtWorkspaceHandleV1,
+    cosmic_handle: Option<zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2>,
+    current: Option<Workspace>,
+    pending: Option<Workspace>,
+}
+
+impl WorkspaceData {
+    fn pending(&mut self) -> &mut Workspace {
+        if self.pending.is_none() {
+            self.pending = Some(self.current.clone().unwrap_or(Workspace {
+                handle: self.handle.clone(),
+                cosmic_handle: self.cosmic_handle.clone(),
+                name: String::new(),
+                coordinates: Vec::new(),
+                state: ext_workspace_handle_v1::State::empty(),
+                capabilities: ext_workspace_handle_v1::WorkspaceCapabilities::empty(),
+                cosmic_capabilities: zcosmic_workspace_handle_v2::WorkspaceCapabilities::empty(),
+                tiling: None,
+            }));
+        }
+        self.pending.as_mut().unwrap()
+    }
+
+    fn commit_pending(&mut self) {
+        if let Some(pending) = self.pending.take() {
+            self.current = Some(pending);
+        }
+    }
+}
+
+#[derive(Debug)]
 pub struct WorkspaceState {
-    workspace_groups: Vec<WorkspaceGroup>,
-    workspaces: Vec<Workspace>,
+    workspace_groups: Vec<WorkspaceGroupData>,
+    workspaces: Vec<WorkspaceData>,
     manager: GlobalProxy<ext_workspace_manager_v1::ExtWorkspaceManagerV1>,
     cosmic_manager: GlobalProxy<zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2>,
 }
@@ -59,12 +118,16 @@ impl WorkspaceState {
         &self.manager
     }
 
-    pub fn workspace_groups(&self) -> &[WorkspaceGroup] {
-        &self.workspace_groups
+    pub fn workspace_groups(&self) -> impl Iterator<Item = &WorkspaceGroup> {
+        self.workspace_groups
+            .iter()
+            .filter_map(|data| data.current.as_ref())
     }
 
-    pub fn workspaces(&self) -> &[Workspace] {
-        &self.workspaces
+    pub fn workspaces(&self) -> impl Iterator<Item = &Workspace> {
+        self.workspaces
+            .iter()
+            .filter_map(|data| data.current.as_ref())
     }
 }
 
@@ -97,11 +160,10 @@ where
                 state
                     .workspace_state()
                     .workspace_groups
-                    .push(WorkspaceGroup {
+                    .push(WorkspaceGroupData {
                         handle: workspace_group,
-                        capabilities: ext_workspace_group_handle_v1::GroupCapabilities::empty(),
-                        outputs: Vec::new(),
-                        workspaces: HashSet::new(),
+                        current: None,
+                        pending: None,
                     });
             }
             ext_workspace_manager_v1::Event::Workspace { workspace } => {
@@ -114,19 +176,20 @@ where
                         .map(|cosmic_manager| {
                             cosmic_manager.get_cosmic_workspace(&workspace, qh, GlobalData)
                         });
-                state.workspace_state().workspaces.push(Workspace {
+                state.workspace_state().workspaces.push(WorkspaceData {
                     handle: workspace,
                     cosmic_handle,
-                    name: String::new(),
-                    coordinates: Vec::new(),
-                    state: ext_workspace_handle_v1::State::empty(),
-                    capabilities: ext_workspace_handle_v1::WorkspaceCapabilities::empty(),
-                    cosmic_capabilities: zcosmic_workspace_handle_v2::WorkspaceCapabilities::empty(
-                    ),
-                    tiling: None,
+                    current: None,
+                    pending: None,
                 });
             }
             ext_workspace_manager_v1::Event::Done => {
+                for data in &mut state.workspace_state().workspace_groups {
+                    data.commit_pending();
+                }
+                for data in &mut state.workspace_state().workspaces {
+                    data.commit_pending();
+                }
                 state.done();
             }
             ext_workspace_manager_v1::Event::Finished => {}
@@ -164,21 +227,22 @@ where
             .unwrap();
         match event {
             ext_workspace_group_handle_v1::Event::Capabilities { capabilities } => {
-                group.capabilities = bitflags_retained(capabilities);
+                group.pending().capabilities = bitflags_retained(capabilities);
             }
             ext_workspace_group_handle_v1::Event::OutputEnter { output } => {
-                group.outputs.push(output);
+                group.pending().outputs.push(output);
             }
             ext_workspace_group_handle_v1::Event::OutputLeave { output } => {
-                if let Some(idx) = group.outputs.iter().position(|x| x == &output) {
-                    group.outputs.remove(idx);
+                let pending = group.pending();
+                if let Some(idx) = pending.outputs.iter().position(|x| x == &output) {
+                    pending.outputs.remove(idx);
                 }
             }
             ext_workspace_group_handle_v1::Event::WorkspaceEnter { workspace } => {
-                group.workspaces.insert(workspace);
+                group.pending().workspaces.insert(workspace);
             }
             ext_workspace_group_handle_v1::Event::WorkspaceLeave { workspace } => {
-                group.workspaces.remove(&workspace);
+                group.pending().workspaces.remove(&workspace);
             }
             ext_workspace_group_handle_v1::Event::Removed => {
                 if let Some(idx) = state
@@ -215,24 +279,24 @@ where
             .unwrap();
         match event {
             ext_workspace_handle_v1::Event::Name { name } => {
-                workspace.name = name;
+                workspace.pending().name = name;
             }
             ext_workspace_handle_v1::Event::Coordinates { coordinates } => {
-                workspace.coordinates = coordinates
+                workspace.pending().coordinates = coordinates
                     .chunks(4)
                     .map(|chunk| u32::from_ne_bytes(chunk.try_into().unwrap()))
                     .collect();
             }
             ext_workspace_handle_v1::Event::State { state } => {
-                workspace.state = bitflags_retained(state);
+                workspace.pending().state = bitflags_retained(state);
             }
             ext_workspace_handle_v1::Event::Capabilities { capabilities } => {
-                workspace.capabilities = bitflags_retained(capabilities);
+                workspace.pending().capabilities = bitflags_retained(capabilities);
             }
             ext_workspace_handle_v1::Event::Removed => {
-                for group in state.workspace_state().workspace_groups.iter_mut() {
-                    group.workspaces.remove(handle);
-                }
+                // Protocol guarantees it will already have been removed from group,
+                // so no need to do that here.
+
                 if let Some(idx) = state
                     .workspace_state()
                     .workspaces
@@ -289,10 +353,10 @@ where
             .unwrap();
         match event {
             zcosmic_workspace_handle_v2::Event::Capabilities { capabilities } => {
-                workspace.cosmic_capabilities = bitflags_retained(capabilities);
+                workspace.pending().cosmic_capabilities = bitflags_retained(capabilities);
             }
             zcosmic_workspace_handle_v2::Event::TilingState { state } => {
-                workspace.tiling = Some(state);
+                workspace.pending().tiling = Some(state);
             }
             _ => unreachable!(),
         }

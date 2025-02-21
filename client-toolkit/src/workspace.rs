@@ -13,7 +13,7 @@ use crate::GlobalData;
 #[derive(Clone, Debug)]
 pub struct WorkspaceGroup {
     pub handle: ext_workspace_group_handle_v1::ExtWorkspaceGroupHandleV1,
-    pub capabilities: WEnum<ext_workspace_group_handle_v1::GroupCapabilities>,
+    pub capabilities: ext_workspace_group_handle_v1::GroupCapabilities,
     pub outputs: Vec<wl_output::WlOutput>,
     pub workspaces: HashSet<ext_workspace_handle_v1::ExtWorkspaceHandleV1>,
 }
@@ -24,9 +24,9 @@ pub struct Workspace {
     pub cosmic_handle: Option<zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2>,
     pub name: String,
     pub coordinates: Vec<u32>,
-    pub state: WEnum<ext_workspace_handle_v1::State>,
-    pub capabilities: WEnum<ext_workspace_handle_v1::WorkspaceCapabilities>,
-    pub cosmic_capabilities: WEnum<zcosmic_workspace_handle_v2::WorkspaceCapabilities>,
+    pub state: ext_workspace_handle_v1::State,
+    pub capabilities: ext_workspace_handle_v1::WorkspaceCapabilities,
+    pub cosmic_capabilities: zcosmic_workspace_handle_v2::WorkspaceCapabilities,
     pub tiling: Option<WEnum<zcosmic_workspace_handle_v2::TilingState>>,
 }
 
@@ -99,9 +99,7 @@ where
                     .workspace_groups
                     .push(WorkspaceGroup {
                         handle: workspace_group,
-                        capabilities: WEnum::Value(
-                            ext_workspace_group_handle_v1::GroupCapabilities::empty(),
-                        ),
+                        capabilities: ext_workspace_group_handle_v1::GroupCapabilities::empty(),
                         outputs: Vec::new(),
                         workspaces: HashSet::new(),
                     });
@@ -121,12 +119,9 @@ where
                     cosmic_handle,
                     name: String::new(),
                     coordinates: Vec::new(),
-                    state: WEnum::Value(ext_workspace_handle_v1::State::empty()),
-                    capabilities: WEnum::Value(
-                        ext_workspace_handle_v1::WorkspaceCapabilities::empty(),
-                    ),
-                    cosmic_capabilities: WEnum::Value(
-                        zcosmic_workspace_handle_v2::WorkspaceCapabilities::empty(),
+                    state: ext_workspace_handle_v1::State::empty(),
+                    capabilities: ext_workspace_handle_v1::WorkspaceCapabilities::empty(),
+                    cosmic_capabilities: zcosmic_workspace_handle_v2::WorkspaceCapabilities::empty(
                     ),
                     tiling: None,
                 });
@@ -169,7 +164,7 @@ where
             .unwrap();
         match event {
             ext_workspace_group_handle_v1::Event::Capabilities { capabilities } => {
-                group.capabilities = capabilities;
+                group.capabilities = bitflags_retained(capabilities);
             }
             ext_workspace_group_handle_v1::Event::OutputEnter { output } => {
                 group.outputs.push(output);
@@ -229,10 +224,10 @@ where
                     .collect();
             }
             ext_workspace_handle_v1::Event::State { state } => {
-                workspace.state = state;
+                workspace.state = bitflags_retained(state);
             }
             ext_workspace_handle_v1::Event::Capabilities { capabilities } => {
-                workspace.capabilities = capabilities;
+                workspace.capabilities = bitflags_retained(capabilities);
             }
             ext_workspace_handle_v1::Event::Removed => {
                 for group in state.workspace_state().workspace_groups.iter_mut() {
@@ -294,13 +289,21 @@ where
             .unwrap();
         match event {
             zcosmic_workspace_handle_v2::Event::Capabilities { capabilities } => {
-                workspace.cosmic_capabilities = capabilities;
+                workspace.cosmic_capabilities = bitflags_retained(capabilities);
             }
             zcosmic_workspace_handle_v2::Event::TilingState { state } => {
                 workspace.tiling = Some(state);
             }
             _ => unreachable!(),
         }
+    }
+}
+
+// Convert bitflags `WEnum` to bitflag type, retaining unrecognized bits
+fn bitflags_retained<T: bitflags::Flags<Bits = u32>>(flags: WEnum<T>) -> T {
+    match flags {
+        WEnum::Value(value) => value,
+        WEnum::Unknown(value) => T::from_bits_retain(value),
     }
 }
 

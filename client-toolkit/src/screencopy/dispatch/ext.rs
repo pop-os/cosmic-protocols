@@ -1,3 +1,4 @@
+use cosmic_protocols::image_capture_source::v1::client::zcosmic_workspace_image_capture_source_manager_v1;
 use std::time::Duration;
 use wayland_client::{Connection, Dispatch, QueueHandle, WEnum};
 use wayland_protocols::ext::{
@@ -236,6 +237,30 @@ where
     }
 }
 
+impl<D>
+    Dispatch<
+        zcosmic_workspace_image_capture_source_manager_v1::ZcosmicWorkspaceImageCaptureSourceManagerV1,
+        GlobalData,
+        D,
+    > for ScreencopyState
+where
+    D: Dispatch<
+            zcosmic_workspace_image_capture_source_manager_v1::ZcosmicWorkspaceImageCaptureSourceManagerV1,
+            GlobalData,
+        > + ScreencopyHandler,
+{
+    fn event(
+        _app_data: &mut D,
+        _source: &zcosmic_workspace_image_capture_source_manager_v1::ZcosmicWorkspaceImageCaptureSourceManagerV1,
+        _event: zcosmic_workspace_image_capture_source_manager_v1::Event,
+        _udata: &GlobalData,
+        _conn: &Connection,
+        _qh: &QueueHandle<D>,
+    ) {
+        unreachable!()
+    }
+}
+
 #[macro_export]
 macro_rules! delegate_ext_image_capture {
     ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty) => {
@@ -251,6 +276,9 @@ macro_rules! delegate_ext_image_capture {
         ] => $crate::screencopy::ScreencopyState);
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
             $crate::wayland_protocols::ext::image_capture_source::v1::client::ext_image_capture_source_v1::ExtImageCaptureSourceV1: $crate::GlobalData
+        ] => $crate::screencopy::ScreencopyState);
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
+            $crate::cosmic_protocols::image_capture_source::v1::client::zcosmic_workspace_image_capture_source_manager_v1::ZcosmicWorkspaceImageCaptureSourceManagerV1: $crate::GlobalData
         ] => $crate::screencopy::ScreencopyState);
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
             $crate::wayland_protocols::ext::image_copy_capture::v1::client::ext_image_copy_capture_manager_v1::ExtImageCopyCaptureManagerV1: $crate::GlobalData

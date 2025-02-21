@@ -107,6 +107,31 @@
     </request>
   </interface>
 
+  <interface name="zcosmic_ext_workspace_image_source_manager_v1" version="1">
+    <description summary="image source manager for outputs">
+      A manager for creating image source objects for wl_output objects.
+    </description>
+
+    <request name="create_source">
+      <description summary="create source object for output">
+        Creates a source object for a workspaces. Images captured from this source
+        will show the same content as the workspace. Some elements may be omitted,
+        such as cursors and overlays that have been marked as transparent to
+        capturing.
+      </description>
+      <arg name="source" type="new_id" interface="zcosmic_image_source_v1"/>
+      <arg name="output" type="object" interface="ext_workspace_handle_v1"/>
+    </request>
+
+    <request name="destroy" type="destructor">
+      <description summary="delete this object">
+        Destroys the manager. This request may be sent at any time by the client
+        and objects created by the manager will remain valid after its
+        destruction.
+      </description>
+    </request>
+  </interface>
+
   <interface name="zcosmic_toplevel_image_source_manager_v1" version="1">
     <description summary="image source manager for toplevels">
       A manager for creating image source objects for

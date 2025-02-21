@@ -27,7 +27,7 @@
     THIS SOFTWARE.
   </copyright>
 
-  <interface name="zcosmic_toplevel_info_v1" version="2">
+  <interface name="zcosmic_toplevel_info_v1" version="3">
     <description summary="list toplevels and properties thereof">
       The purpose of this protocol is to enable clients such as taskbars
       or docks to access a list of opened applications and basic properties
@@ -103,7 +103,7 @@
     </event>
   </interface>
 
-  <interface name="zcosmic_toplevel_handle_v1" version="2">
+  <interface name="zcosmic_toplevel_handle_v1" version="3">
     <description summary="an open toplevel">
       A zcosmic_toplevel_handle_v1 object represents an open toplevel
       window. A single app may have multiple open toplevels.
@@ -188,7 +188,7 @@
       <arg name="output" type="object" interface="wl_output"/>
     </event>
 
-    <event name="workspace_enter">
+    <event name="workspace_enter" deprecated-since="3">
       <description summary="toplevel entered an workspace">
         This event is emitted whenever the toplevel becomes visible on the
         given workspace. A toplevel may be visible on multiple workspaces.
@@ -196,7 +196,7 @@
       <arg name="workspace" type="object" interface="zcosmic_workspace_handle_v1"/>
     </event>
 
-    <event name="workspace_leave">
+    <event name="workspace_leave" deprecated-since="3">
       <description summary="toplevel left an workspace">
         This event is emitted whenever the toplevel is no longer visible
         on a given workspace. It is guaranteed that an workspace_enter event with
@@ -240,6 +240,23 @@
       <arg name="y" type="int" summary="y coordinate of the upper-left corner"/>
       <arg name="width" type="int" summary="width of the toplevel"/>
       <arg name="height" type="int" summary="height of the toplevel"/>
+    </event>
+
+    <event name="ext_workspace_enter" since="3">
+      <description summary="toplevel entered an workspace">
+        This event is emitted whenever the toplevel becomes visible on the
+        given workspace. A toplevel may be visible on multiple workspaces.
+      </description>
+      <arg name="workspace" type="object" interface="ext_workspace_handle_v1"/>
+    </event>
+
+    <event name="ext_workspace_leave" since="3">
+      <description summary="toplevel left an workspace">
+        This event is emitted whenever the toplevel is no longer visible
+        on a given workspace. It is guaranteed that an workspace_enter event with
+        the same workspace has been emitted before this event.
+      </description>
+      <arg name="workspace" type="object" interface="ext_workspace_handle_v1"/>
     </event>
   </interface>
 </protocol>

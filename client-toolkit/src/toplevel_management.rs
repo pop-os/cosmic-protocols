@@ -16,7 +16,7 @@ impl ToplevelManagerState {
         let manager = registry
             .bind_one::<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, _, _>(
                 qh,
-                1..=2,
+                1..=4,
                 GlobalData,
             )
             .ok()?;

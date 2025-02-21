@@ -1,13 +1,18 @@
-use std::collections::{HashMap, HashSet};
+use std::{
+    collections::{HashMap, HashSet},
+    sync::OnceLock,
+};
 
-use cosmic_protocols::{
-    toplevel_info::v1::client::{zcosmic_toplevel_handle_v1, zcosmic_toplevel_info_v1},
-    workspace::v1::client::zcosmic_workspace_handle_v1,
+use cosmic_protocols::toplevel_info::v1::client::{
+    zcosmic_toplevel_handle_v1, zcosmic_toplevel_info_v1,
 };
 use sctk::registry::RegistryState;
-use wayland_client::{protocol::wl_output, Connection, Dispatch, QueueHandle};
-use wayland_protocols::ext::foreign_toplevel_list::v1::client::{
-    ext_foreign_toplevel_handle_v1, ext_foreign_toplevel_list_v1,
+use wayland_client::{protocol::wl_output, Connection, Dispatch, Proxy, QueueHandle, Weak};
+use wayland_protocols::ext::{
+    foreign_toplevel_list::v1::client::{
+        ext_foreign_toplevel_handle_v1, ext_foreign_toplevel_list_v1,
+    },
+    workspace::v1::client::ext_workspace_handle_v1,
 };
 
 use crate::GlobalData;
@@ -31,8 +36,9 @@ pub struct ToplevelInfo {
     pub output: HashSet<wl_output::WlOutput>,
     /// Requires zcosmic_toplevel_info_v1 version 2
     pub geometry: HashMap<wl_output::WlOutput, ToplevelGeometry>,
+    /// Requires zcosmic_toplevel_info_v1 version 3
+    pub workspace: HashSet<ext_workspace_handle_v1::ExtWorkspaceHandleV1>,
     /// Requires zcosmic_toplevel_info_v1 version 2
-    pub workspace: HashSet<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1>,
     pub cosmic_toplevel: Option<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1>,
     pub foreign_toplevel: ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
 }
@@ -73,6 +79,20 @@ impl ToplevelData {
     }
 }
 
+#[doc(hidden)]
+#[derive(Default)]
+pub struct ToplevelUserData {
+    cosmic_toplevel: OnceLock<Option<Weak<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1>>>,
+}
+
+impl ToplevelUserData {
+    pub(crate) fn cosmic_toplevel(
+        &self,
+    ) -> Option<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1> {
+        self.cosmic_toplevel.get().unwrap().as_ref()?.upgrade().ok()
+    }
+}
+
 /// Handler for `ext-foreign-toplevel-list-v1`, and optionally
 /// `cosmic-toplevel-info-unstable-v1` which extends it with additional information.
 #[derive(Debug)]
@@ -99,7 +119,7 @@ impl ToplevelInfoState {
         let cosmic_toplevel_info = registry
             .bind_one::<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, _, _>(
                 qh,
-                2..=2,
+                2..=3,
                 GlobalData,
             )
             .ok();
@@ -228,10 +248,13 @@ where
                 data.pending_info.output.remove(&output);
                 data.pending_info.geometry.remove(&output);
             }
-            zcosmic_toplevel_handle_v1::Event::WorkspaceEnter { workspace } => {
+            // Ignore legacy workspace handle events
+            zcosmic_toplevel_handle_v1::Event::WorkspaceEnter { .. }
+            | zcosmic_toplevel_handle_v1::Event::WorkspaceLeave { .. } => {}
+            zcosmic_toplevel_handle_v1::Event::ExtWorkspaceEnter { workspace } => {
                 data.pending_info.workspace.insert(workspace);
             }
-            zcosmic_toplevel_handle_v1::Event::WorkspaceLeave { workspace } => {
+            zcosmic_toplevel_handle_v1::Event::ExtWorkspaceLeave { workspace } => {
                 data.pending_info.workspace.remove(&workspace);
             }
             zcosmic_toplevel_handle_v1::Event::State { state } => {
@@ -276,7 +299,7 @@ impl<D> Dispatch<ext_foreign_toplevel_list_v1::ExtForeignToplevelListV1, GlobalD
     for ToplevelInfoState
 where
     D: Dispatch<ext_foreign_toplevel_list_v1::ExtForeignToplevelListV1, GlobalData>
-        + Dispatch<ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1, GlobalData>
+        + Dispatch<ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1, ToplevelUserData>
         + Dispatch<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1, GlobalData>
         + ToplevelInfoHandler
         + 'static,
@@ -293,11 +316,20 @@ where
             ext_foreign_toplevel_list_v1::Event::Toplevel { toplevel } => {
                 let info_state = state.toplevel_info_state();
                 let mut toplevel_data = ToplevelData::new(toplevel.clone());
-                if let Some(cosmic_toplevel_info) = &info_state.cosmic_toplevel_info {
-                    let cosmic_toplevel =
-                        cosmic_toplevel_info.get_cosmic_toplevel(&toplevel, qh, GlobalData);
-                    toplevel_data.pending_info.cosmic_toplevel = Some(cosmic_toplevel);
-                }
+                let cosmic_toplevel =
+                    info_state
+                        .cosmic_toplevel_info
+                        .as_ref()
+                        .map(|cosmic_toplevel_info| {
+                            cosmic_toplevel_info.get_cosmic_toplevel(&toplevel, qh, GlobalData)
+                        });
+                toplevel
+                    .data::<ToplevelUserData>()
+                    .unwrap()
+                    .cosmic_toplevel
+                    .set(cosmic_toplevel.as_ref().map(|t| t.downgrade()))
+                    .unwrap();
+                toplevel_data.pending_info.cosmic_toplevel = cosmic_toplevel;
                 info_state.toplevels.push(toplevel_data);
             }
             ext_foreign_toplevel_list_v1::Event::Finished => {
@@ -313,17 +345,17 @@ where
     ]);
 }
 
-impl<D> Dispatch<ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1, GlobalData, D>
+impl<D> Dispatch<ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1, ToplevelUserData, D>
     for ToplevelInfoState
 where
-    D: Dispatch<ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1, GlobalData>
+    D: Dispatch<ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1, ToplevelUserData>
         + ToplevelInfoHandler,
 {
     fn event(
         state: &mut D,
         handle: &ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
         event: ext_foreign_toplevel_handle_v1::Event,
-        _data: &GlobalData,
+        _data: &ToplevelUserData,
         conn: &Connection,
         qh: &QueueHandle<D>,
     ) {
@@ -387,7 +419,7 @@ macro_rules! delegate_toplevel_info {
             $crate::wayland_protocols::ext::foreign_toplevel_list::v1::client::ext_foreign_toplevel_list_v1::ExtForeignToplevelListV1: $crate::GlobalData
         ] => $crate::toplevel_info::ToplevelInfoState);
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::wayland_protocols::ext::foreign_toplevel_list::v1::client::ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1: $crate::GlobalData
+            $crate::wayland_protocols::ext::foreign_toplevel_list::v1::client::ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1: $crate::toplevel_info::ToplevelUserData
         ] => $crate::toplevel_info::ToplevelInfoState);
     };
 }

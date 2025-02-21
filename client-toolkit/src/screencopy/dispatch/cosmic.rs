@@ -1,7 +1,7 @@
 use cosmic_protocols::{
     image_source::v1::client::{
-        zcosmic_image_source_v1, zcosmic_output_image_source_manager_v1,
-        zcosmic_toplevel_image_source_manager_v1, zcosmic_workspace_image_source_manager_v1,
+        zcosmic_ext_workspace_image_source_manager_v1, zcosmic_image_source_v1,
+        zcosmic_output_image_source_manager_v1, zcosmic_toplevel_image_source_manager_v1,
     },
     screencopy::v2::client::{
         zcosmic_screencopy_frame_v2, zcosmic_screencopy_manager_v2, zcosmic_screencopy_session_v2,
@@ -238,20 +238,20 @@ where
 
 impl<D>
     Dispatch<
-        zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1,
+        zcosmic_ext_workspace_image_source_manager_v1::ZcosmicExtWorkspaceImageSourceManagerV1,
         GlobalData,
         D,
     > for ScreencopyState
 where
     D: Dispatch<
-            zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1,
+            zcosmic_ext_workspace_image_source_manager_v1::ZcosmicExtWorkspaceImageSourceManagerV1,
             GlobalData,
         > + ScreencopyHandler,
 {
     fn event(
         _app_data: &mut D,
-        _source: &zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1,
-        _event: zcosmic_workspace_image_source_manager_v1::Event,
+        _source: &zcosmic_ext_workspace_image_source_manager_v1::ZcosmicExtWorkspaceImageSourceManagerV1,
+        _event: zcosmic_ext_workspace_image_source_manager_v1::Event,
         _udata: &GlobalData,
         _conn: &Connection,
         _qh: &QueueHandle<D>,
@@ -274,7 +274,7 @@ macro_rules! delegate_cosmic_screencopy {
             $crate::cosmic_protocols::image_source::v1::client::zcosmic_toplevel_image_source_manager_v1::ZcosmicToplevelImageSourceManagerV1: $crate::GlobalData
         ] => $crate::screencopy::ScreencopyState);
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::image_source::v1::client::zcosmic_workspace_image_source_manager_v1::ZcosmicWorkspaceImageSourceManagerV1: $crate::GlobalData
+            $crate::cosmic_protocols::image_source::v1::client::zcosmic_ext_workspace_image_source_manager_v1::ZcosmicExtWorkspaceImageSourceManagerV1: $crate::GlobalData
         ] => $crate::screencopy::ScreencopyState);
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
             $crate::cosmic_protocols::image_source::v1::client::zcosmic_image_source_v1::ZcosmicImageSourceV1: $crate::GlobalData

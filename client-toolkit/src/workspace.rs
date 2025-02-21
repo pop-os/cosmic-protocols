@@ -63,6 +63,7 @@ struct WorkspaceData {
     cosmic_handle: Option<zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2>,
     current: Option<Workspace>,
     pending: Option<Workspace>,
+    has_cosmic_info: bool,
 }
 
 impl WorkspaceData {
@@ -181,9 +182,22 @@ where
                     cosmic_handle,
                     current: None,
                     pending: None,
+                    has_cosmic_info: false,
                 });
             }
             ext_workspace_manager_v1::Event::Done => {
+                // If any workspace doesn't have cosmic info yet, we should wait for the
+                // server to send, it instead of providing incomplete data.
+                // Ignore this `done`, and wait for the one sent after the cosmic info.
+                if state.workspace_state().cosmic_manager.get().is_ok()
+                    && state
+                        .workspace_state()
+                        .workspaces
+                        .iter()
+                        .any(|w| !w.has_cosmic_info)
+                {
+                    return;
+                }
                 for data in &mut state.workspace_state().workspace_groups {
                     data.commit_pending();
                 }
@@ -354,6 +368,7 @@ where
         match event {
             zcosmic_workspace_handle_v2::Event::Capabilities { capabilities } => {
                 workspace.pending().cosmic_capabilities = bitflags_retained(capabilities);
+                workspace.has_cosmic_info = true;
             }
             zcosmic_workspace_handle_v2::Event::TilingState { state } => {
                 workspace.pending().tiling = Some(state);

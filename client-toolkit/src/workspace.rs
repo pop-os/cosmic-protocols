@@ -109,7 +109,7 @@ impl WorkspaceState {
             workspace_groups: Vec::new(),
             workspaces: Vec::new(),
             manager: GlobalProxy::from(registry.bind_one(qh, 1..=1, GlobalData)),
-            cosmic_manager: GlobalProxy::from(registry.bind_one(qh, 1..=1, GlobalData)),
+            cosmic_manager: GlobalProxy::from(registry.bind_one(qh, 1..=2, GlobalData)),
         }
     }
 

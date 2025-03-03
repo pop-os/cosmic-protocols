@@ -25,7 +25,7 @@
     THIS SOFTWARE.
   </copyright>
 
-  <interface name="zcosmic_workspace_manager_v2" version="1">
+  <interface name="zcosmic_workspace_manager_v2" version="2">
     <description summary="list and control workspaces">
       This protocol extends `ext-workspace-v1` with addtional requests and events.
 
@@ -57,7 +57,7 @@
     </enum>
   </interface>
 
-  <interface name="zcosmic_workspace_handle_v2" version="1">
+  <interface name="zcosmic_workspace_handle_v2" version="2">
     <description summary="a workspace handing a group of surfaces">
       A zcosmic_workspace_handle_v2 object represents a a workspace that handles a
       group of surfaces.
@@ -84,6 +84,8 @@
     <enum name="workspace_capabilities" bitfield="true">
       <entry name="rename" value="1" summary="rename request is available"/>
       <entry name="set_tiling_state" value="2" summary="set_tiling_state request is available"/>
+      <entry name="pin" value="3" since="2" summary="pin and unpin requests are available"/>
+      <entry name="move" value="4" since="2" summary="move_before and move_after requests are available"/>
     </enum>
 
     <event name="capabilities">
@@ -114,11 +116,25 @@
       <arg name="state" type="uint" enum="tiling_state"/>
     </event>
 
+    <event name="state" since="2">
+      <description summary="the state of the workspace changed">
+        This event is emitted immediately after the zcosmic_workspace_handle_v2 is
+        created and each time the workspace state changes, either because of a
+        compositor action or because of a request in this protocol.
+      </description>
+      <arg name="state" type="uint" enum="state"/>
+    </event>
+
     <enum name="tiling_state">
       <description summary="types of tiling state a workspace may have"/>
 
       <entry name="floating_only" value="0" summary="The workspace has no active tiling properties"/>
       <entry name="tiling_enabled" value="1" summary="Tiling behavior is enabled for the workspace"/>
+    </enum>
+
+    <enum name="state" bitfield="true" since="2">
+      <description summary="state of the workspace, extending the ext workspace state"/>
+      <entry name="pinned" value="1" summary="the workspace is pinned"/>
     </enum>
 
     <request name="rename">
@@ -137,6 +153,54 @@
         There is no guarantee the workspace will actually change it's tiling state.
       </description>
       <arg name="state" type="uint" enum="tiling_state" summary="the new tiling state of the workspace"/>
+    </request>
+
+    <request name="move_before" since="2">
+      <arg name="other_workspace" type="object" interface="ext_workspace_handle_v1"/>
+      <arg name="axis", type="uint"/>
+      <description summary="move before a different workspace">
+        Move a workspace to be before another workspace along a given axis.
+
+        `other_workspace` may be on the same workspace group, or on a different group.
+        If it's a different set, the workspace will also be moved to that group.
+
+        `axis` should be a valid index in the coordinates on the workspace group
+        `other_workspace` is on. The workspace will be positioned on the target group
+        to have a coordinate with this component less than the value of the component for
+        `other_workspace`. The exact coordinate values, or how other workspaces are moved
+        to accommodate the workspace, is unspecified.
+
+        The request will be ignored if `axis` is invalid or the compositor is otherwise
+        unable to move the workspace.
+
+        There is no guarantee the workspace will actually be moved.
+      </description>
+    </request>
+
+    <request name="move_after" since="2">
+      <arg name="other_workspace" type="object" interface="ext_workspace_handle_v1"/>
+      <arg name="axis", type="uint"/>
+      <description summary="move after a different workspace">
+        Move a workspace to be after another workspace along a given axis.
+
+        See `move_before`.
+      </description>
+    </request>
+
+    <request name="pin", since="2">
+      <description summary="pin the workspace">
+        Request that this workspace be pinned.
+
+        There is no guarantee the workspace will be actually pinned.
+      </description>
+    </request>
+
+    <request name="unpin", since="2">
+      <description summary="pin the workspace">
+        Request that this workspace be unpinned.
+
+        There is no guarantee the workspace will be actually unpinned.
+      </description>
     </request>
   </interface>
 </protocol>

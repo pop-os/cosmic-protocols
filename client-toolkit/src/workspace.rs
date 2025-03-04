@@ -125,10 +125,32 @@ impl WorkspaceState {
             .filter_map(|data| data.current.as_ref())
     }
 
+    pub fn workspace_group_info(
+        &self,
+        handle: &ext_workspace_group_handle_v1::ExtWorkspaceGroupHandleV1,
+    ) -> Option<&WorkspaceGroup> {
+        self.workspace_groups
+            .iter()
+            .find(|g| g.handle == *handle)?
+            .current
+            .as_ref()
+    }
+
     pub fn workspaces(&self) -> impl Iterator<Item = &Workspace> {
         self.workspaces
             .iter()
             .filter_map(|data| data.current.as_ref())
+    }
+
+    pub fn workspace_info(
+        &self,
+        handle: &ext_workspace_handle_v1::ExtWorkspaceHandleV1,
+    ) -> Option<&Workspace> {
+        self.workspaces
+            .iter()
+            .find(|g| g.handle == *handle)?
+            .current
+            .as_ref()
     }
 }
 

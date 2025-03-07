@@ -116,7 +116,7 @@
       <arg name="state" type="uint" enum="tiling_state"/>
     </event>
 
-    <event name="state">
+    <event name="state" since="2">
       <description summary="the state of the workspace changed">
         This event is emitted immediately after the zcosmic_workspace_handle_v2 is
         created and each time the workspace state changes, either because of a

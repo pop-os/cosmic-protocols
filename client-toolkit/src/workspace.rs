@@ -52,6 +52,7 @@ pub struct Workspace {
     pub name: String,
     pub coordinates: Vec<u32>,
     pub state: ext_workspace_handle_v1::State,
+    pub cosmic_state: zcosmic_workspace_handle_v2::State,
     pub capabilities: ext_workspace_handle_v1::WorkspaceCapabilities,
     pub cosmic_capabilities: zcosmic_workspace_handle_v2::WorkspaceCapabilities,
     pub tiling: Option<WEnum<zcosmic_workspace_handle_v2::TilingState>>,
@@ -75,6 +76,7 @@ impl WorkspaceData {
                 name: String::new(),
                 coordinates: Vec::new(),
                 state: ext_workspace_handle_v1::State::empty(),
+                cosmic_state: zcosmic_workspace_handle_v2::State::empty(),
                 capabilities: ext_workspace_handle_v1::WorkspaceCapabilities::empty(),
                 cosmic_capabilities: zcosmic_workspace_handle_v2::WorkspaceCapabilities::empty(),
                 tiling: None,
@@ -109,7 +111,7 @@ impl WorkspaceState {
             workspace_groups: Vec::new(),
             workspaces: Vec::new(),
             manager: GlobalProxy::from(registry.bind_one(qh, 1..=1, GlobalData)),
-            cosmic_manager: GlobalProxy::from(registry.bind_one(qh, 1..=1, GlobalData)),
+            cosmic_manager: GlobalProxy::from(registry.bind_one(qh, 1..=2, GlobalData)),
         }
     }
 
@@ -394,6 +396,9 @@ where
             }
             zcosmic_workspace_handle_v2::Event::TilingState { state } => {
                 workspace.pending().tiling = Some(state);
+            }
+            zcosmic_workspace_handle_v2::Event::State { state } => {
+                workspace.pending().cosmic_state = bitflags_retained(state);
             }
             _ => unreachable!(),
         }

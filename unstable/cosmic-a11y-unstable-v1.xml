@@ -27,7 +27,7 @@
     in the COSMIC desktop environment for shell components.
   </description>
 
-  <interface name="cosmic_a11y_manager_v1" version="1">
+  <interface name="cosmic_a11y_manager_v1" version="2">
     <description summary="a11y global">
       Manager to toggle accessibility features.
     </description>
@@ -55,6 +55,44 @@
     <enum name="active_state">
         <entry name="disabled" value="0" summary="function is disabled"/>
         <entry name="enabled" value="1" summary="function is enabled"/>
+    </enum>
+
+    <event name="screen_filter" since="2">
+      <description summary="State of screen filtering">
+        Parameters used for screen filtering.
+
+        This event will be emitted by the compositor when binding the protocol
+        and whenever the state changes.
+
+        If a screen filter is used not known to the protocol or the bound version
+        filter will be set to unknown.
+      </description>
+      <arg name="inverted" type="uint" enum="active_state" summary="If the screen colors are inverted"/>
+      <arg name="filter" type="uint" enum="filter" summary="Which if any screen filter is enabled"/>
+    </event>
+
+    <request name="set_screen_filter" since="2">
+      <description summary="Set screen filtering">
+        Set the parameters for screen filtering.
+
+        If the filter is set to unknown, the compositor MUST not change the current state
+        of the filter. This is to allow clients to update the inverted state, even if they
+        don't know about the current active filter.
+
+        The client must not assume any requested changes are actually applied and should wait
+        until the next screen_filter event before updating it's UI.
+      </description>
+      <arg name="inverted" type="uint" enum="active_state" summary="If the screen colors should be inverted"/>
+      <arg name="filter" type="uint" enum="filter" summary="Which if any filter should be used"/>
+    </request>
+
+    <enum name="filter" since="2">
+        <entry name="disabled" value="0" summary="No screen filter is set"/>
+        <entry name="unknown" value="1" summary="A custom or unknown screen filter"/>
+        <entry name="greyscale" value="2" summary="Greyscale colors"/>
+        <entry name="daltonize_protanopia" value="3" summary="Daltonize for Protanopia"/>
+        <entry name="daltonize_deuteranopia" value="4" summary="Daltonize for Deuteranopia"/>
+        <entry name="daltonize_tritanopia" value="5" summary="Daltonize for Tritanopia"/>
     </enum>
   </interface>
 </protocol>

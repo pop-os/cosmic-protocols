@@ -33,12 +33,22 @@
     </description>
 
     <event name="magnifier">
-      <description summary="State of the screen magnifier"/>
+      <description summary="State of the screen magnifier">
+        State of the screen magnifier.
+
+        This event will be emitted by the compositor when binding the protocol
+        and whenever the state changes.
+      </description>
       <arg name="active" type="uint" enum="active_state" summary="If the screen magnifier is enabled"/>
     </event>
 
     <request name="set_magnifier">
-      <description summary="Set the screen magnifier on or off"/>
+      <description summary="Set the screen magnifier on or off">
+        Sets the state of the screen magnifier.
+
+        The client must not assume any requested changes are actually applied and should wait
+        until the next magnifier event before updating it's UI.
+      </description>
       <arg name="active" type="uint" enum="active_state" summary="If the screen magnifier should be enabled"/>
     </request>
 

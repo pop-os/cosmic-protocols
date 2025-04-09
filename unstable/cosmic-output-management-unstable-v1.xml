@@ -33,7 +33,7 @@
     it's best to be forward compatible.
   </description>
 
-  <interface name="zcosmic_output_manager_v1" version="2">
+  <interface name="zcosmic_output_manager_v1" version="3">
     <description summary="Output configuration manager">
         This interface provides extension points for wlr-output-management types.
     </description>
@@ -88,9 +88,21 @@
         Destroys this global. All previously created objects remain valid.
       </description>
     </request>
+
+    <!-- version 3 additions -->
+
+    <request name="set_xwayland_primary" since="3">
+      <description summary="set head as the primary for xwayland">
+        This requests a head to be advertised as the primary output via randr to Xwayland.
+
+        No head has to be marked primary, if `null` is passed Xwayland won't advertise a primary output.
+        Sending a disabled head will be ignored to avoid races.
+      </description>
+      <arg name="head" type="object" interface="zcosmic_output_head_v1" allow-null="true" summary="head to be advertised as primary"/>
+    </request>
   </interface>
 
-  <interface name="zcosmic_output_head_v1" version="2">
+  <interface name="zcosmic_output_head_v1" version="3">
     <description summary="Output extension object">
         Extension to zwlr_output_head_v1.
 
@@ -161,6 +173,18 @@
       <entry name="automatic" value="1" summary="adaptive sync will be actived automatically"/>
       <entry name="always" value="2" summary="adaptive sync is forced to be always active"/>
     </enum>
+
+    <!-- version 3 additions -->
+
+    <event name="xwayland_primary" since="3">
+      <description summary="is this head configured as the primary for xwayland">
+        This event describes if this head is advertised as the primary output via randr to Xwayland.
+
+        At most one output is marked primary, but it is not guaranteed that any output is marked.
+        It is only sent if the output is enabled.
+      </description>
+      <arg name="state" type="uint" summary="boolean if primary or not"/>
+    </event>
   </interface>
 
   <interface name="zcosmic_output_configuration_v1" version="1">

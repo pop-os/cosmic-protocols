@@ -385,8 +385,6 @@ macro_rules! delegate_screencopy {
             session: $crate::screencopy::ScreencopySessionData, frame: $crate::screencopy::ScreencopyFrameData);
     };
     ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty, session: [$($session_data:ty),* $(,)?], frame: [$($frame_data:ty),* $(,)?]) => {
-        $crate::delegate_cosmic_screencopy!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty,
-            session: [$($session_data),*], frame: [$($frame_data),*]);
         $crate::delegate_ext_image_capture!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty,
             session: [$($session_data),*], frame: [$($frame_data),*]);
     };

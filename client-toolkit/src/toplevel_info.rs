@@ -85,14 +85,6 @@ pub struct ToplevelUserData {
     cosmic_toplevel: OnceLock<Option<Weak<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1>>>,
 }
 
-impl ToplevelUserData {
-    pub(crate) fn cosmic_toplevel(
-        &self,
-    ) -> Option<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1> {
-        self.cosmic_toplevel.get().unwrap().as_ref()?.upgrade().ok()
-    }
-}
-
 /// Handler for `ext-foreign-toplevel-list-v1`, and optionally
 /// `cosmic-toplevel-info-unstable-v1` which extends it with additional information.
 #[derive(Debug)]

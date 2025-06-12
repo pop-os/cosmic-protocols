@@ -7,7 +7,7 @@ use std::{
 };
 use wayland_client::{
     globals::GlobalList,
-    protocol::{wl_buffer, wl_output::Transform, wl_shm},
+    protocol::{wl_buffer, wl_output::Transform, wl_pointer, wl_shm},
     Connection, Dispatch, Proxy, QueueHandle, WEnum,
 };
 use wayland_protocols::ext::{
@@ -16,8 +16,8 @@ use wayland_protocols::ext::{
         ext_output_image_capture_source_manager_v1,
     },
     image_copy_capture::v1::client::{
-        ext_image_copy_capture_frame_v1, ext_image_copy_capture_manager_v1,
-        ext_image_copy_capture_session_v1,
+        ext_image_copy_capture_cursor_session_v1, ext_image_copy_capture_frame_v1,
+        ext_image_copy_capture_manager_v1, ext_image_copy_capture_session_v1,
     },
 };
 
@@ -128,6 +128,34 @@ impl Capturer {
             }
         })))
     }
+
+    pub fn create_cursor_session<D, U>(
+        &self,
+        source: &CaptureSource,
+        pointer: &wl_pointer::WlPointer,
+        qh: &QueueHandle<D>,
+        udata: U,
+    ) -> Result<CaptureCursorSession, CaptureSourceError>
+    where
+        D: 'static,
+        D: Dispatch<ext_image_capture_source_v1::ExtImageCaptureSourceV1, GlobalData>,
+        D: Dispatch<
+            ext_image_copy_capture_cursor_session_v1::ExtImageCopyCaptureCursorSessionV1,
+            U,
+        >,
+        U: Send + Sync + 'static,
+    {
+        let source = source.create_source(self, qh)?;
+        let session = self
+            .0
+            .image_copy_capture_manager
+            .as_ref()
+            .expect("ext capture source with no image capture copy manager")
+            .create_pointer_cursor_session(&source.0, pointer, qh, udata);
+        Ok(CaptureCursorSession(Arc::new(CaptureCursorSessionInner {
+            session,
+        })))
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Hash)]
@@ -206,6 +234,45 @@ impl CaptureFrame {
     }
 }
 
+#[derive(Debug, PartialEq, Eq, Hash)]
+struct CaptureCursorSessionInner {
+    session: ext_image_copy_capture_cursor_session_v1::ExtImageCopyCaptureCursorSessionV1,
+}
+
+impl Drop for CaptureCursorSessionInner {
+    fn drop(&mut self) {
+        self.session.destroy();
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+pub struct CaptureCursorSession(Arc<CaptureCursorSessionInner>);
+
+impl CaptureCursorSession {
+    pub fn capture_session<D, U>(
+        &self,
+        qh: &QueueHandle<D>,
+        udata: U,
+    ) -> Result<CaptureSession, CaptureSourceError>
+    where
+        D: 'static,
+        D: Dispatch<ext_image_capture_source_v1::ExtImageCaptureSourceV1, GlobalData>,
+        D: Dispatch<ext_image_copy_capture_session_v1::ExtImageCopyCaptureSessionV1, U>,
+        U: ScreencopySessionDataExt + Send + Sync + 'static,
+    {
+        Ok(CaptureSession(Arc::new_cyclic(|weak_session| {
+            udata
+                .screencopy_session_data()
+                .session
+                .set(weak_session.clone())
+                .unwrap();
+            CaptureSessionInner {
+                session: self.0.session.get_capture_session(qh, udata),
+            }
+        })))
+    }
+}
+
 #[derive(Debug)]
 pub struct ScreencopyState {
     capturer: Capturer,
@@ -267,6 +334,15 @@ pub trait ScreencopyHandler: Sized {
         qh: &QueueHandle<Self>,
         screencopy_frame: &CaptureFrame,
         reason: WEnum<FailureReason>,
+    );
+
+    fn cursor_position(
+        &mut self,
+        conn: &Connection,
+        qh: &QueueHandle<Self>,
+        // XXX cursor_frame: &CaptureCursorSession,
+        x: i32,
+        y: i32,
     );
 }
 

@@ -7,12 +7,12 @@ use wayland_protocols::ext::{
         ext_output_image_capture_source_manager_v1,
     },
     image_copy_capture::v1::client::{
-        ext_image_copy_capture_frame_v1, ext_image_copy_capture_manager_v1,
-        ext_image_copy_capture_session_v1,
+        ext_image_copy_capture_cursor_session_v1, ext_image_copy_capture_frame_v1,
+        ext_image_copy_capture_manager_v1, ext_image_copy_capture_session_v1,
     },
 };
 
-use super::super::{
+use super::{
     CaptureFrame, CaptureSession, Rect, ScreencopyFrameDataExt, ScreencopyHandler,
     ScreencopySessionDataExt, ScreencopyState,
 };
@@ -152,7 +152,9 @@ where
                 app_data.ready(
                     conn,
                     qh,
-                    &CaptureFrame::Ext(screencopy_frame.clone()),
+                    &CaptureFrame {
+                        frame: screencopy_frame.clone(),
+                    },
                     frame,
                 );
                 screencopy_frame.destroy();
@@ -161,7 +163,9 @@ where
                 app_data.failed(
                     conn,
                     qh,
-                    &CaptureFrame::Ext(screencopy_frame.clone()),
+                    &CaptureFrame {
+                        frame: screencopy_frame.clone(),
+                    },
                     reason,
                 );
                 screencopy_frame.destroy();
@@ -170,6 +174,36 @@ where
         }
     }
 }
+
+impl<D, U>
+    Dispatch<ext_image_copy_capture_cursor_session_v1::ExtImageCopyCaptureCursorSessionV1, U, D>
+    for ScreencopyState
+where
+    D: Dispatch<ext_image_copy_capture_cursor_session_v1::ExtImageCopyCaptureCursorSessionV1, U>
+        + ScreencopyHandler,
+{
+    fn event(
+        app_data: &mut D,
+        screencopy_frame: &ext_image_copy_capture_cursor_session_v1::ExtImageCopyCaptureCursorSessionV1,
+        event: ext_image_copy_capture_cursor_session_v1::Event,
+        udata: &U,
+        conn: &Connection,
+        qh: &QueueHandle<D>,
+    ) {
+        // TODO
+        match event {
+            ext_image_copy_capture_cursor_session_v1::Event::Enter => {}
+            ext_image_copy_capture_cursor_session_v1::Event::Leave => {}
+            ext_image_copy_capture_cursor_session_v1::Event::Position { x, y } => {
+                app_data.cursor_position(conn, qh, x, y);
+            }
+            ext_image_copy_capture_cursor_session_v1::Event::Hotspot { x, y } => {}
+            _ => unreachable!(),
+        }
+    }
+}
+
+// ext_image_copy_capture_cursor_session_v1
 
 impl<D> Dispatch<ext_image_capture_source_v1::ExtImageCaptureSourceV1, GlobalData, D>
     for ScreencopyState
@@ -292,6 +326,9 @@ macro_rules! delegate_ext_image_capture {
             $(
                 $crate::wayland_protocols::ext::image_copy_capture::v1::client::ext_image_copy_capture_frame_v1::ExtImageCopyCaptureFrameV1: $frame_data
             ),*
+        ] => $crate::screencopy::ScreencopyState);
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
+            $crate::wayland_protocols::ext::image_copy_capture::v1::client::ext_image_copy_capture_cursor_session_v1::ExtImageCopyCaptureCursorSessionV1: $crate::GlobalData
         ] => $crate::screencopy::ScreencopyState);
     };
 }

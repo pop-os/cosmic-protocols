@@ -12,7 +12,7 @@ use wayland_protocols::ext::{
     },
 };
 
-use super::super::{
+use super::{
     CaptureFrame, CaptureSession, Rect, ScreencopyFrameDataExt, ScreencopyHandler,
     ScreencopySessionDataExt, ScreencopyState,
 };
@@ -152,7 +152,9 @@ where
                 app_data.ready(
                     conn,
                     qh,
-                    &CaptureFrame::Ext(screencopy_frame.clone()),
+                    &CaptureFrame {
+                        frame: screencopy_frame.clone(),
+                    },
                     frame,
                 );
                 screencopy_frame.destroy();
@@ -161,7 +163,9 @@ where
                 app_data.failed(
                     conn,
                     qh,
-                    &CaptureFrame::Ext(screencopy_frame.clone()),
+                    &CaptureFrame {
+                        frame: screencopy_frame.clone(),
+                    },
                     reason,
                 );
                 screencopy_frame.destroy();

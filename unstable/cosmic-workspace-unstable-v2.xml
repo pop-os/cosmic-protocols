@@ -157,7 +157,7 @@
 
     <request name="move_before" since="2">
       <arg name="other_workspace" type="object" interface="ext_workspace_handle_v1"/>
-      <arg name="axis", type="uint"/>
+      <arg name="axis" type="uint"/>
       <description summary="move before a different workspace">
         Move a workspace to be before another workspace along a given axis.
 
@@ -179,7 +179,7 @@
 
     <request name="move_after" since="2">
       <arg name="other_workspace" type="object" interface="ext_workspace_handle_v1"/>
-      <arg name="axis", type="uint"/>
+      <arg name="axis" type="uint"/>
       <description summary="move after a different workspace">
         Move a workspace to be after another workspace along a given axis.
 
@@ -187,7 +187,7 @@
       </description>
     </request>
 
-    <request name="pin", since="2">
+    <request name="pin" since="2">
       <description summary="pin the workspace">
         Request that this workspace be pinned.
 
@@ -195,7 +195,7 @@
       </description>
     </request>
 
-    <request name="unpin", since="2">
+    <request name="unpin" since="2">
       <description summary="pin the workspace">
         Request that this workspace be unpinned.
 

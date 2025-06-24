@@ -7,14 +7,14 @@ use wayland_protocols::ext::{
         ext_output_image_capture_source_manager_v1,
     },
     image_copy_capture::v1::client::{
-        ext_image_copy_capture_frame_v1, ext_image_copy_capture_manager_v1,
-        ext_image_copy_capture_session_v1,
+        ext_image_copy_capture_cursor_session_v1, ext_image_copy_capture_frame_v1,
+        ext_image_copy_capture_manager_v1, ext_image_copy_capture_session_v1,
     },
 };
 
-use super::super::{
-    CaptureFrame, CaptureSession, Rect, ScreencopyFrameDataExt, ScreencopyHandler,
-    ScreencopySessionDataExt, ScreencopyState,
+use super::{
+    CaptureCursorSession, CaptureFrame, CaptureSession, Rect, ScreencopyCursorSessionDataExt,
+    ScreencopyFrameDataExt, ScreencopyHandler, ScreencopySessionDataExt, ScreencopyState,
 };
 use crate::GlobalData;
 
@@ -152,7 +152,9 @@ where
                 app_data.ready(
                     conn,
                     qh,
-                    &CaptureFrame::Ext(screencopy_frame.clone()),
+                    &CaptureFrame {
+                        frame: screencopy_frame.clone(),
+                    },
                     frame,
                 );
                 screencopy_frame.destroy();
@@ -161,7 +163,9 @@ where
                 app_data.failed(
                     conn,
                     qh,
-                    &CaptureFrame::Ext(screencopy_frame.clone()),
+                    &CaptureFrame {
+                        frame: screencopy_frame.clone(),
+                    },
                     reason,
                 );
                 screencopy_frame.destroy();
@@ -170,6 +174,79 @@ where
         }
     }
 }
+
+impl<D, U>
+    Dispatch<ext_image_copy_capture_cursor_session_v1::ExtImageCopyCaptureCursorSessionV1, U, D>
+    for ScreencopyState
+where
+    D: Dispatch<ext_image_copy_capture_cursor_session_v1::ExtImageCopyCaptureCursorSessionV1, U>
+        + ScreencopyHandler,
+    U: ScreencopyCursorSessionDataExt,
+{
+    fn event(
+        app_data: &mut D,
+        _screencopy_cursor_session: &ext_image_copy_capture_cursor_session_v1::ExtImageCopyCaptureCursorSessionV1,
+        event: ext_image_copy_capture_cursor_session_v1::Event,
+        udata: &U,
+        conn: &Connection,
+        qh: &QueueHandle<D>,
+    ) {
+        // TODO
+        match event {
+            ext_image_copy_capture_cursor_session_v1::Event::Enter => {
+                if let Some(session) = udata
+                    .screencopy_cursor_session_data()
+                    .session
+                    .get()
+                    .unwrap()
+                    .upgrade()
+                    .map(CaptureCursorSession)
+                {
+                    app_data.cursor_enter(conn, qh, &session);
+                }
+            }
+            ext_image_copy_capture_cursor_session_v1::Event::Leave => {
+                if let Some(session) = udata
+                    .screencopy_cursor_session_data()
+                    .session
+                    .get()
+                    .unwrap()
+                    .upgrade()
+                    .map(CaptureCursorSession)
+                {
+                    app_data.cursor_leave(conn, qh, &session);
+                }
+            }
+            ext_image_copy_capture_cursor_session_v1::Event::Position { x, y } => {
+                if let Some(session) = udata
+                    .screencopy_cursor_session_data()
+                    .session
+                    .get()
+                    .unwrap()
+                    .upgrade()
+                    .map(CaptureCursorSession)
+                {
+                    app_data.cursor_position(conn, qh, &session, x, y);
+                }
+            }
+            ext_image_copy_capture_cursor_session_v1::Event::Hotspot { x, y } => {
+                if let Some(session) = udata
+                    .screencopy_cursor_session_data()
+                    .session
+                    .get()
+                    .unwrap()
+                    .upgrade()
+                    .map(CaptureCursorSession)
+                {
+                    app_data.cursor_hotspot(conn, qh, &session, x, y);
+                }
+            }
+            _ => unreachable!(),
+        }
+    }
+}
+
+// ext_image_copy_capture_cursor_session_v1
 
 impl<D> Dispatch<ext_image_capture_source_v1::ExtImageCaptureSourceV1, GlobalData, D>
     for ScreencopyState
@@ -262,12 +339,8 @@ where
 }
 
 #[macro_export]
-macro_rules! delegate_ext_image_capture {
+macro_rules! delegate_screencopy {
     ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty) => {
-        $crate::delegate_screencopy($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty,
-            session: $crate::screencopy::ScreencopySessionData, frame: $crate::screencopy::ScreencopyFrameData);
-    };
-    ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty, session: [$($session_data:ty),* $(,)?], frame: [$($frame_data:ty),* $(,)?]) => {
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
             $crate::wayland_protocols::ext::image_capture_source::v1::client::ext_output_image_capture_source_manager_v1::ExtOutputImageCaptureSourceManagerV1: $crate::GlobalData
         ] => $crate::screencopy::ScreencopyState);
@@ -283,15 +356,14 @@ macro_rules! delegate_ext_image_capture {
         $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
             $crate::wayland_protocols::ext::image_copy_capture::v1::client::ext_image_copy_capture_manager_v1::ExtImageCopyCaptureManagerV1: $crate::GlobalData
         ] => $crate::screencopy::ScreencopyState);
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $(
-                $crate::wayland_protocols::ext::image_copy_capture::v1::client::ext_image_copy_capture_session_v1::ExtImageCopyCaptureSessionV1: $session_data
-            ),*
+        $crate::wayland_client::delegate_dispatch!(@<$( $lt $( : $clt $(+ $dlt )* )? ),* SessionData: ($crate::screencopy::ScreencopySessionDataExt)> $ty: [
+            $crate::wayland_protocols::ext::image_copy_capture::v1::client::ext_image_copy_capture_session_v1::ExtImageCopyCaptureSessionV1: SessionData
         ] => $crate::screencopy::ScreencopyState);
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $(
-                $crate::wayland_protocols::ext::image_copy_capture::v1::client::ext_image_copy_capture_frame_v1::ExtImageCopyCaptureFrameV1: $frame_data
-            ),*
+        $crate::wayland_client::delegate_dispatch!(@<$( $lt $( : $clt $(+ $dlt )* )? ),* FrameData: ($crate::screencopy::ScreencopyFrameDataExt)> $ty: [
+            $crate::wayland_protocols::ext::image_copy_capture::v1::client::ext_image_copy_capture_frame_v1::ExtImageCopyCaptureFrameV1: FrameData
+        ] => $crate::screencopy::ScreencopyState);
+        $crate::wayland_client::delegate_dispatch!(@<$( $lt $( : $clt $(+ $dlt )* )? ),* CursorSessionData: ($crate::screencopy::ScreencopyCursorSessionDataExt)> $ty: [
+            $crate::wayland_protocols::ext::image_copy_capture::v1::client::ext_image_copy_capture_cursor_session_v1::ExtImageCopyCaptureCursorSessionV1: CursorSessionData
         ] => $crate::screencopy::ScreencopyState);
     };
 }

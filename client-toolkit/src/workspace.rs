@@ -56,6 +56,7 @@ pub struct Workspace {
     pub capabilities: ext_workspace_handle_v1::WorkspaceCapabilities,
     pub cosmic_capabilities: zcosmic_workspace_handle_v2::WorkspaceCapabilities,
     pub tiling: Option<WEnum<zcosmic_workspace_handle_v2::TilingState>>,
+    pub id: Option<String>,
 }
 
 #[derive(Debug)]
@@ -80,6 +81,7 @@ impl WorkspaceData {
                 capabilities: ext_workspace_handle_v1::WorkspaceCapabilities::empty(),
                 cosmic_capabilities: zcosmic_workspace_handle_v2::WorkspaceCapabilities::empty(),
                 tiling: None,
+                id: None,
             }));
         }
         self.pending.as_mut().unwrap()
@@ -330,6 +332,9 @@ where
             }
             ext_workspace_handle_v1::Event::Capabilities { capabilities } => {
                 workspace.pending().capabilities = bitflags_retained(capabilities);
+            }
+            ext_workspace_handle_v1::Event::Id { id } => {
+                workspace.pending().id = Some(id);
             }
             ext_workspace_handle_v1::Event::Removed => {
                 // Protocol guarantees it will already have been removed from group,

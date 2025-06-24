@@ -77,8 +77,9 @@ impl WorkspaceHandler for AppData {
             workspaces.sort_by(|w1, w2| w1.coordinates.cmp(&w2.coordinates));
             for workspace in workspaces {
                 println!(
-                    "  Workspace: name: {}, coordinates: {:?}, capabilties: {:?}, cosmic capabilities: {:?}, state: {:?}, tiling: {:?}",
+                    "  Workspace: name: {}, id: {:?},  coordinates: {:?}, capabilties: {:?}, cosmic capabilities: {:?}, state: {:?}, tiling: {:?}",
                     &workspace.name,
+                    &workspace.id,
                     &workspace.coordinates,
                     &workspace.capabilities,
                     &workspace.cosmic_capabilities,

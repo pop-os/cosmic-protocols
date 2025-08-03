@@ -23,7 +23,7 @@
     DEALINGS IN THE SOFTWARE.
   </copyright>
   <description summary="atspi accessibility protocol">
-    This protocol provides a relatively straightforward mapping of AtpsiDevice
+    This protocol provides a relatively straightforward mapping of AtspiDevice
     in the at-spi2-core library, so it's possible to add a Wayland backend for it.
 
     This provides a way for screen reader key bindings to work.

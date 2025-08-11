@@ -23,6 +23,8 @@ png = "0.17.5"
 raw-window-handle = "0.5.0"
 wayland-backend = { version = "0.3.2", features = ["client_system"] }
 winit = "0.28.0"
+gbm = "0.18.0"
+smithay = { version = "0.7.0", default-features = false, features = ["renderer_gl", "backend_drm"] }
 
 [features]
 default = []

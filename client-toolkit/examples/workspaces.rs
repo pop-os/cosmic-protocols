@@ -3,7 +3,9 @@ use sctk::{
     output::{OutputHandler, OutputState},
     registry::{ProvidesRegistryState, RegistryState},
 };
-use wayland_client::{globals::registry_queue_init, protocol::wl_output, Connection, QueueHandle};
+use wayland_client::{
+    globals::registry_queue_init, protocol::wl_output, Connection, Proxy, QueueHandle,
+};
 
 struct AppData {
     output_state: OutputState,
@@ -66,8 +68,10 @@ impl WorkspaceHandler for AppData {
                 })
                 .collect();
             println!(
-                "Group: outputs: {:?}, capabilities: {:?}",
-                output_names, group.capabilities,
+                "{}: outputs: {:?}, capabilities: {}",
+                group.handle.id(),
+                output_names,
+                display_bitflags(&group.capabilities),
             );
             let mut workspaces = self
                 .workspace_state
@@ -77,18 +81,29 @@ impl WorkspaceHandler for AppData {
             workspaces.sort_by(|w1, w2| w1.coordinates.cmp(&w2.coordinates));
             for workspace in workspaces {
                 println!(
-                    "  Workspace: name: {}, id: {:?},  coordinates: {:?}, capabilties: {:?}, cosmic capabilities: {:?}, state: {:?}, tiling: {:?}",
+                    "  {}: name: {}, id: {:?}, coordinates: {:?}, capabilties: {}, cosmic capabilities: {}, state: {}, cosmic state: {}, tiling: {:?}",
+                    workspace.handle.id(),
                     &workspace.name,
                     &workspace.id,
                     &workspace.coordinates,
-                    &workspace.capabilities,
-                    &workspace.cosmic_capabilities,
-                    &workspace.state,
+                    display_bitflags(&workspace.capabilities),
+                    display_bitflags(&workspace.cosmic_capabilities),
+                    display_bitflags(&workspace.state),
+                    display_bitflags(&workspace.cosmic_state),
                     &workspace.tiling,
                 );
             }
         }
+        println!("");
     }
+}
+
+// XXX could be cleaner
+fn display_bitflags<T: std::fmt::Debug>(value: T) -> String {
+    let value = format!("{:?}", value);
+    let (_, value) = value.split_once('(').unwrap();
+    let (value, _) = value.split_once(')').unwrap();
+    value.to_owned()
 }
 
 fn main() {

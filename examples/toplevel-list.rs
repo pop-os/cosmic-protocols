@@ -6,9 +6,8 @@ use cosmic_protocols::{
     },
 };
 use wayland_client::{
-    event_created_child,
+    Connection, Dispatch, Proxy, QueueHandle, event_created_child,
     protocol::{wl_output, wl_registry},
-    Connection, Dispatch, Proxy, QueueHandle,
 };
 
 #[derive(Default)]
@@ -357,8 +356,7 @@ fn main() {
                     .iter()
                     .flat_map(|(_, w)| w.iter())
                     .find(|(o, _)| o == obj)
-                    .map(|(_, name)| name)
-                )
+                    .map(|(_, name)| name))
                 .collect::<Vec<_>>(),
         );
     }

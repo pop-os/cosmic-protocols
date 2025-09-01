@@ -15,9 +15,9 @@ use std::{
     time::Duration,
 };
 use wayland_client::{
+    Connection, Dispatch, Proxy, QueueHandle, WEnum,
     globals::GlobalList,
     protocol::{wl_buffer, wl_output::Transform, wl_shm},
-    Connection, Dispatch, Proxy, QueueHandle, WEnum,
 };
 use wayland_protocols::ext::{
     image_capture_source::v1::client::{

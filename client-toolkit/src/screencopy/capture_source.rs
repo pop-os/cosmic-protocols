@@ -1,6 +1,6 @@
 use cosmic_protocols::image_source::v1::client::zcosmic_image_source_v1;
 use std::{error::Error, fmt};
-use wayland_client::{protocol::wl_output, Dispatch, Proxy, QueueHandle};
+use wayland_client::{Dispatch, Proxy, QueueHandle, protocol::wl_output};
 use wayland_protocols::ext::{
     foreign_toplevel_list::v1::client::ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
     image_capture_source::v1::client::ext_image_capture_source_v1,
@@ -8,7 +8,7 @@ use wayland_protocols::ext::{
 };
 
 use super::Capturer;
-use crate::{toplevel_info::ToplevelUserData, GlobalData};
+use crate::{GlobalData, toplevel_info::ToplevelUserData};
 
 #[derive(Debug)]
 pub struct CaptureSourceError(CaptureSourceKind);

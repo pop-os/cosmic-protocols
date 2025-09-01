@@ -13,8 +13,8 @@ use smithay::{
         allocator::dmabuf::Dmabuf,
         egl::{EGLContext, EGLDevice, EGLDisplay},
         renderer::{
-            gles::{GlesRenderer, GlesTexture},
             ExportMem, ImportDma,
+            gles::{GlesRenderer, GlesTexture},
         },
     },
     utils::Rectangle,
@@ -26,10 +26,9 @@ use std::{
     sync::Mutex,
 };
 use wayland_client::{
-    delegate_noop,
+    Connection, QueueHandle, WEnum, delegate_noop,
     globals::registry_queue_init,
     protocol::{wl_buffer, wl_output},
-    Connection, QueueHandle, WEnum,
 };
 use wayland_protocols::wp::linux_dmabuf::zv1::client::{
     zwp_linux_buffer_params_v1::{self, ZwpLinuxBufferParamsV1},

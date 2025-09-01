@@ -6,14 +6,13 @@ use cosmic_client_toolkit::screencopy::{
 use sctk::{
     output::{OutputHandler, OutputState},
     registry::{ProvidesRegistryState, RegistryState},
-    shm::{raw::RawPool, Shm, ShmHandler},
+    shm::{Shm, ShmHandler, raw::RawPool},
 };
 use std::{fs, io, sync::Mutex};
 use wayland_client::{
-    delegate_noop,
+    Connection, QueueHandle, WEnum, delegate_noop,
     globals::registry_queue_init,
     protocol::{wl_buffer, wl_output, wl_shm},
-    Connection, QueueHandle, WEnum,
 };
 
 struct AppData {

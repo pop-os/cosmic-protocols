@@ -3,7 +3,7 @@ use sctk::{
     output::{OutputHandler, OutputState},
     registry::{ProvidesRegistryState, RegistryState},
 };
-use wayland_client::{globals::registry_queue_init, protocol::wl_output, Connection, QueueHandle};
+use wayland_client::{Connection, QueueHandle, globals::registry_queue_init, protocol::wl_output};
 use wayland_protocols::ext::foreign_toplevel_list::v1::client::ext_foreign_toplevel_handle_v1;
 
 struct AppData {

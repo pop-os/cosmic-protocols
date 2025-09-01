@@ -3,7 +3,7 @@ use cosmic_protocols::workspace::v2::client::{
 };
 use sctk::registry::{GlobalProxy, RegistryState};
 use std::collections::HashSet;
-use wayland_client::{protocol::wl_output, Connection, Dispatch, QueueHandle, WEnum};
+use wayland_client::{Connection, Dispatch, QueueHandle, WEnum, protocol::wl_output};
 use wayland_protocols::ext::workspace::v1::client::{
     ext_workspace_group_handle_v1, ext_workspace_handle_v1, ext_workspace_manager_v1,
 };

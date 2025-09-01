@@ -4,7 +4,7 @@ use sctk::{
     registry::{ProvidesRegistryState, RegistryState},
 };
 use wayland_client::{
-    globals::registry_queue_init, protocol::wl_output, Connection, Proxy, QueueHandle,
+    Connection, Proxy, QueueHandle, globals::registry_queue_init, protocol::wl_output,
 };
 
 struct AppData {

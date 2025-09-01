@@ -7,7 +7,7 @@ use cosmic_protocols::toplevel_info::v1::client::{
     zcosmic_toplevel_handle_v1, zcosmic_toplevel_info_v1,
 };
 use sctk::registry::RegistryState;
-use wayland_client::{protocol::wl_output, Connection, Dispatch, Proxy, QueueHandle, Weak};
+use wayland_client::{Connection, Dispatch, Proxy, QueueHandle, Weak, protocol::wl_output};
 use wayland_protocols::ext::{
     foreign_toplevel_list::v1::client::{
         ext_foreign_toplevel_handle_v1, ext_foreign_toplevel_list_v1,

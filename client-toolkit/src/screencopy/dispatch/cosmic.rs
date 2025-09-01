@@ -8,7 +8,7 @@ use cosmic_protocols::{
     },
 };
 use std::time::Duration;
-use wayland_client::{protocol::wl_shm, Connection, Dispatch, QueueHandle, WEnum};
+use wayland_client::{Connection, Dispatch, QueueHandle, WEnum, protocol::wl_shm};
 
 use super::super::{
     CaptureFrame, CaptureSession, Rect, ScreencopyFrameDataExt, ScreencopyHandler,

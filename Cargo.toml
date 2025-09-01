@@ -1,7 +1,7 @@
 [package]
 name = "cosmic-protocols"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 documentation = "https://pop-os.github.io/cosmic-protocols/"
 repository = "https://github.com/pop-os/cosmic-protocols"
 authors = ["Victoria Brekenfeld <github@drakulix.de>"]
@@ -12,26 +12,29 @@ categories = ["gui", "api-bindings"]
 readme = "README.md"
 
 [dependencies]
-wayland-scanner = "0.31.0"
-wayland-backend = "0.3.1"
-wayland-protocols = { version = "0.32.6", features = ["staging"] }
-wayland-protocols-wlr = "0.3.1"
-wayland-client = { version = "0.31.1", optional = true }
-wayland-server = { version = "0.31.0", optional = true }
-bitflags = "2.4"
+wayland-scanner = "0.31.7"
+wayland-backend = "0.3.11"
+wayland-protocols = { version = "0.32.9", features = ["staging"] }
+wayland-protocols-wlr = "0.3.9"
+wayland-client = { version = "0.31.11", optional = true }
+wayland-server = { version = "0.31.10", optional = true }
+bitflags = "2.9"
 
 [dev-dependencies]
-async-channel = "1.7.1"
-cascade = "1"
-env_logger = "0.10.0"
-smithay = { git = "https://github.com/Smithay/smithay", rev = "298a3ec", default-features = false, features = ["backend_egl", "renderer_gl", "renderer_multi"]}
-wayland-backend = { version = "0.3.1", features = ["client_system"] }
-memfd = "0.6.1"
+wayland-backend = { version = "0.3.11", features = ["client_system"] }
 
 [features]
 default = ["client", "server"]
-client = ["wayland-client", "wayland-protocols/client", "wayland-protocols-wlr/client"]
-server = ["wayland-server", "wayland-protocols/server", "wayland-protocols-wlr/server"]
+client = [
+    "wayland-client",
+    "wayland-protocols/client",
+    "wayland-protocols-wlr/client",
+]
+server = [
+    "wayland-server",
+    "wayland-protocols/server",
+    "wayland-protocols-wlr/server",
+]
 
 [workspace]
 members = ["client-toolkit"]

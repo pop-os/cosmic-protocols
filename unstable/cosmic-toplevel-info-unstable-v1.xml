@@ -33,7 +33,7 @@
       or docks to access a list of opened applications and basic properties
       thereof.
 
-      It thus extends ext_foreign_toplevel_v1 to provide more information
+      It thus extends ext_foreign_toplevel_list_v1 to provide more information
       and actions on foreign toplevels.
     </description>
 

@@ -156,8 +156,6 @@
     </request>
 
     <request name="move_before" since="2">
-      <arg name="other_workspace" type="object" interface="ext_workspace_handle_v1"/>
-      <arg name="axis" type="uint"/>
       <description summary="move before a different workspace">
         Move a workspace to be before another workspace along a given axis.
 
@@ -175,16 +173,18 @@
 
         There is no guarantee the workspace will actually be moved.
       </description>
+      <arg name="other_workspace" type="object" interface="ext_workspace_handle_v1"/>
+      <arg name="axis" type="uint"/>
     </request>
 
     <request name="move_after" since="2">
-      <arg name="other_workspace" type="object" interface="ext_workspace_handle_v1"/>
-      <arg name="axis" type="uint"/>
       <description summary="move after a different workspace">
         Move a workspace to be after another workspace along a given axis.
 
         See `move_before`.
       </description>
+      <arg name="other_workspace" type="object" interface="ext_workspace_handle_v1"/>
+      <arg name="axis" type="uint"/>
     </request>
 
     <request name="pin" since="2">

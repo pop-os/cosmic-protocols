@@ -53,30 +53,6 @@ pub mod image_capture_source {
     }
 }
 
-pub mod image_source {
-    //! Capture interface.
-
-    #[allow(missing_docs)]
-    pub mod v1 {
-        wayland_protocol!(
-            "./unstable/cosmic-image-source-unstable-v1.xml",
-            [crate::workspace::v1, crate::toplevel_info::v1, wayland_protocols::ext::workspace::v1]
-        );
-    }
-}
-
-pub mod screencopy {
-    //! Capture interface.
-
-    #[allow(missing_docs)]
-    pub mod v2 {
-        wayland_protocol!(
-            "./unstable/cosmic-screencopy-unstable-v2.xml",
-            [crate::image_source::v1]
-        );
-    }
-}
-
 pub mod output_management {
     //! Output management interface.
 

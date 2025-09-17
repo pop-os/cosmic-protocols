@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["__interfaces","zcosmic_ext_workspace_image_source_manager_v1","zcosmic_image_source_v1","zcosmic_output_image_source_manager_v1","zcosmic_toplevel_image_source_manager_v1","zcosmic_workspace_image_source_manager_v1"]};

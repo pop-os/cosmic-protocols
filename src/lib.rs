@@ -41,6 +41,18 @@ pub mod atspi {
     }
 }
 
+pub mod corner_radius {
+    //! Hint toplevel corner radius values.
+
+    #[allow(missing_docs)]
+    pub mod v1 {
+        wayland_protocol!(
+            "./unstable/cosmic-corner-radius-unstable-v1.xml",
+            [wayland_protocols::xdg::shell]
+        );
+    }
+}
+
 pub mod image_capture_source {
     //! Capture source interface extending `ext-image-capture-source-v1`.
 

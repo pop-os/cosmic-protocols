@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocol name="cosmic_corner_radius_v1">
+  <copyright>
+    Copyright © 2024 System76
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice (including the next
+    paragraph) shall be included in all copies or substantial portions of the
+    Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+  </copyright>
+
+  <description summary="communicate corner radius of windows">
+    This protocol provides a way for clients to communicate the
+    corner radius of their toplevels, should they use rounded corners.
+
+    This hint can then be used by the compositor to draw fitting outlines
+    or prevent overdrawing of other server-side drawn interfaces.
+  </description>
+
+  <interface name="cosmic_corner_radius_manager_v1" version="1">
+    <description summary="corner radius global">
+      Manager for creating corner-radius objects for existing toplevels
+    </description>
+
+    <request name="destroy" type="destructor">
+      <description summary="Destroy the global">
+        Informs the server, that the client will no longer use this global.
+        Any previously created corner-radius objects remain valid until destroyed.
+      </description>
+    </request>
+
+    <request name="get_corner_radius">
+      <description summary="Create a new corner-radius object for an existing toplevel">
+        Instantiate an interface extension for the given xdg_toplevel to specify their corner radius.
+
+        If the given xdg_toplevel already has a cosmic_corner_radius_toplevel_v1 object associated,
+        the corner_radius_exists protocol error will be raised.
+      </description>
+      <arg name="id" type="new_id" interface="cosmic_corner_radius_toplevel_v1"
+        summary="the new cosmic_corner_radius_toplevel_v1 object"/>
+      <arg name="toplevel" type="object" interface="xdg_toplevel"
+        summary="the toplevel"/>
+    </request>
+
+    <enum name="error">
+      <entry name="corner_radius_exists" value="0"
+        summary="the toplevel already has a corner-radius object"/>
+    </enum>
+  </interface>
+
+  <interface name="cosmic_corner_radius_toplevel_v1" version="1">
+    <description summary="corner radius toplevel">
+      The corner-radius object provides a way to specify a corner-radius
+      for it's associated toplevel.
+
+      If the xdg_toplevel associated with the cosmic_corner_radius_toplevel_v1
+      object has been destroyed, this object becomes inert. Any further requests
+      other than destroy will raise the toplevel_destroyed protocol error.
+    </description>
+
+    <request name="destroy" type="destructor">
+      <description summary="Destroy the corner-radius object">
+        Informs the server that the client will no longer be using this protocol
+        object. The corner radius will be unset on the next commit.
+      </description>
+    </request>
+
+    <request name="set_radius">
+      <description summary="Set corner radius">
+        This request sets the hinted corner radius values for rectangular windows.
+
+        The corner radius hint is double-buffered state and will be applied on
+        the next wl_surface.commit.
+
+        The value is given in logical space relative to the window geometry of the
+        associated xdg_toplevel. If any value exceeds a quarter of either dimension
+        of the window geometry the radius_too_large protocol error is raised.
+      </description>
+      <arg name="top_left" type="uint" summary="top-left corner radius"/>
+      <arg name="top_right" type="uint" summary="top-right corner radius"/>
+      <arg name="bottom_right" type="uint" summary="bottom-right corner radius"/>
+      <arg name="bottom_left" type="uint" summary="bottom-left corner radius"/>
+    </request>
+
+    <request name="unset_radius">
+      <description summary="Unset corner radius">
+        Unsets any previously hinted corner radius values without invalidating the object for later use.
+        Can be used by clients that possibly have temporary irregular shapes.
+      </description>
+    </request>
+
+    <enum name="error">
+      <entry name="toplevel_destroyed" value="0"
+        summary="the associated toplevel object has been already destroyed"/>
+      <entry name="radius_too_large" value="1"
+        summary="the associated toplevel's window geometry isn't large enough for the requested radius"/>
+    </enum>
+  </interface>
+</protocol>

@@ -360,5 +360,5 @@ fn find_gbm_device(dev: u64) -> io::Result<Option<(PathBuf, gbm::Device<fs::File
 sctk::delegate_output!(AppData);
 sctk::delegate_registry!(AppData);
 sctk::delegate_dmabuf!(AppData);
-cosmic_client_toolkit::delegate_screencopy!(AppData, session: [SessionData], frame: [FrameData]);
+cosmic_client_toolkit::delegate_screencopy!(AppData);
 delegate_noop!(AppData: ignore wl_buffer::WlBuffer);

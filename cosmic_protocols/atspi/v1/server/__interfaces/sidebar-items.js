@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"static":["COSMIC_ATSPI_MANAGER_V1_INTERFACE","cosmic_atspi_manager_v1_interface"]};

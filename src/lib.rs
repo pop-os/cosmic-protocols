@@ -104,7 +104,7 @@ pub mod overlap_notify {
 pub mod workspace {
     //! Receive information about and control workspaces.
 
-    #[allow(missing_docs)]
+    #[doc(hidden)]
     pub mod v1 {
         wayland_protocol!(
             "./unstable/cosmic-workspace-unstable-v1.xml",

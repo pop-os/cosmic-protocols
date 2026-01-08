@@ -1,6 +1,6 @@
 [package]
 name = "cosmic-protocols"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 documentation = "https://pop-os.github.io/cosmic-protocols/"
 repository = "https://github.com/pop-os/cosmic-protocols"

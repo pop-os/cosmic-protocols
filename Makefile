@@ -4,7 +4,6 @@ DATAROOTDIR=$${prefix}/share
 
 unstable_protocols = \
 	unstable/cosmic-a11y-unstable-v1.xml \
-	unstable/cosmic-atspi-unstable-v1.xml \
 	unstable/cosmic-corner-radius-unstable-v1.xml \
 	unstable/cosmic-image-capture-source-unstable-v1.xml \
 	unstable/cosmic-output-management-unstable-v1.xml \

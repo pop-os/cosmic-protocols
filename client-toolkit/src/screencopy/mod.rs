@@ -272,6 +272,10 @@ impl CaptureCursorSession {
             }
         })))
     }
+
+    pub fn data<U: Send + Sync + 'static>(&self) -> Option<&U> {
+        self.0.session.data()
+    }
 }
 
 #[derive(Debug)]

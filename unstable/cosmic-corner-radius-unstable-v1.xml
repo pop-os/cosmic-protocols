@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <protocol name="cosmic_corner_radius_v1">
   <copyright>
     Copyright © 2024 System76
@@ -76,6 +76,10 @@
 
         If the given xdg_surface already has a cosmic_corner_radius_toplevel_v1 object associated,
         the corner_radius_exists protocol error will be raised.
+
+        It is an error submitting this request for a xdg+surface object, that doesn't have a role
+        associated yet. (See `xdg_surface::get_toplevel` or `xdg_surface::get_popup`.) A no_role
+        protocol error will be raised in this case.
       </description>
       <arg
         name="id"
@@ -118,6 +122,10 @@
       <entry
         name="corner_radius_exists"
         value="0"
+        summary="the surface already has a corner-radius object"
+      /><entry
+        name="no_role"
+        value="1"
         summary="the surface already has a corner-radius object"
       />
     </enum>

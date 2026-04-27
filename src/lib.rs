@@ -10,7 +10,7 @@
 
 #![warn(missing_docs)]
 #![forbid(improper_ctypes, unsafe_op_in_unsafe_fn)]
-#![cfg_attr(docsrs, feature(doc_auto_cfg))]
+#![cfg_attr(docsrs, feature(doc_cfg))]
 #![cfg_attr(rustfmt, rustfmt_skip)]
 
 

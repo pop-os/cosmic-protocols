@@ -216,8 +216,8 @@
 
         The value is given in logical space relative to the remaining size of the
         associated zwlr_layer_surface_v1 after any said padding was applied.
-        If any value exceeds a quarter of either dimension of the size the
-        radius_too_large protocol error is raised.
+        If any value exceeds half of the respective dimension of the remaining size
+        the radius_too_large protocol error is raised.
       </description>
       <arg name="top_left" type="uint" summary="top-left corner radius" />
       <arg name="top_right" type="uint" summary="top-right corner radius" />
@@ -247,7 +247,7 @@
         the size of the associated zwlr_layer_surface and in the case of the top and left padding
         added to the layer position before applying the corner radius. Negative padding values are allowed.
 
-        If any value exceeds half of either dimension of the surface size the padding_too_large
+        If any value exceeds half of the respective dimension of the surface size the padding_too_large
         protocol error is raised.
       </description>
       <arg name="top" type="int" summary="top padding" />

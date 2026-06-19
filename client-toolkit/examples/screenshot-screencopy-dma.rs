@@ -5,7 +5,6 @@ use cosmic_client_toolkit::screencopy::{
 use sctk::{
     dmabuf::{DmabufFeedback, DmabufHandler, DmabufState},
     output::{OutputHandler, OutputState},
-    registry::{ProvidesRegistryState, RegistryState},
 };
 use smithay::{
     backend::{
@@ -25,8 +24,8 @@ use std::{
     sync::Mutex,
 };
 use wayland_client::{
-    Connection, QueueHandle, WEnum, delegate_noop,
-    globals::registry_queue_init,
+    Connection, QueueHandle,
+    globals::{GlobalListHandler, registry_queue_init},
     protocol::{wl_buffer, wl_output},
 };
 use wayland_protocols::wp::linux_dmabuf::zv1::client::{
@@ -35,7 +34,6 @@ use wayland_protocols::wp::linux_dmabuf::zv1::client::{
 };
 
 struct AppData {
-    registry_state: RegistryState,
     output_state: OutputState,
     screencopy_state: ScreencopyState,
     dmabuf_state: DmabufState,
@@ -43,11 +41,7 @@ struct AppData {
     egl_devices: Vec<EGLDevice>,
 }
 
-impl ProvidesRegistryState for AppData {
-    fn registry(&mut self) -> &mut RegistryState {
-        &mut self.registry_state
-    }
-
+impl GlobalListHandler for AppData {
     sctk::registry_handlers!();
 }
 
@@ -260,7 +254,7 @@ impl ScreencopyHandler for AppData {
         _: &Connection,
         _: &QueueHandle<Self>,
         _: &CaptureFrame,
-        reason: WEnum<FailureReason>,
+        reason: FailureReason,
     ) {
         println!("Failed to capture output: {:?}", reason);
         self.outputs_done += 1;
@@ -287,14 +281,12 @@ fn main() {
     let (globals, mut event_queue) = registry_queue_init(&conn).unwrap();
     let qh = event_queue.handle();
 
-    let registry_state = RegistryState::new(&globals);
     let screencopy_state = ScreencopyState::new(&globals, &qh);
     let output_state = OutputState::new(&globals, &qh);
     let dmabuf_state = DmabufState::new(&globals, &qh);
 
     let mut data: AppData = AppData {
         output_state,
-        registry_state,
         screencopy_state,
         dmabuf_state,
         outputs_done: 0,
@@ -339,9 +331,3 @@ fn find_gbm_device(dev: u64) -> io::Result<Option<(PathBuf, gbm::Device<fs::File
     }
     Ok(None)
 }
-
-sctk::delegate_output!(AppData);
-sctk::delegate_registry!(AppData);
-sctk::delegate_dmabuf!(AppData);
-cosmic_client_toolkit::delegate_screencopy!(AppData);
-delegate_noop!(AppData: ignore wl_buffer::WlBuffer);

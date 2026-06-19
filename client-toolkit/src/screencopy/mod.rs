@@ -4,13 +4,13 @@ use std::{
     time::Duration,
 };
 use wayland_client::{
-    Connection, Dispatch, Proxy, QueueHandle, WEnum,
+    Connection, Proxy, QueueHandle,
     globals::GlobalList,
     protocol::{wl_buffer, wl_output::Transform, wl_pointer, wl_shm},
 };
 use wayland_protocols::ext::{
     image_capture_source::v1::client::{
-        ext_foreign_toplevel_image_capture_source_manager_v1, ext_image_capture_source_v1,
+        ext_foreign_toplevel_image_capture_source_manager_v1,
         ext_output_image_capture_source_manager_v1,
     },
     image_copy_capture::v1::client::{
@@ -38,7 +38,7 @@ pub struct Rect {
 
 #[derive(Clone, Debug)]
 pub struct Frame {
-    pub transform: WEnum<Transform>,
+    pub transform: Transform,
     pub damage: Vec<Rect>,
     // XXX monotonic? Is this used elsewhere in wayland?
     pub present_time: Option<Duration>,
@@ -47,7 +47,7 @@ pub struct Frame {
 impl Default for Frame {
     fn default() -> Self {
         Self {
-            transform: WEnum::Value(Transform::Normal),
+            transform: Transform::Normal,
             damage: Vec::new(),
             present_time: None,
         }
@@ -101,12 +101,7 @@ impl Capturer {
         udata: U,
     ) -> Result<CaptureSession, CaptureSourceError>
     where
-        D: 'static,
-        D: Dispatch<ext_image_capture_source_v1::ExtImageCaptureSourceV1, GlobalData>,
-        D: Dispatch<
-                ext_image_copy_capture_session_v1::ExtImageCopyCaptureSessionV1,
-                ScreencopySessionData<U>,
-            >,
+        D: ScreencopyHandler + 'static,
         U: Send + Sync + 'static,
     {
         let source = source.create_source(self, qh)?;
@@ -135,12 +130,7 @@ impl Capturer {
         udata: U,
     ) -> Result<CaptureCursorSession, CaptureSourceError>
     where
-        D: 'static,
-        D: Dispatch<ext_image_capture_source_v1::ExtImageCaptureSourceV1, GlobalData>,
-        D: Dispatch<
-                ext_image_copy_capture_cursor_session_v1::ExtImageCopyCaptureCursorSessionV1,
-                ScreencopyCursorSessionData<U>,
-            >,
+        D: ScreencopyHandler + 'static,
         U: Send + Sync + 'static,
     {
         let source = source.create_source(self, qh)?;
@@ -184,11 +174,7 @@ impl CaptureSession {
         udata: U,
     ) -> CaptureFrame
     where
-        D: 'static,
-        D: Dispatch<
-                ext_image_copy_capture_frame_v1::ExtImageCopyCaptureFrameV1,
-                ScreencopyFrameData<U>,
-            >,
+        D: ScreencopyHandler + 'static,
         U: Send + Sync + 'static,
     {
         let data = ScreencopyFrameData {
@@ -254,12 +240,7 @@ impl CaptureCursorSession {
         udata: U,
     ) -> Result<CaptureSession, CaptureSourceError>
     where
-        D: 'static,
-        D: Dispatch<ext_image_capture_source_v1::ExtImageCaptureSourceV1, GlobalData>,
-        D: Dispatch<
-                ext_image_copy_capture_session_v1::ExtImageCopyCaptureSessionV1,
-                ScreencopySessionData<U>,
-            >,
+        D: ScreencopyHandler + 'static,
         U: Send + Sync + 'static,
     {
         Ok(CaptureSession(Arc::new_cyclic(|weak_session| {
@@ -293,16 +274,12 @@ pub struct ScreencopyState {
 impl ScreencopyState {
     pub fn new<D>(globals: &GlobalList, qh: &QueueHandle<D>) -> Self
     where
-        D: 'static,
-        D: Dispatch<ext_image_copy_capture_manager_v1::ExtImageCopyCaptureManagerV1, GlobalData>,
-        D: Dispatch<ext_output_image_capture_source_manager_v1::ExtOutputImageCaptureSourceManagerV1, GlobalData>,
-        D: Dispatch<ext_foreign_toplevel_image_capture_source_manager_v1::ExtForeignToplevelImageCaptureSourceManagerV1, GlobalData>,
-        D: Dispatch<zcosmic_workspace_image_capture_source_manager_v1::ZcosmicWorkspaceImageCaptureSourceManagerV1, GlobalData>,
+        D: ScreencopyHandler + 'static,
     {
-        let image_copy_capture_manager = globals.bind(qh, 1..=1, GlobalData).ok();
-        let output_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
-        let foreign_toplevel_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
-        let workspace_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
+        let image_copy_capture_manager = globals.bind_singleton(qh, 1..=1, GlobalData).ok();
+        let output_source_manager = globals.bind_singleton(qh, 1..=1, GlobalData).ok();
+        let foreign_toplevel_source_manager = globals.bind_singleton(qh, 1..=1, GlobalData).ok();
+        let workspace_source_manager = globals.bind_singleton(qh, 1..=1, GlobalData).ok();
 
         let capturer = Capturer(Arc::new(CapturerInner {
             image_copy_capture_manager,
@@ -345,7 +322,7 @@ pub trait ScreencopyHandler: Sized {
         conn: &Connection,
         qh: &QueueHandle<Self>,
         screencopy_frame: &CaptureFrame,
-        reason: WEnum<FailureReason>,
+        reason: FailureReason,
     );
 
     fn cursor_enter(

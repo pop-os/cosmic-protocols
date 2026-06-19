@@ -1,12 +1,12 @@
 use std::{error::Error, fmt};
-use wayland_client::{Dispatch, QueueHandle, protocol::wl_output};
+use wayland_client::{QueueHandle, protocol::wl_output};
 use wayland_protocols::ext::{
     foreign_toplevel_list::v1::client::ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
     image_capture_source::v1::client::ext_image_capture_source_v1,
     workspace::v1::client::ext_workspace_handle_v1::ExtWorkspaceHandleV1,
 };
 
-use super::Capturer;
+use super::{Capturer, ScreencopyHandler};
 use crate::GlobalData;
 
 #[derive(Debug)]
@@ -49,8 +49,7 @@ impl CaptureSource {
         qh: &QueueHandle<D>,
     ) -> Result<WlCaptureSource, CaptureSourceError>
     where
-        D: 'static,
-        D: Dispatch<ext_image_capture_source_v1::ExtImageCaptureSourceV1, GlobalData>,
+        D: ScreencopyHandler + 'static,
     {
         match self {
             CaptureSource::Output(output) => {

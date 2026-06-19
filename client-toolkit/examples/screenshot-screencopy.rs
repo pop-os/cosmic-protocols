@@ -1,7 +1,6 @@
 use cosmic_client_toolkit::screencopy::{
     CaptureFrame, CaptureOptions, CaptureSession, CaptureSource, FailureReason, Formats,
-    ScreencopyFrameData, ScreencopyFrameDataExt, ScreencopyHandler, ScreencopySessionData,
-    ScreencopySessionDataExt, ScreencopyState,
+    ScreencopyHandler, ScreencopyState,
 };
 use sctk::{
     output::{OutputHandler, OutputState},
@@ -96,7 +95,6 @@ impl ScreencopyHandler for AppData {
             &[],
             qh,
             FrameData {
-                frame_data: ScreencopyFrameData::default(),
                 output_name: session.data::<SessionData>().unwrap().output_name.clone(),
                 pool: Mutex::new(pool),
                 size: formats.buffer_size,
@@ -142,27 +140,13 @@ impl ScreencopyHandler for AppData {
 }
 
 struct SessionData {
-    session_data: ScreencopySessionData,
     output_name: String,
-}
-
-impl ScreencopySessionDataExt for SessionData {
-    fn screencopy_session_data(&self) -> &ScreencopySessionData {
-        &self.session_data
-    }
 }
 
 struct FrameData {
-    frame_data: ScreencopyFrameData,
     output_name: String,
     pool: Mutex<RawPool>,
     size: (u32, u32),
-}
-
-impl ScreencopyFrameDataExt for FrameData {
-    fn screencopy_frame_data(&self) -> &ScreencopyFrameData {
-        &self.frame_data
-    }
 }
 
 fn main() {
@@ -200,7 +184,6 @@ fn main() {
                     &qh,
                     SessionData {
                         output_name: info.name.clone().unwrap(),
-                        session_data: ScreencopySessionData::default(),
                     },
                 )
                 .unwrap()

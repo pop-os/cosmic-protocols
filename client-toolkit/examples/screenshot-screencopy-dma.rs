@@ -1,7 +1,6 @@
 use cosmic_client_toolkit::screencopy::{
     CaptureFrame, CaptureOptions, CaptureSession, CaptureSource, FailureReason, Formats,
-    ScreencopyFrameData, ScreencopyFrameDataExt, ScreencopyHandler, ScreencopySessionData,
-    ScreencopySessionDataExt, ScreencopyState,
+    ScreencopyHandler, ScreencopyState,
 };
 use sctk::{
     dmabuf::{DmabufFeedback, DmabufHandler, DmabufState},
@@ -205,7 +204,6 @@ impl ScreencopyHandler for AppData {
             &[],
             qh,
             FrameData {
-                frame_data: ScreencopyFrameData::default(),
                 output_name: session.data::<SessionData>().unwrap().output_name.clone(),
                 size: formats.buffer_size,
                 gles_renderer: Mutex::new(gles_renderer),
@@ -270,18 +268,10 @@ impl ScreencopyHandler for AppData {
 }
 
 struct SessionData {
-    session_data: ScreencopySessionData,
     output_name: String,
 }
 
-impl ScreencopySessionDataExt for SessionData {
-    fn screencopy_session_data(&self) -> &ScreencopySessionData {
-        &self.session_data
-    }
-}
-
 struct FrameData {
-    frame_data: ScreencopyFrameData,
     output_name: String,
     size: (u32, u32),
     gles_renderer: Mutex<GlesRenderer>,
@@ -291,12 +281,6 @@ struct FrameData {
 // SAFETY: Not actually using multiple threads in example
 unsafe impl Send for FrameData {}
 unsafe impl Sync for FrameData {}
-
-impl ScreencopyFrameDataExt for FrameData {
-    fn screencopy_frame_data(&self) -> &ScreencopyFrameData {
-        &self.frame_data
-    }
-}
 
 fn main() {
     let conn = Connection::connect_to_env().unwrap();
@@ -334,7 +318,6 @@ fn main() {
                     &qh,
                     SessionData {
                         output_name: info.name.clone().unwrap(),
-                        session_data: ScreencopySessionData::default(),
                     },
                 )
                 .unwrap()

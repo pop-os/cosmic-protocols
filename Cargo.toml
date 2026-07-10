@@ -18,7 +18,7 @@ wayland-protocols = { version = "0.32.9", features = ["staging"] }
 wayland-protocols-wlr = "0.3.9"
 wayland-client = { version = "0.31.11", optional = true }
 wayland-server = { version = "0.31.10", optional = true }
-bitflags = "2.9"
+bitflags = "2.13"
 
 [dev-dependencies]
 wayland-backend = { version = "0.3.11", features = ["client_system"] }

@@ -12,7 +12,7 @@ sctk = { package = "smithay-client-toolkit", version = "0.20.0" }
 wayland-client = { version = "0.31.11" }
 libc = "0.2.175"
 wayland-protocols = { version = "0.32.9", features = ["client", "staging"] }
-bitflags = "2.9.3"
+bitflags = "2.13"
 
 [dev-dependencies]
 png = "0.18.0"

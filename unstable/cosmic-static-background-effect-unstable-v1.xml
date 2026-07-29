@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocol name="cosmic_static_background_effect_unstable_v1">
+  <copyright>
+    Copyright © 2024 System76
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice (including the next
+    paragraph) shall be included in all copies or substantial portions of the
+    Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+  </copyright>
+
+  <interface name="zcosmic_static_background_effect_manager_v1" version="1">
+    <description summary="manager for static background effects">
+      This interface allows a client to request static (cached) background
+      effects on its surfaces, which compute the effect once and reuse the
+      result across frames.
+    </description>
+
+    <request name="destroy" type="destructor">
+      <description summary="destroy the manager">
+        Destroy the manager.
+      </description>
+    </request>
+
+    <request name="get_static_effect">
+      <description summary="get a static effect object for a surface">
+        Create a new static background effect object for the given surface.
+      </description>
+      <arg name="id" type="new_id" interface="zcosmic_static_background_effect_v1"/>
+      <arg name="surface" type="object" interface="wl_surface"/>
+    </request>
+  </interface>
+
+  <interface name="zcosmic_static_background_effect_v1" version="1">
+    <description summary="static background effect for a surface">
+      This interface allows a client to specify regions of its surface that
+      should have a static cached blur effect applied behind them.
+    </description>
+
+    <request name="destroy" type="destructor">
+      <description summary="destroy the static effect">
+        Destroy the static effect object. The static effect state for the surface
+        will be removed on the next commit.
+      </description>
+    </request>
+
+    <request name="set_blur_region">
+      <description summary="set the blur region">
+        Set the region of the surface where the background should be blurred
+        using a static cached blur.
+        
+        Passing null means that the blur effect is removed.
+      </description>
+      <arg name="region" type="object" interface="wl_region" allow-null="true"/>
+    </request>
+  </interface>
+</protocol>

@@ -133,3 +133,15 @@ pub mod keyboard_layout {
         );
     }
 }
+
+pub mod static_background_effect {
+    //! Request a static cached background effect (blur).
+
+    #[allow(missing_docs)]
+    pub mod v1 {
+        wayland_protocol!(
+            "./unstable/cosmic-static-background-effect-unstable-v1.xml",
+            []
+        );
+    }
+}

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-3.0-only
+// SPDX-License-Identifier: MIT
 
 //! This crate provides bindings to the COSMIC wayland protocol extensions.
 //!

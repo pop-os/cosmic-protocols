@@ -3,7 +3,7 @@ name = "cosmic-client-toolkit"
 version = "0.2.0"
 edition = "2024"
 repository = "https://github.com/pop-os/cosmic-protocols"
-license = "GPL-3.0-only"
+license = "MIT"
 description = "Helpers for implement clients with COSMIC Wayland protocols"
 
 [dependencies]

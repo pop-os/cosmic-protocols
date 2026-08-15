@@ -293,6 +293,8 @@ where
                 {
                     state.workspace_state().workspace_groups.remove(idx);
                 }
+
+                handle.destroy();
             }
             _ => unreachable!(),
         }
@@ -348,6 +350,8 @@ where
                 {
                     state.workspace_state().workspaces.remove(idx);
                 }
+
+                handle.destroy();
             }
             _ => unreachable!(),
         }

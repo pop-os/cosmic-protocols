@@ -351,12 +351,15 @@ where
         conn: &Connection,
         qh: &QueueHandle<D>,
     ) {
-        let data = &mut state
+        let Some(data) = state
             .toplevel_info_state()
             .toplevels
             .iter_mut()
             .find(|data| data.foreign_toplevel() == handle)
-            .expect("Received event for dead toplevel");
+        else {
+            // In case of not finding, it means that the window is already closed
+            return;
+        };
         match event {
             ext_foreign_toplevel_handle_v1::Event::Closed => {
                 state.toplevel_closed(conn, qh, handle);

@@ -1,23 +1,17 @@
 use cosmic_client_toolkit::workspace::{WorkspaceHandler, WorkspaceState};
-use sctk::{
-    output::{OutputHandler, OutputState},
-    registry::{ProvidesRegistryState, RegistryState},
-};
+use sctk::output::{OutputHandler, OutputState};
 use wayland_client::{
-    Connection, Proxy, QueueHandle, globals::registry_queue_init, protocol::wl_output,
+    Connection, Proxy, QueueHandle,
+    globals::{GlobalListHandler, registry_queue_init},
+    protocol::wl_output,
 };
 
 struct AppData {
     output_state: OutputState,
-    registry_state: RegistryState,
     workspace_state: WorkspaceState,
 }
 
-impl ProvidesRegistryState for AppData {
-    fn registry(&mut self) -> &mut RegistryState {
-        &mut self.registry_state
-    }
-
+impl GlobalListHandler for AppData {
     sctk::registry_handlers!(OutputState);
 }
 
@@ -111,18 +105,12 @@ fn main() {
     let (globals, mut event_queue) = registry_queue_init(&conn).unwrap();
     let qh = event_queue.handle();
 
-    let registry_state = RegistryState::new(&globals);
     let mut app_data = AppData {
         output_state: OutputState::new(&globals, &qh),
-        workspace_state: WorkspaceState::new(&registry_state, &qh),
-        registry_state,
+        workspace_state: WorkspaceState::new(&globals, &qh),
     };
 
     loop {
         event_queue.blocking_dispatch(&mut app_data).unwrap();
     }
 }
-
-sctk::delegate_output!(AppData);
-sctk::delegate_registry!(AppData);
-cosmic_client_toolkit::delegate_workspace!(AppData);

@@ -1,22 +1,18 @@
 use cosmic_client_toolkit::toplevel_info::{ToplevelInfoHandler, ToplevelInfoState};
-use sctk::{
-    output::{OutputHandler, OutputState},
-    registry::{ProvidesRegistryState, RegistryState},
+use sctk::output::{OutputHandler, OutputState};
+use wayland_client::{
+    Connection, QueueHandle,
+    globals::{GlobalListHandler, registry_queue_init},
+    protocol::wl_output,
 };
-use wayland_client::{Connection, QueueHandle, globals::registry_queue_init, protocol::wl_output};
 use wayland_protocols::ext::foreign_toplevel_list::v1::client::ext_foreign_toplevel_handle_v1;
 
 struct AppData {
     output_state: OutputState,
-    registry_state: RegistryState,
     toplevel_info_state: ToplevelInfoState,
 }
 
-impl ProvidesRegistryState for AppData {
-    fn registry(&mut self) -> &mut RegistryState {
-        &mut self.registry_state
-    }
-
+impl GlobalListHandler for AppData {
     sctk::registry_handlers!(OutputState);
 }
 
@@ -102,18 +98,12 @@ fn main() {
     let (globals, mut event_queue) = registry_queue_init(&conn).unwrap();
     let qh = event_queue.handle();
 
-    let registry_state = RegistryState::new(&globals);
     let mut app_data = AppData {
         output_state: OutputState::new(&globals, &qh),
-        toplevel_info_state: ToplevelInfoState::new(&registry_state, &qh),
-        registry_state,
+        toplevel_info_state: ToplevelInfoState::new(&globals, &qh),
     };
 
     loop {
         event_queue.blocking_dispatch(&mut app_data).unwrap();
     }
 }
-
-sctk::delegate_output!(AppData);
-sctk::delegate_registry!(AppData);
-cosmic_client_toolkit::delegate_toplevel_info!(AppData);

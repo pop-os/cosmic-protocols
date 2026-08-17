@@ -1,33 +1,26 @@
 use cosmic_client_toolkit::screencopy::{
     CaptureFrame, CaptureOptions, CaptureSession, CaptureSource, FailureReason, Formats,
-    ScreencopyFrameData, ScreencopyFrameDataExt, ScreencopyHandler, ScreencopySessionData,
-    ScreencopySessionDataExt, ScreencopyState,
+    ScreencopyHandler, ScreencopyState,
 };
 use sctk::{
     output::{OutputHandler, OutputState},
-    registry::{ProvidesRegistryState, RegistryState},
     shm::{Shm, ShmHandler, raw::RawPool},
 };
 use std::{fs, io, sync::Mutex};
 use wayland_client::{
-    Connection, QueueHandle, WEnum, delegate_noop,
-    globals::registry_queue_init,
-    protocol::{wl_buffer, wl_output, wl_shm},
+    Connection, Noop, QueueHandle,
+    globals::{GlobalListHandler, registry_queue_init},
+    protocol::{wl_output, wl_shm},
 };
 
 struct AppData {
     shm_state: Shm,
-    registry_state: RegistryState,
     output_state: OutputState,
     screencopy_state: ScreencopyState,
     outputs_done: u32,
 }
 
-impl ProvidesRegistryState for AppData {
-    fn registry(&mut self) -> &mut RegistryState {
-        &mut self.registry_state
-    }
-
+impl GlobalListHandler for AppData {
     sctk::registry_handlers!();
 }
 
@@ -88,7 +81,7 @@ impl ScreencopyHandler for AppData {
             height as i32,
             width as i32 * 4,
             wl_shm::Format::Abgr8888,
-            (),
+            Noop,
             qh,
         );
         session.capture(
@@ -96,7 +89,6 @@ impl ScreencopyHandler for AppData {
             &[],
             qh,
             FrameData {
-                frame_data: ScreencopyFrameData::default(),
                 output_name: session.data::<SessionData>().unwrap().output_name.clone(),
                 pool: Mutex::new(pool),
                 size: formats.buffer_size,
@@ -134,7 +126,7 @@ impl ScreencopyHandler for AppData {
         _: &Connection,
         _: &QueueHandle<Self>,
         _: &CaptureFrame,
-        reason: WEnum<FailureReason>,
+        reason: FailureReason,
     ) {
         println!("Failed to capture output: {:?}", reason);
         self.outputs_done += 1;
@@ -142,27 +134,13 @@ impl ScreencopyHandler for AppData {
 }
 
 struct SessionData {
-    session_data: ScreencopySessionData,
     output_name: String,
-}
-
-impl ScreencopySessionDataExt for SessionData {
-    fn screencopy_session_data(&self) -> &ScreencopySessionData {
-        &self.session_data
-    }
 }
 
 struct FrameData {
-    frame_data: ScreencopyFrameData,
     output_name: String,
     pool: Mutex<RawPool>,
     size: (u32, u32),
-}
-
-impl ScreencopyFrameDataExt for FrameData {
-    fn screencopy_frame_data(&self) -> &ScreencopyFrameData {
-        &self.frame_data
-    }
 }
 
 fn main() {
@@ -170,7 +148,6 @@ fn main() {
     let (globals, mut event_queue) = registry_queue_init(&conn).unwrap();
     let qh = event_queue.handle();
 
-    let registry_state = RegistryState::new(&globals);
     let shm_state = Shm::bind(&globals, &qh).unwrap();
     let screencopy_state = ScreencopyState::new(&globals, &qh);
     let output_state = OutputState::new(&globals, &qh);
@@ -178,7 +155,6 @@ fn main() {
     let mut data: AppData = AppData {
         output_state,
         shm_state,
-        registry_state,
         screencopy_state,
         outputs_done: 0,
     };
@@ -200,7 +176,6 @@ fn main() {
                     &qh,
                     SessionData {
                         output_name: info.name.clone().unwrap(),
-                        session_data: ScreencopySessionData::default(),
                     },
                 )
                 .unwrap()
@@ -211,9 +186,3 @@ fn main() {
         event_queue.blocking_dispatch(&mut data).unwrap();
     }
 }
-
-sctk::delegate_output!(AppData);
-sctk::delegate_registry!(AppData);
-sctk::delegate_shm!(AppData);
-cosmic_client_toolkit::delegate_screencopy!(AppData);
-delegate_noop!(AppData: ignore wl_buffer::WlBuffer);

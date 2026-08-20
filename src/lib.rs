@@ -41,6 +41,18 @@ pub mod corner_radius {
     }
 }
 
+pub mod gamepad {
+    //! Receive gamepad input events.
+
+    #[allow(missing_docs)]
+    pub mod v1 {
+        wayland_protocol!(
+            "./unstable/cosmic-gamepad-unstable-v1.xml",
+            []
+        );
+    }
+}
+
 pub mod image_capture_source {
     //! Capture source interface extending `ext-image-capture-source-v1`.
 

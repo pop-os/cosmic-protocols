@@ -133,3 +133,16 @@ pub mod keyboard_layout {
         );
     }
 }
+
+pub mod session_lock_layer {
+    //! Show layer surfaces in locked sessions.
+
+    #[allow(missing_docs)]
+    pub mod v1 {
+        wayland_protocol!(
+            "./unstable/cosmic-session-lock-layer-v1.xml",
+            [wayland_protocols_wlr::layer_shell::v1]
+        );
+    }
+
+}

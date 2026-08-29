@@ -4,7 +4,7 @@ use wayland_client::{Connection, Dispatch, QueueHandle, WEnum};
 use wayland_protocols::ext::{
     image_capture_source::v1::client::{
         ext_foreign_toplevel_image_capture_source_manager_v1, ext_image_capture_source_v1,
-        ext_output_image_capture_source_manager_v1,
+        ext_output_image_capture_source_manager_v1, ext_workspace_image_capture_source_manager_v1,
     },
     image_copy_capture::v1::client::{
         ext_image_copy_capture_cursor_session_v1, ext_image_copy_capture_frame_v1,
@@ -335,6 +335,30 @@ where
     }
 }
 
+impl<D>
+    Dispatch<
+        ext_workspace_image_capture_source_manager_v1::ExtWorkspaceImageCaptureSourceManagerV1,
+        GlobalData,
+        D,
+    > for ScreencopyState
+where
+    D: Dispatch<
+            ext_workspace_image_capture_source_manager_v1::ExtWorkspaceImageCaptureSourceManagerV1,
+            GlobalData,
+        > + ScreencopyHandler,
+{
+    fn event(
+        _app_data: &mut D,
+        _source: &ext_workspace_image_capture_source_manager_v1::ExtWorkspaceImageCaptureSourceManagerV1,
+        _event: ext_workspace_image_capture_source_manager_v1::Event,
+        _udata: &GlobalData,
+        _conn: &Connection,
+        _qh: &QueueHandle<D>,
+    ) {
+        unreachable!()
+    }
+}
+
 #[macro_export]
 macro_rules! delegate_screencopy {
     ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty) => {
@@ -361,6 +385,9 @@ macro_rules! delegate_screencopy {
         ] => $crate::screencopy::ScreencopyState);
         $crate::wayland_client::delegate_dispatch!(@<$( $lt $( : $clt $(+ $dlt )* )? ),* CursorSessionData: ($crate::screencopy::ScreencopyCursorSessionDataExt)> $ty: [
             $crate::wayland_protocols::ext::image_copy_capture::v1::client::ext_image_copy_capture_cursor_session_v1::ExtImageCopyCaptureCursorSessionV1: CursorSessionData
+        ] => $crate::screencopy::ScreencopyState);
+        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
+            $crate::wayland_protocols::ext::image_capture_source::v1::client::ext_workspace_image_capture_source_manager_v1::ExtWorkspaceImageCaptureSourceManagerV1: $crate::GlobalData
         ] => $crate::screencopy::ScreencopyState);
     };
 }

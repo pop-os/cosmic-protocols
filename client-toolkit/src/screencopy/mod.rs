@@ -11,7 +11,7 @@ use wayland_client::{
 use wayland_protocols::ext::{
     image_capture_source::v1::client::{
         ext_foreign_toplevel_image_capture_source_manager_v1, ext_image_capture_source_v1,
-        ext_output_image_capture_source_manager_v1,
+        ext_output_image_capture_source_manager_v1, ext_workspace_image_capture_source_manager_v1,
     },
     image_copy_capture::v1::client::{
         ext_image_copy_capture_cursor_session_v1, ext_image_copy_capture_frame_v1,
@@ -68,6 +68,7 @@ struct CapturerInner {
     output_source_manager: Option<ext_output_image_capture_source_manager_v1::ExtOutputImageCaptureSourceManagerV1>,
     foreign_toplevel_source_manager: Option<ext_foreign_toplevel_image_capture_source_manager_v1::ExtForeignToplevelImageCaptureSourceManagerV1>,
     workspace_source_manager: Option<zcosmic_workspace_image_capture_source_manager_v1::ZcosmicWorkspaceImageCaptureSourceManagerV1>,
+    ext_workspace_source_manager: Option<ext_workspace_image_capture_source_manager_v1::ExtWorkspaceImageCaptureSourceManagerV1>,
 }
 
 impl Drop for CapturerInner {
@@ -291,17 +292,20 @@ impl ScreencopyState {
         D: Dispatch<ext_output_image_capture_source_manager_v1::ExtOutputImageCaptureSourceManagerV1, GlobalData>,
         D: Dispatch<ext_foreign_toplevel_image_capture_source_manager_v1::ExtForeignToplevelImageCaptureSourceManagerV1, GlobalData>,
         D: Dispatch<zcosmic_workspace_image_capture_source_manager_v1::ZcosmicWorkspaceImageCaptureSourceManagerV1, GlobalData>,
+        D: Dispatch<ext_workspace_image_capture_source_manager_v1::ExtWorkspaceImageCaptureSourceManagerV1, GlobalData>,
     {
         let image_copy_capture_manager = globals.bind(qh, 1..=1, GlobalData).ok();
         let output_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
         let foreign_toplevel_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
         let workspace_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
+        let ext_workspace_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
 
         let capturer = Capturer(Arc::new(CapturerInner {
             image_copy_capture_manager,
             output_source_manager,
             foreign_toplevel_source_manager,
             workspace_source_manager,
+            ext_workspace_source_manager,
         }));
 
         Self { capturer }

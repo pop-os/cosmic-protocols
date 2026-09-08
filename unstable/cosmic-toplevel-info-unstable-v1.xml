@@ -27,7 +27,7 @@
     THIS SOFTWARE.
   </copyright>
 
-  <interface name="zcosmic_toplevel_info_v1" version="3">
+  <interface name="zcosmic_toplevel_info_v1" version="4">
     <description summary="list toplevels and properties thereof">
       The purpose of this protocol is to enable clients such as taskbars
       or docks to access a list of opened applications and basic properties
@@ -103,7 +103,7 @@
     </event>
   </interface>
 
-  <interface name="zcosmic_toplevel_handle_v1" version="3">
+  <interface name="zcosmic_toplevel_handle_v1" version="4">
     <description summary="an open toplevel">
       A zcosmic_toplevel_handle_v1 object represents an open toplevel
       window. A single app may have multiple open toplevels.
@@ -257,6 +257,47 @@
         the same workspace has been emitted before this event.
       </description>
       <arg name="workspace" type="object" interface="ext_workspace_handle_v1"/>
+    </event>
+
+    <event name="icon_name" since="4">
+      <description summary="the toplevel icon name changed">
+        This event is emitted whenever the icon name of the toplevel changes.
+        The icon name follows the XDG icon theme specification. It supersedes
+        any previously sent icon or icon_name event.
+      </description>
+      <arg name="icon_name" type="string"/>
+    </event>
+
+    <event name="icon" since="4">
+      <description summary="the toplevel icon changed">
+        This event is emitted whenever the pixel data of the toplevel icon
+        changes. The pixel data is packed, unpremultiplied RGBA8888. Width and
+        height must each be between 1 and 512 inclusive. The file descriptor
+        refers to a sealed regular file containing exactly width * height * 4
+        bytes and positioned at the beginning of the data. It supersedes any
+        previously sent icon or icon_name event.
+      </description>
+      <arg name="data" type="fd"/>
+      <arg name="width" type="uint"/>
+      <arg name="height" type="uint"/>
+    </event>
+
+    <event name="icon_removed" since="4">
+      <description summary="the toplevel icon was removed">
+        This event is emitted whenever the toplevel no longer has an icon. It
+        clears any previously sent icon or icon_name event.
+      </description>
+    </event>
+
+    <event name="pid" since="4">
+      <description summary="the toplevel process identifier changed">
+        This event is emitted once on creation of the
+        zcosmic_toplevel_handle_v1 and again whenever the process identifier of
+        the toplevel changes. A value of zero means that the process identifier
+        is unavailable. This information is advisory and must not be used to
+        make security decisions.
+      </description>
+      <arg name="pid" type="uint"/>
     </event>
   </interface>
 </protocol>

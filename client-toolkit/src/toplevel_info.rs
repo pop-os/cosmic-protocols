@@ -1,6 +1,9 @@
 use std::{
     collections::{HashMap, HashSet},
-    sync::OnceLock,
+    fs::File,
+    io::Read,
+    os::fd::OwnedFd,
+    sync::{Arc, OnceLock},
 };
 
 use cosmic_protocols::toplevel_info::v1::client::{
@@ -25,6 +28,78 @@ pub struct ToplevelGeometry {
     pub height: i32,
 }
 
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum ToplevelIcon {
+    Name(Arc<str>),
+    Rgba {
+        width: u32,
+        height: u32,
+        pixels: Arc<[u8]>,
+    },
+}
+
+impl ToplevelIcon {
+    const MAX_DIMENSION: u32 = 512;
+    const MAX_BYTES: usize = 512 * 512 * 4;
+
+    pub fn from_rgba(width: u32, height: u32, pixels: impl Into<Arc<[u8]>>) -> Option<Self> {
+        if width == 0 || height == 0 || width > Self::MAX_DIMENSION || height > Self::MAX_DIMENSION
+        {
+            return None;
+        }
+        let pixels = pixels.into();
+        let len = usize::try_from(width)
+            .ok()?
+            .checked_mul(usize::try_from(height).ok()?)?
+            .checked_mul(4)?;
+        if len > Self::MAX_BYTES || pixels.len() != len {
+            return None;
+        }
+        Some(Self::Rgba {
+            width,
+            height,
+            pixels,
+        })
+    }
+
+    fn from_fd(data: OwnedFd, width: u32, height: u32) -> Option<Self> {
+        let len = usize::try_from(width)
+            .ok()?
+            .checked_mul(usize::try_from(height).ok()?)?
+            .checked_mul(4)?;
+        if width == 0
+            || height == 0
+            || width > Self::MAX_DIMENSION
+            || height > Self::MAX_DIMENSION
+            || len > Self::MAX_BYTES
+        {
+            return None;
+        }
+
+        let mut file = File::from(data);
+        let metadata = file.metadata().ok()?;
+        if !metadata.is_file() || metadata.len() != u64::try_from(len).ok()? {
+            return None;
+        }
+
+        let mut pixels = vec![0; len];
+        file.read_exact(&mut pixels).ok()?;
+        Self::from_rgba(width, height, pixels)
+    }
+}
+
+fn apply_icon_fd(icon: &mut Option<ToplevelIcon>, data: OwnedFd, width: u32, height: u32) -> bool {
+    let Some(new_icon) = ToplevelIcon::from_fd(data, width, height) else {
+        return false;
+    };
+    *icon = Some(new_icon);
+    true
+}
+
+fn apply_pid(current: &mut Option<u32>, pid: u32) {
+    *current = (pid != 0).then_some(pid);
+}
+
 #[derive(Clone, Debug)]
 pub struct ToplevelInfo {
     pub title: String,
@@ -38,6 +113,10 @@ pub struct ToplevelInfo {
     pub geometry: HashMap<wl_output::WlOutput, ToplevelGeometry>,
     /// Requires zcosmic_toplevel_info_v1 version 3
     pub workspace: HashSet<ext_workspace_handle_v1::ExtWorkspaceHandleV1>,
+    /// Requires zcosmic_toplevel_info_v1 version 4
+    pub icon: Option<ToplevelIcon>,
+    /// Requires zcosmic_toplevel_info_v1 version 4
+    pub pid: Option<u32>,
     /// Requires zcosmic_toplevel_info_v1 version 2
     pub cosmic_toplevel: Option<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1>,
     pub foreign_toplevel: ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
@@ -60,6 +139,8 @@ impl ToplevelData {
             output: HashSet::new(),
             geometry: HashMap::new(),
             workspace: HashSet::new(),
+            icon: None,
+            pid: None,
             cosmic_toplevel: None,
             foreign_toplevel,
         };
@@ -111,7 +192,7 @@ impl ToplevelInfoState {
         let cosmic_toplevel_info = registry
             .bind_one::<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, _, _>(
                 qh,
-                2..=3,
+                2..=4,
                 GlobalData,
             )
             .ok();
@@ -276,6 +357,22 @@ where
                         height,
                     },
                 );
+            }
+            zcosmic_toplevel_handle_v1::Event::IconName { icon_name } => {
+                data.pending_info.icon = Some(ToplevelIcon::Name(icon_name.into()));
+            }
+            zcosmic_toplevel_handle_v1::Event::Icon {
+                data: icon_data,
+                width,
+                height,
+            } => {
+                apply_icon_fd(&mut data.pending_info.icon, icon_data, width, height);
+            }
+            zcosmic_toplevel_handle_v1::Event::IconRemoved => {
+                data.pending_info.icon = None;
+            }
+            zcosmic_toplevel_handle_v1::Event::Pid { pid } => {
+                apply_pid(&mut data.pending_info.pid, pid);
             }
             // Not used in protocol version 2
             zcosmic_toplevel_handle_v1::Event::AppId { .. }

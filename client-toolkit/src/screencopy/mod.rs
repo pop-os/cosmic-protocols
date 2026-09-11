@@ -1,6 +1,9 @@
 use cosmic_protocols::image_capture_source::v1::client::zcosmic_workspace_image_capture_source_manager_v1;
 use std::{
-    sync::{Arc, Mutex, OnceLock, Weak},
+    sync::{
+        Arc, Mutex, OnceLock, Weak,
+        atomic::{AtomicBool, Ordering},
+    },
     time::Duration,
 };
 use wayland_client::{
@@ -25,6 +28,7 @@ pub use ext_image_copy_capture_manager_v1::Options as CaptureOptions;
 use crate::GlobalData;
 
 mod capture_source;
+pub(crate) use capture_source::ToplevelIconCaptureSource;
 pub use capture_source::{CaptureSource, CaptureSourceError, CaptureSourceKind};
 mod dispatch;
 
@@ -91,7 +95,21 @@ impl Drop for CapturerInner {
 pub struct Capturer(Arc<CapturerInner>);
 
 impl Capturer {
-    // TODO check supported capture types
+    /// Returns whether the compositor advertises image-copy-capture support.
+    pub fn can_capture(&self) -> bool {
+        self.0.image_copy_capture_manager.is_some()
+    }
+
+    fn capture_manager(
+        &self,
+        kind: CaptureSourceKind,
+    ) -> Result<&ext_image_copy_capture_manager_v1::ExtImageCopyCaptureManagerV1, CaptureSourceError>
+    {
+        self.0
+            .image_copy_capture_manager
+            .as_ref()
+            .ok_or_else(|| CaptureSourceError::new(kind))
+    }
 
     pub fn create_session<D, U>(
         &self,
@@ -106,6 +124,7 @@ impl Capturer {
         D: Dispatch<ext_image_copy_capture_session_v1::ExtImageCopyCaptureSessionV1, U>,
         U: ScreencopySessionDataExt + Send + Sync + 'static,
     {
+        let manager = self.capture_manager(source.kind())?;
         let source = source.create_source(self, qh)?;
         Ok(CaptureSession(Arc::new_cyclic(|weak_session| {
             udata
@@ -114,12 +133,7 @@ impl Capturer {
                 .set(weak_session.clone())
                 .unwrap();
             CaptureSessionInner {
-                session: self
-                    .0
-                    .image_copy_capture_manager
-                    .as_ref()
-                    .expect("ext capture source with no image capture copy manager")
-                    .create_session(&source.0, options, qh, udata),
+                session: manager.create_session(&source.0, options, qh, udata),
             }
         })))
     }
@@ -140,6 +154,7 @@ impl Capturer {
             >,
         U: ScreencopyCursorSessionDataExt + Send + Sync + 'static,
     {
+        let manager = self.capture_manager(source.kind())?;
         let source = source.create_source(self, qh)?;
         Ok(CaptureCursorSession(Arc::new_cyclic(|weak_session| {
             udata
@@ -148,12 +163,7 @@ impl Capturer {
                 .set(weak_session.clone())
                 .unwrap();
             CaptureCursorSessionInner {
-                session: self
-                    .0
-                    .image_copy_capture_manager
-                    .as_ref()
-                    .expect("ext capture source with no image capture copy manager")
-                    .create_pointer_cursor_session(&source.0, pointer, qh, udata),
+                session: manager.create_pointer_cursor_session(&source.0, pointer, qh, udata),
             }
         })))
     }
@@ -186,10 +196,16 @@ impl CaptureSession {
         D: Dispatch<ext_image_copy_capture_frame_v1::ExtImageCopyCaptureFrameV1, U>,
         U: ScreencopyFrameDataExt + Send + Sync + 'static,
     {
+        let lifecycle = Arc::new(FrameLifecycle::default());
         udata
             .screencopy_frame_data()
             .session
             .set(Arc::downgrade(&self.0))
+            .unwrap();
+        udata
+            .screencopy_frame_data()
+            .lifecycle
+            .set(lifecycle.clone())
             .unwrap();
         let frame = self.0.session.create_frame(qh, udata);
         frame.attach_buffer(buffer);
@@ -203,7 +219,7 @@ impl CaptureSession {
             frame.damage_buffer(*x, *y, *width, *height);
         }
         frame.capture();
-        CaptureFrame { frame }
+        CaptureFrame { frame, lifecycle }
     }
 
     pub fn data<U: Send + Sync + 'static>(&self) -> Option<&U> {
@@ -211,12 +227,47 @@ impl CaptureSession {
     }
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Debug, Default)]
+struct FrameLifecycle(AtomicBool);
+
+impl FrameLifecycle {
+    fn destroy(&self, destroy_frame: impl FnOnce()) {
+        if !self.0.swap(true, Ordering::AcqRel) {
+            destroy_frame();
+        }
+    }
+}
+
+#[derive(Clone, Debug)]
 pub struct CaptureFrame {
     frame: ext_image_copy_capture_frame_v1::ExtImageCopyCaptureFrameV1,
+    lifecycle: Arc<FrameLifecycle>,
+}
+
+impl PartialEq for CaptureFrame {
+    fn eq(&self, other: &Self) -> bool {
+        self.frame == other.frame
+    }
+}
+
+impl Eq for CaptureFrame {}
+
+impl std::hash::Hash for CaptureFrame {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        self.frame.hash(state);
+    }
 }
 
 impl CaptureFrame {
+    /// Cancel an in-flight capture or release a completed frame.
+    ///
+    /// The toolkit also destroys frames automatically after invoking `ready`
+    /// or `failed`. Repeated calls, including calls from those callbacks, are
+    /// ignored.
+    pub fn destroy(&self) {
+        self.lifecycle.destroy(|| self.frame.destroy());
+    }
+
     pub fn session<U: ScreencopyFrameDataExt + Send + Sync + 'static>(
         &self,
     ) -> Option<CaptureSession> {
@@ -398,6 +449,7 @@ impl ScreencopySessionDataExt for ScreencopySessionData {
 pub struct ScreencopyFrameData {
     frame: Mutex<Frame>,
     session: OnceLock<Weak<CaptureSessionInner>>,
+    lifecycle: OnceLock<Arc<FrameLifecycle>>,
 }
 
 pub trait ScreencopyFrameDataExt {

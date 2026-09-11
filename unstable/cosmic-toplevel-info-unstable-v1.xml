@@ -259,45 +259,63 @@
       <arg name="workspace" type="object" interface="ext_workspace_handle_v1"/>
     </event>
 
-    <event name="icon_name" since="4">
-      <description summary="the toplevel icon name changed">
-        This event is emitted whenever the icon name of the toplevel changes.
-        The icon name follows the XDG icon theme specification. It supersedes
-        any previously sent icon or icon_name event.
-      </description>
-      <arg name="icon_name" type="string"/>
-    </event>
-
-    <event name="icon" since="4">
+    <event name="icon_changed" since="4">
       <description summary="the toplevel icon changed">
-        This event is emitted whenever the pixel data of the toplevel icon
-        changes. The pixel data is packed, unpremultiplied RGBA8888. Width and
-        height must each be between 1 and 512 inclusive. The file descriptor
-        refers to a sealed regular file containing exactly width * height * 4
-        bytes and positioned at the beginning of the data. It supersedes any
-        previously sent icon or icon_name event.
+        Sent whenever the icon of the toplevel is replaced. The optional icon_name
+        argument, when non-null, is a name from the XDG icon theme specification
+        that clients may resolve locally. Clients that cannot resolve the name, or
+        that require image data at a specific size, should use create_icon_source to
+        request it. When the compositor accepts image data for the current icon, it
+        must keep a pixel representation obtainable through create_icon_source for
+        as long as that icon remains current, whether or not icon_name is non-null.
+        If no image data was accepted and icon_name is non-null, the compositor
+        should attempt to resolve the name so clients with a different icon-theme or
+        filesystem view can request fallback pixels. When an icon-theme name is
+        available, the compositor should send it in icon_name. The icon name and
+        pixel representation are independent; a non-null icon_name does not
+        guarantee that create_icon_source can produce image data. This event
+        replaces any icon previously announced via icon_changed.
       </description>
-      <arg name="data" type="fd"/>
-      <arg name="width" type="uint"/>
-      <arg name="height" type="uint"/>
+      <arg name="icon_name" type="string" allow-null="true"/>
     </event>
 
     <event name="icon_removed" since="4">
       <description summary="the toplevel icon was removed">
         This event is emitted whenever the toplevel no longer has an icon. It
-        clears any previously sent icon or icon_name event.
+        clears any previously sent icon_changed event.
       </description>
     </event>
 
-    <event name="pid" since="4">
-      <description summary="the toplevel process identifier changed">
-        This event is emitted once on creation of the
-        zcosmic_toplevel_handle_v1 and again whenever the process identifier of
-        the toplevel changes. A value of zero means that the process identifier
-        is unavailable. This information is advisory and must not be used to
-        make security decisions.
+    <enum name="error" since="4">
+      <entry name="invalid_icon_size" value="1"
+        summary="the requested icon dimensions are invalid"/>
+    </enum>
+
+    <request name="create_icon_source" since="4">
+      <description summary="create an image source for the toplevel icon">
+        Creates an image capture source for the current toplevel icon. The
+        requested width and height describe the desired image dimensions and
+        must both be greater than zero. The compositor may scale or rasterize
+        the icon to satisfy the request. If the source icon has a different
+        aspect ratio, it should be fitted without distortion and padded with
+        transparent pixels.
+
+        The source represents the icon current when this request is processed
+        and remains valid if the toplevel icon subsequently changes or the
+        toplevel is destroyed. Clients can use ext_image_copy_capture_v1 to
+        negotiate a format and copy the image into client-owned storage.
+
+        If no pixel representation can be produced, capture sessions created
+        from the source shall be stopped. Resource exhaustion should likewise
+        be reported through the image capture protocol rather than by imposing
+        a fixed maximum icon dimension in this protocol.
+
+        If either dimension is zero, the invalid_icon_size protocol error is
+        raised.
       </description>
-      <arg name="pid" type="uint"/>
-    </event>
+      <arg name="source" type="new_id" interface="ext_image_capture_source_v1"/>
+      <arg name="width" type="uint"/>
+      <arg name="height" type="uint"/>
+    </request>
   </interface>
 </protocol>

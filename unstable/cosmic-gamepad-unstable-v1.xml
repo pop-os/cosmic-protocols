@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocol name="cosmic_gamepad_v1">
+  <copyright>
+    Copyright © 2023-2024 Collabora, Ltd.
+    Copyright © 2024 Colin Marc
+    Copyright @ 2026 System76
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice (including the next
+    paragraph) shall be included in all copies or substantial portions of the
+    Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+  </copyright>
+
+  <description summary="Privileged wayland protocol for capturing gamepad devices">
+    To start receiving gamepad input events, a client must first bind the
+    global interface cosmic_gamepad_manager, which will be used to request a
+    seat-specific object, using get_gamepad_seat.
+
+    A cosmic_gamepad_seat object is used by the compositor to notify the client of
+    connected controllers, via the gamepad_available event. The cosmic_gamepad
+    object contained in that event is then used to send actual input events.
+
+    Which surface currently holds the focus of the gamepad, and therefore
+    receives input events from that controller, is maintained by the
+    compositor and communicated to the client with the enter and leave events.
+
+    The client can request to temporarily get exclusive access to a cosmic_gamepad
+    object via the grab request. The returned cosmic_gamepad_grab object will
+    indicate a successful grab through its sucess event. If successful any input
+    event will only be forwarded to the cosmic_gamepad object regardless of focus
+    until the grab is volentary revoked or the compositor ends it.
+
+    Clients should watch for the wp_gamepad.removed event, which indicates a
+    device was unplugged. If the same device is then replugged, it results in
+    a new wp_gamepad_seat.gamepad_available event and a new wp_gamepad object.
+    Gamepads can be identified across hotplug events by their unique ID, sent
+    in the wp_gamepad.device_info event.
+  </description>
+
+  <interface name="zcosmic_gamepad_manager_v1" version="1">
+    <description summary="manager object for gamepads">
+      An object that provides access to connected gamepads.
+    </description>
+
+    <request name="destroy" type="destructor">
+      <description summary="destroy this object">
+        Destroy the cosmic_gamepad_manager object.
+
+        The objects created from this object are unaffected and should be
+        destroyed separately.
+      </description>
+    </request>
+
+    <request name="get_gamepad_seat">
+      <description summary="get gamepads for a seat">
+        Get the cosmic_gamepad_seat object for a given seat. This object provides
+        access to all gamepads in this seat.
+      </description>
+      <arg name="gamepad_seat" type="new_id" interface="zcosmic_gamepad_seat_v1"/>
+      <arg name="seat" type="object" interface="wl_seat" summary="The wl_seat object for which to receive controller input" />
+    </request>
+  </interface>
+
+  <interface name="zcosmic_gamepad_seat_v1" version="1">
+    <description summary="manager object for gamepads attached to a seat">
+      An object providing access to the gamepads available on this seat. After
+      binding to this interface, the compositor sends available gamepad through
+      gamepad_available event.
+    </description>
+
+    <request name="destroy" type="destructor">
+      <description summary="destroy this object">
+        Destroy the cosmic_gamepad_seat object.
+
+        The objects created from this object are unaffected and should be
+        destroyed separately.
+      </description>
+    </request>
+
+    <event name="gamepad_available">
+      <description summary="controller input is available">
+        This event is sent whenever a gamepad becomes available on this
+        seat.
+      </description>
+      <arg name="id" type="new_id" interface="zcosmic_gamepad_v1" summary="the newly available gamepad"/>
+    </event>
+  </interface>
+
+  <interface name="zcosmic_gamepad_v1" version="1">
+    <description summary="gamepad input device">
+      This interface represents a physical gamepad currently connected to the
+      system.
+
+      Upon binding to the interface, the compositor will advertise the
+      properties of the gamepad through the *_capability and device_info event.
+
+      Input events are grouped by the zcosmic_gamepad_v1.frame events. All events
+      received before the frame event should be considered part of the same
+      hardware state change.
+    </description>
+
+    <request name="destroy" type="destructor">
+      <description summary="destroy this object">
+        Destroy the cosmic_gamepad object.
+      </description>
+    </request>
+
+    <event name="button_capability">
+      <description summary="advertises the availability of a particular button">
+        Send to notify the client that a particular button event can be produced
+        by this device. All capability events are send before the device_info event.
+      </description>
+      <arg name="button" type="uint" enum="button" summary="button source"/>
+    </event>
+
+    <event name="axis_capability">
+      <description summary="advertises the availability of a particular button">
+        Send to notify the client that a particular axis event can be produced
+        by this device. All capability events are send before the device_info event.
+      </description>
+      <arg name="axis" type="uint" enum="axis" summary="axis source"/>
+    </event>
+
+    <event name="touchpad_capability">
+      <description summary="advertises the availability of a particular touchpad">
+        Send to notify the client that a particular touchpad event can be produced
+        by this device. All capability events are send before the device_info event.
+      </description>
+      <arg name="touchpad" type="uint" enum="touchpad" summary="touchpad source"/>
+    </event>
+
+    <enum name="theme">
+      <description summary="button theme">
+        Each vendor uses a different set of glyph on its controller's buttons.
+      </description>
+      <entry name="none" value="0" summary="default value"/>
+      <entry name="playstation" value="1" summary="Sony controllers"/>
+      <entry name="xbox" value="2" summary="Microsoft controllers"/>
+      <entry name="nintendo" value="3" summary="Nintendo controllers"/>
+      <entry name="steam" value="4" summary="Valve controllers"/>
+    </enum>
+
+    <event name="device_info">
+      <description summary="name of this gamepad">
+        Information about the gamepad. The name and uniq values are UTF-8
+        strings, the uniq value should not be NULL.
+
+        This event marks the end of the device initialization sequence
+        and MUST be send after all capability events.
+      </description>
+      <arg name="name" type="string" summary="name of the gamepad"/>
+      <arg name="uniq" type="string" summary="unique ID of the gamepad"/>
+      <arg name="vendor_id" type="uint" summary="vendor ID of the gamepad" />
+      <arg name="product_id" type="uint" summary="product ID of the gamepad" />
+      <arg name="theme" type="uint" enum="theme" summary="theme hint"/>
+    </event>
+
+    <event name="enter">
+      <description summary="enter focus event">
+        Notification that the gamepad is focused on a given surface.
+      </description>
+      <arg name="serial" type="uint" summary="serial number of the enter event"/>
+      <arg name="surface" type="object" interface="wl_surface" summary="surface gaining gamepad focus"/>
+    </event>
+
+    <event name="leave">
+      <description summary="leave focus event">
+        Notification that the gamepad is no longer focused on the given surface.
+      </description>
+      <arg name="serial" type="uint" summary="serial number of the leave event"/>
+      <arg name="surface" type="object" interface="wl_surface" summary="surface losing gamepad focus"/>
+    </event>
+
+    <enum name="button">
+      <description summary="button source">
+        Describes the source of a button event.
+      </description>
+      <entry name="guide" value="1"/>
+      <entry name="start" value="2"/>
+      <entry name="select" value="3"/>
+      <entry name="misc" value="4"/>
+
+      <entry name="north" value="5"/>
+      <entry name="south" value="6"/>
+      <entry name="east" value="7"/>
+      <entry name="west" value="8"/>
+
+      <entry name="up" value="9"/>
+      <entry name="down" value="10"/>
+      <entry name="left" value="11"/>
+      <entry name="right" value="12"/>
+
+      <entry name="lthumb" value="13" summary="left thumbstick"/>
+      <entry name="rthumb" value="14" summary="right thumbstick"/>
+      <entry name="lshoulder" value="15" summary="left shoulder"/>
+      <entry name="rshoulder" value="16" summary="right shoulder"/>
+      <entry name="ltrigger" value="17" summary="left trigger"/>
+      <entry name="rtrigger" value="18" summary="right trigger"/>
+
+      <entry name="l3" value="19" summary="left additional shoulder"/>
+      <entry name="r3" value="20" summary="right additional shoulder"/>
+      <entry name="l4" value="21" summary="back paddle left 1"/>
+      <entry name="r4" value="22" summary="back paddle right 1"/>
+      <entry name="l5" value="23" summary="back paddle left 2"/>
+      <entry name="r5" value="24" summary="back paddle right 2"/>
+    </enum>
+
+    <enum name="button_state">
+      <description summary="button source state">
+        Describes the physical state of a button on the gamepad.
+      </description>
+      <entry name="released" value="0" summary="the input source is not pressed"/>
+      <entry name="pressed" value="1" summary="the input source is pressed"/>
+    </enum>
+
+    <event name="button">
+      <description summary="gamepad button event">
+        Describes the gamepad button source press and release notification.
+
+        The time arguments is a timestamp in microseconds granularity with an
+        unknown base of the moment of the state changes
+      </description>
+      <arg name="source" type="uint" enum="button" summary="source that produced the event"/>
+      <arg name="state" type="uint" enum="button_state" summary="physical state of the button"/>
+      <arg name="time_hi" type="uint" summary="high 32 bits of a 64 bits timestamp with microsecond granularity"/>
+      <arg name="time_lo" type="uint" summary="low 32 bits of a 64 bits timestamp with microsecond granularity"/>
+    </event>
+
+    <event name="pressure">
+      <description summary="gamepad trigger event">
+        Describes gamepad button source pressure notification, expressed
+        with a value varying between 0.0 and 1.0, with 0.0 being the neutral
+        state.
+
+        The time arguments is a timestamp in microseconds granularity with an
+        unknown base of the moment of the state changes
+      </description>
+      <arg name="source" type="uint" enum="button" summary="source that produced the event"/>
+      <arg name="value" type="fixed" summary="trigger value in the 0 to 1 range"/>
+      <arg name="time_hi" type="uint" summary="high 32 bits of a 64 bits timestamp with microsecond granularity"/>
+      <arg name="time_lo" type="uint" summary="low 32 bits of a 64 bits timestamp with microsecond granularity"/>
+    </event>
+
+    <enum name="axis">
+      <description summary="axis source">
+        Describes the source of an axis event.
+      </description>
+      <entry name="left_x" value="0" summary="left thumbstick horizontal axis"/>
+      <entry name="left_y" value="1" summary="left thumbstick vertical axis"/>
+      <entry name="right_x" value="2" summary="right thumbstick horizontal axis"/>
+      <entry name="right_y" value="3" summary="right thumbstick vertical axis"/>
+    </enum>
+
+    <event name="axis">
+      <description summary="gamepad axis event">
+        Describes gamepad axis position notification.
+
+        Thumbstick axis value varies from -1.0 to 1.0.
+
+        The time arguments is a timestamp in microseconds of the moment of the
+        state changes
+      </description>
+      <arg name="source" type="uint" enum="axis" summary="source that produced the event"/>
+      <arg name="value" type="fixed" summary="axis value in the -1 to 1 range"/>
+      <arg name="time_hi" type="uint" summary="high 32 bits of a 64 bits timestamp with microsecond granularity"/>
+      <arg name="time_lo" type="uint" summary="low 32 bits of a 64 bits timestamp with microsecond granularity"/>
+    </event>
+
+    <enum name="touchpad">
+      <description summary="touchpad source">
+        Describes the source of an touchpad event.
+      </description>
+      <entry name="center" value="0" summary="a center touchpad"/>
+      <entry name="left" value="1" summary="a left aligned touchpad"/>
+      <entry name="right" value="2" summary="a right aligned touchpad"/>
+    </enum>
+
+    <event name="touchpad">
+      <description summary="gamepad touch event">
+        Describes gamepad touchpad position notification.
+
+        Touchpad values varies from -1.0 to 1.0.
+
+        The time arguments is a timestamp in microseconds of the moment of the
+        state changes
+      </description>
+      <arg name="source" type="uint" enum="touchpad" summary="source that produced the event"/>
+      <arg name="x" type="fixed" summary="x axis value in the -1 to 1 range"/>
+      <arg name="y" type="fixed" summary="y axis value in the -1 to 1 range"/>
+      <arg name="time_hi" type="uint" summary="high 32 bits of a 64 bits timestamp with microsecond granularity"/>
+      <arg name="time_lo" type="uint" summary="low 32 bits of a 64 bits timestamp with microsecond granularity"/>
+    </event>
+
+    <event name="frame">
+      <description summary="end of a gamepad event sequence">
+        Indicates the end of a set of events that logically belong together.
+        A client is expected to accumulate the data in all events within the
+        frame before proceeding
+
+        All wp_gamepad_v1 events before a wp_gamepad_v1.frame event belong
+        together.
+      </description>
+    </event>
+
+    <request name="grab">
+      <description summary="request exclusive access to this gamepad">
+        Allows a client to request exclusive access to the underlying gamepad
+        device.
+
+        Use the returned cosmic_gamepad_grab object to determine whether
+        the grab was successful and/or modify the grab.
+
+        Trying to create multiple grab objects from the same gamepad will
+        throw an already_grabbed protocol error. Previous cosmic_gamepad_grab
+        objects need to be destroyed before a new one can be created.
+      </description>
+      <arg name="gamepad_grab" type="new_id" interface="zcosmic_gamepad_grab_v1"/>
+    </request>
+
+    <event name="removed">
+      <description summary="this gamepad has been unplugged">
+        This event indicates that the controller is not available and no more
+        events will follow. Upon receipt of this event, the client should
+        immediately destroy the wp_gamepad object.
+      </description>
+    </event>
+
+    <enum name="error">
+      <description summary="protocol errors"/>
+      <entry name="already_grabbed" value="1" summary="The gamepad obj already holds a grab."/>
+    </enum>
+  </interface>
+
+  <interface name="zcosmic_gamepad_grab_v1" version="1">
+    <description summary="grab object for gamepads">
+      An object that represents a grab of a cosmic_gamepad object.
+
+      Upon object creation the compositor will either send a
+      success event if the grab was acquired or ended if it was denied.
+
+      The compositor might send ended at any later point to indicate that
+      the grab was revoked by other means.
+
+      Destroying the object will also end the grab.
+    </description>
+
+    <event name="success">
+      <description summary="The gamepad grab was successfully acquired."/>
+    </event>
+    <event name="ended">
+      <description summary="The gamepad grab was denied or revoked.">
+        This object will never receive any other event. A new grab object
+        needs to be created to request a new grab.
+      </description>
+    </event>
+
+    <request name="destroy" type="destructor">
+      <description summary="destroy this object">
+        Destroy the cosmic_gamepad_grab object.
+
+        This also ends the grab, if the object hasn't already received the ended event.
+      </description>
+    </request>
+  </interface>
+</protocol>

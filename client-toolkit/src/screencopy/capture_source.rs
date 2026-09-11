@@ -8,9 +8,20 @@ use wayland_protocols::ext::{
 
 use super::Capturer;
 use crate::GlobalData;
+use cosmic_protocols::toplevel_info::v1::client::zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct CaptureSourceError(CaptureSourceKind);
+
+impl CaptureSourceError {
+    pub(crate) fn new(kind: CaptureSourceKind) -> Self {
+        Self(kind)
+    }
+
+    pub fn kind(&self) -> CaptureSourceKind {
+        self.0
+    }
+}
 
 impl fmt::Display for CaptureSourceError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
@@ -24,6 +35,7 @@ impl Error for CaptureSourceError {}
 pub enum CaptureSourceKind {
     Output,
     Toplevel,
+    ToplevelIcon,
     Workspace,
 }
 
@@ -31,7 +43,25 @@ pub enum CaptureSourceKind {
 pub enum CaptureSource {
     Output(wl_output::WlOutput),
     Toplevel(ExtForeignToplevelHandleV1),
+    ToplevelIcon(ToplevelIconCaptureSource),
     Workspace(ExtWorkspaceHandleV1),
+}
+
+#[derive(Clone, Debug, Hash, PartialEq, Eq)]
+pub struct ToplevelIconCaptureSource {
+    pub(crate) toplevel: ZcosmicToplevelHandleV1,
+    pub(crate) width: u32,
+    pub(crate) height: u32,
+}
+
+impl ToplevelIconCaptureSource {
+    pub(crate) fn new(toplevel: ZcosmicToplevelHandleV1, width: u32, height: u32) -> Self {
+        Self {
+            toplevel,
+            width,
+            height,
+        }
+    }
 }
 
 impl CaptureSource {
@@ -39,6 +69,7 @@ impl CaptureSource {
         match self {
             Self::Output(_) => CaptureSourceKind::Output,
             Self::Toplevel(_) => CaptureSourceKind::Toplevel,
+            Self::ToplevelIcon(_) => CaptureSourceKind::ToplevelIcon,
             Self::Workspace(_) => CaptureSourceKind::Workspace,
         }
     }
@@ -67,6 +98,14 @@ impl CaptureSource {
                     ));
                 }
             }
+            CaptureSource::ToplevelIcon(icon) => {
+                return Ok(WlCaptureSource(icon.toplevel.create_icon_source(
+                    icon.width,
+                    icon.height,
+                    qh,
+                    GlobalData,
+                )));
+            }
             CaptureSource::Workspace(workspace) => {
                 if let Some(manager) = &capturer.0.workspace_source_manager {
                     return Ok(WlCaptureSource(
@@ -75,7 +114,7 @@ impl CaptureSource {
                 }
             }
         }
-        Err(CaptureSourceError(self.kind()))
+        Err(CaptureSourceError::new(self.kind()))
     }
 }
 

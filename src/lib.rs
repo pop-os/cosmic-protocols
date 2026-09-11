@@ -72,7 +72,7 @@ pub mod toplevel_info {
     pub mod v1 {
         wayland_protocol!(
             "./unstable/cosmic-toplevel-info-unstable-v1.xml",
-            [crate::workspace::v1, wayland_protocols::ext::foreign_toplevel_list::v1, wayland_protocols::ext::workspace::v1]
+            [crate::workspace::v1, wayland_protocols::ext::foreign_toplevel_list::v1, wayland_protocols::ext::image_capture_source::v1, wayland_protocols::ext::workspace::v1]
         );
     }
 }

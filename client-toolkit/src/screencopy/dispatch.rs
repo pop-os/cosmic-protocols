@@ -149,26 +149,30 @@ where
             }
             ext_image_copy_capture_frame_v1::Event::Ready => {
                 let frame = frame.lock().unwrap().clone();
-                app_data.ready(
-                    conn,
-                    qh,
-                    &CaptureFrame {
-                        frame: screencopy_frame.clone(),
-                    },
-                    frame,
-                );
-                screencopy_frame.destroy();
+                let capture_frame = CaptureFrame {
+                    frame: screencopy_frame.clone(),
+                    lifecycle: udata
+                        .screencopy_frame_data()
+                        .lifecycle
+                        .get()
+                        .unwrap()
+                        .clone(),
+                };
+                app_data.ready(conn, qh, &capture_frame, frame);
+                capture_frame.destroy();
             }
             ext_image_copy_capture_frame_v1::Event::Failed { reason } => {
-                app_data.failed(
-                    conn,
-                    qh,
-                    &CaptureFrame {
-                        frame: screencopy_frame.clone(),
-                    },
-                    reason,
-                );
-                screencopy_frame.destroy();
+                let capture_frame = CaptureFrame {
+                    frame: screencopy_frame.clone(),
+                    lifecycle: udata
+                        .screencopy_frame_data()
+                        .lifecycle
+                        .get()
+                        .unwrap()
+                        .clone(),
+                };
+                app_data.failed(conn, qh, &capture_frame, reason);
+                capture_frame.destroy();
             }
             _ => unreachable!(),
         }

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocol name="cosmic_toplevel_selection_unstable_v1">
+  <copyright>
+    Copyright © 2026 System76
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice (including the next
+    paragraph) shall be included in all copies or substantial portions of the
+    Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+  </copyright>
+
+  <interface name="zcosmic_toplevel_selection_manager_v1" version="1">
+    <description summary="interactively select toplevels">
+      This protocol allows clients to request interactive selection of
+      toplevel windows.
+
+      A client creates a selection session for a seat and may provide an
+      initial selection before starting the interactive selection.
+
+      Once the selection is complete, the compositor reports the
+      ext_foreign_toplevel_handle_v1 of each selected toplevel.
+    </description>
+
+    <enum name="selection_mode">
+      <entry name="single" value="0"
+             summary="at most one toplevel may be selected"/>
+      <entry name="multiple" value="1"
+             summary="multiple toplevels may be selected"/>
+    </enum>
+
+    <request name="create_session">
+      <description summary="create a toplevel selection session">
+        Create a new toplevel selection session for the given seat.
+
+        The seat determines which input devices are used for interactive
+        selection.
+
+        The client may configure an initial selection using the select request
+        before starting the session.
+      </description>
+      <arg name="session" type="new_id"
+           interface="zcosmic_toplevel_selection_session_v1"/>
+      <arg name="seat" type="object" interface="wl_seat"/>
+      <arg name="selection_mode" type="uint" enum="selection_mode"/>
+    </request>
+
+    <request name="destroy" type="destructor">
+      <description summary="destroy the zcosmic_toplevel_selection_manager_v1">
+        This request indicates that the client has finished using the
+        zcosmic_toplevel_selection_manager_v1 object and that it can be safely
+        destroyed.
+      </description>
+    </request>
+  </interface>
+
+  <interface name="zcosmic_toplevel_selection_session_v1" version="1">
+    <description summary="interactive toplevel selection">
+      A zcosmic_toplevel_selection_session_v1 represents one interactive
+      toplevel selection.
+
+      Before starting the session, the client may provide an initial selection
+      using the select request. The client starts interactive selection using
+      the start request.
+
+      A session completes with either the done or cancelled event. Once
+      completed, the session cannot be reused.
+    </description>
+
+    <enum name="error">
+      <entry name="already_started" value="0"
+             summary="the session has already been started"/>
+      <entry name="too_many_selections" value="1"
+             summary="too many toplevels were selected"/>
+    </enum>
+
+    <enum name="cancel_reason">
+      <entry name="cancelled" value="0"
+             summary="the selection was cancelled"/>
+      <entry name="busy" value="1"
+             summary="another interactive selection is active"/>
+      <entry name="unavailable" value="2"
+             summary="interactive selection is unavailable for this seat"/>
+    </enum>
+
+    <request name="select">
+      <description summary="add a toplevel to the initial selection">
+        Add the given toplevel to the initial selection.
+
+        Selecting the same toplevel more than once has no effect.
+
+        If the session is in single selection mode and another toplevel has
+        already been selected, the too_many_selections protocol error is
+        raised.
+
+        Sending this request after the session has been started raises the
+        already_started protocol error.
+      </description>
+      <arg name="toplevel" type="object"
+           interface="ext_foreign_toplevel_handle_v1"/>
+    </request>
+
+    <request name="start">
+      <description summary="start interactive selection">
+        Start interactive selection using the configured initial selection.
+
+        Sending this request more than once raises the already_started
+        protocol error.
+      </description>
+    </request>
+
+    <request name="cancel">
+      <description summary="cancel the selection">
+        Request that the selection be cancelled.
+
+        If the session has not already completed, the compositor will
+        complete the session with the cancelled event.
+      </description>
+    </request>
+
+    <request name="destroy" type="destructor">
+      <description summary="destroy the zcosmic_toplevel_selection_session_v1">
+        This request indicates that the client has finished using the
+        zcosmic_toplevel_selection_session_v1 object.
+
+        Destroying a session which has not completed cancels the selection.
+      </description>
+    </request>
+
+    <event name="selected">
+      <description summary="a toplevel was selected">
+        This event reports one toplevel in the final selection. It may be
+        emitted multiple times before the done event.
+      </description>
+      <arg name="toplevel" type="object"
+           interface="ext_foreign_toplevel_handle_v1"/>
+    </event>
+
+    <event name="done">
+      <description summary="the selection is complete">
+        This event is sent after all selected events for the final selection
+        have been sent.
+
+        The selected events preceding this event describe the complete final
+        selection and replace the initial selection.
+
+        No further events will be sent for this session.
+      </description>
+    </event>
+
+    <event name="cancelled">
+      <description summary="the selection was cancelled">
+        This event indicates that the session completed without producing a
+        selection.
+
+        The client should retain its previous selection.
+
+        No further events will be sent for this session.
+      </description>
+      <arg name="reason" type="uint" enum="cancel_reason"/>
+    </event>
+  </interface>
+</protocol>

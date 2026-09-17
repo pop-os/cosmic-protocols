@@ -226,12 +226,14 @@ where
         _conn: &Connection,
         _qh: &QueueHandle<D>,
     ) {
-        let data = &mut state
+        let Some(data) = state
             .toplevel_info_state()
             .toplevels
             .iter_mut()
             .find(|data| data.cosmic_toplevel() == Some(toplevel))
-            .expect("Received event for dead toplevel");
+        else {
+            return;
+        };
         match event {
             zcosmic_toplevel_handle_v1::Event::OutputEnter { output } => {
                 data.pending_info.output.insert(output);
@@ -351,12 +353,14 @@ where
         conn: &Connection,
         qh: &QueueHandle<D>,
     ) {
-        let data = &mut state
+        let Some(data) = state
             .toplevel_info_state()
             .toplevels
             .iter_mut()
             .find(|data| data.foreign_toplevel() == handle)
-            .expect("Received event for dead toplevel");
+        else {
+            return;
+        };
         match event {
             ext_foreign_toplevel_handle_v1::Event::Closed => {
                 state.toplevel_closed(conn, qh, handle);

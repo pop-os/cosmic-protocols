@@ -1,16 +1,16 @@
 use cosmic_protocols::image_capture_source::v1::client::zcosmic_workspace_image_capture_source_manager_v1;
 use std::{
-    sync::{Arc, Mutex, OnceLock, Weak},
+    sync::{Arc, Mutex, Weak},
     time::Duration,
 };
 use wayland_client::{
-    Connection, Dispatch, Proxy, QueueHandle, WEnum,
+    Connection, Proxy, QueueHandle,
     globals::GlobalList,
     protocol::{wl_buffer, wl_output::Transform, wl_pointer, wl_shm},
 };
 use wayland_protocols::ext::{
     image_capture_source::v1::client::{
-        ext_foreign_toplevel_image_capture_source_manager_v1, ext_image_capture_source_v1,
+        ext_foreign_toplevel_image_capture_source_manager_v1,
         ext_output_image_capture_source_manager_v1,
     },
     image_copy_capture::v1::client::{
@@ -38,7 +38,7 @@ pub struct Rect {
 
 #[derive(Clone, Debug)]
 pub struct Frame {
-    pub transform: WEnum<Transform>,
+    pub transform: Transform,
     pub damage: Vec<Rect>,
     // XXX monotonic? Is this used elsewhere in wayland?
     pub present_time: Option<Duration>,
@@ -47,7 +47,7 @@ pub struct Frame {
 impl Default for Frame {
     fn default() -> Self {
         Self {
-            transform: WEnum::Value(Transform::Normal),
+            transform: Transform::Normal,
             damage: Vec::new(),
             present_time: None,
         }
@@ -101,25 +101,23 @@ impl Capturer {
         udata: U,
     ) -> Result<CaptureSession, CaptureSourceError>
     where
-        D: 'static,
-        D: Dispatch<ext_image_capture_source_v1::ExtImageCaptureSourceV1, GlobalData>,
-        D: Dispatch<ext_image_copy_capture_session_v1::ExtImageCopyCaptureSessionV1, U>,
-        U: ScreencopySessionDataExt + Send + Sync + 'static,
+        D: ScreencopyHandler + 'static,
+        U: Send + Sync + 'static,
     {
         let source = source.create_source(self, qh)?;
         Ok(CaptureSession(Arc::new_cyclic(|weak_session| {
-            udata
-                .screencopy_session_data()
-                .session
-                .set(weak_session.clone())
-                .unwrap();
+            let data = ScreencopySessionData {
+                formats: Mutex::new(Formats::default()),
+                session: weak_session.clone(),
+                udata,
+            };
             CaptureSessionInner {
                 session: self
                     .0
                     .image_copy_capture_manager
                     .as_ref()
                     .expect("ext capture source with no image capture copy manager")
-                    .create_session(&source.0, options, qh, udata),
+                    .create_session(&source.0, options, qh, data),
             }
         })))
     }
@@ -132,28 +130,22 @@ impl Capturer {
         udata: U,
     ) -> Result<CaptureCursorSession, CaptureSourceError>
     where
-        D: 'static,
-        D: Dispatch<ext_image_capture_source_v1::ExtImageCaptureSourceV1, GlobalData>,
-        D: Dispatch<
-                ext_image_copy_capture_cursor_session_v1::ExtImageCopyCaptureCursorSessionV1,
-                U,
-            >,
-        U: ScreencopyCursorSessionDataExt + Send + Sync + 'static,
+        D: ScreencopyHandler + 'static,
+        U: Send + Sync + 'static,
     {
         let source = source.create_source(self, qh)?;
         Ok(CaptureCursorSession(Arc::new_cyclic(|weak_session| {
-            udata
-                .screencopy_cursor_session_data()
-                .session
-                .set(weak_session.clone())
-                .unwrap();
+            let data = ScreencopyCursorSessionData {
+                session: weak_session.clone(),
+                udata,
+            };
             CaptureCursorSessionInner {
                 session: self
                     .0
                     .image_copy_capture_manager
                     .as_ref()
                     .expect("ext capture source with no image capture copy manager")
-                    .create_pointer_cursor_session(&source.0, pointer, qh, udata),
+                    .create_pointer_cursor_session(&source.0, pointer, qh, data),
             }
         })))
     }
@@ -182,16 +174,15 @@ impl CaptureSession {
         udata: U,
     ) -> CaptureFrame
     where
-        D: 'static,
-        D: Dispatch<ext_image_copy_capture_frame_v1::ExtImageCopyCaptureFrameV1, U>,
-        U: ScreencopyFrameDataExt + Send + Sync + 'static,
+        D: ScreencopyHandler + 'static,
+        U: Send + Sync + 'static,
     {
-        udata
-            .screencopy_frame_data()
-            .session
-            .set(Arc::downgrade(&self.0))
-            .unwrap();
-        let frame = self.0.session.create_frame(qh, udata);
+        let data = ScreencopyFrameData {
+            frame: Mutex::new(Frame::default()),
+            session: Arc::downgrade(&self.0),
+            udata,
+        };
+        let frame = self.0.session.create_frame(qh, data);
         frame.attach_buffer(buffer);
         for Rect {
             x,
@@ -207,7 +198,7 @@ impl CaptureSession {
     }
 
     pub fn data<U: Send + Sync + 'static>(&self) -> Option<&U> {
-        self.0.session.data()
+        Some(&self.0.session.data::<ScreencopySessionData<U>>()?.udata)
     }
 }
 
@@ -217,21 +208,14 @@ pub struct CaptureFrame {
 }
 
 impl CaptureFrame {
-    pub fn session<U: ScreencopyFrameDataExt + Send + Sync + 'static>(
-        &self,
-    ) -> Option<CaptureSession> {
+    pub fn session<U: Send + Sync + 'static>(&self) -> Option<CaptureSession> {
         Some(CaptureSession(
-            self.data::<U>()?
-                .screencopy_frame_data()
-                .session
-                .get()
-                .unwrap()
-                .upgrade()?,
+            self.data::<ScreencopyFrameData<U>>()?.session.upgrade()?,
         ))
     }
 
     pub fn data<U: Send + Sync + 'static>(&self) -> Option<&U> {
-        self.frame.data()
+        Some(&self.frame.data::<ScreencopyFrameData<U>>()?.udata)
     }
 }
 
@@ -256,25 +240,29 @@ impl CaptureCursorSession {
         udata: U,
     ) -> Result<CaptureSession, CaptureSourceError>
     where
-        D: 'static,
-        D: Dispatch<ext_image_capture_source_v1::ExtImageCaptureSourceV1, GlobalData>,
-        D: Dispatch<ext_image_copy_capture_session_v1::ExtImageCopyCaptureSessionV1, U>,
-        U: ScreencopySessionDataExt + Send + Sync + 'static,
+        D: ScreencopyHandler + 'static,
+        U: Send + Sync + 'static,
     {
         Ok(CaptureSession(Arc::new_cyclic(|weak_session| {
-            udata
-                .screencopy_session_data()
-                .session
-                .set(weak_session.clone())
-                .unwrap();
+            let data = ScreencopySessionData {
+                formats: Mutex::new(Formats::default()),
+                session: weak_session.clone(),
+                udata,
+            };
             CaptureSessionInner {
-                session: self.0.session.get_capture_session(qh, udata),
+                session: self.0.session.get_capture_session(qh, data),
             }
         })))
     }
 
     pub fn data<U: Send + Sync + 'static>(&self) -> Option<&U> {
-        self.0.session.data()
+        Some(
+            &self
+                .0
+                .session
+                .data::<ScreencopyCursorSessionData<U>>()?
+                .udata,
+        )
     }
 }
 
@@ -286,16 +274,12 @@ pub struct ScreencopyState {
 impl ScreencopyState {
     pub fn new<D>(globals: &GlobalList, qh: &QueueHandle<D>) -> Self
     where
-        D: 'static,
-        D: Dispatch<ext_image_copy_capture_manager_v1::ExtImageCopyCaptureManagerV1, GlobalData>,
-        D: Dispatch<ext_output_image_capture_source_manager_v1::ExtOutputImageCaptureSourceManagerV1, GlobalData>,
-        D: Dispatch<ext_foreign_toplevel_image_capture_source_manager_v1::ExtForeignToplevelImageCaptureSourceManagerV1, GlobalData>,
-        D: Dispatch<zcosmic_workspace_image_capture_source_manager_v1::ZcosmicWorkspaceImageCaptureSourceManagerV1, GlobalData>,
+        D: ScreencopyHandler + 'static,
     {
-        let image_copy_capture_manager = globals.bind(qh, 1..=1, GlobalData).ok();
-        let output_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
-        let foreign_toplevel_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
-        let workspace_source_manager = globals.bind(qh, 1..=1, GlobalData).ok();
+        let image_copy_capture_manager = globals.bind_singleton(qh, 1..=1, GlobalData).ok();
+        let output_source_manager = globals.bind_singleton(qh, 1..=1, GlobalData).ok();
+        let foreign_toplevel_source_manager = globals.bind_singleton(qh, 1..=1, GlobalData).ok();
+        let workspace_source_manager = globals.bind_singleton(qh, 1..=1, GlobalData).ok();
 
         let capturer = Capturer(Arc::new(CapturerInner {
             image_copy_capture_manager,
@@ -338,7 +322,7 @@ pub trait ScreencopyHandler: Sized {
         conn: &Connection,
         qh: &QueueHandle<Self>,
         screencopy_frame: &CaptureFrame,
-        reason: WEnum<FailureReason>,
+        reason: FailureReason,
     );
 
     fn cursor_enter(
@@ -378,49 +362,19 @@ pub trait ScreencopyHandler: Sized {
     }
 }
 
-pub trait ScreencopySessionDataExt {
-    fn screencopy_session_data(&self) -> &ScreencopySessionData;
-}
-
-#[derive(Default)]
-pub struct ScreencopySessionData {
+pub struct ScreencopySessionData<U> {
     formats: Mutex<Formats>,
-    session: OnceLock<Weak<CaptureSessionInner>>,
+    session: Weak<CaptureSessionInner>,
+    udata: U,
 }
 
-impl ScreencopySessionDataExt for ScreencopySessionData {
-    fn screencopy_session_data(&self) -> &ScreencopySessionData {
-        self
-    }
-}
-
-#[derive(Default)]
-pub struct ScreencopyFrameData {
+pub struct ScreencopyFrameData<U> {
     frame: Mutex<Frame>,
-    session: OnceLock<Weak<CaptureSessionInner>>,
+    session: Weak<CaptureSessionInner>,
+    udata: U,
 }
 
-pub trait ScreencopyFrameDataExt {
-    fn screencopy_frame_data(&self) -> &ScreencopyFrameData;
-}
-
-impl ScreencopyFrameDataExt for ScreencopyFrameData {
-    fn screencopy_frame_data(&self) -> &ScreencopyFrameData {
-        self
-    }
-}
-
-#[derive(Default)]
-pub struct ScreencopyCursorSessionData {
-    session: OnceLock<Weak<CaptureCursorSessionInner>>,
-}
-
-pub trait ScreencopyCursorSessionDataExt {
-    fn screencopy_cursor_session_data(&self) -> &ScreencopyCursorSessionData;
-}
-
-impl ScreencopyCursorSessionDataExt for ScreencopyCursorSessionData {
-    fn screencopy_cursor_session_data(&self) -> &ScreencopyCursorSessionData {
-        self
-    }
+pub struct ScreencopyCursorSessionData<U> {
+    session: Weak<CaptureCursorSessionInner>,
+    udata: U,
 }

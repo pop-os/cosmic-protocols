@@ -6,8 +6,9 @@ use std::{
 use cosmic_protocols::toplevel_info::v1::client::{
     zcosmic_toplevel_handle_v1, zcosmic_toplevel_info_v1,
 };
-use sctk::registry::RegistryState;
-use wayland_client::{Connection, Dispatch, Proxy, QueueHandle, Weak, protocol::wl_output};
+use wayland_client::{
+    Connection, Dispatch, Proxy, QueueHandle, Weak, globals::GlobalList, protocol::wl_output,
+};
 use wayland_protocols::ext::{
     foreign_toplevel_list::v1::client::{
         ext_foreign_toplevel_handle_v1, ext_foreign_toplevel_list_v1,
@@ -95,21 +96,19 @@ pub struct ToplevelInfoState {
 }
 
 impl ToplevelInfoState {
-    pub fn try_new<D>(registry: &RegistryState, qh: &QueueHandle<D>) -> Option<Self>
+    pub fn try_new<D>(globals: &GlobalList, qh: &QueueHandle<D>) -> Option<Self>
     where
-        D: Dispatch<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, GlobalData>
-            + Dispatch<ext_foreign_toplevel_list_v1::ExtForeignToplevelListV1, GlobalData>
-            + 'static,
+        D: ToplevelInfoHandler + 'static,
     {
-        let foreign_toplevel_list = registry
-            .bind_one::<ext_foreign_toplevel_list_v1::ExtForeignToplevelListV1, _, _>(
+        let foreign_toplevel_list = globals
+            .bind_singleton::<ext_foreign_toplevel_list_v1::ExtForeignToplevelListV1, _, _>(
                 qh,
                 1..=1,
                 GlobalData,
             )
             .ok()?;
-        let cosmic_toplevel_info = registry
-            .bind_one::<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, _, _>(
+        let cosmic_toplevel_info = globals
+            .bind_singleton::<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, _, _>(
                 qh,
                 2..=3,
                 GlobalData,
@@ -123,13 +122,11 @@ impl ToplevelInfoState {
         })
     }
 
-    pub fn new<D>(registry: &RegistryState, qh: &QueueHandle<D>) -> Self
+    pub fn new<D>(globals: &GlobalList, qh: &QueueHandle<D>) -> Self
     where
-        D: Dispatch<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, GlobalData>
-            + Dispatch<ext_foreign_toplevel_list_v1::ExtForeignToplevelListV1, GlobalData>
-            + 'static,
+        D: ToplevelInfoHandler + 'static,
     {
-        Self::try_new(registry, qh).unwrap()
+        Self::try_new(globals, qh).unwrap()
     }
 
     pub fn info(
@@ -179,19 +176,15 @@ pub trait ToplevelInfoHandler: Sized {
     fn finished(&mut self, _conn: &Connection, _qh: &QueueHandle<Self>) {}
 }
 
-impl<D> Dispatch<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, GlobalData, D>
-    for ToplevelInfoState
+impl<D> Dispatch<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, D> for GlobalData
 where
-    D: Dispatch<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, GlobalData>
-        + Dispatch<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1, GlobalData>
-        + ToplevelInfoHandler
-        + 'static,
+    D: ToplevelInfoHandler + 'static,
 {
     fn event(
+        &self,
         state: &mut D,
         _proxy: &zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1,
         event: zcosmic_toplevel_info_v1::Event,
-        _: &GlobalData,
         conn: &Connection,
         qh: &QueueHandle<D>,
     ) {
@@ -211,18 +204,15 @@ where
     ]);
 }
 
-impl<D> Dispatch<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1, GlobalData, D>
-    for ToplevelInfoState
+impl<D> Dispatch<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1, D> for GlobalData
 where
-    D: Dispatch<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1, GlobalData>
-        + ToplevelInfoHandler
-        + 'static,
+    D: ToplevelInfoHandler + 'static,
 {
     fn event(
+        &self,
         state: &mut D,
         toplevel: &zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1,
         event: zcosmic_toplevel_handle_v1::Event,
-        _: &GlobalData,
         _conn: &Connection,
         _qh: &QueueHandle<D>,
     ) {
@@ -287,20 +277,15 @@ where
     }
 }
 
-impl<D> Dispatch<ext_foreign_toplevel_list_v1::ExtForeignToplevelListV1, GlobalData, D>
-    for ToplevelInfoState
+impl<D> Dispatch<ext_foreign_toplevel_list_v1::ExtForeignToplevelListV1, D> for GlobalData
 where
-    D: Dispatch<ext_foreign_toplevel_list_v1::ExtForeignToplevelListV1, GlobalData>
-        + Dispatch<ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1, ToplevelUserData>
-        + Dispatch<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1, GlobalData>
-        + ToplevelInfoHandler
-        + 'static,
+    D: ToplevelInfoHandler + 'static,
 {
     fn event(
+        &self,
         state: &mut D,
         proxy: &ext_foreign_toplevel_list_v1::ExtForeignToplevelListV1,
         event: ext_foreign_toplevel_list_v1::Event,
-        _: &GlobalData,
         conn: &Connection,
         qh: &QueueHandle<D>,
     ) {
@@ -333,21 +318,19 @@ where
     }
 
     wayland_client::event_created_child!(D, ext_foreign_toplevel_list_v1::ExtForeignToplevelListV1, [
-        ext_foreign_toplevel_list_v1::EVT_TOPLEVEL_OPCODE => (ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1, Default::default())
+        ext_foreign_toplevel_list_v1::EVT_TOPLEVEL_OPCODE => (ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1, ToplevelUserData::default())
     ]);
 }
 
-impl<D> Dispatch<ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1, ToplevelUserData, D>
-    for ToplevelInfoState
+impl<D> Dispatch<ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1, D> for ToplevelUserData
 where
-    D: Dispatch<ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1, ToplevelUserData>
-        + ToplevelInfoHandler,
+    D: ToplevelInfoHandler,
 {
     fn event(
+        &self,
         state: &mut D,
         handle: &ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
         event: ext_foreign_toplevel_handle_v1::Event,
-        _data: &ToplevelUserData,
         conn: &Connection,
         qh: &QueueHandle<D>,
     ) {
@@ -396,22 +379,4 @@ where
             _ => unreachable!(),
         }
     }
-}
-
-#[macro_export]
-macro_rules! delegate_toplevel_info {
-    ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty) => {
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::toplevel_info::v1::client::zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1: $crate::GlobalData
-        ] => $crate::toplevel_info::ToplevelInfoState);
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::toplevel_info::v1::client::zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1: $crate::GlobalData
-        ] => $crate::toplevel_info::ToplevelInfoState);
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::wayland_protocols::ext::foreign_toplevel_list::v1::client::ext_foreign_toplevel_list_v1::ExtForeignToplevelListV1: $crate::GlobalData
-        ] => $crate::toplevel_info::ToplevelInfoState);
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::wayland_protocols::ext::foreign_toplevel_list::v1::client::ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1: $crate::toplevel_info::ToplevelUserData
-        ] => $crate::toplevel_info::ToplevelInfoState);
-    };
 }

@@ -1,7 +1,6 @@
 use cosmic_client_toolkit::keyboard_layout::{KeyboardLayoutHandler, KeyboardLayoutState};
 use cosmic_protocols::keyboard_layout::v1::client::zcosmic_keyboard_layout_v1;
 use sctk::{
-    registry::{ProvidesRegistryState, RegistryState},
     registry_handlers,
     seat::{
         Capability, SeatHandler, SeatState,
@@ -14,13 +13,12 @@ use std::{
 };
 use wayland_client::{
     Connection, QueueHandle,
-    globals::registry_queue_init,
+    globals::{GlobalListHandler, registry_queue_init},
     protocol::{wl_keyboard, wl_seat, wl_surface},
 };
 use xkbcommon::xkb;
 
 struct AppData {
-    registry_state: RegistryState,
     seat_state: SeatState,
     keyboard: Option<wl_keyboard::WlKeyboard>,
     keyboard_layout_state: KeyboardLayoutState,
@@ -28,11 +26,7 @@ struct AppData {
     group: Option<u32>,
 }
 
-impl ProvidesRegistryState for AppData {
-    fn registry(&mut self) -> &mut RegistryState {
-        &mut self.registry_state
-    }
-
+impl GlobalListHandler for AppData {
     registry_handlers![SeatState,];
 }
 
@@ -170,11 +164,9 @@ fn main() {
     let (globals, mut event_queue) = registry_queue_init(&conn).unwrap();
     let qh = event_queue.handle();
 
-    let registry_state = RegistryState::new(&globals);
     let seat_state = SeatState::new(&globals, &qh);
-    let keyboard_layout_state = KeyboardLayoutState::new(&registry_state, &qh);
+    let keyboard_layout_state = KeyboardLayoutState::new(&globals, &qh);
     let mut app_data = AppData {
-        registry_state,
         seat_state,
         keyboard_layout_state,
         keyboard: None,
@@ -219,8 +211,3 @@ fn main() {
 
     event_queue.roundtrip(&mut app_data).unwrap();
 }
-
-sctk::delegate_registry!(AppData);
-sctk::delegate_seat!(AppData);
-sctk::delegate_keyboard!(AppData);
-cosmic_client_toolkit::delegate_keyboard_layout!(AppData);

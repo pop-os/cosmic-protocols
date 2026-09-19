@@ -1,8 +1,11 @@
 use cosmic_protocols::keyboard_layout::v1::client::{
     zcosmic_keyboard_layout_manager_v1, zcosmic_keyboard_layout_v1,
 };
-use sctk::registry::RegistryState;
-use wayland_client::{Connection, Dispatch, QueueHandle, protocol::wl_keyboard};
+use wayland_client::{
+    Connection, Dispatch, QueueHandle, globals::GlobalList, protocol::wl_keyboard,
+};
+
+use crate::GlobalData;
 
 pub trait KeyboardLayoutHandler: Sized {
     fn group(
@@ -21,16 +24,15 @@ pub struct KeyboardLayoutState {
 }
 
 impl KeyboardLayoutState {
-    pub fn new<D>(registry: &RegistryState, qh: &QueueHandle<D>) -> Self
+    pub fn new<D>(globals: &GlobalList, qh: &QueueHandle<D>) -> Self
     where
-        D: Dispatch<zcosmic_keyboard_layout_manager_v1::ZcosmicKeyboardLayoutManagerV1, ()>
-            + 'static,
+        D: 'static,
     {
-        let keyboard_layout_manager = registry
-            .bind_one::<zcosmic_keyboard_layout_manager_v1::ZcosmicKeyboardLayoutManagerV1, _, _>(
+        let keyboard_layout_manager = globals
+            .bind_singleton::<zcosmic_keyboard_layout_manager_v1::ZcosmicKeyboardLayoutManagerV1, _, _>(
                 qh,
                 1..=1,
-                (),
+                GlobalData,
             )
             .ok();
 
@@ -45,8 +47,7 @@ impl KeyboardLayoutState {
         qh: &QueueHandle<D>,
     ) -> Option<zcosmic_keyboard_layout_v1::ZcosmicKeyboardLayoutV1>
     where
-        D: Dispatch<zcosmic_keyboard_layout_v1::ZcosmicKeyboardLayoutV1, KeyboardLayoutUserData>
-            + 'static,
+        D: KeyboardLayoutHandler + 'static,
     {
         Some(self.keyboard_layout_manager.as_ref()?.get_keyboard_layout(
             keyboard,
@@ -58,16 +59,14 @@ impl KeyboardLayoutState {
     }
 }
 
-impl<D> Dispatch<zcosmic_keyboard_layout_manager_v1::ZcosmicKeyboardLayoutManagerV1, (), D>
-    for KeyboardLayoutState
-where
-    D: Dispatch<zcosmic_keyboard_layout_manager_v1::ZcosmicKeyboardLayoutManagerV1, ()>,
+impl<D> Dispatch<zcosmic_keyboard_layout_manager_v1::ZcosmicKeyboardLayoutManagerV1, D>
+    for GlobalData
 {
     fn event(
+        &self,
         _: &mut D,
         _: &zcosmic_keyboard_layout_manager_v1::ZcosmicKeyboardLayoutManagerV1,
         event: zcosmic_keyboard_layout_manager_v1::Event,
-        _: &(),
         _: &Connection,
         _: &QueueHandle<D>,
     ) {
@@ -82,37 +81,23 @@ pub struct KeyboardLayoutUserData {
     keyboard: wl_keyboard::WlKeyboard,
 }
 
-impl<D> Dispatch<zcosmic_keyboard_layout_v1::ZcosmicKeyboardLayoutV1, KeyboardLayoutUserData, D>
-    for KeyboardLayoutState
+impl<D> Dispatch<zcosmic_keyboard_layout_v1::ZcosmicKeyboardLayoutV1, D> for KeyboardLayoutUserData
 where
-    D: Dispatch<zcosmic_keyboard_layout_v1::ZcosmicKeyboardLayoutV1, KeyboardLayoutUserData>
-        + KeyboardLayoutHandler,
+    D: KeyboardLayoutHandler,
 {
     fn event(
+        &self,
         state: &mut D,
         keyboard_layout: &zcosmic_keyboard_layout_v1::ZcosmicKeyboardLayoutV1,
         event: zcosmic_keyboard_layout_v1::Event,
-        data: &KeyboardLayoutUserData,
         conn: &Connection,
         qh: &QueueHandle<D>,
     ) {
         match event {
             zcosmic_keyboard_layout_v1::Event::Group { group } => {
-                state.group(conn, qh, &data.keyboard, keyboard_layout, group);
+                state.group(conn, qh, &self.keyboard, keyboard_layout, group);
             }
             _ => unreachable!(),
         }
     }
-}
-
-#[macro_export]
-macro_rules! delegate_keyboard_layout {
-    ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty) => {
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::keyboard_layout::v1::client::zcosmic_keyboard_layout_manager_v1::ZcosmicKeyboardLayoutManagerV1: ()
-        ] => $crate::keyboard_layout::KeyboardLayoutState);
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::keyboard_layout::v1::client::zcosmic_keyboard_layout_v1::ZcosmicKeyboardLayoutV1: $crate::keyboard_layout::KeyboardLayoutUserData
-        ] => $crate::keyboard_layout::KeyboardLayoutState);
-    };
 }

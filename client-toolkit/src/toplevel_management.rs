@@ -1,6 +1,5 @@
 use cosmic_protocols::toplevel_management::v1::client::zcosmic_toplevel_manager_v1;
-use sctk::registry::RegistryState;
-use wayland_client::{Connection, Dispatch, QueueHandle, WEnum};
+use wayland_client::{Connection, Dispatch, QueueHandle, globals::GlobalList};
 
 use crate::GlobalData;
 
@@ -9,12 +8,12 @@ pub struct ToplevelManagerState {
 }
 
 impl ToplevelManagerState {
-    pub fn try_new<D>(registry: &RegistryState, qh: &QueueHandle<D>) -> Option<Self>
+    pub fn try_new<D>(globals: &GlobalList, qh: &QueueHandle<D>) -> Option<Self>
     where
-        D: Dispatch<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, GlobalData> + 'static,
+        D: ToplevelManagerHandler + 'static,
     {
-        let manager = registry
-            .bind_one::<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, _, _>(
+        let manager = globals
+            .bind_singleton::<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, _, _>(
                 qh,
                 1..=4,
                 GlobalData,
@@ -24,27 +23,23 @@ impl ToplevelManagerState {
         Some(Self { manager })
     }
 
-    pub fn new<D>(registry: &RegistryState, qh: &QueueHandle<D>) -> Self
+    pub fn new<D>(globals: &GlobalList, qh: &QueueHandle<D>) -> Self
     where
-        D: Dispatch<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, GlobalData> + 'static,
+        D: ToplevelManagerHandler + 'static,
     {
-        Self::try_new(registry, qh).unwrap()
+        Self::try_new(globals, qh).unwrap()
     }
 }
 
-impl<D> Dispatch<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, GlobalData, D>
-    for ToplevelManagerState
+impl<D> Dispatch<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, D> for GlobalData
 where
-    D: Dispatch<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, GlobalData>
-        + Dispatch<zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1, GlobalData>
-        + ToplevelManagerHandler
-        + 'static,
+    D: ToplevelManagerHandler + 'static,
 {
     fn event(
+        &self,
         state: &mut D,
         _proxy: &zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1,
         event: <zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1 as wayland_client::Proxy>::Event,
-        _data: &GlobalData,
         conn: &wayland_client::Connection,
         qhandle: &QueueHandle<D>,
     ) {
@@ -52,7 +47,11 @@ where
             zcosmic_toplevel_manager_v1::Event::Capabilities { capabilities } => {
                 let capabilities = capabilities
                     .chunks(4)
-                    .map(|chunk| WEnum::from(u32::from_ne_bytes(chunk.try_into().unwrap())))
+                    .map(|chunk| {
+                        zcosmic_toplevel_manager_v1::ZcosmicToplelevelManagementCapabilitiesV1(
+                            u32::from_ne_bytes(chunk.try_into().unwrap()),
+                        )
+                    })
                     .collect();
                 state.capabilities(conn, qhandle, capabilities)
             }
@@ -68,17 +67,6 @@ pub trait ToplevelManagerHandler: Sized {
         &mut self,
         conn: &Connection,
         qh: &QueueHandle<Self>,
-        capabilities: Vec<
-            WEnum<zcosmic_toplevel_manager_v1::ZcosmicToplelevelManagementCapabilitiesV1>,
-        >,
+        capabilities: Vec<zcosmic_toplevel_manager_v1::ZcosmicToplelevelManagementCapabilitiesV1>,
     );
-}
-
-#[macro_export]
-macro_rules! delegate_toplevel_manager {
-    ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty) => {
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::toplevel_management::v1::client::zcosmic_toplevel_manager_v1::ZcosmicToplevelManagerV1: $crate::GlobalData
-        ] => $crate::toplevel_management::ToplevelManagerState);
-    };
 }

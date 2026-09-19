@@ -1,12 +1,10 @@
 use cosmic_client_toolkit::screencopy::{
     CaptureFrame, CaptureOptions, CaptureSession, CaptureSource, FailureReason, Formats,
-    ScreencopyFrameData, ScreencopyFrameDataExt, ScreencopyHandler, ScreencopySessionData,
-    ScreencopySessionDataExt, ScreencopyState,
+    ScreencopyHandler, ScreencopyState,
 };
 use sctk::{
     dmabuf::{DmabufFeedback, DmabufHandler, DmabufState},
     output::{OutputHandler, OutputState},
-    registry::{ProvidesRegistryState, RegistryState},
 };
 use smithay::{
     backend::{
@@ -26,8 +24,8 @@ use std::{
     sync::Mutex,
 };
 use wayland_client::{
-    Connection, QueueHandle, WEnum, delegate_noop,
-    globals::registry_queue_init,
+    Connection, QueueHandle,
+    globals::{GlobalListHandler, registry_queue_init},
     protocol::{wl_buffer, wl_output},
 };
 use wayland_protocols::wp::linux_dmabuf::zv1::client::{
@@ -36,7 +34,6 @@ use wayland_protocols::wp::linux_dmabuf::zv1::client::{
 };
 
 struct AppData {
-    registry_state: RegistryState,
     output_state: OutputState,
     screencopy_state: ScreencopyState,
     dmabuf_state: DmabufState,
@@ -44,11 +41,7 @@ struct AppData {
     egl_devices: Vec<EGLDevice>,
 }
 
-impl ProvidesRegistryState for AppData {
-    fn registry(&mut self) -> &mut RegistryState {
-        &mut self.registry_state
-    }
-
+impl GlobalListHandler for AppData {
     sctk::registry_handlers!();
 }
 
@@ -205,7 +198,6 @@ impl ScreencopyHandler for AppData {
             &[],
             qh,
             FrameData {
-                frame_data: ScreencopyFrameData::default(),
                 output_name: session.data::<SessionData>().unwrap().output_name.clone(),
                 size: formats.buffer_size,
                 gles_renderer: Mutex::new(gles_renderer),
@@ -262,7 +254,7 @@ impl ScreencopyHandler for AppData {
         _: &Connection,
         _: &QueueHandle<Self>,
         _: &CaptureFrame,
-        reason: WEnum<FailureReason>,
+        reason: FailureReason,
     ) {
         println!("Failed to capture output: {:?}", reason);
         self.outputs_done += 1;
@@ -270,18 +262,10 @@ impl ScreencopyHandler for AppData {
 }
 
 struct SessionData {
-    session_data: ScreencopySessionData,
     output_name: String,
 }
 
-impl ScreencopySessionDataExt for SessionData {
-    fn screencopy_session_data(&self) -> &ScreencopySessionData {
-        &self.session_data
-    }
-}
-
 struct FrameData {
-    frame_data: ScreencopyFrameData,
     output_name: String,
     size: (u32, u32),
     gles_renderer: Mutex<GlesRenderer>,
@@ -292,25 +276,17 @@ struct FrameData {
 unsafe impl Send for FrameData {}
 unsafe impl Sync for FrameData {}
 
-impl ScreencopyFrameDataExt for FrameData {
-    fn screencopy_frame_data(&self) -> &ScreencopyFrameData {
-        &self.frame_data
-    }
-}
-
 fn main() {
     let conn = Connection::connect_to_env().unwrap();
     let (globals, mut event_queue) = registry_queue_init(&conn).unwrap();
     let qh = event_queue.handle();
 
-    let registry_state = RegistryState::new(&globals);
     let screencopy_state = ScreencopyState::new(&globals, &qh);
     let output_state = OutputState::new(&globals, &qh);
     let dmabuf_state = DmabufState::new(&globals, &qh);
 
     let mut data: AppData = AppData {
         output_state,
-        registry_state,
         screencopy_state,
         dmabuf_state,
         outputs_done: 0,
@@ -334,7 +310,6 @@ fn main() {
                     &qh,
                     SessionData {
                         output_name: info.name.clone().unwrap(),
-                        session_data: ScreencopySessionData::default(),
                     },
                 )
                 .unwrap()
@@ -356,9 +331,3 @@ fn find_gbm_device(dev: u64) -> io::Result<Option<(PathBuf, gbm::Device<fs::File
     }
     Ok(None)
 }
-
-sctk::delegate_output!(AppData);
-sctk::delegate_registry!(AppData);
-sctk::delegate_dmabuf!(AppData);
-cosmic_client_toolkit::delegate_screencopy!(AppData);
-delegate_noop!(AppData: ignore wl_buffer::WlBuffer);

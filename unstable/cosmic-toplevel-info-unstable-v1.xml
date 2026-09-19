@@ -27,7 +27,7 @@
     THIS SOFTWARE.
   </copyright>
 
-  <interface name="zcosmic_toplevel_info_v1" version="3">
+  <interface name="zcosmic_toplevel_info_v1" version="4">
     <description summary="list toplevels and properties thereof">
       The purpose of this protocol is to enable clients such as taskbars
       or docks to access a list of opened applications and basic properties
@@ -257,6 +257,16 @@
         the same workspace has been emitted before this event.
       </description>
       <arg name="workspace" type="object" interface="ext_workspace_handle_v1"/>
+    </event>
+
+    <event name="pid" since="4">
+      <arg name="pid", type="uint"/>
+    </event>
+
+    <event name="security_context" since="4">
+      <arg name="sandbox_engine", type="string" allow-null="true"/>
+      <arg name="app_id", type="string" allow-null="true"/>
+      <arg name="instance_id", type="string" allow-null="true"/>
     </event>
   </interface>
 </protocol>

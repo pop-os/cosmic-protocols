@@ -223,8 +223,8 @@ where
         toplevel: &zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1,
         event: zcosmic_toplevel_handle_v1::Event,
         _: &GlobalData,
-        _conn: &Connection,
-        _qh: &QueueHandle<D>,
+        conn: &Connection,
+        qh: &QueueHandle<D>,
     ) {
         let data = &mut state
             .toplevel_info_state()
@@ -249,15 +249,24 @@ where
             zcosmic_toplevel_handle_v1::Event::ExtWorkspaceLeave { workspace } => {
                 data.pending_info.workspace.remove(&workspace);
             }
-            zcosmic_toplevel_handle_v1::Event::State { state } => {
+            zcosmic_toplevel_handle_v1::Event::State { state: cosmic_state } => {
                 data.has_cosmic_info = true;
                 data.pending_info.state.clear();
-                for value in state.chunks_exact(4) {
+                for value in cosmic_state.chunks_exact(4) {
                     if let Ok(state) = zcosmic_toplevel_handle_v1::State::try_from(
                         u32::from_ne_bytes(value[0..4].try_into().unwrap()),
                     ) {
                         data.pending_info.state.insert(state);
                     }
+                }
+                // If the toplevel's initial `ext_foreign_toplevel_handle_v1.done`
+                // arrived before the cosmic info, promotion was skipped and
+                // `current_info` is still None; promote now so the toplevel
+                // appears in `toplevels()` even if it never updates again.
+                if data.current_info.is_none() {
+                    let foreign = data.pending_info.foreign_toplevel.clone();
+                    data.current_info = Some(data.pending_info.clone());
+                    state.new_toplevel(conn, qh, &foreign);
                 }
             }
             zcosmic_toplevel_handle_v1::Event::Geometry {
@@ -370,12 +379,10 @@ where
                 }
             }
             ext_foreign_toplevel_handle_v1::Event::Done => {
-                if data.cosmic_toplevel().is_some() && !data.has_cosmic_info {
-                    // Don't call `new_toplevel` if we have the `ext_foreign_toplevel_handle_v1`,
-                    // but don't have any `zcosmic_toplevel_handle_v1` events yet.
-                    return;
-                }
-
+                // Promote on every `done`: the ext-foreign list already
+                // carries title/app_id/identifier, so waiting for cosmic
+                // info here would hide toplevels the compositor has not
+                // answered with `state` events yet.
                 let is_new = data.current_info.is_none();
                 data.current_info = Some(data.pending_info.clone());
                 if is_new {

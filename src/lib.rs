@@ -101,6 +101,18 @@ pub mod overlap_notify {
     }
 }
 
+pub mod panel_applet {
+    //! Receive the settings of the panel an applet is embedded in.
+
+    #[allow(missing_docs)]
+    pub mod v1 {
+        wayland_protocol!(
+            "./unstable/cosmic-panel-applet-unstable-v1.xml",
+            []
+        );
+    }
+}
+
 pub mod workspace {
     //! Receive information about and control workspaces.
 

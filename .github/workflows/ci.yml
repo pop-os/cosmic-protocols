@@ -31,7 +31,7 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v5
       - name: System dependencies
-        run: sudo apt-get update; sudo apt-get install -y wayland-protocols libexpat1-dev libffi-dev libxml2-dev ninja-build meson
+        run: sudo apt-get update; sudo apt-get install -y wayland-protocols libexpat1-dev libffi-dev libxml2-dev ninja-build meson just
       - name: Latest wayland-scanner
         run: |
           git clone --branch 1.23.0 --depth=1 https://gitlab.freedesktop.org/wayland/wayland
@@ -42,8 +42,8 @@ jobs:
           sudo ninja -C build/ install
           cd ..
           rm -rf wayland/
-      - name: Make check
-        run: make check
+      - name: Just check
+        run: just check
 
   rust-check:
     runs-on: ubuntu-latest

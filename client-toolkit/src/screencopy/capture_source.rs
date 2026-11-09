@@ -68,6 +68,12 @@ impl CaptureSource {
                 }
             }
             CaptureSource::Workspace(workspace) => {
+                // Favor `ext` protocol, if present.
+                if let Some(manager) = &capturer.0.ext_workspace_source_manager {
+                    return Ok(WlCaptureSource(
+                        manager.create_source(workspace, qh, GlobalData),
+                    ));
+                }
                 if let Some(manager) = &capturer.0.workspace_source_manager {
                     return Ok(WlCaptureSource(
                         manager.create_source(workspace, qh, GlobalData),

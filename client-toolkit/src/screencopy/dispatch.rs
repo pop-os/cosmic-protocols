@@ -149,6 +149,7 @@ where
             }
             ext_image_copy_capture_frame_v1::Event::Ready => {
                 let frame = frame.lock().unwrap().clone();
+                screencopy_frame.destroy();
                 app_data.ready(
                     conn,
                     qh,
@@ -157,9 +158,9 @@ where
                     },
                     frame,
                 );
-                screencopy_frame.destroy();
             }
             ext_image_copy_capture_frame_v1::Event::Failed { reason } => {
+                screencopy_frame.destroy();
                 app_data.failed(
                     conn,
                     qh,
@@ -168,7 +169,6 @@ where
                     },
                     reason,
                 );
-                screencopy_frame.destroy();
             }
             _ => unreachable!(),
         }

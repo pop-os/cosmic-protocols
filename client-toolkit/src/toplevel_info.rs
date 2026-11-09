@@ -41,6 +41,8 @@ pub struct ToplevelInfo {
     /// Requires zcosmic_toplevel_info_v1 version 2
     pub cosmic_toplevel: Option<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1>,
     pub foreign_toplevel: ext_foreign_toplevel_handle_v1::ExtForeignToplevelHandleV1,
+    /// Requires zcosmic_toplevel_info_v1 version 4
+    pub pid: Option<u32>,
 }
 
 #[derive(Debug)]
@@ -62,6 +64,7 @@ impl ToplevelData {
             workspace: HashSet::new(),
             cosmic_toplevel: None,
             foreign_toplevel,
+            pid: None,
         };
         Self {
             current_info: None,
@@ -111,7 +114,7 @@ impl ToplevelInfoState {
         let cosmic_toplevel_info = registry
             .bind_one::<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, _, _>(
                 qh,
-                2..=3,
+                2..=4,
                 GlobalData,
             )
             .ok();
@@ -276,6 +279,11 @@ where
                         height,
                     },
                 );
+            }
+            zcosmic_toplevel_handle_v1::Event::Pid {
+                pid
+            } => {
+                data.pending_info.pid = Some(pid);
             }
             // Not used in protocol version 2
             zcosmic_toplevel_handle_v1::Event::AppId { .. }

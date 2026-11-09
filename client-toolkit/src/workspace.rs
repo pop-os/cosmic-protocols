@@ -1,9 +1,9 @@
 use cosmic_protocols::workspace::v2::client::{
     zcosmic_workspace_handle_v2, zcosmic_workspace_manager_v2,
 };
-use sctk::registry::{GlobalProxy, RegistryState};
+use sctk::registry::GlobalProxy;
 use std::collections::HashSet;
-use wayland_client::{Connection, Dispatch, QueueHandle, WEnum, protocol::wl_output};
+use wayland_client::{Connection, Dispatch, QueueHandle, globals::GlobalList, protocol::wl_output};
 use wayland_protocols::ext::workspace::v1::client::{
     ext_workspace_group_handle_v1, ext_workspace_handle_v1, ext_workspace_manager_v1,
 };
@@ -55,7 +55,7 @@ pub struct Workspace {
     pub cosmic_state: zcosmic_workspace_handle_v2::State,
     pub capabilities: ext_workspace_handle_v1::WorkspaceCapabilities,
     pub cosmic_capabilities: zcosmic_workspace_handle_v2::WorkspaceCapabilities,
-    pub tiling: Option<WEnum<zcosmic_workspace_handle_v2::TilingState>>,
+    pub tiling: Option<zcosmic_workspace_handle_v2::TilingState>,
     pub id: Option<String>,
 }
 
@@ -103,17 +103,15 @@ pub struct WorkspaceState {
 }
 
 impl WorkspaceState {
-    pub fn new<D>(registry: &RegistryState, qh: &QueueHandle<D>) -> Self
+    pub fn new<D>(globals: &GlobalList, qh: &QueueHandle<D>) -> Self
     where
-        D: Dispatch<ext_workspace_manager_v1::ExtWorkspaceManagerV1, GlobalData>
-            + Dispatch<zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2, GlobalData>
-            + 'static,
+        D: WorkspaceHandler + 'static,
     {
         Self {
             workspace_groups: Vec::new(),
             workspaces: Vec::new(),
-            manager: GlobalProxy::from(registry.bind_one(qh, 1..=1, GlobalData)),
-            cosmic_manager: GlobalProxy::from(registry.bind_one(qh, 1..=2, GlobalData)),
+            manager: GlobalProxy::from(globals.bind_singleton(qh, 1..=1, GlobalData)),
+            cosmic_manager: GlobalProxy::from(globals.bind_singleton(qh, 1..=2, GlobalData)),
         }
     }
 
@@ -165,20 +163,15 @@ pub trait WorkspaceHandler {
     fn done(&mut self);
 }
 
-impl<D> Dispatch<ext_workspace_manager_v1::ExtWorkspaceManagerV1, GlobalData, D> for WorkspaceState
+impl<D> Dispatch<ext_workspace_manager_v1::ExtWorkspaceManagerV1, D> for GlobalData
 where
-    D: Dispatch<ext_workspace_manager_v1::ExtWorkspaceManagerV1, GlobalData>
-        + Dispatch<ext_workspace_group_handle_v1::ExtWorkspaceGroupHandleV1, GlobalData>
-        + Dispatch<ext_workspace_handle_v1::ExtWorkspaceHandleV1, GlobalData>
-        + Dispatch<zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2, GlobalData>
-        + WorkspaceHandler
-        + 'static,
+    D: WorkspaceHandler + 'static,
 {
     fn event(
+        &self,
         state: &mut D,
         _: &ext_workspace_manager_v1::ExtWorkspaceManagerV1,
         event: ext_workspace_manager_v1::Event,
-        _: &GlobalData,
         _: &Connection,
         qh: &QueueHandle<D>,
     ) {
@@ -243,19 +236,15 @@ where
     ]);
 }
 
-impl<D> Dispatch<ext_workspace_group_handle_v1::ExtWorkspaceGroupHandleV1, GlobalData, D>
-    for WorkspaceState
+impl<D> Dispatch<ext_workspace_group_handle_v1::ExtWorkspaceGroupHandleV1, D> for GlobalData
 where
-    D: Dispatch<ext_workspace_group_handle_v1::ExtWorkspaceGroupHandleV1, GlobalData>
-        + Dispatch<ext_workspace_handle_v1::ExtWorkspaceHandleV1, GlobalData>
-        + WorkspaceHandler
-        + 'static,
+    D: WorkspaceHandler + 'static,
 {
     fn event(
+        &self,
         state: &mut D,
         handle: &ext_workspace_group_handle_v1::ExtWorkspaceGroupHandleV1,
         event: ext_workspace_group_handle_v1::Event,
-        _: &GlobalData,
         _: &Connection,
         _: &QueueHandle<D>,
     ) {
@@ -267,7 +256,7 @@ where
             .unwrap();
         match event {
             ext_workspace_group_handle_v1::Event::Capabilities { capabilities } => {
-                group.pending().capabilities = bitflags_retained(capabilities);
+                group.pending().capabilities = capabilities;
             }
             ext_workspace_group_handle_v1::Event::OutputEnter { output } => {
                 group.pending().outputs.push(output);
@@ -299,15 +288,15 @@ where
     }
 }
 
-impl<D> Dispatch<ext_workspace_handle_v1::ExtWorkspaceHandleV1, GlobalData, D> for WorkspaceState
+impl<D> Dispatch<ext_workspace_handle_v1::ExtWorkspaceHandleV1, D> for GlobalData
 where
-    D: Dispatch<ext_workspace_handle_v1::ExtWorkspaceHandleV1, GlobalData> + WorkspaceHandler,
+    D: WorkspaceHandler,
 {
     fn event(
+        &self,
         state: &mut D,
         handle: &ext_workspace_handle_v1::ExtWorkspaceHandleV1,
         event: ext_workspace_handle_v1::Event,
-        _: &GlobalData,
         _: &Connection,
         _: &QueueHandle<D>,
     ) {
@@ -328,10 +317,10 @@ where
                     .collect();
             }
             ext_workspace_handle_v1::Event::State { state } => {
-                workspace.pending().state = bitflags_retained(state);
+                workspace.pending().state = state;
             }
             ext_workspace_handle_v1::Event::Capabilities { capabilities } => {
-                workspace.pending().capabilities = bitflags_retained(capabilities);
+                workspace.pending().capabilities = capabilities;
             }
             ext_workspace_handle_v1::Event::Id { id } => {
                 workspace.pending().id = Some(id);
@@ -354,18 +343,15 @@ where
     }
 }
 
-impl<D> Dispatch<zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2, GlobalData, D>
-    for WorkspaceState
+impl<D> Dispatch<zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2, D> for GlobalData
 where
-    D: Dispatch<zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2, GlobalData>
-        + WorkspaceHandler
-        + 'static,
+    D: WorkspaceHandler + 'static,
 {
     fn event(
+        &self,
         _: &mut D,
         _: &zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2,
         _: zcosmic_workspace_manager_v2::Event,
-        _: &GlobalData,
         _: &Connection,
         _: &QueueHandle<D>,
     ) {
@@ -373,18 +359,15 @@ where
     }
 }
 
-impl<D> Dispatch<zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2, GlobalData, D>
-    for WorkspaceState
+impl<D> Dispatch<zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2, D> for GlobalData
 where
-    D: Dispatch<zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2, GlobalData>
-        + WorkspaceHandler
-        + 'static,
+    D: WorkspaceHandler + 'static,
 {
     fn event(
+        &self,
         state: &mut D,
         handle: &zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2,
         event: zcosmic_workspace_handle_v2::Event,
-        _: &GlobalData,
         _: &Connection,
         _: &QueueHandle<D>,
     ) {
@@ -396,46 +379,16 @@ where
             .unwrap();
         match event {
             zcosmic_workspace_handle_v2::Event::Capabilities { capabilities } => {
-                workspace.pending().cosmic_capabilities = bitflags_retained(capabilities);
+                workspace.pending().cosmic_capabilities = capabilities;
                 workspace.has_cosmic_info = true;
             }
             zcosmic_workspace_handle_v2::Event::TilingState { state } => {
                 workspace.pending().tiling = Some(state);
             }
             zcosmic_workspace_handle_v2::Event::State { state } => {
-                workspace.pending().cosmic_state = bitflags_retained(state);
+                workspace.pending().cosmic_state = state;
             }
             _ => unreachable!(),
         }
     }
-}
-
-// Convert bitflags `WEnum` to bitflag type, retaining unrecognized bits
-fn bitflags_retained<T: bitflags::Flags<Bits = u32>>(flags: WEnum<T>) -> T {
-    match flags {
-        WEnum::Value(value) => value,
-        WEnum::Unknown(value) => T::from_bits_retain(value),
-    }
-}
-
-#[macro_export]
-macro_rules! delegate_workspace {
-    ($(@<$( $lt:tt $( : $clt:tt $(+ $dlt:tt )* )? ),+>)? $ty: ty) => {
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::wayland_protocols::ext::workspace::v1::client::ext_workspace_manager_v1::ExtWorkspaceManagerV1: $crate::GlobalData
-        ] => $crate::workspace::WorkspaceState);
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::wayland_protocols::ext::workspace::v1::client::ext_workspace_group_handle_v1::ExtWorkspaceGroupHandleV1: $crate::GlobalData
-        ] => $crate::workspace::WorkspaceState);
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::wayland_protocols::ext::workspace::v1::client::ext_workspace_handle_v1::ExtWorkspaceHandleV1: $crate::GlobalData
-        ] => $crate::workspace::WorkspaceState);
-
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::workspace::v2::client::zcosmic_workspace_manager_v2::ZcosmicWorkspaceManagerV2: $crate::GlobalData
-        ] => $crate::workspace::WorkspaceState);
-        $crate::wayland_client::delegate_dispatch!($(@< $( $lt $( : $clt $(+ $dlt )* )? ),+ >)? $ty: [
-            $crate::cosmic_protocols::workspace::v2::client::zcosmic_workspace_handle_v2::ZcosmicWorkspaceHandleV2: $crate::GlobalData
-        ] => $crate::workspace::WorkspaceState);
-    };
 }

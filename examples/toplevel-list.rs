@@ -56,12 +56,12 @@ impl TryFrom<u32> for State {
     }
 }
 
-impl Dispatch<wl_registry::WlRegistry, ()> for AppData {
+impl Dispatch<wl_registry::WlRegistry, AppData> for () {
     fn event(
-        app_data: &mut Self,
+        &self,
+        app_data: &mut AppData,
         registry: &wl_registry::WlRegistry,
         event: wl_registry::Event,
-        _: &(),
         _: &Connection,
         qh: &QueueHandle<AppData>,
     ) {
@@ -102,12 +102,12 @@ impl Dispatch<wl_registry::WlRegistry, ()> for AppData {
     }
 }
 
-impl Dispatch<wl_output::WlOutput, ()> for AppData {
+impl Dispatch<wl_output::WlOutput, AppData> for () {
     fn event(
-        app_data: &mut Self,
+        &self,
+        app_data: &mut AppData,
         output: &wl_output::WlOutput,
         event: wl_output::Event,
-        _: &(),
         _: &Connection,
         _: &QueueHandle<AppData>,
     ) {
@@ -120,12 +120,12 @@ impl Dispatch<wl_output::WlOutput, ()> for AppData {
     }
 }
 
-impl Dispatch<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, ()> for AppData {
+impl Dispatch<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, AppData> for () {
     fn event(
-        app_data: &mut Self,
+        &self,
+        app_data: &mut AppData,
         _info: &zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1,
         event: zcosmic_toplevel_info_v1::Event,
-        _: &(),
         _: &Connection,
         _: &QueueHandle<AppData>,
     ) {
@@ -153,12 +153,12 @@ impl Dispatch<zcosmic_toplevel_info_v1::ZcosmicToplevelInfoV1, ()> for AppData {
     );
 }
 
-impl Dispatch<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1, ()> for AppData {
+impl Dispatch<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1, AppData> for () {
     fn event(
-        app_data: &mut Self,
+        &self,
+        app_data: &mut AppData,
         toplevel: &zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1,
         event: zcosmic_toplevel_handle_v1::Event,
-        _: &(),
         _: &Connection,
         _: &QueueHandle<AppData>,
     ) {
@@ -235,12 +235,12 @@ impl Dispatch<zcosmic_toplevel_handle_v1::ZcosmicToplevelHandleV1, ()> for AppDa
     }
 }
 
-impl Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, ()> for AppData {
+impl Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, AppData> for () {
     fn event(
-        app_data: &mut Self,
+        &self,
+        app_data: &mut AppData,
         _: &zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1,
         event: zcosmic_workspace_manager_v1::Event,
-        _: &(),
         _: &Connection,
         _: &QueueHandle<AppData>,
     ) {
@@ -261,14 +261,14 @@ impl Dispatch<zcosmic_workspace_manager_v1::ZcosmicWorkspaceManagerV1, ()> for A
     );
 }
 
-impl Dispatch<zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, ()> for AppData {
+impl Dispatch<zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, AppData> for () {
     fn event(
+        &self,
         app_data: &mut AppData,
         group: &zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1,
         event: <zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1 as Proxy>::Event,
-        _: &(),
         _: &Connection,
-        _: &QueueHandle<Self>,
+        _: &QueueHandle<AppData>,
     ) {
         match event {
             zcosmic_workspace_group_handle_v1::Event::Workspace { workspace } => {
@@ -290,14 +290,14 @@ impl Dispatch<zcosmic_workspace_group_handle_v1::ZcosmicWorkspaceGroupHandleV1, 
     );
 }
 
-impl Dispatch<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1, ()> for AppData {
+impl Dispatch<zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1, AppData> for () {
     fn event(
+        &self,
         app_data: &mut AppData,
         workspace: &zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1,
         event: <zcosmic_workspace_handle_v1::ZcosmicWorkspaceHandleV1 as Proxy>::Event,
-        _: &(),
         _: &Connection,
-        _: &QueueHandle<Self>,
+        _: &QueueHandle<AppData>,
     ) {
         match event {
             zcosmic_workspace_handle_v1::Event::Name { name } => {

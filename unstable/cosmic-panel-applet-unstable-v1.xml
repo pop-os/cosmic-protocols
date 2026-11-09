@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<protocol name="cosmic_panel_applet_v1">
+  <copyright>
+    Copyright © 2026 System76
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the "Software"),
+    to deal in the Software without restriction, including without limitation
+    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+    and/or sell copies of the Software, and to permit persons to whom the
+    Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice (including the next
+    paragraph) shall be included in all copies or substantial portions of the
+    Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+  </copyright>
+
+  <description summary="panel settings for applets embedded in a panel">
+    This protocol allows an applet to learn about the panel it is embedded
+    in and to be notified when the settings of that panel change at runtime.
+  </description>
+
+  <interface name="cosmic_panel_applet_manager_v1" version="1">
+    <description summary="panel applet settings global">
+      Manager for creating objects that expose the settings of the panel an
+      applet is embedded in.
+    </description>
+
+    <request name="get_panel_applet">
+      <description summary="get the settings of the panel hosting the calling applet">
+        Create a new cosmic_panel_applet_v1 object for the calling client and
+        send it the current settings of the panel the applet is embedded in.
+
+        If the calling client already has a cosmic_panel_applet_v1 object, the
+        panel_applet_exists protocol error will be raised.
+      </description>
+      <arg name="id" type="new_id" interface="cosmic_panel_applet_v1"
+        summary="the new cosmic_panel_applet_v1 object"/>
+    </request>
+
+    <request name="destroy" type="destructor">
+      <description summary="destroy the manager object">
+        Informs the panel that the client will no longer use this manager.
+        Objects created by this manager remain valid until they are destroyed.
+      </description>
+    </request>
+
+    <enum name="error">
+      <entry
+        name="panel_applet_exists"
+        value="0"
+        summary="the client already has a cosmic_panel_applet_v1 object"
+      />
+    </enum>
+  </interface>
+
+  <interface name="cosmic_panel_applet_v1" version="1">
+    <description summary="settings of the panel an applet is embedded in">
+      Provides the settings of the panel this applet is embedded in, so that
+      the applet can lay itself out and size its window for that panel.
+    </description>
+
+    <event name="panel_name">
+      <description summary="name of the panel">
+        Name of the panel profile this applet is embedded in, e.g. "Panel" or
+        "Dock".
+      </description>
+      <arg name="name" type="string" summary="panel profile name"/>
+    </event>
+
+    <event name="output">
+      <description summary="name of the output the panel is displayed on">
+        Name of the output the panel is displayed on, or an empty string if
+        the name of the output is not known.
+      </description>
+      <arg name="output" type="string" summary="output name"/>
+    </event>
+
+    <event name="anchor">
+      <description summary="edge of the output the panel is anchored to">
+        Edge of the output the panel is anchored to. The anchor also
+        determines the orientation of the panel and of the applets in it:
+        a panel anchored to the left or right edge is vertical, a panel
+        anchored to the top or bottom edge is horizontal.
+      </description>
+      <arg name="anchor" type="uint" enum="anchor" summary="panel anchor"/>
+    </event>
+
+    <event name="applet_size">
+      <description summary="size of the applet in the panel">
+        Size the applet should use inside the panel.
+
+        If size is applet_size.custom, the custom argument contains the
+        configured size in logical pixels; it is zero otherwise.
+      </description>
+      <arg name="size" type="uint" enum="applet_size" summary="size preset for applets"/>
+      <arg name="custom" type="uint" summary="custom size in logical pixels"/>
+    </event>
+
+    <event name="spacing">
+      <description summary="spacing between applets">
+        Spacing in logical pixels the panel leaves between the applets of a
+        section of the panel.
+      </description>
+      <arg name="spacing" type="uint" summary="spacing in logical pixels"/>
+    </event>
+
+    <event name="background">
+      <description summary="background of the panel">
+        Background of the panel the applet is embedded in.
+
+        The red, green and blue arguments are in the range [0, 1] and are
+        only meaningful if background is background.color; they are zero
+        otherwise. The color space is sRGB.
+      </description>
+      <arg name="background" type="uint" enum="background" summary="panel background"/>
+      <arg name="red" type="fixed" summary="red channel of a custom background"/>
+      <arg name="green" type="fixed" summary="green channel of a custom background"/>
+      <arg name="blue" type="fixed" summary="blue channel of a custom background"/>
+    </event>
+
+    <event name="padding_overlap">
+      <description summary="ratio of applet padding overlapping the panel">
+        Ratio in the range [0, 1] of the padding of an applet that overlaps
+        the panel background. Applets can use this to size their clickable
+        area.
+      </description>
+      <arg name="padding_overlap" type="fixed" summary="overlap ratio in the range [0, 1]"/>
+    </event>
+
+    <event name="done">
+      <description summary="end of a batch of settings">
+        This event is sent after the panel has sent all the settings when this object is created,
+        and only the settings that changed afterwards. An applet applies the settings when it
+        receives this event, so that a batch of events is applied as one update.
+      </description>
+    </event>
+
+    <request name="destroy" type="destructor">
+      <description summary="destroy the settings object">
+        Informs the panel that the client is no longer interested in the
+        settings of its panel. The panel will not send any further events to
+        this object.
+      </description>
+    </request>
+
+    <enum name="anchor">
+      <entry name="left" value="0" summary="the panel is anchored to the left edge"/>
+      <entry name="right" value="1" summary="the panel is anchored to the right edge"/>
+      <entry name="top" value="2" summary="the panel is anchored to the top edge"/>
+      <entry name="bottom" value="3" summary="the panel is anchored to the bottom edge"/>
+    </enum>
+
+    <enum name="applet_size">
+      <entry name="extra_small" value="0" summary="extra small applets"/>
+      <entry name="small" value="1" summary="small applets"/>
+      <entry name="medium" value="2" summary="medium applets"/>
+      <entry name="large" value="3" summary="large applets"/>
+      <entry name="extra_large" value="4" summary="extra large applets"/>
+      <entry name="custom" value="5" summary="custom applet size, see the custom argument"/>
+    </enum>
+
+    <enum name="background">
+      <entry name="theme_default" value="0" summary="the default background of the theme"/>
+      <entry name="dark" value="1" summary="a dark background"/>
+      <entry name="light" value="2" summary="a light background"/>
+      <entry name="color" value="3" summary="a custom solid color, see the color arguments"/>
+    </enum>
+  </interface>
+</protocol>
